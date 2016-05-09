@@ -3,14 +3,14 @@ import XCPlayground
 
 XCPlaygroundPage.currentPage.needsIndefiniteExecution = true
 
-struct ShareGlucose {
-    let glucose: UInt16
-    let trend: UInt8
-    let timestamp: NSDate
+public struct ShareGlucose {
+    public let glucose: UInt16
+    public let trend: UInt8
+    public let timestamp: NSDate
 }
 
-enum ShareError:ErrorType {
-    case HTTPError
+public enum ShareError: ErrorType {
+    case HTTPError(ErrorType)
     // some possible values of errorCode:
     // SSO_AuthenticateAccountNotFound
     // SSO_AuthenticatePasswordInvalid
@@ -23,18 +23,28 @@ enum ShareError:ErrorType {
 
 // From the Dexcom Share iOS app, via @bewest and @shanselman:
 // https://github.com/bewest/share2nightscout-bridge
-let dexcomUserAgent = "Dexcom Share/3.0.2.11 CFNetwork/711.2.23 Darwin/14.0.0"
-let dexcomApplicationId = "d89443d2-327c-4a6f-89e5-496bbb0317db"
-let dexcomLoginPath = "/ShareWebServices/Services/General/LoginPublisherAccountByName"
-let dexcomLatestGlucosePath = "/ShareWebServices/Services/Publisher/ReadPublisherLatestGlucoseValues"
-let dexcomServerUS = "https://share1.dexcom.com"
-let dexcomServerNonUS = "https://shareous1.dexcom.com"
+private let dexcomUserAgent = "Dexcom Share/3.0.2.11 CFNetwork/711.2.23 Darwin/14.0.0"
+private let dexcomApplicationId = "d89443d2-327c-4a6f-89e5-496bbb0317db"
+private let dexcomLoginPath = "/ShareWebServices/Services/General/LoginPublisherAccountByName"
+private let dexcomLatestGlucosePath = "/ShareWebServices/Services/Publisher/ReadPublisherLatestGlucoseValues"
+private let dexcomServerUS = "https://share1.dexcom.com"
+private let dexcomServerNonUS = "https://shareous1.dexcom.com"
 
 // TODO use an HTTP library which supports JSON and futures instead of callbacks.
 // using cocoapods in a playground appears complicated
 // ¯\_(ツ)_/¯
-func dexcomPOST(url: String, data: NSData, callback: (ErrorType?, String) -> Void) {
-    let request = NSMutableURLRequest(URL: NSURL(string: url)!)
+private func dexcomPOST(URL: NSURL, JSONData: [String: AnyObject]? = nil, callback: (ErrorType?, String?) -> Void) {
+    var data: NSData?
+
+    if let JSONData = JSONData {
+        guard let encoded = try? NSJSONSerialization.dataWithJSONObject(JSONData, options:[]) else {
+            return callback(ShareError.DataError, nil)
+        }
+
+        data = encoded
+    }
+
+    let request = NSMutableURLRequest(URL: URL)
     request.HTTPMethod = "POST"
     request.addValue("application/json", forHTTPHeaderField: "Content-Type")
     request.addValue("application/json", forHTTPHeaderField: "Accept")
@@ -42,51 +52,67 @@ func dexcomPOST(url: String, data: NSData, callback: (ErrorType?, String) -> Voi
     request.HTTPBody = data
 
     NSURLSession.sharedSession().dataTaskWithRequest(request) { (data, response, error) in
-        if (error != nil) {
-            callback(error, "")
+        if error != nil {
+            callback(error, nil)
         } else {
             callback(nil, NSString(data: data!, encoding: NSUTF8StringEncoding)! as String)
         }
     }.resume()
 }
 
-class ShareClient {
-    let username: String
-    let password: String
-    var _token: String?
+public class ShareClient {
+    public let username: String
+    public let password: String
 
-    init(username: String, password: String) {
+    private var token: String?
+
+    public init(username: String, password: String) {
         self.username = username
         self.password = password
     }
 
-    func fetchLast(n: Int, callback: (ShareError?, [ShareGlucose]?) -> Void) {
-        self._ensureToken() { (error, token) in
-            if (error != nil) {
+    public func fetchLast(n: Int, callback: (ShareError?, [ShareGlucose]?) -> Void) {
+        ensureToken() { (error, token) in
+            guard error == nil, let token = token else {
                 return callback(error, nil)
             }
 
-            var url = dexcomServerUS + dexcomLatestGlucosePath
-            url += "?sessionId=" + token!
-            url += "&minutes=" + "1440"
-            url += "&maxCount=" + String(n)
-            dexcomPOST(url, data: "".dataUsingEncoding(NSUTF8StringEncoding)!) { (error, response) in
-                if (error != nil) {
-                    return callback(ShareError.HTTPError, nil)
+            guard let components = NSURLComponents(string: dexcomServerUS + dexcomLatestGlucosePath) else {
+                return callback(ShareError.FetchError, nil)
+            }
+
+            components.queryItems = [
+                NSURLQueryItem(name: "sessionId", value: token),
+                NSURLQueryItem(name: "minutes", value: String(1440)),
+                NSURLQueryItem(name: "maxCount", value: String(n))
+            ]
+
+            guard let URL = components.URL else {
+                return callback(ShareError.FetchError, nil)
+            }
+
+            dexcomPOST(URL) { (error, response) in
+                if let error = error {
+                    return callback(ShareError.HTTPError(error), nil)
                 }
+
                 do {
-                    let decoded = try? NSJSONSerialization.JSONObjectWithData(response.dataUsingEncoding(NSUTF8StringEncoding)!, options: NSJSONReadingOptions())
-                    let sgvs = decoded as? Array<AnyObject>
-                    if (sgvs == nil) {
+                    guard let response = response else {
                         throw ShareError.DataError
                     }
-                    var transformed:Array<ShareGlucose> = [];
-                    for sgv in sgvs! {
+
+                    let decoded = try? NSJSONSerialization.JSONObjectWithData(response.dataUsingEncoding(NSUTF8StringEncoding)!, options: NSJSONReadingOptions())
+                    guard let sgvs = decoded as? Array<AnyObject> else {
+                        throw ShareError.DataError
+                    }
+
+                    var transformed: Array<ShareGlucose> = []
+                    for sgv in sgvs {
                         if let glucose = sgv["Value"] as? Int, let trend = sgv["Trend"] as? Int, wt = sgv["WT"] as? String {
                             transformed.append(ShareGlucose(
                                 glucose: UInt16(glucose),
                                 trend: UInt8(trend),
-                                timestamp: try self._parseDate(wt)
+                                timestamp: try self.parseDate(wt)
                             ))
                         } else {
                             throw ShareError.DataError
@@ -102,46 +128,58 @@ class ShareClient {
         }
     }
 
-    func _ensureToken(callback: (ShareError?, String?) -> Void) {
-        if (self._token != nil) {
-            callback(nil, self._token)
+    private func ensureToken(callback: (ShareError?, String?) -> Void) {
+        if token != nil {
+            callback(nil, token)
         } else {
-            self._fetchToken() { (error, token) in
-                if (error != nil) {
+            fetchToken() { (error, token) in
+                if error != nil {
                     callback(error, nil)
                 } else {
-                    self._token = token
+                    self.token = token
                     callback(nil, token)
                 }
             }
         }
     }
 
-    func _fetchToken(callback: (ShareError?, String?) -> Void) {
-        let data: [String: AnyObject] = [
-            "accountName": self.username,
-            "password": self.password,
+    private func fetchToken(callback: (ShareError?, String?) -> Void) {
+        let data = [
+            "accountName": username,
+            "password": password,
             "applicationId": dexcomApplicationId
         ]
-        let encoded = try! NSJSONSerialization.dataWithJSONObject(data, options:NSJSONWritingOptions(rawValue: 0))
-        dexcomPOST(dexcomServerUS + dexcomLoginPath, data: encoded) { (error, response) in
-            if (error != nil) {
-                return callback(ShareError.HTTPError, nil)
+
+        guard let URL = NSURL(string: dexcomServerUS + dexcomLoginPath) else {
+            return callback(ShareError.FetchError, nil)
+        }
+
+        dexcomPOST(URL, JSONData: data) { (error, response) in
+            if let error = error {
+                return callback(ShareError.HTTPError(error), nil)
             }
 
-            let decoded = try? NSJSONSerialization.JSONObjectWithData(response.dataUsingEncoding(NSUTF8StringEncoding)!, options: .AllowFragments)
+            guard let   response = response,
+                        data = response.dataUsingEncoding(NSUTF8StringEncoding),
+                        decoded = try? NSJSONSerialization.JSONObjectWithData(data, options: .AllowFragments)
+            else {
+                return callback(ShareError.LoginError(errorCode: "unknown"), nil)
+            }
+
             if let token = decoded as? String {
                 // success is a JSON-encoded string containing the token
                 callback(nil, token)
             } else {
                 // failure is a JSON object containing the error reason
-                let errorCode = decoded!["Code"]! as? String ?? "unknown"
+                let errorCode = (decoded as? [String: String])?["Code"] ?? "unknown"
                 callback(ShareError.LoginError(errorCode: errorCode), nil)
             }
         }
     }
 
-    func _parseDate(wt: String) throws -> NSDate {
+    private func parseDate(wt: String) throws -> NSDate {
+        print(wt)
+
         // wt looks like "/Date(1462404576000)/"
         let re = try NSRegularExpression(pattern: "\\((.*)\\)", options: NSRegularExpressionOptions())
         if let match = re.firstMatchInString(wt, options: NSMatchingOptions(), range: NSMakeRange(0, wt.characters.count)) {
@@ -155,9 +193,9 @@ class ShareClient {
 
 var client = ShareClient(username: "u", password: "p")
 client.fetchLast(6) { (error, glucoses) -> Void in
-    if (error != nil) {
-        print(error!)
+    if let glucoses = glucoses {
+        print(glucoses)
     } else {
-        print(glucoses!)
+        print(error ?? "Unknown error")
     }
 }
