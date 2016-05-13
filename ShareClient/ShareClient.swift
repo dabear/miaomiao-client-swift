@@ -183,8 +183,6 @@ public class ShareClient {
     }
 
     private func parseDate(wt: String) throws -> NSDate {
-        print(wt)
-
         // wt looks like "/Date(1462404576000)/"
         let re = try NSRegularExpression(pattern: "\\((.*)\\)", options: NSRegularExpressionOptions())
         if let match = re.firstMatchInString(wt, options: NSMatchingOptions(), range: NSMakeRange(0, wt.characters.count)) {
