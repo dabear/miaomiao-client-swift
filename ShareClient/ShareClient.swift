@@ -1,7 +1,12 @@
-import Foundation
-import XCPlayground
+//
+//  ShareClient.h
+//  ShareClient
+//
+//  Created by Mark Wilson on 5/7/16.
+//  Copyright © 2016 Mark Wilson. All rights reserved.
+//
 
-XCPlaygroundPage.currentPage.needsIndefiniteExecution = true
+import Foundation
 
 public struct ShareGlucose {
     public let glucose: UInt16
@@ -178,8 +183,6 @@ public class ShareClient {
     }
 
     private func parseDate(wt: String) throws -> NSDate {
-        print(wt)
-
         // wt looks like "/Date(1462404576000)/"
         let re = try NSRegularExpression(pattern: "\\((.*)\\)", options: NSRegularExpressionOptions())
         if let match = re.firstMatchInString(wt, options: NSMatchingOptions(), range: NSMakeRange(0, wt.characters.count)) {
@@ -188,14 +191,5 @@ public class ShareClient {
         } else {
             throw ShareError.DateError
         }
-    }
-}
-
-var client = ShareClient(username: "u", password: "p")
-client.fetchLast(6) { (error, glucoses) -> Void in
-    if let glucoses = glucoses {
-        print(glucoses)
-    } else {
-        print(error ?? "Unknown error")
     }
 }
