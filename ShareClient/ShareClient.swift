@@ -22,7 +22,7 @@ public enum ShareError: ErrorType {
     // SSO_AuthenticateMaxAttemptsExceeed
     case LoginError(errorCode: String)
     case FetchError
-    case DataError
+    case DataError(reason: String)
     case DateError
 }
 
@@ -43,7 +43,7 @@ private func dexcomPOST(URL: NSURL, JSONData: [String: AnyObject]? = nil, callba
 
     if let JSONData = JSONData {
         guard let encoded = try? NSJSONSerialization.dataWithJSONObject(JSONData, options:[]) else {
-            return callback(ShareError.DataError, nil)
+            return callback(ShareError.DataError(reason: "Failed to encode JSON for POST to " + URL.absoluteString), nil)
         }
 
         data = encoded
@@ -103,12 +103,12 @@ public class ShareClient {
 
                 do {
                     guard let response = response else {
-                        throw ShareError.DataError
+                        throw ShareError.FetchError
                     }
 
                     let decoded = try? NSJSONSerialization.JSONObjectWithData(response.dataUsingEncoding(NSUTF8StringEncoding)!, options: NSJSONReadingOptions())
                     guard let sgvs = decoded as? Array<AnyObject> else {
-                        throw ShareError.DataError
+                        throw ShareError.DataError(reason: "Failed to decode SGVs as array: " + response)
                     }
 
                     var transformed: Array<ShareGlucose> = []
@@ -120,7 +120,7 @@ public class ShareClient {
                                 timestamp: try self.parseDate(wt)
                             ))
                         } else {
-                            throw ShareError.DataError
+                            throw ShareError.DataError(reason: "Failed to decode an SGV record: " + response)
                         }
                     }
                     callback(nil, transformed)
