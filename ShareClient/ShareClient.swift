@@ -162,7 +162,7 @@ public class ShareClient {
 
                     let decoded = try? NSJSONSerialization.JSONObjectWithData(response.dataUsingEncoding(NSUTF8StringEncoding)!, options: NSJSONReadingOptions())
                     guard let sgvs = decoded as? Array<AnyObject> else {
-                        if remaining > 1 {
+                        if remaining > 0 {
                             self.token = nil
                             return self.fetchLastWithRetries(n, remaining: remaining - 1, callback: callback)
                         } else {
