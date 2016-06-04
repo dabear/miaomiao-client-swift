@@ -34,6 +34,7 @@ private let dexcomLoginPath = "/ShareWebServices/Services/General/LoginPublisher
 private let dexcomLatestGlucosePath = "/ShareWebServices/Services/Publisher/ReadPublisherLatestGlucoseValues"
 private let dexcomServerUS = "https://share1.dexcom.com"
 private let dexcomServerNonUS = "https://shareous1.dexcom.com"
+private let maxReauthAttempts = 2
 
 // TODO use an HTTP library which supports JSON and futures instead of callbacks.
 // using cocoapods in a playground appears complicated
@@ -77,72 +78,19 @@ public class ShareClient {
     }
 
     public func fetchLast(n: Int, callback: (ShareError?, [ShareGlucose]?) -> Void) {
-        ensureToken() { (error, token) in
-            guard error == nil, let token = token else {
-                return callback(error, nil)
-            }
-
-            guard let components = NSURLComponents(string: dexcomServerUS + dexcomLatestGlucosePath) else {
-                return callback(ShareError.FetchError, nil)
-            }
-
-            components.queryItems = [
-                NSURLQueryItem(name: "sessionId", value: token),
-                NSURLQueryItem(name: "minutes", value: String(1440)),
-                NSURLQueryItem(name: "maxCount", value: String(n))
-            ]
-
-            guard let URL = components.URL else {
-                return callback(ShareError.FetchError, nil)
-            }
-
-            dexcomPOST(URL) { (error, response) in
-                if let error = error {
-                    return callback(ShareError.HTTPError(error), nil)
-                }
-
-                do {
-                    guard let response = response else {
-                        throw ShareError.FetchError
-                    }
-
-                    let decoded = try? NSJSONSerialization.JSONObjectWithData(response.dataUsingEncoding(NSUTF8StringEncoding)!, options: NSJSONReadingOptions())
-                    guard let sgvs = decoded as? Array<AnyObject> else {
-                        throw ShareError.DataError(reason: "Failed to decode SGVs as array: " + response)
-                    }
-
-                    var transformed: Array<ShareGlucose> = []
-                    for sgv in sgvs {
-                        if let glucose = sgv["Value"] as? Int, let trend = sgv["Trend"] as? Int, wt = sgv["WT"] as? String {
-                            transformed.append(ShareGlucose(
-                                glucose: UInt16(glucose),
-                                trend: UInt8(trend),
-                                timestamp: try self.parseDate(wt)
-                            ))
-                        } else {
-                            throw ShareError.DataError(reason: "Failed to decode an SGV record: " + response)
-                        }
-                    }
-                    callback(nil, transformed)
-                } catch let error as ShareError {
-                    callback(error, nil)
-                } catch {
-                    callback(ShareError.FetchError, nil)
-                }
-            }
-        }
+        fetchLastWithRetries(n, remaining: maxReauthAttempts, callback: callback)
     }
 
-    private func ensureToken(callback: (ShareError?, String?) -> Void) {
+    private func ensureToken(callback: (ShareError?) -> Void) {
         if token != nil {
-            callback(nil, token)
+            callback(nil)
         } else {
             fetchToken() { (error, token) in
                 if error != nil {
-                    callback(error, nil)
+                    callback(error)
                 } else {
                     self.token = token
-                    callback(nil, token)
+                    callback(nil)
                 }
             }
         }
@@ -165,10 +113,10 @@ public class ShareClient {
             }
 
             guard let   response = response,
-                        data = response.dataUsingEncoding(NSUTF8StringEncoding),
-                        decoded = try? NSJSONSerialization.JSONObjectWithData(data, options: .AllowFragments)
-            else {
-                return callback(ShareError.LoginError(errorCode: "unknown"), nil)
+                data = response.dataUsingEncoding(NSUTF8StringEncoding),
+                decoded = try? NSJSONSerialization.JSONObjectWithData(data, options: .AllowFragments)
+                else {
+                    return callback(ShareError.LoginError(errorCode: "unknown"), nil)
             }
 
             if let token = decoded as? String {
@@ -178,6 +126,68 @@ public class ShareClient {
                 // failure is a JSON object containing the error reason
                 let errorCode = (decoded as? [String: String])?["Code"] ?? "unknown"
                 callback(ShareError.LoginError(errorCode: errorCode), nil)
+            }
+        }
+    }
+
+    private func fetchLastWithRetries(n: Int, remaining: Int, callback: (ShareError?, [ShareGlucose]?) -> Void) {
+        ensureToken() { (error) in
+            guard error == nil else {
+                return callback(error, nil)
+            }
+
+            guard let components = NSURLComponents(string: dexcomServerUS + dexcomLatestGlucosePath) else {
+                return callback(ShareError.FetchError, nil)
+            }
+
+            components.queryItems = [
+                NSURLQueryItem(name: "sessionId", value: self.token),
+                NSURLQueryItem(name: "minutes", value: String(1440)),
+                NSURLQueryItem(name: "maxCount", value: String(n))
+            ]
+
+            guard let URL = components.URL else {
+                return callback(ShareError.FetchError, nil)
+            }
+
+            dexcomPOST(URL) { (error, response) in
+                if let error = error {
+                    return callback(ShareError.HTTPError(error), nil)
+                }
+
+                do {
+                    guard let response = response else {
+                        throw ShareError.FetchError
+                    }
+
+                    let decoded = try? NSJSONSerialization.JSONObjectWithData(response.dataUsingEncoding(NSUTF8StringEncoding)!, options: NSJSONReadingOptions())
+                    guard let sgvs = decoded as? Array<AnyObject> else {
+                        if remaining > 0 {
+                            self.token = nil
+                            return self.fetchLastWithRetries(n, remaining: remaining - 1, callback: callback)
+                        } else {
+                            throw ShareError.DataError(reason: "Failed to decode SGVs as array after trying to reauth: " + response)
+                        }
+                    }
+
+                    var transformed: Array<ShareGlucose> = []
+                    for sgv in sgvs {
+                        if let glucose = sgv["Value"] as? Int, let trend = sgv["Trend"] as? Int, wt = sgv["WT"] as? String {
+                            transformed.append(ShareGlucose(
+                                glucose: UInt16(glucose),
+                                trend: UInt8(trend),
+                                timestamp: try self.parseDate(wt)
+                            ))
+                        } else {
+                            throw ShareError.DataError(reason: "Failed to decode an SGV record: " + response)
+                        }
+                    }
+                    callback(nil, transformed)
+                } catch let error as ShareError {
+                    callback(error, nil)
+                } catch {
+                    callback(ShareError.FetchError, nil)
+                }
             }
         }
     }
