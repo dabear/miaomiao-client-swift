@@ -44,7 +44,7 @@ private func dexcomPOST(URL: NSURL, JSONData: [String: AnyObject]? = nil, callba
 
     if let JSONData = JSONData {
         guard let encoded = try? NSJSONSerialization.dataWithJSONObject(JSONData, options:[]) else {
-            return callback(ShareError.DataError(reason: "Failed to encode JSON for POST to " + URL.absoluteString), nil)
+            return callback(ShareError.DataError(reason: "Failed to encode JSON for POST to " + URL.absoluteString ?? ""), nil)
         }
 
         data = encoded
@@ -113,8 +113,8 @@ public class ShareClient {
             }
 
             guard let   response = response,
-                data = response.dataUsingEncoding(NSUTF8StringEncoding),
-                decoded = try? NSJSONSerialization.JSONObjectWithData(data, options: .AllowFragments)
+                let data = response.dataUsingEncoding(NSUTF8StringEncoding),
+                let decoded = try? NSJSONSerialization.JSONObjectWithData(data, options: .AllowFragments)
                 else {
                     return callback(ShareError.LoginError(errorCode: "unknown"), nil)
             }
@@ -172,7 +172,7 @@ public class ShareClient {
 
                     var transformed: Array<ShareGlucose> = []
                     for sgv in sgvs {
-                        if let glucose = sgv["Value"] as? Int, let trend = sgv["Trend"] as? Int, wt = sgv["WT"] as? String {
+                        if let glucose = sgv["Value"] as? Int, let trend = sgv["Trend"] as? Int, let wt = sgv["WT"] as? String {
                             transformed.append(ShareGlucose(
                                 glucose: UInt16(glucose),
                                 trend: UInt8(trend),
