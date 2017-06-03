@@ -26,6 +26,12 @@ public enum ShareError: Error {
     case dateError
 }
 
+public enum ShareServer {
+    case US
+    case Non_US
+    case Custom(String)
+}
+
 // From the Dexcom Share iOS app, via @bewest and @shanselman:
 // https://github.com/bewest/share2nightscout-bridge
 private let dexcomUserAgent = "Dexcom Share/3.0.2.11 CFNetwork/711.2.23 Darwin/14.0.0"
@@ -70,11 +76,20 @@ public class ShareClient {
     public let username: String
     public let password: String
 
+    private let shareServer:String
     private var token: String?
 
-    public init(username: String, password: String) {
+    public init(username: String, password: String, shareServer:ShareServer=ShareServer.US) {
         self.username = username
         self.password = password
+        switch shareServer {
+        case .US:
+            self.shareServer=dexcomServerUS
+        case .Non_US:
+            self.shareServer=dexcomServerNonUS
+        case .Custom(let url):
+            self.shareServer=url
+        }
     }
 
     public func fetchLast(_ n: Int, callback: @escaping (ShareError?, [ShareGlucose]?) -> Void) {
@@ -103,7 +118,7 @@ public class ShareClient {
             "applicationId": dexcomApplicationId
         ]
 
-        guard let url = URL(string: dexcomServerUS + dexcomLoginPath) else {
+        guard let url = URL(string: shareServer + dexcomLoginPath) else {
             return callback(ShareError.fetchError, nil)
         }
 
@@ -136,7 +151,7 @@ public class ShareClient {
                 return callback(error, nil)
             }
 
-            guard var components = URLComponents(string: dexcomServerUS + dexcomLatestGlucosePath) else {
+            guard var components = URLComponents(string: self.shareServer + dexcomLatestGlucosePath) else {
                 return callback(.fetchError, nil)
             }
 
