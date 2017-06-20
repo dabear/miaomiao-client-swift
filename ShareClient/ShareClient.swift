@@ -26,10 +26,11 @@ public enum ShareError: Error {
     case dateError
 }
 
-public enum ShareServer {
-    case US
-    case Non_US
-    case Custom(String)
+
+public enum KnownShareServers: String {
+    case US="https://share1.dexcom.com"
+    case NON_US="https://shareous1.dexcom.com"
+
 }
 
 // From the Dexcom Share iOS app, via @bewest and @shanselman:
@@ -38,8 +39,6 @@ private let dexcomUserAgent = "Dexcom Share/3.0.2.11 CFNetwork/711.2.23 Darwin/1
 private let dexcomApplicationId = "d89443d2-327c-4a6f-89e5-496bbb0317db"
 private let dexcomLoginPath = "/ShareWebServices/Services/General/LoginPublisherAccountByName"
 private let dexcomLatestGlucosePath = "/ShareWebServices/Services/Publisher/ReadPublisherLatestGlucoseValues"
-private let dexcomServerUS = "https://share1.dexcom.com"
-private let dexcomServerNonUS = "https://shareous1.dexcom.com"
 private let maxReauthAttempts = 2
 
 // TODO use an HTTP library which supports JSON and futures instead of callbacks.
@@ -79,17 +78,15 @@ public class ShareClient {
     private let shareServer:String
     private var token: String?
 
-    public init(username: String, password: String, shareServer:ShareServer=ShareServer.US) {
+    public init(username: String, password: String, shareServer:String=KnownShareServers.US.rawValue) {
         self.username = username
         self.password = password
-        switch shareServer {
-        case .US:
-            self.shareServer=dexcomServerUS
-        case .Non_US:
-            self.shareServer=dexcomServerNonUS
-        case .Custom(let url):
-            self.shareServer=url
-        }
+        self.shareServer = shareServer
+    }
+    public convenience init(username: String, password: String, shareServer:KnownShareServers=KnownShareServers.US) {
+
+        self.init(username: username, password: password, shareServer:shareServer.rawValue)
+
     }
 
     public func fetchLast(_ n: Int, callback: @escaping (ShareError?, [ShareGlucose]?) -> Void) {
