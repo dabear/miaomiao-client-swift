@@ -206,9 +206,14 @@ public class ShareClient {
 
     private func parseDate(_ wt: String) throws -> Date {
         // wt looks like "/Date(1462404576000)/"
-        let re = try NSRegularExpression(pattern: "\\((.*)\\)", options: [])
-        if let match = re.firstMatch(in: wt, options: [], range: NSMakeRange(0, wt.characters.count)) {
-            let epoch = Double((wt as NSString).substring(with: match.rangeAt(1)))! / 1000
+        let re = try NSRegularExpression(pattern: "\\((.*)\\)")
+        if let match = re.firstMatch(in: wt, range: NSMakeRange(0, wt.characters.count)) {
+            #if swift(>=4)
+                let matchRange = match.range(at: 1)
+            #else
+                let matchRange = match.rangeAt(1)
+            #endif
+            let epoch = Double((wt as NSString).substring(with: matchRange))! / 1000
             return Date(timeIntervalSince1970: epoch)
         } else {
             throw ShareError.dateError
