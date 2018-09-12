@@ -7,7 +7,7 @@
 //
 
 import XCTest
-@testable import ShareClient
+
 
 class ShareClientTests: XCTestCase {
     
