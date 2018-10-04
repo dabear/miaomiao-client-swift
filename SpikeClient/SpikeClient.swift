@@ -1,6 +1,6 @@
 //
-//  ShareClient.h
-//  ShareClient
+//  SpikeClient.h
+//  SpikeClient
 //
 //  Created by Mark Wilson on 5/7/16.
 //  Copyright © 2016 Mark Wilson. All rights reserved.
@@ -8,13 +8,13 @@
 
 import Foundation
 
-public struct ShareGlucose {
+public struct SpikeGlucose {
     public let glucose: UInt16
     public let trend: UInt8
     public let timestamp: Date
 }
 
-public enum ShareError: Error {
+public enum SpikeError: Error {
     case httpError(Error)
     // some possible values of errorCode:
     // SSO_AuthenticateAccountNotFound
@@ -27,9 +27,10 @@ public enum ShareError: Error {
 }
 
 
-public enum KnownShareServers: String {
-    case US="https://share1.dexcom.com"
-    case NON_US="https://shareous1.dexcom.com"
+
+public enum KnownSpikeServers: String {
+    case LOCAL_SPIKE="https://127.0.0.1:1979"
+    
 
 }
 
@@ -49,7 +50,7 @@ private func dexcomPOST(_ url: URL, JSONData: [String: AnyObject]? = nil, callba
 
     if let JSONData = JSONData {
         guard let encoded = try? JSONSerialization.data(withJSONObject: JSONData, options:[]) else {
-            return callback(ShareError.dataError(reason: "Failed to encode JSON for POST to " + url.absoluteString), nil)
+            return callback(SpikeError.dataError(reason: "Failed to encode JSON for POST to " + url.absoluteString), nil)
         }
 
         data = encoded
@@ -71,29 +72,29 @@ private func dexcomPOST(_ url: URL, JSONData: [String: AnyObject]? = nil, callba
     }).resume()
 }
 
-public class ShareClient {
+public class SpikeClient {
     public let username: String
     public let password: String
 
-    private let shareServer:String
+    private let spikeServer:String
     private var token: String?
 
-    public init(username: String, password: String, shareServer:String=KnownShareServers.US.rawValue) {
+    public init(username: String, password: String, spikeServer:String=KnownSpikeServers.LOCAL_SPIKE.rawValue) {
         self.username = username
         self.password = password
-        self.shareServer = shareServer
+        self.spikeServer = spikeServer
     }
-    public convenience init(username: String, password: String, shareServer:KnownShareServers=KnownShareServers.US) {
+    public convenience init(username: String, password: String, spikeServer:KnownSpikeServers=KnownSpikeServers.LOCAL_SPIKE) {
 
-        self.init(username: username, password: password, shareServer:shareServer.rawValue)
+        self.init(username: username, password: password, spikeServer:spikeServer.rawValue)
 
     }
 
-    public func fetchLast(_ n: Int, callback: @escaping (ShareError?, [ShareGlucose]?) -> Void) {
+    public func fetchLast(_ n: Int, callback: @escaping (SpikeError?, [SpikeGlucose]?) -> Void) {
         fetchLastWithRetries(n, remaining: maxReauthAttempts, callback: callback)
     }
 
-    private func ensureToken(_ callback: @escaping (ShareError?) -> Void) {
+    private func ensureToken(_ callback: @escaping (SpikeError?) -> Void) {
         if token != nil {
             callback(nil)
         } else {
@@ -108,15 +109,15 @@ public class ShareClient {
         }
     }
 
-    private func fetchToken(_ callback: @escaping (ShareError?, String?) -> Void) {
+    private func fetchToken(_ callback: @escaping (SpikeError?, String?) -> Void) {
         let data = [
             "accountName": username,
             "password": password,
             "applicationId": dexcomApplicationId
         ]
 
-        guard let url = URL(string: shareServer + dexcomLoginPath) else {
-            return callback(ShareError.fetchError, nil)
+        guard let url = URL(string: spikeServer + dexcomLoginPath) else {
+            return callback(SpikeError.fetchError, nil)
         }
 
         dexcomPOST(url, JSONData: data as [String : AnyObject]?) { (error, response) in
@@ -142,13 +143,13 @@ public class ShareClient {
         }
     }
 
-    private func fetchLastWithRetries(_ n: Int, remaining: Int, callback: @escaping (ShareError?, [ShareGlucose]?) -> Void) {
+    private func fetchLastWithRetries(_ n: Int, remaining: Int, callback: @escaping (SpikeError?, [SpikeGlucose]?) -> Void) {
         ensureToken() { (error) in
             guard error == nil else {
                 return callback(error, nil)
             }
 
-            guard var components = URLComponents(string: self.shareServer + dexcomLatestGlucosePath) else {
+            guard var components = URLComponents(string: self.spikeServer + dexcomLatestGlucosePath) else {
                 return callback(.fetchError, nil)
             }
 
@@ -169,7 +170,7 @@ public class ShareClient {
 
                 do {
                     guard let response = response else {
-                        throw ShareError.fetchError
+                        throw SpikeError.fetchError
                     }
 
                     let decoded = try? JSONSerialization.jsonObject(with: response.data(using: .utf8)!, options: [])
@@ -178,24 +179,24 @@ public class ShareClient {
                             self.token = nil
                             return self.fetchLastWithRetries(n, remaining: remaining - 1, callback: callback)
                         } else {
-                            throw ShareError.dataError(reason: "Failed to decode SGVs as array after trying to reauth: " + response)
+                            throw SpikeError.dataError(reason: "Failed to decode SGVs as array after trying to reauth: " + response)
                         }
                     }
 
-                    var transformed: Array<ShareGlucose> = []
+                    var transformed: Array<SpikeGlucose> = []
                     for sgv in sgvs {
                         if let glucose = sgv["Value"] as? Int, let trend = sgv["Trend"] as? Int, let wt = sgv["WT"] as? String {
-                            transformed.append(ShareGlucose(
+                            transformed.append(SpikeGlucose(
                                 glucose: UInt16(glucose),
                                 trend: UInt8(trend),
                                 timestamp: try self.parseDate(wt)
                             ))
                         } else {
-                            throw ShareError.dataError(reason: "Failed to decode an SGV record: " + response)
+                            throw SpikeError.dataError(reason: "Failed to decode an SGV record: " + response)
                         }
                     }
                     callback(nil, transformed)
-                } catch let error as ShareError {
+                } catch let error as SpikeError {
                     callback(error, nil)
                 } catch {
                     callback(.fetchError, nil)
@@ -216,7 +217,7 @@ public class ShareClient {
             let epoch = Double((wt as NSString).substring(with: matchRange))! / 1000
             return Date(timeIntervalSince1970: epoch)
         } else {
-            throw ShareError.dateError
+            throw SpikeError.dateError
         }
     }
 }

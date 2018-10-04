@@ -1,5 +1,5 @@
 //
-//  ShareClientManager.swift
+//  SpikeClientManager.swift
 //  Loop
 //
 //  Copyright © 2018 LoopKit Authors. All rights reserved.
@@ -9,11 +9,11 @@ import LoopKit
 import HealthKit
 
 
-public class ShareClientManager: CGMManager {
-    public static var managerIdentifier = "DexShareClient"
+public class SpikeClientManager: CGMManager {
+    public static var managerIdentifier = "DexSpikeClient1"
 
     public init() {
-        shareService = ShareService(keychainManager: keychain)
+        spikeService = SpikeService(keychainManager: keychain)
     }
 
     required convenience public init?(rawState: CGMManager.RawStateValue) {
@@ -26,13 +26,13 @@ public class ShareClientManager: CGMManager {
 
     private let keychain = KeychainManager()
 
-    public var shareService: ShareService {
+    public var spikeService: SpikeService {
         didSet {
-            try! keychain.setDexcomShareUsername(shareService.username, password: shareService.password, url: shareService.url)
+            try! keychain.setSpikeUsername(spikeService.username, password: spikeService.password, url: spikeService.url)
         }
     }
 
-    public static let localizedTitle = LocalizedString("Dexcom Share", comment: "Title for the CGMManager option")
+    public static let localizedTitle = LocalizedString("Spike", comment: "Title for the CGMManager option")
 
     public let appURL: URL? = nil
 
@@ -48,10 +48,10 @@ public class ShareClientManager: CGMManager {
 
     public let managedDataInterval: TimeInterval? = nil
 
-    public private(set) var latestBackfill: ShareGlucose?
+    public private(set) var latestBackfill: SpikeGlucose?
 
     public func fetchNewDataIfNeeded(_ completion: @escaping (CGMResult) -> Void) {
-        guard let shareClient = shareService.client else {
+        guard let spikeClient = spikeService.client else {
             completion(.noData)
             return
         }
@@ -62,7 +62,7 @@ public class ShareClientManager: CGMManager {
             return
         }
 
-        shareClient.fetchLast(6) { (error, glucose) in
+        spikeClient.fetchLast(6) { (error, glucose) in
             if let error = error {
                 completion(.error(error))
                 return
@@ -92,7 +92,7 @@ public class ShareClientManager: CGMManager {
 
     public var debugDescription: String {
         return [
-            "## ShareClientManager",
+            "## SpikeClientManager",
             "latestBackfill: \(String(describing: latestBackfill))",
             ""
         ].joined(separator: "\n")

@@ -1,5 +1,5 @@
 //
-//  ShareClientManager+UI.swift
+//  SpikeClientManager+UI.swift
 //  Loop
 //
 //  Copyright © 2018 LoopKit Authors. All rights reserved.
@@ -7,16 +7,16 @@
 
 import LoopKitUI
 import HealthKit
-import ShareClient
+import SpikeClient
 
 
-extension ShareClientManager: CGMManagerUI {
+extension SpikeClientManager: CGMManagerUI {
     public static func setupViewController() -> (UIViewController & CGMManagerSetupViewController)? {
-        return ShareClientSetupViewController()
+        return SpikeClientSetupViewController()
     }
 
     public func settingsViewController(for glucoseUnit: HKUnit) -> UIViewController {
-        return ShareClientSettingsViewController(cgmManager: self, glucoseUnit: glucoseUnit, allowsDeletion: true)
+        return SpikeClientSettingsViewController(cgmManager: self, glucoseUnit: glucoseUnit, allowsDeletion: true)
     }
 
     public var smallImage: UIImage? {

@@ -1,6 +1,6 @@
 //
-//  ShareClientTests.swift
-//  ShareClientTests
+//  SpikeClientTests.swift
+//  SpikeClientTests
 //
 //  Created by Nathan Racklyeft on 5/8/16.
 //  Copyright © 2016 Mark Wilson. All rights reserved.
@@ -9,7 +9,7 @@
 import XCTest
 
 
-class ShareClientTests: XCTestCase {
+class SpikeClientTests: XCTestCase {
     
     override func setUp() {
         super.setUp()

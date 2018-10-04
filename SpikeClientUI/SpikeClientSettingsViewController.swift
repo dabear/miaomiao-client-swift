@@ -1,5 +1,5 @@
 //
-//  ShareClientSettingsViewController.swift
+//  SpikeClientSettingsViewController.swift
 //  Loop
 //
 //  Copyright © 2018 LoopKit Authors. All rights reserved.
@@ -9,18 +9,18 @@ import UIKit
 import HealthKit
 import LoopKit
 import LoopKitUI
-import ShareClient
+import SpikeClient
 
 
-public class ShareClientSettingsViewController: UITableViewController {
+public class SpikeClientSettingsViewController: UITableViewController {
 
-    public let cgmManager: ShareClientManager
+    public let cgmManager: SpikeClientManager
 
     public let glucoseUnit: HKUnit
 
     public let allowsDeletion: Bool
 
-    public init(cgmManager: ShareClientManager, glucoseUnit: HKUnit, allowsDeletion: Bool) {
+    public init(cgmManager: SpikeClientManager, glucoseUnit: HKUnit, allowsDeletion: Bool) {
         self.cgmManager = cgmManager
         self.glucoseUnit = glucoseUnit
         self.allowsDeletion = allowsDeletion
@@ -99,7 +99,7 @@ public class ShareClientSettingsViewController: UITableViewController {
         case .authentication:
             let cell = tableView.dequeueReusableCell(withIdentifier: SettingsTableViewCell.className, for: indexPath) as! SettingsTableViewCell
 
-            let service = cgmManager.shareService
+            let service = cgmManager.spikeService
 
             cell.textLabel?.text = LocalizedString("Credentials", comment: "Title of cell to set credentials")
             cell.detailTextLabel?.text = service.username ?? SettingsTableViewCell.TapToSetString
@@ -159,9 +159,9 @@ public class ShareClientSettingsViewController: UITableViewController {
     public override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         switch Section(rawValue: indexPath.section)! {
         case .authentication:
-            let vc = AuthenticationViewController(authentication: cgmManager.shareService)
+            let vc = AuthenticationViewController(authentication: cgmManager.spikeService)
             vc.authenticationObserver = { [weak self] (service) in
-                self?.cgmManager.shareService = service
+                self?.cgmManager.spikeService = service
 
                 self?.tableView.reloadRows(at: [indexPath], with: .none)
             }

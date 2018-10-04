@@ -6,19 +6,19 @@
 //
 
 import LoopKitUI
-import ShareClient
+import SpikeClient
 
 
-extension ShareService: ServiceAuthenticationUI {
+extension SpikeService: ServiceAuthenticationUI {
     public var credentialFormFields: [ServiceCredential] {
         return [
             ServiceCredential(
-                title: LocalizedString("Username", comment: "The title of the Dexcom share username credential"),
+                title: LocalizedString("Username", comment: "The title of the Spike username credential"),
                 isSecret: false,
                 keyboardType: .asciiCapable
             ),
             ServiceCredential(
-                title: LocalizedString("Password", comment: "The title of the Dexcom share password credential"),
+                title: LocalizedString("Password", comment: "The title of the Spike password credential"),
                 isSecret: true,
                 keyboardType: .asciiCapable
             ),
@@ -26,11 +26,9 @@ extension ShareService: ServiceAuthenticationUI {
                 title: LocalizedString("Server", comment: "The title of the Dexcom share server URL credential"),
                 isSecret: false,
                 options: [
-                    (title: LocalizedString("US", comment: "U.S. share server option title"),
-                     value: KnownShareServers.US.rawValue),
-                    (title: LocalizedString("Outside US", comment: "Outside US share server option title"),
-                     value: KnownShareServers.NON_US.rawValue)
-
+                    (title: LocalizedString("Spike", comment: "Spike server option title"),
+                     value: KnownSpikeServers.LOCAL_SPIKE.rawValue)
+                    
                 ]
             )
         ]

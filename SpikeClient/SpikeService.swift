@@ -11,10 +11,10 @@ import LoopKit
 
 
 // Encapsulates the Dexcom Share client service and its authentication
-public class ShareService: ServiceAuthentication {
+public class SpikeService: ServiceAuthentication {
     public var credentialValues: [String?]
 
-    public let title: String = LocalizedString("Dexcom Share", comment: "The title of the Dexcom Share service")
+    public let title: String = LocalizedString("Spike", comment: "The title of the Spike service")
 
     public init(username: String?, password: String?, url: URL?) {
         credentialValues = [
@@ -42,12 +42,12 @@ public class ShareService: ServiceAuthentication {
 
         if let username = username, let password = password, let url = url {
             isAuthorized = true
-            client = ShareClient(username: username, password: password, shareServer: url.absoluteString)
+            client = SpikeClient(username: username, password: password, spikeServer: url.absoluteString)
         }
     }
 
     // The share client, if credentials are present
-    private(set) var client: ShareClient?
+    private(set) var client: SpikeClient?
 
     public var username: String? {
         return credentialValues[0]
@@ -73,7 +73,7 @@ public class ShareService: ServiceAuthentication {
             return
         }
 
-        let client = ShareClient(username: username, password: password, shareServer: url.absoluteString)
+        let client = SpikeClient(username: username, password: password, spikeServer: url.absoluteString)
         client.fetchLast(1) { (error, _) in
             completion(true, error)
 
@@ -88,12 +88,12 @@ public class ShareService: ServiceAuthentication {
 }
 
 
-private let DexcomShareURL = URL(string: KnownShareServers.US.rawValue)!
-private let DexcomShareServiceLabel = "DexcomShare1"
+private let SpikeURL = URL(string: KnownSpikeServers.LOCAL_SPIKE.rawValue)!
+private let SpikeGlucoseServiceLabel = "SpikeClient1"
 
 
 extension KeychainManager {
-    func setDexcomShareUsername(_ username: String?, password: String?, url: URL?) throws {
+    func setSpikeUsername(_ username: String?, password: String?, url: URL?) throws {
         let credentials: InternetCredentials?
 
         if let username = username, let password = password, let url = url {
@@ -103,22 +103,22 @@ extension KeychainManager {
         }
 
         // Replace the legacy URL-keyed credentials
-        try replaceInternetCredentials(nil, forURL: DexcomShareURL)
+        try replaceInternetCredentials(nil, forURL: SpikeURL)
 
-        try replaceInternetCredentials(credentials, forLabel: DexcomShareServiceLabel)
+        try replaceInternetCredentials(credentials, forLabel: SpikeGlucoseServiceLabel)
     }
 
-    func getDexcomShareCredentials() -> (username: String, password: String, url: URL)? {
+    func getSpikeCredentials() -> (username: String, password: String, url: URL)? {
         do { // Silence all errors and return nil
             do {
-                let credentials = try getInternetCredentials(label: DexcomShareServiceLabel)
+                let credentials = try getInternetCredentials(label: SpikeGlucoseServiceLabel)
 
                 return (username: credentials.username, password: credentials.password, url: credentials.url)
             } catch KeychainManagerError.copy {
                 // Fetch and replace the legacy URL-keyed credentials
-                let credentials = try getInternetCredentials(url: DexcomShareURL)
+                let credentials = try getInternetCredentials(url: SpikeURL)
 
-                try setDexcomShareUsername(credentials.username, password: credentials.password, url: credentials.url)
+                try setSpikeUsername(credentials.username, password: credentials.password, url: credentials.url)
 
                 return (username: credentials.username, password: credentials.password, url: credentials.url)
             }
@@ -129,9 +129,9 @@ extension KeychainManager {
 }
 
 
-extension ShareService {
+extension SpikeService {
     public convenience init(keychainManager: KeychainManager = KeychainManager()) {
-        if let (username, password, url) = keychainManager.getDexcomShareCredentials() {
+        if let (username, password, url) = keychainManager.getSpikeCredentials() {
             self.init(username: username, password: password, url: url)
         } else {
             self.init(username: nil, password: nil, url: nil)

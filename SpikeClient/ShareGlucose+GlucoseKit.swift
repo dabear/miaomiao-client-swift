@@ -11,7 +11,7 @@ import HealthKit
 import LoopKit
 
 
-extension ShareGlucose: GlucoseValue {
+extension SpikeGlucose: GlucoseValue {
     public var startDate: Date {
         return timestamp
     }
@@ -22,7 +22,7 @@ extension ShareGlucose: GlucoseValue {
 }
 
 
-extension ShareGlucose: SensorDisplayable {
+extension SpikeGlucose: SensorDisplayable {
     public var isStateValid: Bool {
         return glucose >= 39
     }
