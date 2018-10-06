@@ -7,7 +7,7 @@
 //
 
 import Foundation
-
+import UIKit
 
 protocol IdentifiableClass: class {
     static var className: String { get }
