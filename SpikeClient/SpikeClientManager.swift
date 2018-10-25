@@ -49,6 +49,13 @@ public class SpikeClientManager: CGMManager {
     public let managedDataInterval: TimeInterval? = nil
 
     public private(set) var latestBackfill: SpikeGlucose?
+    
+    public var latestSpikeCollector: String? {
+        if let glucose = latestBackfill, let collector = glucose.collector, collector != "unknown" {
+            return collector
+        }
+        return nil
+    }
 
     public func fetchNewDataIfNeeded(_ completion: @escaping (CGMResult) -> Void) {
         guard let spikeClient = spikeService.client else {
@@ -88,12 +95,25 @@ public class SpikeClientManager: CGMManager {
         }
     }
 
-    public var device: HKDevice? = nil
+    public var device: HKDevice? {
+        
+        return HKDevice(
+            name: "SpikeClient",
+            manufacturer: "Spike",
+            model: latestSpikeCollector,
+            hardwareVersion: nil,
+            firmwareVersion: nil,
+            softwareVersion: nil,
+            localIdentifier: nil,
+            udiDeviceIdentifier: nil
+        )
+    }
 
     public var debugDescription: String {
         return [
             "## SpikeClientManager",
             "latestBackfill: \(String(describing: latestBackfill))",
+            "latestCollector: \(String(describing: latestSpikeCollector))",
             ""
         ].joined(separator: "\n")
     }

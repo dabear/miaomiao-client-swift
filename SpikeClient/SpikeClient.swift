@@ -12,6 +12,7 @@ public struct SpikeGlucose {
     public let glucose: UInt16
     public let trend: UInt8
     public let timestamp: Date
+    public let collector: String?
 }
 
 public enum SpikeError: Error {
@@ -156,7 +157,9 @@ public class SpikeClient {
             components.queryItems = [
                 URLQueryItem(name: "sessionId", value: self.token),
                 URLQueryItem(name: "minutes", value: String(1440)),
-                URLQueryItem(name: "maxCount", value: String(n))
+                URLQueryItem(name: "maxCount", value: String(n)),
+                URLQueryItem(name: "include_collector", value: "true")
+                
             ]
 
             guard let url = components.url else {
@@ -185,11 +188,20 @@ public class SpikeClient {
 
                     var transformed: Array<SpikeGlucose> = []
                     for sgv in sgvs {
+                        // Collector might not be available for older spike versions,
+                        // this makes it optional
+                        var collector : String? = nil
+                        if let _col = sgv["Collector"] as? String {
+                            collector = _col
+                        }
+                        
+                        
                         if let glucose = sgv["Value"] as? Int, let trend = sgv["Trend"] as? Int, let wt = sgv["WT"] as? String {
                             transformed.append(SpikeGlucose(
                                 glucose: UInt16(glucose),
                                 trend: UInt8(trend),
-                                timestamp: try self.parseDate(wt)
+                                timestamp: try self.parseDate(wt),
+                                collector: collector
                             ))
                         } else {
                             throw SpikeError.dataError(reason: "Failed to decode an SGV record: " + response)
