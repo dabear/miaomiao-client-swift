@@ -15,7 +15,7 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         os_log("dabear: iphone view did load %@", log: .default, type: .default, "yes")
-        let client = SpikeClient(username: "test", password: "test2", spikeServer: KnownSpikeServers.)
+        let client = SpikeClient(username: "test", password: "test2", spikeServer: KnownSpikeServers.LOCAL_SPIKE)
         
         client.fetchLast(3) { (error, glucose) in
             os_log("dabear: iphonefetchlast", type: .default)
