@@ -21,6 +21,42 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
+		2729D673221F42190030E1B8 /* BloodSugarTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2729D672221F42180030E1B8 /* BloodSugarTableViewController.swift */; };
+		2729D674221F42190030E1B8 /* BloodSugarTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2729D672221F42180030E1B8 /* BloodSugarTableViewController.swift */; };
+		2729D675221F42190030E1B8 /* BloodSugarTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2729D672221F42180030E1B8 /* BloodSugarTableViewController.swift */; };
+		2729D677221F421C0030E1B8 /* MiaoMiao.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2729D676221F421C0030E1B8 /* MiaoMiao.swift */; };
+		2729D678221F421C0030E1B8 /* MiaoMiao.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2729D676221F421C0030E1B8 /* MiaoMiao.swift */; };
+		2729D679221F421C0030E1B8 /* MiaoMiao.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2729D676221F421C0030E1B8 /* MiaoMiao.swift */; };
+		2729D67B221F421F0030E1B8 /* MiaoMiaoManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2729D67A221F421F0030E1B8 /* MiaoMiaoManager.swift */; };
+		2729D67C221F421F0030E1B8 /* MiaoMiaoManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2729D67A221F421F0030E1B8 /* MiaoMiaoManager.swift */; };
+		2729D67D221F421F0030E1B8 /* MiaoMiaoManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2729D67A221F421F0030E1B8 /* MiaoMiaoManager.swift */; };
+		2729D683221F42760030E1B8 /* BloodSugarTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2729D682221F42760030E1B8 /* BloodSugarTableViewController.swift */; };
+		2729D684221F42760030E1B8 /* BloodSugarTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2729D682221F42760030E1B8 /* BloodSugarTableViewController.swift */; };
+		2729D685221F42760030E1B8 /* BloodSugarTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2729D682221F42760030E1B8 /* BloodSugarTableViewController.swift */; };
+		2729D687221F43150030E1B8 /* SensorData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2729D686221F43150030E1B8 /* SensorData.swift */; };
+		2729D688221F43150030E1B8 /* SensorData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2729D686221F43150030E1B8 /* SensorData.swift */; };
+		2729D689221F43150030E1B8 /* SensorData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2729D686221F43150030E1B8 /* SensorData.swift */; };
+		2729D690221F44670030E1B8 /* TemperatureAlgorithmParameters.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2729D68A221F44660030E1B8 /* TemperatureAlgorithmParameters.swift */; };
+		2729D691221F44670030E1B8 /* TemperatureAlgorithmParameters.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2729D68A221F44660030E1B8 /* TemperatureAlgorithmParameters.swift */; };
+		2729D692221F44670030E1B8 /* TemperatureAlgorithmParameters.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2729D68A221F44660030E1B8 /* TemperatureAlgorithmParameters.swift */; };
+		2729D693221F44670030E1B8 /* Measurement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2729D68B221F44660030E1B8 /* Measurement.swift */; };
+		2729D694221F44670030E1B8 /* Measurement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2729D68B221F44660030E1B8 /* Measurement.swift */; };
+		2729D695221F44670030E1B8 /* Measurement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2729D68B221F44660030E1B8 /* Measurement.swift */; };
+		2729D696221F44670030E1B8 /* TheSensor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2729D68C221F44660030E1B8 /* TheSensor.swift */; };
+		2729D697221F44670030E1B8 /* TheSensor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2729D68C221F44660030E1B8 /* TheSensor.swift */; };
+		2729D698221F44670030E1B8 /* TheSensor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2729D68C221F44660030E1B8 /* TheSensor.swift */; };
+		2729D699221F44670030E1B8 /* CRC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2729D68D221F44670030E1B8 /* CRC.swift */; };
+		2729D69A221F44670030E1B8 /* CRC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2729D68D221F44670030E1B8 /* CRC.swift */; };
+		2729D69B221F44670030E1B8 /* CRC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2729D68D221F44670030E1B8 /* CRC.swift */; };
+		2729D69C221F44670030E1B8 /* SensorSerialNumber.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2729D68E221F44670030E1B8 /* SensorSerialNumber.swift */; };
+		2729D69D221F44670030E1B8 /* SensorSerialNumber.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2729D68E221F44670030E1B8 /* SensorSerialNumber.swift */; };
+		2729D69E221F44670030E1B8 /* SensorSerialNumber.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2729D68E221F44670030E1B8 /* SensorSerialNumber.swift */; };
+		2729D69F221F44670030E1B8 /* SensorState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2729D68F221F44670030E1B8 /* SensorState.swift */; };
+		2729D6A0221F44670030E1B8 /* SensorState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2729D68F221F44670030E1B8 /* SensorState.swift */; };
+		2729D6A1221F44670030E1B8 /* SensorState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2729D68F221F44670030E1B8 /* SensorState.swift */; };
+		2729D6A3221F44C80030E1B8 /* Data.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2729D6A2221F44C70030E1B8 /* Data.swift */; };
+		2729D6A4221F44C80030E1B8 /* Data.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2729D6A2221F44C70030E1B8 /* Data.swift */; };
+		2729D6A5221F44C80030E1B8 /* Data.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2729D6A2221F44C70030E1B8 /* Data.swift */; };
 		273893FC21667EF80075A197 /* MiaomiaoClient.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 432B0E881CDFC3C50045347B /* MiaomiaoClient.framework */; };
 		273893FD21667EF80075A197 /* MiaomiaoClient.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 432B0E881CDFC3C50045347B /* MiaomiaoClient.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		273894012166801B0075A197 /* LoopKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 43A8EC7B210E661400A81379 /* LoopKit.framework */; };
@@ -127,6 +163,18 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		2729D672221F42180030E1B8 /* BloodSugarTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BloodSugarTableViewController.swift; sourceTree = "<group>"; };
+		2729D676221F421C0030E1B8 /* MiaoMiao.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MiaoMiao.swift; sourceTree = "<group>"; };
+		2729D67A221F421F0030E1B8 /* MiaoMiaoManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MiaoMiaoManager.swift; sourceTree = "<group>"; };
+		2729D682221F42760030E1B8 /* BloodSugarTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BloodSugarTableViewController.swift; sourceTree = "<group>"; };
+		2729D686221F43150030E1B8 /* SensorData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SensorData.swift; sourceTree = "<group>"; };
+		2729D68A221F44660030E1B8 /* TemperatureAlgorithmParameters.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TemperatureAlgorithmParameters.swift; sourceTree = "<group>"; };
+		2729D68B221F44660030E1B8 /* Measurement.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Measurement.swift; sourceTree = "<group>"; };
+		2729D68C221F44660030E1B8 /* TheSensor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TheSensor.swift; sourceTree = "<group>"; };
+		2729D68D221F44670030E1B8 /* CRC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CRC.swift; sourceTree = "<group>"; };
+		2729D68E221F44670030E1B8 /* SensorSerialNumber.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SensorSerialNumber.swift; sourceTree = "<group>"; };
+		2729D68F221F44670030E1B8 /* SensorState.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SensorState.swift; sourceTree = "<group>"; };
+		2729D6A2221F44C70030E1B8 /* Data.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Data.swift; sourceTree = "<group>"; };
 		2795404C2165502600D657E5 /* clitester */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = clitester; sourceTree = BUILT_PRODUCTS_DIR; };
 		2795404E2165502600D657E5 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		27C335DE21667C7A00CF0868 /* singleviewtesterapp2.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = singleviewtesterapp2.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -231,6 +279,26 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		2729D671221F42070030E1B8 /* Bluetooth */ = {
+			isa = PBXGroup;
+			children = (
+				2729D6A2221F44C70030E1B8 /* Data.swift */,
+				2729D68D221F44670030E1B8 /* CRC.swift */,
+				2729D68B221F44660030E1B8 /* Measurement.swift */,
+				2729D68E221F44670030E1B8 /* SensorSerialNumber.swift */,
+				2729D68F221F44670030E1B8 /* SensorState.swift */,
+				2729D68A221F44660030E1B8 /* TemperatureAlgorithmParameters.swift */,
+				2729D68C221F44660030E1B8 /* TheSensor.swift */,
+				2729D686221F43150030E1B8 /* SensorData.swift */,
+				2729D682221F42760030E1B8 /* BloodSugarTableViewController.swift */,
+				2729D67A221F421F0030E1B8 /* MiaoMiaoManager.swift */,
+				2729D672221F42180030E1B8 /* BloodSugarTableViewController.swift */,
+				2729D676221F421C0030E1B8 /* MiaoMiao.swift */,
+			);
+			name = Bluetooth;
+			path = "New Group";
+			sourceTree = "<group>";
+		};
 		2795404D2165502600D657E5 /* clitester */ = {
 			isa = PBXGroup;
 			children = (
@@ -255,6 +323,7 @@
 		432B0E7E1CDFC3C50045347B = {
 			isa = PBXGroup;
 			children = (
+				2729D671221F42070030E1B8 /* Bluetooth */,
 				432B0E8A1CDFC3C50045347B /* MiaomiaoClient */,
 				43AB51342133176B00B3D58D /* Common */,
 				432B0E961CDFC3C50045347B /* MiaomiaoClientTests */,
@@ -589,8 +658,20 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2729D692221F44670030E1B8 /* TemperatureAlgorithmParameters.swift in Sources */,
+				2729D69B221F44670030E1B8 /* CRC.swift in Sources */,
+				2729D689221F43150030E1B8 /* SensorData.swift in Sources */,
+				2729D67C221F421F0030E1B8 /* MiaoMiaoManager.swift in Sources */,
 				27C335E321667C7B00CF0868 /* ViewController.swift in Sources */,
+				2729D678221F421C0030E1B8 /* MiaoMiao.swift in Sources */,
+				2729D69E221F44670030E1B8 /* SensorSerialNumber.swift in Sources */,
+				2729D6A5221F44C80030E1B8 /* Data.swift in Sources */,
+				2729D695221F44670030E1B8 /* Measurement.swift in Sources */,
+				2729D6A1221F44670030E1B8 /* SensorState.swift in Sources */,
+				2729D685221F42760030E1B8 /* BloodSugarTableViewController.swift in Sources */,
 				27C335E121667C7A00CF0868 /* AppDelegate.swift in Sources */,
+				2729D675221F42190030E1B8 /* BloodSugarTableViewController.swift in Sources */,
+				2729D698221F44670030E1B8 /* TheSensor.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -599,12 +680,24 @@
 			buildActionMask = 2147483647;
 			files = (
 				4325E9CF210E6A0A00969CE5 /* HKUnit.swift in Sources */,
+				2729D69F221F44670030E1B8 /* SensorState.swift in Sources */,
+				2729D690221F44670030E1B8 /* TemperatureAlgorithmParameters.swift in Sources */,
 				4325E9D1210E6A3D00969CE5 /* TimeInterval.swift in Sources */,
 				27C335B82165667300CF0868 /* MiaomiaoClient.swift in Sources */,
+				2729D69C221F44670030E1B8 /* SensorSerialNumber.swift in Sources */,
 				43A8EC9D210E68CE00A81379 /* MiaomiaoClientManager.swift in Sources */,
 				43AB51362133177800B3D58D /* LocalizedString.swift in Sources */,
+				2729D693221F44670030E1B8 /* Measurement.swift in Sources */,
+				2729D67B221F421F0030E1B8 /* MiaoMiaoManager.swift in Sources */,
+				2729D677221F421C0030E1B8 /* MiaoMiao.swift in Sources */,
+				2729D696221F44670030E1B8 /* TheSensor.swift in Sources */,
 				43A8EC9B210E68BA00A81379 /* ShareGlucose+GlucoseKit.swift in Sources */,
 				43A8EC99210E682A00A81379 /* SpikeService.swift in Sources */,
+				2729D699221F44670030E1B8 /* CRC.swift in Sources */,
+				2729D673221F42190030E1B8 /* BloodSugarTableViewController.swift in Sources */,
+				2729D6A3221F44C80030E1B8 /* Data.swift in Sources */,
+				2729D683221F42760030E1B8 /* BloodSugarTableViewController.swift in Sources */,
+				2729D687221F43150030E1B8 /* SensorData.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -621,12 +714,24 @@
 			buildActionMask = 2147483647;
 			files = (
 				43A8EC92210E676500A81379 /* MiaomiaoClientSettingsViewController.swift in Sources */,
+				2729D6A0221F44670030E1B8 /* SensorState.swift in Sources */,
+				2729D691221F44670030E1B8 /* TemperatureAlgorithmParameters.swift in Sources */,
 				4325E9D5210E6B4400969CE5 /* UIColor.swift in Sources */,
 				43A8EC97210E680100A81379 /* ShareService+UI.swift in Sources */,
+				2729D69D221F44670030E1B8 /* SensorSerialNumber.swift in Sources */,
 				43AB51372133177800B3D58D /* LocalizedString.swift in Sources */,
 				4325E9D3210E6ADA00969CE5 /* IdentifiableClass.swift in Sources */,
+				2729D694221F44670030E1B8 /* Measurement.swift in Sources */,
+				2729D67D221F421F0030E1B8 /* MiaoMiaoManager.swift in Sources */,
+				2729D679221F421C0030E1B8 /* MiaoMiao.swift in Sources */,
+				2729D697221F44670030E1B8 /* TheSensor.swift in Sources */,
 				43A8EC91210E676500A81379 /* MiaomiaoClientManager+UI.swift in Sources */,
 				43A8EC90210E676500A81379 /* MiaomiaoClientSetupViewController.swift in Sources */,
+				2729D69A221F44670030E1B8 /* CRC.swift in Sources */,
+				2729D674221F42190030E1B8 /* BloodSugarTableViewController.swift in Sources */,
+				2729D6A4221F44C80030E1B8 /* Data.swift in Sources */,
+				2729D684221F42760030E1B8 /* BloodSugarTableViewController.swift in Sources */,
+				2729D688221F43150030E1B8 /* SensorData.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -777,7 +882,7 @@
 				);
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				INFOPLIST_FILE = singleviewtesterapp2/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.mddub.ShareClient.singleviewtesterapp2;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -806,7 +911,7 @@
 				);
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				INFOPLIST_FILE = singleviewtesterapp2/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.mddub.ShareClient.singleviewtesterapp2;
 				PRODUCT_NAME = "$(TARGET_NAME)";

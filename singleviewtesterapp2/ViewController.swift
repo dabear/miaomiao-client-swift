@@ -10,12 +10,12 @@ import UIKit
 import os
 import MiaomiaoClient
 class ViewController: UIViewController {
-
+    public var glucoseController: BloodSugarController?
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         os_log("dabear: iphone view did load %@", log: .default, type: .default, "yes")
-        let client = MiaomiaoClient(username: "test", password: "test2", spikeServer: KnownSpikeServers.LOCAL_SPIKE)
+        /*let client = MiaomiaoClient(username: "test", password: "test2", spikeServer: KnownSpikeServers.LOCAL_SPIKE)
         
         client.fetchLast(3) { (error, glucose) in
             os_log("dabear: iphonefetchlast", type: .default)
@@ -25,7 +25,10 @@ class ViewController: UIViewController {
                 os_log("dabear: iphone glucose %@", log: .default, type: .default, "\(glucose)")
                 
             }
-        }
+        }*/
+        os_log("dabear: connecting to glucose source %@", log: .default, type: .default, "yes")
+        self.glucoseController = BloodSugarController()
+        self.glucoseController?.didWantToConnect()
         
     }
 
