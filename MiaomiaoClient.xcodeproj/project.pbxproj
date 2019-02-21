@@ -21,13 +21,13 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
-		273893FC21667EF80075A197 /* SpikeClient.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 432B0E881CDFC3C50045347B /* SpikeClient.framework */; };
-		273893FD21667EF80075A197 /* SpikeClient.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 432B0E881CDFC3C50045347B /* SpikeClient.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		273893FC21667EF80075A197 /* MiaomiaoClient.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 432B0E881CDFC3C50045347B /* MiaomiaoClient.framework */; };
+		273893FD21667EF80075A197 /* MiaomiaoClient.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 432B0E881CDFC3C50045347B /* MiaomiaoClient.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		273894012166801B0075A197 /* LoopKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 43A8EC7B210E661400A81379 /* LoopKit.framework */; };
 		273894022166801B0075A197 /* LoopKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 43A8EC7B210E661400A81379 /* LoopKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		2795404F2165502600D657E5 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2795404E2165502600D657E5 /* main.swift */; };
-		27C335B82165667300CF0868 /* SpikeClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43C418AE1CE0488900405B6A /* SpikeClient.swift */; };
-		27C335B9216566C500CF0868 /* SpikeClient.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 432B0E881CDFC3C50045347B /* SpikeClient.framework */; };
+		27C335B82165667300CF0868 /* MiaomiaoClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43C418AE1CE0488900405B6A /* MiaomiaoClient.swift */; };
+		27C335B9216566C500CF0868 /* MiaomiaoClient.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 432B0E881CDFC3C50045347B /* MiaomiaoClient.framework */; };
 		27C335E121667C7A00CF0868 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27C335E021667C7A00CF0868 /* AppDelegate.swift */; };
 		27C335E321667C7B00CF0868 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27C335E221667C7B00CF0868 /* ViewController.swift */; };
 		27C335E621667C7B00CF0868 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 27C335E421667C7B00CF0868 /* Main.storyboard */; };
@@ -37,20 +37,20 @@
 		4325E9D1210E6A3D00969CE5 /* TimeInterval.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4325E9D0210E6A3D00969CE5 /* TimeInterval.swift */; };
 		4325E9D3210E6ADA00969CE5 /* IdentifiableClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4325E9D2210E6ADA00969CE5 /* IdentifiableClass.swift */; };
 		4325E9D5210E6B4400969CE5 /* UIColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4325E9D4210E6B4300969CE5 /* UIColor.swift */; };
-		432B0E931CDFC3C50045347B /* SpikeClient.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 432B0E881CDFC3C50045347B /* SpikeClient.framework */; };
-		432B0E981CDFC3C50045347B /* SpikeClientTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 432B0E971CDFC3C50045347B /* SpikeClientTests.swift */; };
+		432B0E931CDFC3C50045347B /* MiaomiaoClient.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 432B0E881CDFC3C50045347B /* MiaomiaoClient.framework */; };
+		432B0E981CDFC3C50045347B /* MiaomiaoClientTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 432B0E971CDFC3C50045347B /* MiaomiaoClientTests.swift */; };
 		43A8EC7C210E661400A81379 /* LoopKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 43A8EC7B210E661400A81379 /* LoopKit.framework */; };
 		43A8EC8A210E664C00A81379 /* LoopKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 43A8EC7B210E661400A81379 /* LoopKit.framework */; };
 		43A8EC8C210E665700A81379 /* LoopKitUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 43A8EC8B210E665600A81379 /* LoopKitUI.framework */; };
-		43A8EC90210E676500A81379 /* SpikeClientSetupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43A8EC8D210E676500A81379 /* SpikeClientSetupViewController.swift */; };
-		43A8EC91210E676500A81379 /* SpikeClientManager+UI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43A8EC8E210E676500A81379 /* SpikeClientManager+UI.swift */; };
-		43A8EC92210E676500A81379 /* SpikeClientSettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43A8EC8F210E676500A81379 /* SpikeClientSettingsViewController.swift */; };
-		43A8EC93210E679B00A81379 /* SpikeClient.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 432B0E881CDFC3C50045347B /* SpikeClient.framework */; };
+		43A8EC90210E676500A81379 /* MiaomiaoClientSetupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43A8EC8D210E676500A81379 /* MiaomiaoClientSetupViewController.swift */; };
+		43A8EC91210E676500A81379 /* MiaomiaoClientManager+UI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43A8EC8E210E676500A81379 /* MiaomiaoClientManager+UI.swift */; };
+		43A8EC92210E676500A81379 /* MiaomiaoClientSettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43A8EC8F210E676500A81379 /* MiaomiaoClientSettingsViewController.swift */; };
+		43A8EC93210E679B00A81379 /* MiaomiaoClient.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 432B0E881CDFC3C50045347B /* MiaomiaoClient.framework */; };
 		43A8EC95210E67B000A81379 /* HealthKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 43A8EC94210E67B000A81379 /* HealthKit.framework */; };
 		43A8EC97210E680100A81379 /* ShareService+UI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43A8EC96210E680100A81379 /* ShareService+UI.swift */; };
 		43A8EC99210E682A00A81379 /* SpikeService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43A8EC98210E682A00A81379 /* SpikeService.swift */; };
 		43A8EC9B210E68BA00A81379 /* ShareGlucose+GlucoseKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43A8EC9A210E68BA00A81379 /* ShareGlucose+GlucoseKit.swift */; };
-		43A8EC9D210E68CE00A81379 /* SpikeClientManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43A8EC9C210E68CE00A81379 /* SpikeClientManager.swift */; };
+		43A8EC9D210E68CE00A81379 /* MiaomiaoClientManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43A8EC9C210E68CE00A81379 /* MiaomiaoClientManager.swift */; };
 		43AB511B21330D1400B3D58D /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 43AB511921330D1400B3D58D /* Localizable.strings */; };
 		43AB5127213315D300B3D58D /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 43AB5125213315D300B3D58D /* Localizable.strings */; };
 		43AB51362133177800B3D58D /* LocalizedString.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43AB51352133177800B3D58D /* LocalizedString.swift */; };
@@ -63,14 +63,14 @@
 			containerPortal = 432B0E7F1CDFC3C50045347B /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = 432B0E871CDFC3C50045347B;
-			remoteInfo = SpikeClient;
+			remoteInfo = MiaomiaoClient;
 		};
 		277FE8E02165606D001ACE55 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 432B0E7F1CDFC3C50045347B /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = 432B0E871CDFC3C50045347B;
-			remoteInfo = SpikeClient;
+			remoteInfo = MiaomiaoClient;
 		};
 		27C335F521667D1600CF0868 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -98,7 +98,7 @@
 			containerPortal = 432B0E7F1CDFC3C50045347B /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = 432B0E871CDFC3C50045347B;
-			remoteInfo = SpikeClient;
+			remoteInfo = MiaomiaoClient;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -109,7 +109,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				273893FD21667EF80075A197 /* SpikeClient.framework in Embed Frameworks */,
+				273893FD21667EF80075A197 /* MiaomiaoClient.framework in Embed Frameworks */,
 				273894022166801B0075A197 /* LoopKit.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
@@ -140,25 +140,25 @@
 		4325E9D0210E6A3D00969CE5 /* TimeInterval.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TimeInterval.swift; sourceTree = "<group>"; };
 		4325E9D2210E6ADA00969CE5 /* IdentifiableClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IdentifiableClass.swift; sourceTree = "<group>"; };
 		4325E9D4210E6B4300969CE5 /* UIColor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIColor.swift; sourceTree = "<group>"; };
-		432B0E881CDFC3C50045347B /* SpikeClient.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SpikeClient.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		432B0E8B1CDFC3C50045347B /* SpikeClient.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SpikeClient.h; sourceTree = "<group>"; };
+		432B0E881CDFC3C50045347B /* MiaomiaoClient.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = MiaomiaoClient.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		432B0E8B1CDFC3C50045347B /* MiaomiaoClient.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MiaomiaoClient.h; sourceTree = "<group>"; };
 		432B0E8D1CDFC3C50045347B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		432B0E921CDFC3C50045347B /* SpikeClientTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SpikeClientTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		432B0E971CDFC3C50045347B /* SpikeClientTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpikeClientTests.swift; sourceTree = "<group>"; };
+		432B0E921CDFC3C50045347B /* MiaomiaoClientTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MiaomiaoClientTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		432B0E971CDFC3C50045347B /* MiaomiaoClientTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MiaomiaoClientTests.swift; sourceTree = "<group>"; };
 		432B0E991CDFC3C50045347B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		43A8EC7B210E661400A81379 /* LoopKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = LoopKit.framework; path = Carthage/Build/iOS/LoopKit.framework; sourceTree = "<group>"; };
-		43A8EC82210E664300A81379 /* SpikeClientUI.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SpikeClientUI.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		43A8EC84210E664300A81379 /* SpikeClientUI.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SpikeClientUI.h; sourceTree = "<group>"; };
+		43A8EC82210E664300A81379 /* MiaomiaoClientUI.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = MiaomiaoClientUI.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		43A8EC84210E664300A81379 /* MiaomiaoClientUI.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MiaomiaoClientUI.h; sourceTree = "<group>"; };
 		43A8EC85210E664300A81379 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		43A8EC8B210E665600A81379 /* LoopKitUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = LoopKitUI.framework; path = Carthage/Build/iOS/LoopKitUI.framework; sourceTree = "<group>"; };
-		43A8EC8D210E676500A81379 /* SpikeClientSetupViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpikeClientSetupViewController.swift; sourceTree = "<group>"; };
-		43A8EC8E210E676500A81379 /* SpikeClientManager+UI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "SpikeClientManager+UI.swift"; sourceTree = "<group>"; };
-		43A8EC8F210E676500A81379 /* SpikeClientSettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpikeClientSettingsViewController.swift; sourceTree = "<group>"; };
+		43A8EC8D210E676500A81379 /* MiaomiaoClientSetupViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MiaomiaoClientSetupViewController.swift; sourceTree = "<group>"; };
+		43A8EC8E210E676500A81379 /* MiaomiaoClientManager+UI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MiaomiaoClientManager+UI.swift"; sourceTree = "<group>"; };
+		43A8EC8F210E676500A81379 /* MiaomiaoClientSettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MiaomiaoClientSettingsViewController.swift; sourceTree = "<group>"; };
 		43A8EC94210E67B000A81379 /* HealthKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HealthKit.framework; path = System/Library/Frameworks/HealthKit.framework; sourceTree = SDKROOT; };
 		43A8EC96210E680100A81379 /* ShareService+UI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "ShareService+UI.swift"; sourceTree = "<group>"; };
 		43A8EC98210E682A00A81379 /* SpikeService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpikeService.swift; sourceTree = "<group>"; };
 		43A8EC9A210E68BA00A81379 /* ShareGlucose+GlucoseKit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "ShareGlucose+GlucoseKit.swift"; sourceTree = "<group>"; };
-		43A8EC9C210E68CE00A81379 /* SpikeClientManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpikeClientManager.swift; sourceTree = "<group>"; };
+		43A8EC9C210E68CE00A81379 /* MiaomiaoClientManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MiaomiaoClientManager.swift; sourceTree = "<group>"; };
 		43AB511A21330D1400B3D58D /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Base; path = Base.lproj/Localizable.strings; sourceTree = "<group>"; };
 		43AB511C21330D6800B3D58D /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/Localizable.strings; sourceTree = "<group>"; };
 		43AB511D21330D6B00B3D58D /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -180,7 +180,7 @@
 		43AB512F2133161A00B3D58D /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Localizable.strings; sourceTree = "<group>"; };
 		43AB51302133161A00B3D58D /* pl */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = pl; path = pl.lproj/Localizable.strings; sourceTree = "<group>"; };
 		43AB51352133177800B3D58D /* LocalizedString.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocalizedString.swift; sourceTree = "<group>"; };
-		43C418AE1CE0488900405B6A /* SpikeClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpikeClient.swift; sourceTree = "<group>"; };
+		43C418AE1CE0488900405B6A /* MiaomiaoClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MiaomiaoClient.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -188,7 +188,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				27C335B9216566C500CF0868 /* SpikeClient.framework in Frameworks */,
+				27C335B9216566C500CF0868 /* MiaomiaoClient.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -196,7 +196,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				273893FC21667EF80075A197 /* SpikeClient.framework in Frameworks */,
+				273893FC21667EF80075A197 /* MiaomiaoClient.framework in Frameworks */,
 				273894012166801B0075A197 /* LoopKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -214,7 +214,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				432B0E931CDFC3C50045347B /* SpikeClient.framework in Frameworks */,
+				432B0E931CDFC3C50045347B /* MiaomiaoClient.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -222,7 +222,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				43A8EC93210E679B00A81379 /* SpikeClient.framework in Frameworks */,
+				43A8EC93210E679B00A81379 /* MiaomiaoClient.framework in Frameworks */,
 				43A8EC8C210E665700A81379 /* LoopKitUI.framework in Frameworks */,
 				43A8EC8A210E664C00A81379 /* LoopKit.framework in Frameworks */,
 			);
@@ -255,10 +255,10 @@
 		432B0E7E1CDFC3C50045347B = {
 			isa = PBXGroup;
 			children = (
-				432B0E8A1CDFC3C50045347B /* SpikeClient */,
+				432B0E8A1CDFC3C50045347B /* MiaomiaoClient */,
 				43AB51342133176B00B3D58D /* Common */,
-				432B0E961CDFC3C50045347B /* SpikeClientTests */,
-				43A8EC83210E664300A81379 /* SpikeClientUI */,
+				432B0E961CDFC3C50045347B /* MiaomiaoClientTests */,
+				43A8EC83210E664300A81379 /* MiaomiaoClientUI */,
 				2795404D2165502600D657E5 /* clitester */,
 				27C335DF21667C7A00CF0868 /* singleviewtesterapp2 */,
 				432B0E891CDFC3C50045347B /* Products */,
@@ -269,39 +269,39 @@
 		432B0E891CDFC3C50045347B /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				432B0E881CDFC3C50045347B /* SpikeClient.framework */,
-				432B0E921CDFC3C50045347B /* SpikeClientTests.xctest */,
-				43A8EC82210E664300A81379 /* SpikeClientUI.framework */,
+				432B0E881CDFC3C50045347B /* MiaomiaoClient.framework */,
+				432B0E921CDFC3C50045347B /* MiaomiaoClientTests.xctest */,
+				43A8EC82210E664300A81379 /* MiaomiaoClientUI.framework */,
 				2795404C2165502600D657E5 /* clitester */,
 				27C335DE21667C7A00CF0868 /* singleviewtesterapp2.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		432B0E8A1CDFC3C50045347B /* SpikeClient */ = {
+		432B0E8A1CDFC3C50045347B /* MiaomiaoClient */ = {
 			isa = PBXGroup;
 			children = (
-				43C418AE1CE0488900405B6A /* SpikeClient.swift */,
-				432B0E8B1CDFC3C50045347B /* SpikeClient.h */,
-				43A8EC84210E664300A81379 /* SpikeClientUI.h */,
+				43C418AE1CE0488900405B6A /* MiaomiaoClient.swift */,
+				432B0E8B1CDFC3C50045347B /* MiaomiaoClient.h */,
+				43A8EC84210E664300A81379 /* MiaomiaoClientUI.h */,
 				43AB5125213315D300B3D58D /* Localizable.strings */,
 				4325E9CE210E6A0A00969CE5 /* HKUnit.swift */,
-				43A8EC9C210E68CE00A81379 /* SpikeClientManager.swift */,
+				43A8EC9C210E68CE00A81379 /* MiaomiaoClientManager.swift */,
 				43A8EC9A210E68BA00A81379 /* ShareGlucose+GlucoseKit.swift */,
 				43A8EC98210E682A00A81379 /* SpikeService.swift */,
 				4325E9D0210E6A3D00969CE5 /* TimeInterval.swift */,
 				432B0E8D1CDFC3C50045347B /* Info.plist */,
 			);
-			path = SpikeClient;
+			path = MiaomiaoClient;
 			sourceTree = "<group>";
 		};
-		432B0E961CDFC3C50045347B /* SpikeClientTests */ = {
+		432B0E961CDFC3C50045347B /* MiaomiaoClientTests */ = {
 			isa = PBXGroup;
 			children = (
-				432B0E971CDFC3C50045347B /* SpikeClientTests.swift */,
+				432B0E971CDFC3C50045347B /* MiaomiaoClientTests.swift */,
 				432B0E991CDFC3C50045347B /* Info.plist */,
 			);
-			path = SpikeClientTests;
+			path = MiaomiaoClientTests;
 			sourceTree = "<group>";
 		};
 		43A8EC7A210E661300A81379 /* Frameworks */ = {
@@ -314,19 +314,19 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		43A8EC83210E664300A81379 /* SpikeClientUI */ = {
+		43A8EC83210E664300A81379 /* MiaomiaoClientUI */ = {
 			isa = PBXGroup;
 			children = (
 				43AB511921330D1400B3D58D /* Localizable.strings */,
 				4325E9D2210E6ADA00969CE5 /* IdentifiableClass.swift */,
-				43A8EC8E210E676500A81379 /* SpikeClientManager+UI.swift */,
-				43A8EC8F210E676500A81379 /* SpikeClientSettingsViewController.swift */,
-				43A8EC8D210E676500A81379 /* SpikeClientSetupViewController.swift */,
+				43A8EC8E210E676500A81379 /* MiaomiaoClientManager+UI.swift */,
+				43A8EC8F210E676500A81379 /* MiaomiaoClientSettingsViewController.swift */,
+				43A8EC8D210E676500A81379 /* MiaomiaoClientSetupViewController.swift */,
 				43A8EC96210E680100A81379 /* ShareService+UI.swift */,
 				4325E9D4210E6B4300969CE5 /* UIColor.swift */,
 				43A8EC85210E664300A81379 /* Info.plist */,
 			);
-			path = SpikeClientUI;
+			path = MiaomiaoClientUI;
 			sourceTree = "<group>";
 		};
 		43AB51342133176B00B3D58D /* Common */ = {
@@ -394,9 +394,9 @@
 			productReference = 27C335DE21667C7A00CF0868 /* singleviewtesterapp2.app */;
 			productType = "com.apple.product-type.application";
 		};
-		432B0E871CDFC3C50045347B /* SpikeClient */ = {
+		432B0E871CDFC3C50045347B /* MiaomiaoClient */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 432B0E9C1CDFC3C50045347B /* Build configuration list for PBXNativeTarget "SpikeClient" */;
+			buildConfigurationList = 432B0E9C1CDFC3C50045347B /* Build configuration list for PBXNativeTarget "MiaomiaoClient" */;
 			buildPhases = (
 				432B0E831CDFC3C50045347B /* Sources */,
 				432B0E841CDFC3C50045347B /* Frameworks */,
@@ -408,14 +408,14 @@
 			dependencies = (
 				4325E9D7210E714B00969CE5 /* PBXTargetDependency */,
 			);
-			name = SpikeClient;
-			productName = SpikeClient;
-			productReference = 432B0E881CDFC3C50045347B /* SpikeClient.framework */;
+			name = MiaomiaoClient;
+			productName = MiaomiaoClient;
+			productReference = 432B0E881CDFC3C50045347B /* MiaomiaoClient.framework */;
 			productType = "com.apple.product-type.framework";
 		};
-		432B0E911CDFC3C50045347B /* SpikeClientTests */ = {
+		432B0E911CDFC3C50045347B /* MiaomiaoClientTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 432B0E9F1CDFC3C50045347B /* Build configuration list for PBXNativeTarget "SpikeClientTests" */;
+			buildConfigurationList = 432B0E9F1CDFC3C50045347B /* Build configuration list for PBXNativeTarget "MiaomiaoClientTests" */;
 			buildPhases = (
 				432B0E8E1CDFC3C50045347B /* Sources */,
 				432B0E8F1CDFC3C50045347B /* Frameworks */,
@@ -427,14 +427,14 @@
 				432B0E951CDFC3C50045347B /* PBXTargetDependency */,
 				27C335F621667D1600CF0868 /* PBXTargetDependency */,
 			);
-			name = SpikeClientTests;
-			productName = SpikeClientTests;
-			productReference = 432B0E921CDFC3C50045347B /* SpikeClientTests.xctest */;
+			name = MiaomiaoClientTests;
+			productName = MiaomiaoClientTests;
+			productReference = 432B0E921CDFC3C50045347B /* MiaomiaoClientTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
-		43A8EC81210E664300A81379 /* SpikeClientUI */ = {
+		43A8EC81210E664300A81379 /* MiaomiaoClientUI */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 43A8EC87210E664300A81379 /* Build configuration list for PBXNativeTarget "SpikeClientUI" */;
+			buildConfigurationList = 43A8EC87210E664300A81379 /* Build configuration list for PBXNativeTarget "MiaomiaoClientUI" */;
 			buildPhases = (
 				43A8EC7D210E664300A81379 /* Sources */,
 				43A8EC7E210E664300A81379 /* Frameworks */,
@@ -446,9 +446,9 @@
 			dependencies = (
 				4325E9D9210E715200969CE5 /* PBXTargetDependency */,
 			);
-			name = SpikeClientUI;
-			productName = SpikeClientUI;
-			productReference = 43A8EC82210E664300A81379 /* SpikeClientUI.framework */;
+			name = MiaomiaoClientUI;
+			productName = MiaomiaoClientUI;
+			productReference = 43A8EC82210E664300A81379 /* MiaomiaoClientUI.framework */;
 			productType = "com.apple.product-type.framework";
 		};
 /* End PBXNativeTarget section */
@@ -491,7 +491,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 432B0E821CDFC3C50045347B /* Build configuration list for PBXProject "SpikeClient" */;
+			buildConfigurationList = 432B0E821CDFC3C50045347B /* Build configuration list for PBXProject "MiaomiaoClient" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -513,9 +513,9 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				432B0E871CDFC3C50045347B /* SpikeClient */,
-				432B0E911CDFC3C50045347B /* SpikeClientTests */,
-				43A8EC81210E664300A81379 /* SpikeClientUI */,
+				432B0E871CDFC3C50045347B /* MiaomiaoClient */,
+				432B0E911CDFC3C50045347B /* MiaomiaoClientTests */,
+				43A8EC81210E664300A81379 /* MiaomiaoClientUI */,
 				43A8EC75210E653B00A81379 /* Cartfile */,
 				2795404B2165502600D657E5 /* clitester */,
 				27C335DD21667C7A00CF0868 /* singleviewtesterapp2 */,
@@ -600,8 +600,8 @@
 			files = (
 				4325E9CF210E6A0A00969CE5 /* HKUnit.swift in Sources */,
 				4325E9D1210E6A3D00969CE5 /* TimeInterval.swift in Sources */,
-				27C335B82165667300CF0868 /* SpikeClient.swift in Sources */,
-				43A8EC9D210E68CE00A81379 /* SpikeClientManager.swift in Sources */,
+				27C335B82165667300CF0868 /* MiaomiaoClient.swift in Sources */,
+				43A8EC9D210E68CE00A81379 /* MiaomiaoClientManager.swift in Sources */,
 				43AB51362133177800B3D58D /* LocalizedString.swift in Sources */,
 				43A8EC9B210E68BA00A81379 /* ShareGlucose+GlucoseKit.swift in Sources */,
 				43A8EC99210E682A00A81379 /* SpikeService.swift in Sources */,
@@ -612,7 +612,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				432B0E981CDFC3C50045347B /* SpikeClientTests.swift in Sources */,
+				432B0E981CDFC3C50045347B /* MiaomiaoClientTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -620,13 +620,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				43A8EC92210E676500A81379 /* SpikeClientSettingsViewController.swift in Sources */,
+				43A8EC92210E676500A81379 /* MiaomiaoClientSettingsViewController.swift in Sources */,
 				4325E9D5210E6B4400969CE5 /* UIColor.swift in Sources */,
 				43A8EC97210E680100A81379 /* ShareService+UI.swift in Sources */,
 				43AB51372133177800B3D58D /* LocalizedString.swift in Sources */,
 				4325E9D3210E6ADA00969CE5 /* IdentifiableClass.swift in Sources */,
-				43A8EC91210E676500A81379 /* SpikeClientManager+UI.swift in Sources */,
-				43A8EC90210E676500A81379 /* SpikeClientSetupViewController.swift in Sources */,
+				43A8EC91210E676500A81379 /* MiaomiaoClientManager+UI.swift in Sources */,
+				43A8EC90210E676500A81379 /* MiaomiaoClientSetupViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -635,12 +635,12 @@
 /* Begin PBXTargetDependency section */
 		273893FF21667EF80075A197 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 432B0E871CDFC3C50045347B /* SpikeClient */;
+			target = 432B0E871CDFC3C50045347B /* MiaomiaoClient */;
 			targetProxy = 273893FE21667EF80075A197 /* PBXContainerItemProxy */;
 		};
 		277FE8E12165606D001ACE55 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 432B0E871CDFC3C50045347B /* SpikeClient */;
+			target = 432B0E871CDFC3C50045347B /* MiaomiaoClient */;
 			targetProxy = 277FE8E02165606D001ACE55 /* PBXContainerItemProxy */;
 		};
 		27C335F621667D1600CF0868 /* PBXTargetDependency */ = {
@@ -660,7 +660,7 @@
 		};
 		432B0E951CDFC3C50045347B /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 432B0E871CDFC3C50045347B /* SpikeClient */;
+			target = 432B0E871CDFC3C50045347B /* MiaomiaoClient */;
 			targetProxy = 432B0E941CDFC3C50045347B /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -965,10 +965,10 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/$(CARTHAGE_PLATFORM_PATH_$(PLATFORM_NAME))",
 				);
-				INFOPLIST_FILE = SpikeClient/Info.plist;
+				INFOPLIST_FILE = MiaomiaoClient/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.mddub.SpikeClient;
+				PRODUCT_BUNDLE_IDENTIFIER = com.mddub.MiaomiaoClient;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				SUPPORTED_PLATFORMS = "iphonesimulator iphoneos watchos watchsimulator";
@@ -994,10 +994,10 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/$(CARTHAGE_PLATFORM_PATH_$(PLATFORM_NAME))",
 				);
-				INFOPLIST_FILE = SpikeClient/Info.plist;
+				INFOPLIST_FILE = MiaomiaoClient/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.mddub.SpikeClient;
+				PRODUCT_BUNDLE_IDENTIFIER = com.mddub.MiaomiaoClient;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				SUPPORTED_PLATFORMS = "iphonesimulator iphoneos watchos watchsimulator";
@@ -1010,9 +1010,9 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				DEVELOPMENT_TEAM = L28K36YETG;
-				INFOPLIST_FILE = SpikeClientTests/Info.plist;
+				INFOPLIST_FILE = MiaomiaoClientTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.mddub.SpikeClientTests;
+				PRODUCT_BUNDLE_IDENTIFIER = com.mddub.MiaomiaoClientTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
 			};
@@ -1022,9 +1022,9 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				DEVELOPMENT_TEAM = L28K36YETG;
-				INFOPLIST_FILE = SpikeClientTests/Info.plist;
+				INFOPLIST_FILE = MiaomiaoClientTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.mddub.SpikeClientTests;
+				PRODUCT_BUNDLE_IDENTIFIER = com.mddub.MiaomiaoClientTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
 			};
@@ -1068,10 +1068,10 @@
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
 				);
 				GCC_C_LANGUAGE_STANDARD = gnu11;
-				INFOPLIST_FILE = SpikeClientUI/Info.plist;
+				INFOPLIST_FILE = MiaomiaoClientUI/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.loopkit.SpikeClientUI;
+				PRODUCT_BUNDLE_IDENTIFIER = com.loopkit.MiaomiaoClientUI;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
@@ -1102,10 +1102,10 @@
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
 				);
 				GCC_C_LANGUAGE_STANDARD = gnu11;
-				INFOPLIST_FILE = SpikeClientUI/Info.plist;
+				INFOPLIST_FILE = MiaomiaoClientUI/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.loopkit.SpikeClientUI;
+				PRODUCT_BUNDLE_IDENTIFIER = com.loopkit.MiaomiaoClientUI;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
 				SWIFT_VERSION = 4.0;
@@ -1134,7 +1134,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		432B0E821CDFC3C50045347B /* Build configuration list for PBXProject "SpikeClient" */ = {
+		432B0E821CDFC3C50045347B /* Build configuration list for PBXProject "MiaomiaoClient" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				432B0E9A1CDFC3C50045347B /* Debug */,
@@ -1143,7 +1143,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		432B0E9C1CDFC3C50045347B /* Build configuration list for PBXNativeTarget "SpikeClient" */ = {
+		432B0E9C1CDFC3C50045347B /* Build configuration list for PBXNativeTarget "MiaomiaoClient" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				432B0E9D1CDFC3C50045347B /* Debug */,
@@ -1152,7 +1152,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		432B0E9F1CDFC3C50045347B /* Build configuration list for PBXNativeTarget "SpikeClientTests" */ = {
+		432B0E9F1CDFC3C50045347B /* Build configuration list for PBXNativeTarget "MiaomiaoClientTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				432B0EA01CDFC3C50045347B /* Debug */,
@@ -1170,7 +1170,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		43A8EC87210E664300A81379 /* Build configuration list for PBXNativeTarget "SpikeClientUI" */ = {
+		43A8EC87210E664300A81379 /* Build configuration list for PBXNativeTarget "MiaomiaoClientUI" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				43A8EC88210E664300A81379 /* Debug */,

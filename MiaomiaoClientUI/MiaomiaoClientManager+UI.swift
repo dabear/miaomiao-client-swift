@@ -1,5 +1,5 @@
 //
-//  SpikeClientManager+UI.swift
+//  MiaomiaoClientManager+UI.swift
 //  Loop
 //
 //  Copyright © 2018 LoopKit Authors. All rights reserved.
@@ -7,16 +7,16 @@
 
 import LoopKitUI
 import HealthKit
-import SpikeClient
+import MiaomiaoClient
 
 
-extension SpikeClientManager: CGMManagerUI {
+extension MiaomiaoClientManager: CGMManagerUI {
     public static func setupViewController() -> (UIViewController & CGMManagerSetupViewController)? {
-        return SpikeClientSetupViewController()
+        return MiaomiaoClientSetupViewController()
     }
 
     public func settingsViewController(for glucoseUnit: HKUnit) -> UIViewController {
-        return SpikeClientSettingsViewController(cgmManager: self, glucoseUnit: glucoseUnit, allowsDeletion: true)
+        return MiaomiaoClientSettingsViewController(cgmManager: self, glucoseUnit: glucoseUnit, allowsDeletion: true)
     }
 
     public var smallImage: UIImage? {

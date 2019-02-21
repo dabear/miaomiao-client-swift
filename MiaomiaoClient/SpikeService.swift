@@ -42,12 +42,12 @@ public class SpikeService: ServiceAuthentication {
 
         if let username = username, let password = password, let url = url {
             isAuthorized = true
-            client = SpikeClient(username: username, password: password, spikeServer: url.absoluteString)
+            client = MiaomiaoClient(username: username, password: password, spikeServer: url.absoluteString)
         }
     }
 
     // The share client, if credentials are present
-    private(set) var client: SpikeClient?
+    private(set) var client: MiaomiaoClient?
 
     public var username: String? {
         return credentialValues[0]
@@ -73,7 +73,7 @@ public class SpikeService: ServiceAuthentication {
             return
         }
 
-        let client = SpikeClient(username: username, password: password, spikeServer: url.absoluteString)
+        let client = MiaomiaoClient(username: username, password: password, spikeServer: url.absoluteString)
         client.fetchLast(1) { (error, _) in
             completion(true, error)
 
@@ -89,7 +89,7 @@ public class SpikeService: ServiceAuthentication {
 
 
 private let SpikeURL = URL(string: KnownSpikeServers.LOCAL_SPIKE.rawValue)!
-private let SpikeGlucoseServiceLabel = "SpikeClient1"
+private let SpikeGlucoseServiceLabel = "MiaomiaoClient1"
 
 
 extension KeychainManager {

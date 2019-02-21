@@ -1,5 +1,5 @@
 //
-//  SpikeClientSettingsViewController.swift
+//  MiaomiaoClientSettingsViewController.swift
 //  Loop
 //
 //  Copyright © 2018 LoopKit Authors. All rights reserved.
@@ -9,18 +9,18 @@ import UIKit
 import HealthKit
 import LoopKit
 import LoopKitUI
-import SpikeClient
+import MiaomiaoClient
 
 
-public class SpikeClientSettingsViewController: UITableViewController {
+public class MiaomiaoClientSettingsViewController: UITableViewController {
 
-    public let cgmManager: SpikeClientManager
+    public let cgmManager: MiaomiaoClientManager
 
     public let glucoseUnit: HKUnit
 
     public let allowsDeletion: Bool
 
-    public init(cgmManager: SpikeClientManager, glucoseUnit: HKUnit, allowsDeletion: Bool) {
+    public init(cgmManager: MiaomiaoClientManager, glucoseUnit: HKUnit, allowsDeletion: Bool) {
         self.cgmManager = cgmManager
         self.glucoseUnit = glucoseUnit
         self.allowsDeletion = allowsDeletion

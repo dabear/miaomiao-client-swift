@@ -15,9 +15,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "432B0E871CDFC3C50045347B"
-               BuildableName = "SpikeClient.framework"
-               BlueprintName = "SpikeClient"
-               ReferencedContainer = "container:SpikeClient.xcodeproj">
+               BuildableName = "MiaomiaoClient.framework"
+               BlueprintName = "MiaomiaoClient"
+               ReferencedContainer = "container:MiaomiaoClient.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -33,9 +33,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "432B0E911CDFC3C50045347B"
-               BuildableName = "SpikeClientTests.xctest"
-               BlueprintName = "SpikeClientTests"
-               ReferencedContainer = "container:SpikeClient.xcodeproj">
+               BuildableName = "MiaomiaoClientTests.xctest"
+               BlueprintName = "MiaomiaoClientTests"
+               ReferencedContainer = "container:MiaomiaoClient.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
@@ -43,9 +43,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "432B0E871CDFC3C50045347B"
-            BuildableName = "SpikeClient.framework"
-            BlueprintName = "SpikeClient"
-            ReferencedContainer = "container:SpikeClient.xcodeproj">
+            BuildableName = "MiaomiaoClient.framework"
+            BlueprintName = "MiaomiaoClient"
+            ReferencedContainer = "container:MiaomiaoClient.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
       <AdditionalOptions>
@@ -65,9 +65,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "432B0E871CDFC3C50045347B"
-            BuildableName = "SpikeClient.framework"
-            BlueprintName = "SpikeClient"
-            ReferencedContainer = "container:SpikeClient.xcodeproj">
+            BuildableName = "MiaomiaoClient.framework"
+            BlueprintName = "MiaomiaoClient"
+            ReferencedContainer = "container:MiaomiaoClient.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
       <AdditionalOptions>
@@ -83,9 +83,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "432B0E871CDFC3C50045347B"
-            BuildableName = "SpikeClient.framework"
-            BlueprintName = "SpikeClient"
-            ReferencedContainer = "container:SpikeClient.xcodeproj">
+            BuildableName = "MiaomiaoClient.framework"
+            BlueprintName = "MiaomiaoClient"
+            ReferencedContainer = "container:MiaomiaoClient.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
    </ProfileAction>

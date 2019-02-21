@@ -1,6 +1,6 @@
 //
-//  SpikeClient.h
-//  SpikeClient
+//  MiaomiaoClient.h
+//  MiaomiaoClient
 //
 //  Created by Mark Wilson on 5/7/16.
 //  Copyright © 2016 Mark Wilson. All rights reserved.
@@ -73,7 +73,7 @@ private func dexcomPOST(_ url: URL, JSONData: [String: AnyObject]? = nil, callba
     }).resume()
 }
 
-public class SpikeClient {
+public class MiaomiaoClient {
     public let username: String
     public let password: String
 

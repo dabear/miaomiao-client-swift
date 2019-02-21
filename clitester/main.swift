@@ -11,7 +11,7 @@ import os.log
 
 print("Hello, World!")
 /*
-let client = SpikeClient(username: "test", password: "test2", shareServer: "https://bjorningedia5shareserver.herokuapp.com")
+let client = MiaomiaoClient(username: "test", password: "test2", shareServer: "https://bjorningedia5shareserver.herokuapp.com")
 client.fetchLast(3) { (err, glucose) in
     os_log("dabear: fetchlast", type: .default)
     os_log("dabear: mac err: %@", log: .default, type: .default, "\(err)")

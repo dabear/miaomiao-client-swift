@@ -1,5 +1,5 @@
 //
-//  SpikeClientManager.swift
+//  MiaomiaoClientManager.swift
 //  Loop
 //
 //  Copyright © 2018 LoopKit Authors. All rights reserved.
@@ -9,8 +9,8 @@ import LoopKit
 import HealthKit
 
 
-public class SpikeClientManager: CGMManager {
-    public static var managerIdentifier = "DexSpikeClient1"
+public class MiaomiaoClientManager: CGMManager {
+    public static var managerIdentifier = "DexMiaomiaoClient1"
 
     public init() {
         spikeService = SpikeService(keychainManager: keychain)
@@ -98,7 +98,7 @@ public class SpikeClientManager: CGMManager {
     public var device: HKDevice? {
         
         return HKDevice(
-            name: "SpikeClient",
+            name: "MiaomiaoClient",
             manufacturer: "Spike",
             model: latestSpikeCollector,
             hardwareVersion: nil,
@@ -111,7 +111,7 @@ public class SpikeClientManager: CGMManager {
 
     public var debugDescription: String {
         return [
-            "## SpikeClientManager",
+            "## MiaomiaoClientManager",
             "latestBackfill: \(String(describing: latestBackfill))",
             "latestCollector: \(String(describing: latestSpikeCollector))",
             ""

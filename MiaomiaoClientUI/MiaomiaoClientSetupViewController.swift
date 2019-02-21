@@ -1,5 +1,5 @@
 //
-//  SpikeClientSetupViewController.swift
+//  MiaomiaoClientSetupViewController.swift
 //  Loop
 //
 //  Copyright © 2018 LoopKit Authors. All rights reserved.
@@ -8,13 +8,13 @@
 import UIKit
 import LoopKit
 import LoopKitUI
-import SpikeClient
+import MiaomiaoClient
 
 
-class SpikeClientSetupViewController: UINavigationController, CGMManagerSetupViewController {
+class MiaomiaoClientSetupViewController: UINavigationController, CGMManagerSetupViewController {
     var setupDelegate: CGMManagerSetupViewControllerDelegate?
 
-    let cgmManager = SpikeClientManager()
+    let cgmManager = MiaomiaoClientManager()
 
     init() {
         let authVC = AuthenticationViewController(authentication: cgmManager.spikeService)

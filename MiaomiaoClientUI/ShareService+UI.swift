@@ -6,7 +6,7 @@
 //
 
 import LoopKitUI
-import SpikeClient
+import MiaomiaoClient
 
 
 extension SpikeService: ServiceAuthenticationUI {

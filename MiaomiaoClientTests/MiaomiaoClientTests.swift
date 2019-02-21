@@ -1,6 +1,6 @@
 //
-//  SpikeClientTests.swift
-//  SpikeClientTests
+//  MiaomiaoClientTests.swift
+//  MiaomiaoClientTests
 //
 //  Created by Nathan Racklyeft on 5/8/16.
 //  Copyright © 2016 Mark Wilson. All rights reserved.
@@ -9,7 +9,7 @@
 import XCTest
 
 
-class SpikeClientTests: XCTestCase {
+class MiaomiaoClientTests: XCTestCase {
     
     override func setUp() {
         super.setUp()
