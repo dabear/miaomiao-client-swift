@@ -28,7 +28,7 @@ class ViewController: UIViewController {
         }*/
         os_log("dabear: connecting to glucose source %@", log: .default, type: .default, "yes")
         self.glucoseController = BloodSugarController()
-        self.glucoseController?.didWantToConnect()
+        
         
     }
 

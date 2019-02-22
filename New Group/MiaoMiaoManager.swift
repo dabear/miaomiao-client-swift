@@ -584,6 +584,7 @@ final class MiaoMiaoManager: NSObject, CBCentralManagerDelegate, CBPeripheralDel
                 Timer.scheduledTimer(withTimeInterval: 30, repeats: false, block: {_ in
                     self.requestData()
                 })
+                
             }
         }
 

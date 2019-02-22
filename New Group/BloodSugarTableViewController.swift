@@ -24,20 +24,6 @@ final class BloodSugarController: MiaoMiaoManagerDelegate {
     var miaoMiaoManager: MiaoMiaoManager!
 
     
-    var sensorData: SensorData?
-
-    
-  
-    var dateFormatter = DateFormatter()
-    var timeFormatter = DateFormatter()
-    
-    
-    /// Enum for the sections of this table view
-    fileprivate enum Section: Int, CaseIterable {
-        case connectionData, generalData, graphHeader, graph, trendData, historyData
-    }
-    
-    
     /*@IBAction func doRefresh(_ sender: UIRefreshControl) {
         if let writeCharacteristic = miaoMiaoManager.writeCharacteristic {
             miaoMiaoManager.peripheral?.writeValue(Data.init(bytes: [0xD3, 0x01]), for: writeCharacteristic, type: .withResponse)
@@ -54,7 +40,7 @@ final class BloodSugarController: MiaoMiaoManagerDelegate {
         self.miaoMiaoManager = MiaoMiaoManager()
         self.miaoMiaoManager.delegate = self
 
-        
+        didWantToConnect()
     
     }
     
@@ -284,13 +270,29 @@ final class BloodSugarController: MiaoMiaoManagerDelegate {
             
            
         } else {
-            os_log("gsensordata with valid crcs")
+            os_log("dit not get sensordata with valid crcs")
         }
         
     }
     
     
     func miaoMiaoManagerReceivedMessage(_ messageIdentifier: UInt16, txFlags: UInt8, payloadData: Data) {
+        
+        let packet = MiaoMiaoResponseState.init(rawValue: txFlags)!
+        
+        switch packet {
+        case .newSensor:
+            //invalidate any saved calibration parameters
+            break
+        case .noSensor:
+            break
+            //consider notifying user here that sensor is not found
+        default:
+            //we don't care about the rest!
+            break
+        }
+        
+        
      }
     
     
