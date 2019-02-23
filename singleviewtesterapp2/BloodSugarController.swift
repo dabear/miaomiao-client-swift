@@ -13,15 +13,15 @@ import CoreData
 import UserNotifications
 import os.log
 
-
-//final class BloodSugarTableViewController: UITableViewController, SimbleeManagerDelegate, MiaoMiaoManagerDelegate {
+/*
+{
 final class BloodSugarController: MiaoMiaoManagerDelegate {
 
     // MARK: - Properties
     
     static let bt_log = OSLog(subsystem: "com.LibreMonitor", category: "BloodSugarController")
     
-    var miaoMiaoManager: MiaoMiaoManager!
+    var miaoMiaoManager: MiaomiaoClient!
 
     
     /*@IBAction func doRefresh(_ sender: UIRefreshControl) {
@@ -37,7 +37,7 @@ final class BloodSugarController: MiaoMiaoManagerDelegate {
     // MARK: - View Controller life ciycle
     
     init() {
-        self.miaoMiaoManager = MiaoMiaoManager()
+        self.miaoMiaoManager = MiaomiaoClient()
         self.miaoMiaoManager.delegate = self
 
         didWantToConnect()
@@ -309,7 +309,7 @@ final class BloodSugarController: MiaoMiaoManagerDelegate {
 }
 
 
-
+*/
 
 
 

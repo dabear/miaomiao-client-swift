@@ -10,7 +10,7 @@ import UIKit
 import os
 import MiaomiaoClient
 class ViewController: UIViewController {
-    public var glucoseController: BloodSugarController?
+    //public var glucoseController: BloodSugarController?
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
@@ -27,7 +27,7 @@ class ViewController: UIViewController {
             }
         }*/
         os_log("dabear: connecting to glucose source %@", log: .default, type: .default, "yes")
-        self.glucoseController = BloodSugarController()
+        //self.glucoseController = BloodSugarController()
         
         
     }

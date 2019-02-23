@@ -22,7 +22,7 @@ class MiaomiaoClientSetupViewController: UINavigationController, CGMManagerSetup
         super.init(rootViewController: authVC)
 
         authVC.authenticationObserver = { [weak self] (service) in
-            self?.cgmManager.spikeService = service
+            self?.cgmManager.miaomiaoService = service
         }
         authVC.navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(cancel))
         authVC.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .save, target: self, action: #selector(save))

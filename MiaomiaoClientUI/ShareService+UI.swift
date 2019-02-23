@@ -9,25 +9,16 @@ import LoopKitUI
 import MiaomiaoClient
 
 
-extension SpikeService: ServiceAuthenticationUI {
+extension MiaomiaoService: ServiceAuthenticationUI {
     public var credentialFormFields: [ServiceCredential] {
         return [
+           
             ServiceCredential(
-                title: LocalizedString("Username", comment: "The title of the Spike username credential"),
-                isSecret: false,
-                keyboardType: .asciiCapable
-            ),
-            ServiceCredential(
-                title: LocalizedString("Password", comment: "The title of the Spike password credential"),
-                isSecret: true,
-                keyboardType: .asciiCapable
-            ),
-            ServiceCredential(
-                title: LocalizedString("Server", comment: "The title of the Dexcom share server URL credential"),
+                title: LocalizedString("Libre Sensor operational mode", comment: "The title of the Sensor operational mode"),
                 isSecret: false,
                 options: [
                     (title: LocalizedString("Spike", comment: "Spike server option title"),
-                     value: KnownSpikeServers.LOCAL_SPIKE.rawValue)
+                     value: "Default raw operational mode")
                     
                 ]
             )

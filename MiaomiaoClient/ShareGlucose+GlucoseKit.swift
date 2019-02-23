@@ -11,30 +11,7 @@ import HealthKit
 import LoopKit
 
 
-extension SpikeGlucose: GlucoseValue {
-    public var startDate: Date {
-        return timestamp
-    }
 
-    public var quantity: HKQuantity {
-        return HKQuantity(unit: .milligramsPerDeciliter, doubleValue: Double(glucose))
-    }
-}
-
-
-extension SpikeGlucose: SensorDisplayable {
-    public var isStateValid: Bool {
-        return glucose >= 39
-    }
-
-    public var trendType: GlucoseTrend? {
-        return GlucoseTrend(rawValue: Int(trend))
-    }
-
-    public var isLocal: Bool {
-        return false
-    }
-}
 
 extension SensorDisplayable {
     public var stateDescription: String {
