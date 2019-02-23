@@ -200,8 +200,14 @@ protocol MiaoMiaoManagerDelegate {
 }
 
 final class MiaomiaoClient: NSObject, CBCentralManagerDelegate, CBPeripheralDelegate, MiaoMiaoManagerDelegate {
+    public private(set) var lastConnected : Date?
     func miaoMiaoManagerPeripheralStateChanged(_ state: MiaoMiaoManagerState) {
-        
+        switch state {
+        case .Connected:
+            lastConnected = Date()
+        default:
+            break
+        }
         return
     }
     

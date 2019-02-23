@@ -102,13 +102,14 @@ public class MiaomiaoClientManager: CGMManager {
     }
 
     public var device: HKDevice? {
+        let mm =  miaomiaoService.client?.miaoMiao
         
         return HKDevice(
             name: "MiaomiaoClient",
             manufacturer: "Tomato",
             model: nil, //latestSpikeCollector,
-            hardwareVersion: nil,
-            firmwareVersion: nil,
+            hardwareVersion: mm?.hardware,
+            firmwareVersion: mm?.firmware,
             softwareVersion: nil,
             localIdentifier: nil,
             udiDeviceIdentifier: nil
@@ -116,9 +117,14 @@ public class MiaomiaoClientManager: CGMManager {
     }
 
     public var debugDescription: String {
+        let client =  miaomiaoService.client
         return [
             "## MiaomiaoClientManager",
             "Testdata: foo",
+            "lastConnected: \(String(describing: client?.lastConnected))",
+            "Connection state: \(String(describing: client?.state.rawValue))",
+            "Sensor state: \(String(describing: client?.sensorData?.state))",
+            "bridge battery: \(String(describing: client?.miaoMiao?.battery))%",
             //"latestBackfill: \(String(describing: "latestBackfill))",
             //"latestCollector: \(String(describing: latestSpikeCollector))",
             ""
