@@ -28,6 +28,9 @@ class ViewController: UIViewController {
         }*/
         os_log("dabear: connecting to glucose source %@", log: .default, type: .default, "yes")
         //self.glucoseController = BloodSugarController()
+        //var service = MiaomiaoService()
+        var client = MiaomiaoClient()
+        
         
         
     }

@@ -199,7 +199,7 @@ protocol MiaoMiaoManagerDelegate {
     func miaoMiaoManagerDidUpdateSensorAndMiaoMiao(sensorData: SensorData, miaoMiao: MiaoMiao) -> Void
 }
 
-final class MiaomiaoClient: NSObject, CBCentralManagerDelegate, CBPeripheralDelegate, MiaoMiaoManagerDelegate {
+public final class MiaomiaoClient: NSObject, CBCentralManagerDelegate, CBPeripheralDelegate, MiaoMiaoManagerDelegate {
     public private(set) var lastConnected : Date?
     func miaoMiaoManagerPeripheralStateChanged(_ state: MiaoMiaoManagerState) {
         switch state {
@@ -277,7 +277,7 @@ final class MiaomiaoClient: NSObject, CBCentralManagerDelegate, CBPeripheralDele
     
     // MARK: - Methods
     
-    override init() {
+    public override init() {
         super.init()
         centralManager = CBCentralManager(delegate: self, queue: nil, options: nil)
 //        slipBuffer.delegate = self
@@ -350,7 +350,7 @@ final class MiaomiaoClient: NSObject, CBCentralManagerDelegate, CBPeripheralDele
     
     // MARK: - CBCentralManagerDelegate
     
-    func centralManagerDidUpdateState(_ central: CBCentralManager) {
+    public func centralManagerDidUpdateState(_ central: CBCentralManager) {
         
         os_log("Central Manager did update state to %{public}@", log: MiaomiaoClient.bt_log, type: .default, String(describing: central.state.rawValue))
         

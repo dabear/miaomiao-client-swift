@@ -22,11 +22,12 @@ public class MiaomiaoService: ServiceAuthentication {
         credentialValues = [""]
         isAuthorized = true
         client = MiaomiaoClient()
+        client?.connect()
         
     }
 
     // The share client
-    private(set) var client: MiaomiaoClient?
+    public private(set) var client: MiaomiaoClient?
 
    
 
