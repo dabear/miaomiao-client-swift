@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct MiaoMiao: CustomStringConvertible {
+public struct MiaoMiao: CustomStringConvertible {
     // hardware number
     let hardware: String
     // software number
@@ -25,7 +25,7 @@ struct MiaoMiao: CustomStringConvertible {
         self.batteryString = "\(battery) %"
     }
     
-    var description: String {
+    public var description: String {
         return "Hardware: \(hardware), firmware: \(firmware), battery: \(batteryString)"
     }
 }

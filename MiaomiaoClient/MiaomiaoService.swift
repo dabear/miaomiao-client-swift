@@ -21,20 +21,21 @@ public class MiaomiaoService: ServiceAuthentication {
         
         credentialValues = [""]
         isAuthorized = true
-        client = MiaomiaoClient()
-        client?.connect()
+        client = MiaoMiaoProxy()
+        //client?.connect()
         
     }
 
     // The share client
-    public private(set) var client: MiaomiaoClient?
+    private(set) var client: MiaoMiaoProxy?
 
+    
    
 
     public var isAuthorized: Bool = false
 
     public func verify(_ completion: @escaping (_ success: Bool, _ error: Error?) -> Void) {
-       
+        client = MiaoMiaoProxy()
 
         /*let client = MiaomiaoClient()
         /*client.fetchLast(1) { (error, _) in

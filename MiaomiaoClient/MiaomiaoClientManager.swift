@@ -54,18 +54,7 @@ public class MiaomiaoClientManager: CGMManager {
             return
         }
         
-        // force trying to reconnect every time a we detect
-        // a disconnected state while fetching
-        switch (client.state) {
-        case .Unassigned:
-            client.scanForMiaoMiao()
-        case .Scanning:
-            break
-        case .Connected, .Connecting, .Notifying:
-            break
-        case .Disconnected, .DisconnectingDueToButtonPress:
-            client.connect()
-        }
+        client.autoconnect()
         
         completion(.noData)
         
@@ -102,14 +91,14 @@ public class MiaomiaoClientManager: CGMManager {
     }
 
     public var device: HKDevice? {
-        let mm =  miaomiaoService.client?.miaoMiao
+        let client =  miaomiaoService.client
         
         return HKDevice(
             name: "MiaomiaoClient",
             manufacturer: "Tomato",
             model: nil, //latestSpikeCollector,
-            hardwareVersion: mm?.hardware,
-            firmwareVersion: mm?.firmware,
+            hardwareVersion: client?.hardwareVersion,
+            firmwareVersion: client?.firmwareVersion,
             softwareVersion: nil,
             localIdentifier: nil,
             udiDeviceIdentifier: nil
@@ -121,10 +110,10 @@ public class MiaomiaoClientManager: CGMManager {
         return [
             "## MiaomiaoClientManager",
             "Testdata: foo",
-            "lastConnected: \(String(describing: client?.lastConnected))",
-            "Connection state: \(String(describing: client?.state.rawValue))",
-            "Sensor state: \(String(describing: client?.sensorData?.state))",
-            "bridge battery: \(String(describing: client?.miaoMiao?.battery))%",
+            "lastConnected: \(String(describing: client?.lastConnected)))",
+            "Connection state: \(String(describing: client?.connectionState)))",
+            "Sensor state: \(String(describing: client?.sensorState)))",
+            "bridge battery: \(String(describing: client?.battery)))",
             //"latestBackfill: \(String(describing: "latestBackfill))",
             //"latestCollector: \(String(describing: latestSpikeCollector))",
             ""

@@ -11,7 +11,7 @@ import Foundation
 
 /// Structure for data from Freestyle Libre sensor
 /// To be initialized with the bytes as read via nfc. Provides all derived data.
-struct SensorData {
+public struct SensorData {
     
     /// Parameters for the temperature compensation algorithm
     //let temperatureAlgorithmParameterSet: TemperatureAlgorithmParameters?
@@ -63,6 +63,7 @@ struct SensorData {
     var state: SensorState {
         return SensorState(stateByte: header[4])
     }
+    
     
     init?(uuid: Data, bytes: [UInt8], date: Date = Date(), derivedAlgorithmParameterSet: TemperatureAlgorithmParameters? = nil) {
         guard bytes.count == numberOfBytes else {
