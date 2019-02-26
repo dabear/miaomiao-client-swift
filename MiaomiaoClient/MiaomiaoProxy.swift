@@ -79,7 +79,11 @@ public final class MiaoMiaoProxy: MiaoMiaoManagerDelegate {
     
     public func miaoMiaoManagerReceivedMessage(_ messageIdentifier: UInt16, txFlags: UInt8, payloadData: Data) {
         guard let packet = MiaoMiaoResponseState.init(rawValue: txFlags) else {
-            //incomplete package?
+            // Incomplete package?
+            // this would only happen if delegate is called manually with an unknown txFlags value
+            // this was the case for readouts that were not yet complete
+            // but that was commented out in MiaoMiaoManager.swift, see comment there:
+            // "dabear-edit: don't notify on incomplete readouts"
             os_log("incomplete package or unknown response state")
             return
         }
