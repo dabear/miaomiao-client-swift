@@ -99,10 +99,10 @@ public class MiaomiaoClientSettingsViewController: UITableViewController {
         case .authentication:
             let cell = tableView.dequeueReusableCell(withIdentifier: SettingsTableViewCell.className, for: indexPath) as! SettingsTableViewCell
 
-            let service = cgmManager.spikeService
+            let service = cgmManager.miaomiaoService
 
             cell.textLabel?.text = LocalizedString("Credentials", comment: "Title of cell to set credentials")
-            cell.detailTextLabel?.text = service.username ?? SettingsTableViewCell.TapToSetString
+            cell.detailTextLabel?.text = "no username needed"
             cell.accessoryType = .disclosureIndicator
 
             return cell
@@ -159,9 +159,9 @@ public class MiaomiaoClientSettingsViewController: UITableViewController {
     public override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         switch Section(rawValue: indexPath.section)! {
         case .authentication:
-            let vc = AuthenticationViewController(authentication: cgmManager.spikeService)
+            let vc = AuthenticationViewController(authentication: cgmManager.miaomiaoService)
             vc.authenticationObserver = { [weak self] (service) in
-                self?.cgmManager.spikeService = service
+                self?.cgmManager.miaomiaoService = service
 
                 self?.tableView.reloadRows(at: [indexPath], with: .none)
             }

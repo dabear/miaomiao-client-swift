@@ -11,7 +11,7 @@ import HealthKit
 
 public class MiaomiaoClientManager: CGMManager {
     public var sensorState: SensorDisplayable?
-    
+    public private(set) var latestBackfill: LibreGlucose?
     public static var managerIdentifier = "DexMiaomiaoClient1"
 
     public init() {

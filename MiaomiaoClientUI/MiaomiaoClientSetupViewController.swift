@@ -17,7 +17,7 @@ class MiaomiaoClientSetupViewController: UINavigationController, CGMManagerSetup
     let cgmManager = MiaomiaoClientManager()
 
     init() {
-        let authVC = AuthenticationViewController(authentication: cgmManager.spikeService)
+        let authVC = AuthenticationViewController(authentication: cgmManager.miaomiaoService)
 
         super.init(rootViewController: authVC)
 

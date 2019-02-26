@@ -7,15 +7,16 @@
 //
 
 import Foundation
-
+import LoopKit
+import HealthKit
 public struct LibreGlucose {
     public let glucose: UInt16
     public let trend: UInt8
     public let timestamp: Date
     public let collector: String?
 }
-/*
-extension SpikeGlucose: GlucoseValue {
+
+extension LibreGlucose: GlucoseValue {
     public var startDate: Date {
         return timestamp
     }
@@ -26,7 +27,7 @@ extension SpikeGlucose: GlucoseValue {
 }
 
 
-extension SpikeGlucose: SensorDisplayable {
+extension LibreGlucose: SensorDisplayable {
     public var isStateValid: Bool {
         return glucose >= 39
     }
@@ -39,7 +40,7 @@ extension SpikeGlucose: SensorDisplayable {
         return false
     }
 }
-*/
+
 
 
     
