@@ -48,13 +48,15 @@ public class MiaomiaoService: ServiceAuthentication {
     }
 
     public func reset() {
-        os_log("dabear:: miaomiaoserver reset called")
+        os_log("dabear:: miaomiaoservice reset called")
         isAuthorized = false
         client = nil
     }
     
     deinit {
-        os_log("dabear:: miaomiaoproxy deinit called")
+        os_log("dabear:: miaomiaoservice deinit called")
+        client?.disconnectManually()
+        client = nil
     }
 }
 

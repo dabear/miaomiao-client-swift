@@ -46,6 +46,9 @@ public final class MiaoMiaoProxy: MiaoMiaoManagerDelegate {
         return "na"
     }
     
+    public func disconnectManually(){
+        proxy?.disconnectManually()
+    }
     
     func autoconnect(){
         guard let proxy = proxy else {
@@ -120,7 +123,7 @@ public final class MiaoMiaoProxy: MiaoMiaoManagerDelegate {
         os_log("", "miaomiaoproxy:  proxy is%{public}@", String(describing: proxy))
         
         //cleanup any references to events to this class
-        proxy?.disconnectManually()
+        disconnectManually()
         proxy?.delegate = nil
         proxy = nil
         
