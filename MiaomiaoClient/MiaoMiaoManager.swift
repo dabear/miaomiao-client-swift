@@ -280,7 +280,7 @@ final class MiaoMiaoManager: NSObject, CBCentralManagerDelegate, CBPeripheralDel
         //        _ = Timer(timeInterval: 150, repeats: false, block: {timer in NotificationManager.scheduleDebugNotification(message: "Timer fired in Background", wait: 0.5)})
         
         switch state {
-        case .Connected, .Connecting, .Notifying:
+        case .Connected, .Connecting, .Notifying, .Scanning:
             state = .DisconnectingDueToButtonPress  // to avoid reconnect in didDisconnetPeripheral
             centralManager.cancelPeripheralConnection(peripheral!)
         default:

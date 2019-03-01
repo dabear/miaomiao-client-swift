@@ -89,10 +89,14 @@ public class MiaomiaoClientManager: CGMManager {
             }
         }*/
     }
+    
+    public var s : String {
+        return ""
+    }
 
     public var device: HKDevice? {
         let client =  miaomiaoService.client
-        
+        //bla
         return HKDevice(
             name: "MiaomiaoClient",
             manufacturer: "Tomato",
