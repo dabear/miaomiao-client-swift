@@ -596,4 +596,8 @@ final class MiaoMiaoManager: NSObject, CBCentralManagerDelegate, CBPeripheralDel
         
     }
     
+    deinit {
+        os_log("dabear:: miaomiaomanager deinit called")
+    }
+    
 }

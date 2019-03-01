@@ -114,5 +114,16 @@ public final class MiaoMiaoProxy: MiaoMiaoManagerDelegate {
         return
     }
     
+    deinit {
+        
+        os_log("dabear:: miaomiaoproxy deinit called")
+        
+        //cleanup any references to events to this class
+        proxy?.disconnectManually()
+        proxy?.delegate = nil
+        
+        
+    }
+    
     
 }
