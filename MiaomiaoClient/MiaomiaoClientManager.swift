@@ -7,7 +7,7 @@
 
 import LoopKit
 import HealthKit
-
+import os.log
 
 public class MiaomiaoClientManager: CGMManager {
     public var sensorState: SensorDisplayable?
@@ -15,6 +15,7 @@ public class MiaomiaoClientManager: CGMManager {
     public static var managerIdentifier = "DexMiaomiaoClient1"
 
     public init() {
+        os_log("dabear:: MiaomiaoClientManager init")
         miaomiaoService = MiaomiaoService()
     }
 
@@ -114,10 +115,10 @@ public class MiaomiaoClientManager: CGMManager {
         return [
             "## MiaomiaoClientManager",
             "Testdata: foo",
-            "lastConnected: \(String(describing: client?.lastConnected)))",
-            "Connection state: \(String(describing: client?.connectionState)))",
-            "Sensor state: \(String(describing: client?.sensorState)))",
-            "bridge battery: \(String(describing: client?.battery)))",
+            "lastConnected: \(String(describing: client?.lastConnected))",
+            "Connection state: \(String(describing: client?.connectionState))",
+            "Sensor state: \(String(describing: client?.sensorState))",
+            "bridge battery: \(String(describing: client?.battery))",
             //"latestBackfill: \(String(describing: "latestBackfill))",
             //"latestCollector: \(String(describing: latestSpikeCollector))",
             ""

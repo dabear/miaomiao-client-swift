@@ -201,6 +201,7 @@ protocol MiaoMiaoManagerDelegate {
 final class MiaoMiaoManager: NSObject, CBCentralManagerDelegate, CBPeripheralDelegate {
     
     // MARK: - Properties
+    private var wantsToTerminate = false
     
     static let bt_log = OSLog(subsystem: "com.LibreMonitor", category: "MiaoMiaoManager")
     var miaoMiao: MiaoMiao?
@@ -240,10 +241,12 @@ final class MiaoMiaoManager: NSObject, CBCentralManagerDelegate, CBPeripheralDel
         super.init()
         centralManager = CBCentralManager(delegate: self, queue: nil, options: nil)
         //        slipBuffer.delegate = self
+        os_log("miaomiaomanager init called ", log: MiaoMiaoManager.bt_log)
+        
     }
     
     func scanForMiaoMiao() {
-        os_log("Scan for MiaoMiao while state %{public}@", log: MiaoMiaoManager.bt_log, type: .default, String(describing: state.rawValue))
+        os_log("Scan for MiaoMiao while state %{public}@", log: MiaoMiaoManager.bt_log, type: .default, String(describing: state))
         //        print(centralManager.debugDescription)
         if centralManager.state == .poweredOn {
             os_log("Before scan for MiaoMiao while central manager state %{public}@", log: MiaoMiaoManager.bt_log, type: .default, String(describing: centralManager.state.rawValue))
@@ -251,7 +254,7 @@ final class MiaoMiaoManager: NSObject, CBCentralManagerDelegate, CBPeripheralDel
             centralManager.scanForPeripherals(withServices: nil, options: nil)
             
             state = .Scanning
-            os_log("Before scan for MiaoMiao while central manager state %{public}@", log: MiaoMiaoManager.bt_log, type: .default, String(describing: centralManager.state.rawValue))
+            
             //            print(centralManager.debugDescription)
         }
         //        // Set timer to check connection and reconnect if necessary
@@ -281,12 +284,16 @@ final class MiaoMiaoManager: NSObject, CBCentralManagerDelegate, CBPeripheralDel
         
         switch state {
         case .Connected, .Connecting, .Notifying:
-            state = .DisconnectingDueToButtonPress  // to avoid reconnect in didDisconnetPeripheral
+            self.state = .DisconnectingDueToButtonPress  // to avoid reconnect in didDisconnetPeripheral
             centralManager.cancelPeripheralConnection(peripheral!)
+            self.wantsToTerminate = true
         case .Scanning:
-            state = .DisconnectingDueToButtonPress  // to avoid reconnect in didDisconnetPeripheral
+            self.state = .DisconnectingDueToButtonPress  // to avoid reconnect in didDisconnetPeripheral
+             os_log("stopping scan", log: MiaoMiaoManager.bt_log, type: .default)
             centralManager.stopScan()
-            centralManager.cancelPeripheralConnection(peripheral!)
+            self.wantsToTerminate = true
+            // at this point, the peripherial is not connected and therefore not available either
+            //centralManager.cancelPeripheralConnection(peripheral!)
         default:
             break
         }
@@ -302,18 +309,26 @@ final class MiaoMiaoManager: NSObject, CBCentralManagerDelegate, CBPeripheralDel
         
         os_log("Central Manager did update state to %{public}@", log: MiaoMiaoManager.bt_log, type: .default, String(describing: central.state.rawValue))
         
+        
         switch central.state {
         case .poweredOff, .resetting, .unauthorized, .unknown, .unsupported:
+            os_log("Central Manager was either .poweredOff, .resetting, .unauthorized, .unknown, .unsupported: %{public}@", log: MiaoMiaoManager.bt_log, type: .default, String(describing: central.state))
             state = .Unassigned
         case .poweredOn:
-            scanForMiaoMiao() // power was switched on, while app is running -> reconnect.
+            if state == .DisconnectingDueToButtonPress {
+                os_log("Central Manager was powered on but sensorstate was DisconnectingDueToButtonPress:  %{public}@", log: MiaoMiaoManager.bt_log, type: .default, String(describing: central.state))
+            } else {
+                os_log("Central Manager was powered on, scanningformiaomiao: state: %{public}@", log: MiaoMiaoManager.bt_log, type: .default, String(describing: state))
+                scanForMiaoMiao() // power was switched on, while app is running -> reconnect.
+            }
+            
         }
     }
     
     
     func centralManager(_ central: CBCentralManager, didDiscover peripheral: CBPeripheral, advertisementData: [String : Any], rssi RSSI: NSNumber) {
         
-        os_log("Did discover peripheral while state %{public}@ with name: %{public}@", log: MiaoMiaoManager.bt_log, type: .default, String(describing: state.rawValue), String(describing: peripheral.name))
+        os_log("Did discover peripheral while state %{public}@ with name: %{public}@, wantstoterminate?:  %d", log: MiaoMiaoManager.bt_log, type: .default, String(describing: state.rawValue), String(describing: peripheral.name), self.wantsToTerminate)
         
         
         
@@ -353,6 +368,7 @@ final class MiaoMiaoManager: NSObject, CBCentralManagerDelegate, CBPeripheralDel
         switch state {
         case .DisconnectingDueToButtonPress:
             state = .Disconnected
+            self.wantsToTerminate = true
         default:
             state = .Disconnected
             connect()
@@ -602,6 +618,8 @@ final class MiaoMiaoManager: NSObject, CBCentralManagerDelegate, CBPeripheralDel
     
     deinit {
         os_log("dabear:: miaomiaomanager deinit called")
+        
+        
     }
     
 }

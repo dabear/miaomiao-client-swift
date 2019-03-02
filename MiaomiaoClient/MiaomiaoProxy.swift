@@ -17,9 +17,10 @@ public final class MiaoMiaoProxy: MiaoMiaoManagerDelegate {
     private var proxy : MiaoMiaoManager?
     public init(){
         lastConnected = nil
+        os_log("dabear: miaomiaomanager will be created now")
         proxy = MiaoMiaoManager()
         proxy?.delegate = self
-        proxy?.connect()
+        //proxy?.connect()
     }
     
     public var connectionState : String {
@@ -43,11 +44,14 @@ public final class MiaoMiaoProxy: MiaoMiaoManagerDelegate {
         if let bat = proxy?.miaoMiao?.battery {
             return "\(bat)%"
         }
-        return "na"
+        return "n/a"
     }
     
-    public func disconnectManually(){
+    public func disconnect(){
+       
         proxy?.disconnectManually()
+        proxy?.delegate = nil
+        proxy = nil
     }
     
     func autoconnect(){
@@ -60,7 +64,8 @@ public final class MiaoMiaoProxy: MiaoMiaoManagerDelegate {
         // a disconnected state while fetching
         switch (proxy.state) {
         case .Unassigned:
-            proxy.scanForMiaoMiao()
+            break
+            //proxy.scanForMiaoMiao()
         case .Scanning:
             break
         case .Connected, .Connecting, .Notifying:
@@ -119,13 +124,11 @@ public final class MiaoMiaoProxy: MiaoMiaoManagerDelegate {
     
     deinit {
         
-        os_log("dabear2:: miaomiaoproxy deinit called2")
-        os_log("", "miaomiaoproxy:  proxy is%{public}@", String(describing: proxy))
+        os_log("dabear:: miaomiaoproxy deinit called2")
+        
         
         //cleanup any references to events to this class
-        disconnectManually()
-        proxy?.delegate = nil
-        proxy = nil
+        disconnect()
         
         
     }

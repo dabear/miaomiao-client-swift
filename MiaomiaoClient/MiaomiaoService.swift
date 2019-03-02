@@ -15,19 +15,38 @@ public class MiaomiaoService: ServiceAuthentication {
     public var credentialValues: [String?]
 
     public let title: String = LocalizedString("MiaomiaoService", comment: "The title of the MiaomiaoService")
+    
+    private static var _client: MiaoMiaoProxy? = nil
+    //todo: This shouldn't be a singleton,
+    // but is required because Loop seems to be creating two instances of the cgmmanager sometimes
+    public var client: MiaoMiaoProxy? {
+        get {
+            if let client = MiaomiaoService._client {
+                return client
+            }
+            
+            MiaomiaoService._client = MiaoMiaoProxy()
+            return MiaomiaoService._client!
+        }
+        set {
+            MiaomiaoService._client = newValue
+        }
+    }
 
     public init() {
-
+        os_log("dabear: MiaomiaoService init here")
         
         credentialValues = [""]
         isAuthorized = true
-        client = MiaoMiaoProxy()
+        //client will only be needed to be created once
+        
+        //client = MiaoMiaoProxy()
         //client?.connect()
         
     }
 
     // The share client
-    private(set) var client: MiaoMiaoProxy?
+    //private(set) var client: MiaoMiaoProxy?
 
     
    
@@ -35,7 +54,7 @@ public class MiaomiaoService: ServiceAuthentication {
     public var isAuthorized: Bool = false
 
     public func verify(_ completion: @escaping (_ success: Bool, _ error: Error?) -> Void) {
-        client = MiaoMiaoProxy()
+        //client = MiaoMiaoProxy()
 
         /*let client = MiaomiaoClient()
         /*client.fetchLast(1) { (error, _) in
@@ -55,7 +74,7 @@ public class MiaomiaoService: ServiceAuthentication {
     
     deinit {
         os_log("dabear:: miaomiaoservice deinit called")
-        client?.disconnectManually()
+        client?.disconnect()
         client = nil
     }
 }
