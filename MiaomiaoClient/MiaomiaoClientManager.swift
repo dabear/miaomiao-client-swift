@@ -9,17 +9,54 @@ import LoopKit
 import HealthKit
 import os.log
 
+
 public class MiaomiaoClientManager: CGMManager {
     public var sensorState: SensorDisplayable?
     public private(set) var latestBackfill: LibreGlucose?
     public static var managerIdentifier = "DexMiaomiaoClient1"
+    
+    private static var instanceCount = 0 {
+        didSet {
+            
+            //this is to workaround a bug where multiple managers might exist
+            os_log("dabear:: MiaomiaoClientManager instanceCount changed to %s", type: .default, String(describing: instanceCount))
+            if instanceCount < 1 {
+                os_log("dabear:: instancecount is 0, deiniting service", type: .default)
+                MiaomiaoClientManager.sharedInstance = nil
+            }
+            //this is another attempt to workaround a bug where multiple managers might exist
+            if oldValue > instanceCount {
+                os_log("dabear:: MiaomiaoClientManager decremented, stop all miaomiao bluetooth services")
+                MiaomiaoClientManager.sharedInstance = nil
+            }
+           
+            
+        }
+    }
+    private static var sharedInstance: MiaomiaoService?
+    public class var miaomiaoService : MiaomiaoService {
+        guard let sharedInstance = self.sharedInstance else {
+            let sharedInstance = MiaomiaoService()
+            self.sharedInstance = sharedInstance
+            return sharedInstance
+        }
+        return sharedInstance
+    }
 
     public init() {
-        os_log("dabear:: MiaomiaoClientManager init")
-        miaomiaoService = MiaomiaoService()
+        let thisType = type(of: self)
+        os_log("dabear:: MiaomiaoClientManager init, typeofself: %s", type:.default, String(describing: thisType))
+        MiaomiaoClientManager.instanceCount += 1
+       
+    }
+    
+    deinit {
+        os_log("dabear:: MiaomiaoClientManager deinit")
+        MiaomiaoClientManager.instanceCount -= 1
     }
 
     required convenience public init?(rawState: CGMManager.RawStateValue) {
+         os_log("dabear:: MiaomiaoClientManager will init from rawstate")
         self.init()
     }
 
@@ -29,7 +66,7 @@ public class MiaomiaoClientManager: CGMManager {
 
     private let keychain = KeychainManager()
 
-    public var miaomiaoService: MiaomiaoService
+    //public var miaomiaoService: MiaomiaoService
 
     public static let localizedTitle = LocalizedString("Miaomiao", comment: "Title for the CGMManager option")
 
@@ -50,7 +87,7 @@ public class MiaomiaoClientManager: CGMManager {
     //public private(set) var latestBackfill: SpikeGlucose?
 
     public func fetchNewDataIfNeeded(_ completion: @escaping (CGMResult) -> Void) {
-        guard let client = miaomiaoService.client else {
+        guard let client = MiaomiaoClientManager.miaomiaoService.client else {
             completion(.noData)
             return
         }
@@ -91,12 +128,10 @@ public class MiaomiaoClientManager: CGMManager {
         }*/
     }
     
-    public var s : String {
-        return ""
-    }
+   
 
     public var device: HKDevice? {
-        let client =  miaomiaoService.client
+        let client =  MiaomiaoClientManager.miaomiaoService.client
         //bla
         return HKDevice(
             name: "MiaomiaoClient",
@@ -111,7 +146,7 @@ public class MiaomiaoClientManager: CGMManager {
     }
 
     public var debugDescription: String {
-        let client =  miaomiaoService.client
+        let client =  MiaomiaoClientManager.miaomiaoService.client
         return [
             "## MiaomiaoClientManager",
             "Testdata: foo",
