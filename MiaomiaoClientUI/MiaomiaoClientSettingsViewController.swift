@@ -43,8 +43,8 @@ public class MiaomiaoClientSettingsViewController: UITableViewController {
         tableView.sectionHeaderHeight = UITableViewAutomaticDimension
         tableView.estimatedSectionHeaderHeight = 55
 
-        tableView.register(SettingsTableViewCell.self, forCellReuseIdentifier: SettingsTableViewCell.className)
-        tableView.register(TextButtonTableViewCell.self, forCellReuseIdentifier: TextButtonTableViewCell.className)
+        tableView.register(SettingsTableViewCell.self, forCellReuseIdentifier: "SettingsTableViewCell")
+        tableView.register(TextButtonTableViewCell.self, forCellReuseIdentifier: "TextButtonTableViewCell")
     }
 
     // MARK: - UITableViewDataSource
@@ -97,47 +97,24 @@ public class MiaomiaoClientSettingsViewController: UITableViewController {
     public override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         switch Section(rawValue: indexPath.section)! {
         case .authentication:
-            let cell = tableView.dequeueReusableCell(withIdentifier: SettingsTableViewCell.className, for: indexPath) as! SettingsTableViewCell
+            let cell = tableView.dequeueReusableCell(withIdentifier: "SettingsTableViewCell", for: indexPath) as! SettingsTableViewCell
 
             let service = cgmManager.miaomiaoService
 
-            cell.textLabel?.text = LocalizedString("Credentials", comment: "Title of cell to set credentials")
+            cell.textLabel?.text = ""
             cell.detailTextLabel?.text = "no username needed"
             cell.accessoryType = .disclosureIndicator
 
             return cell
         case .latestReading:
-            let cell = tableView.dequeueReusableCell(withIdentifier: SettingsTableViewCell.className, for: indexPath) as! SettingsTableViewCell
-            let glucose = cgmManager.latestBackfill
-
-            switch LatestReadingRow(rawValue: indexPath.row)! {
-            case .glucose:
-                cell.textLabel?.text = LocalizedString("Glucose", comment: "Title describing glucose value")
-
-                if let quantity = glucose?.quantity, let formatted = glucoseFormatter.string(from: quantity, for: glucoseUnit) {
-                    cell.detailTextLabel?.text = formatted
-                } else {
-                    cell.detailTextLabel?.text = SettingsTableViewCell.NoValueString
-                }
-            case .date:
-                cell.textLabel?.text = LocalizedString("Date", comment: "Title describing glucose date")
-
-                if let date = glucose?.timestamp {
-                    cell.detailTextLabel?.text = dateFormatter.string(from: date)
-                } else {
-                    cell.detailTextLabel?.text = SettingsTableViewCell.NoValueString
-                }
-            case .trend:
-                cell.textLabel?.text = LocalizedString("Trend", comment: "Title describing glucose trend")
-
-                cell.detailTextLabel?.text = glucose?.trendType?.localizedDescription ?? SettingsTableViewCell.NoValueString
-            }
-
+            let cell = tableView.dequeueReusableCell(withIdentifier: "SettingsTableViewCell", for: indexPath) as! SettingsTableViewCell
+            
+            cell.textLabel?.text = "some cell"
             return cell
         case .delete:
-            let cell = tableView.dequeueReusableCell(withIdentifier: TextButtonTableViewCell.className, for: indexPath) as! TextButtonTableViewCell
+            let cell = tableView.dequeueReusableCell(withIdentifier: "TextButtonTableViewCell", for: indexPath) as! TextButtonTableViewCell
 
-            cell.textLabel?.text = LocalizedString("Delete CGM", comment: "Title text for the button to remove a CGM from Loop")
+            cell.textLabel?.text = "delete this?"
             cell.textLabel?.textAlignment = .center
             cell.tintColor = .delete
             cell.isEnabled = true
@@ -150,7 +127,7 @@ public class MiaomiaoClientSettingsViewController: UITableViewController {
         case .authentication:
             return nil
         case .latestReading:
-            return LocalizedString("Latest Reading", comment: "Section title for latest glucose reading")
+            return "Latest reading"
         case .delete:
             return nil
         }
@@ -187,19 +164,19 @@ private extension UIAlertController {
     convenience init(cgmDeletionHandler handler: @escaping () -> Void) {
         self.init(
             title: nil,
-            message: LocalizedString("Are you sure you want to delete this CGM?", comment: "Confirmation message for deleting a CGM"),
+            message: "are you sure you want to delete this test",
             preferredStyle: .actionSheet
         )
 
         addAction(UIAlertAction(
-            title: LocalizedString("Delete CGM", comment: "Button title to delete CGM"),
+            title: "delete",
             style: .destructive,
             handler: { (_) in
                 handler()
             }
         ))
 
-        let cancel = LocalizedString("Cancel", comment: "The title of the cancel action in an action sheet")
+        let cancel = "cancel"
         addAction(UIAlertAction(title: cancel, style: .cancel, handler: nil))
     }
 }

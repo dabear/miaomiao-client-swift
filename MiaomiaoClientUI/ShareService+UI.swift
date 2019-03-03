@@ -14,10 +14,10 @@ extension MiaomiaoService: ServiceAuthenticationUI {
         return [
            
             ServiceCredential(
-                title: LocalizedString("Libre Sensor operational mode", comment: "The title of the Sensor operational mode"),
+                title: "foo",
                 isSecret: false,
                 options: [
-                    (title: LocalizedString("Spike", comment: "Spike server option title"),
+                    (title: "bar",
                      value: "Default raw operational mode")
                     
                 ]

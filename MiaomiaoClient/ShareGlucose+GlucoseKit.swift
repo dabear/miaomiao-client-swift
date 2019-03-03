@@ -15,10 +15,6 @@ import LoopKit
 
 extension SensorDisplayable {
     public var stateDescription: String {
-        if isStateValid {
-            return LocalizedString("OK", comment: "Sensor state description for the valid state")
-        } else {
-            return LocalizedString("Needs Attention", comment: "Sensor state description for the non-valid state")
-        }
+        return "statedesc"
     }
 }
