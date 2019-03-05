@@ -48,7 +48,7 @@ struct Measurement {
     let oopSlope: Double
     let oopOffset: Double
     ///
-    let temperatureAlgorithmParameterSet: TemperatureAlgorithmParameters?
+    let temperatureAlgorithmParameterSet: DerivedAlgorithmParameters?
 
 
     ///
@@ -58,7 +58,7 @@ struct Measurement {
     /// - parameter date:   date of the measurement
     ///
     /// - returns: Measurement
-    init(bytes: [UInt8], slope: Double = 0.1, offset: Double = 0.0, counter: Int = 0, date: Date, derivedAlgorithmParameterSet: TemperatureAlgorithmParameters? = nil) {
+    init(bytes: [UInt8], slope: Double = 0.1, offset: Double = 0.0, counter: Int = 0, date: Date, derivedAlgorithmParameterSet: DerivedAlgorithmParameters? = nil) {
         self.bytes = bytes
         self.byteString = bytes.reduce("", {$0 + String(format: "%02X", arguments: [$1])})
         self.rawGlucose = (Int(bytes[1] & 0x1F) << 8) + Int(bytes[0]) // switched to 13 bit mask on 2018-03-15
@@ -80,8 +80,9 @@ struct Measurement {
             //        self.oopSlope = slope_slope * Double(rawTemperature) + slope_offset
             //        self.oopOffset = offset_slope * Double(rawTemperature) + offset_offset
             let oopGlucose = oopSlope * Double(rawGlucose) + oopOffset
+            self.temperatureAlgorithmGlucose = oopGlucose
             // Final correction, if sensor values are very low and need to be compensated
-            self.temperatureAlgorithmGlucose = oopGlucose * derivedAlgorithmParameterSet.additionalSlope + derivedAlgorithmParameterSet.additionalOffset
+            //self.temperatureAlgorithmGlucose = oopGlucose * derivedAlgorithmParameterSet.additionalSlope + derivedAlgorithmParameterSet.additionalOffset
         } else {
             self.oopSlope = 0
             self.oopOffset = 0

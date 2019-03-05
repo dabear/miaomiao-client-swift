@@ -81,6 +81,8 @@ public class MiaomiaoClientManager: CGMManager {
     /*public var sensorState: SensorDisplayable? {
         return latestBackfill
     }**/
+    
+    
 
     public let managedDataInterval: TimeInterval? = nil
 
@@ -94,7 +96,34 @@ public class MiaomiaoClientManager: CGMManager {
         
         client.autoconnect()
         
-        completion(.noData)
+        client.getLastSensorValues { (error, glucose) in
+            if let error = error {
+                NSLog("dabear:: getLastSensorValues returned with error")
+                completion(.error(error))
+                return
+            }
+            
+            guard let glucose = glucose else {
+                NSLog("dabear:: getLastSensorValues returned with no data")
+                completion(.noData)
+                return
+            }
+            
+            let startDate = self.latestBackfill?.startDate
+            let newGlucose = glucose.filterDateRange(startDate, nil).filter({ $0.isStateValid }).map {
+                return NewGlucoseSample(date: $0.startDate, quantity: $0.quantity, isDisplayOnly: false, syncIdentifier: "\(Int($0.startDate.timeIntervalSince1970))", device: self.device)
+            }
+            
+            self.latestBackfill = glucose.first
+            
+            if newGlucose.count > 0 {
+                completion(.newData(newGlucose))
+            } else {
+                completion(.noData)
+            }
+            
+        }
+        
         
         // If our last glucose was less than 4.5 minutes ago, don't fetch.
         /*if let latestGlucose = latestBackfill, latestGlucose.startDate.timeIntervalSinceNow > -TimeInterval(minutes: 4.5) {

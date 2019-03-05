@@ -17,13 +17,19 @@ class MiaomiaoClientSetupViewController: UINavigationController, CGMManagerSetup
     let cgmManager = MiaomiaoClientManager()
 
     init() {
-        let authVC = AuthenticationViewController(authentication: cgmManager.miaomiaoService)
+        let authVC = AuthenticationViewController(authentication: MiaomiaoClientManager.miaomiaoService)
 
         super.init(rootViewController: authVC)
 
+        authVC.authenticationObserver = {  (service) in
+            //self?.cgmManager.miaomiaoService = service
+            return
+        }
+        /*
         authVC.authenticationObserver = { [weak self] (service) in
             self?.cgmManager.miaomiaoService = service
         }
+        */
         authVC.navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(cancel))
         authVC.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .save, target: self, action: #selector(save))
     }

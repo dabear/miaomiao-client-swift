@@ -7,12 +7,15 @@
 //
 
 import Foundation
+import LoopKit
 import os.log
 
 public final class MiaoMiaoProxy: MiaoMiaoManagerDelegate {
     public private(set) var lastConnected : Date?
     
+    private var lastValidSensorData : SensorData? = nil
     
+    private let keychain = KeychainManager()
     
     private var proxy : MiaoMiaoManager?
     public init(){
@@ -74,6 +77,76 @@ public final class MiaoMiaoProxy: MiaoMiaoManagerDelegate {
             proxy.connect()
         }
     }
+    private func trendToLibreGlucose(_ measurements: [Measurement]) -> [LibreGlucose]?{
+        var arr = [LibreGlucose]()
+        
+        for trend in measurements {
+            let glucose = LibreGlucose(glucose: UInt16(trend.temperatureAlgorithmGlucose.rounded().rawValue), trend: UInt8(GlucoseTrend.flat.rawValue), timestamp: trend.date, collector: "MiaoMiao")
+            arr.append(glucose)
+        }
+        
+        return arr
+    }
+    
+    public func getLastSensorValues(_ callback: @escaping (LibreError?, [LibreGlucose]?) -> Void) {
+        //only care about the once per minute readings here, historical data will not be considered
+        
+        guard let data=lastValidSensorData else {
+            callback(LibreError.noSensorData, nil)
+            return
+            
+        }
+        
+        
+        let calibrationdata = keychain.getLibreCalibrationData()
+        
+        
+        if let calibrationdata = calibrationdata{
+            NSLog("dabear:: calibrationdata loaded")
+            
+            if calibrationdata.isValidForFooterWithReverseCRCs.byteSwapped == data.footerCrc {
+                NSLog("dabear:: calibrationdata correct for this sensor, returning last values")
+                let last16 = data.trendMeasurements(derivedAlgorithmParameterSet: calibrationdata)
+                callback(nil, trendToLibreGlucose(last16) )
+                return
+                
+            } else {
+                NSLog("dabear:: calibrationdata incorrect for this sensor")
+            }
+            
+        } else {
+            NSLog("dabear:: calibrationdata was nil")
+            
+        }
+        
+        calibrateSensor(data) { [weak self] (params)  in
+            guard let params = params else {
+                NSLog("dabear:: could not calibrate sensor, check libreoopweb permissions and internet connection")
+                callback(LibreError.noCalibrationData, nil)
+                return
+            }
+            
+            do {
+                try self?.keychain.setLibreCalibrationData(params)
+            } catch {
+                NSLog("dabear:: could not save calibrationdata")
+                callback(LibreError.invalidCalibrationData, nil)
+                return
+            }
+            
+            let last16 = data.trendMeasurements(derivedAlgorithmParameterSet: calibrationdata)
+            callback(nil, self?.trendToLibreGlucose(last16) )
+            
+            
+        }
+        
+        
+        
+        
+    }
+    
+    
+   
     
     public func miaoMiaoManagerPeripheralStateChanged(_ state: MiaoMiaoManagerState) {
         switch state {
@@ -114,7 +187,14 @@ public final class MiaoMiaoProxy: MiaoMiaoManagerDelegate {
     
     public func miaoMiaoManagerDidUpdateSensorAndMiaoMiao(sensorData: SensorData, miaoMiao: MiaoMiao) {
         if sensorData.hasValidCRCs {
-            os_log("got sensordata with valid crcs")
+            
+            if sensorData.state == .ready ||  sensorData.state == .starting {
+                os_log("got sensordata with valid crcs, sensor was ready")
+                self.lastValidSensorData = sensorData
+            } else {
+                os_log("got sensordata with valid crcs, but sensor is either expired or failed")
+            }
+            
             
         } else {
             os_log("dit not get sensordata with valid crcs")

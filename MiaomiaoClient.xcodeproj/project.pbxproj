@@ -64,6 +64,21 @@
 		27C335E621667C7B00CF0868 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 27C335E421667C7B00CF0868 /* Main.storyboard */; };
 		27C335E821667C7C00CF0868 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 27C335E721667C7C00CF0868 /* Assets.xcassets */; };
 		27C335EB21667C7C00CF0868 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 27C335E921667C7C00CF0868 /* LaunchScreen.storyboard */; };
+		27E3C390222EDF560036AAC7 /* LibreError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27E3C38F222EDF560036AAC7 /* LibreError.swift */; };
+		27E3C391222EDF560036AAC7 /* LibreError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27E3C38F222EDF560036AAC7 /* LibreError.swift */; };
+		27E3C393222EE2EC0036AAC7 /* Calibration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27E3C392222EE2EC0036AAC7 /* Calibration.swift */; };
+		27E3C394222EE2EC0036AAC7 /* Calibration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27E3C392222EE2EC0036AAC7 /* Calibration.swift */; };
+		27E3C398222EE9450036AAC7 /* LibreOOPDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27E3C395222EE9450036AAC7 /* LibreOOPDefaults.swift */; };
+		27E3C399222EE9450036AAC7 /* LibreOOPDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27E3C395222EE9450036AAC7 /* LibreOOPDefaults.swift */; };
+		27E3C39A222EE9450036AAC7 /* LibreOOPClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27E3C396222EE9450036AAC7 /* LibreOOPClient.swift */; };
+		27E3C39B222EE9450036AAC7 /* LibreOOPClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27E3C396222EE9450036AAC7 /* LibreOOPClient.swift */; };
+		27E3C39C222EE9450036AAC7 /* LibreOOPResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27E3C397222EE9450036AAC7 /* LibreOOPResponse.swift */; };
+		27E3C39D222EE9450036AAC7 /* LibreOOPResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27E3C397222EE9450036AAC7 /* LibreOOPResponse.swift */; };
+		27E3C39F222EE9A80036AAC7 /* LibreOOPWebExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27E3C39E222EE9A80036AAC7 /* LibreOOPWebExtensions.swift */; };
+		27E3C3A0222EE9A80036AAC7 /* LibreOOPWebExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27E3C39E222EE9A80036AAC7 /* LibreOOPWebExtensions.swift */; };
+		27E3C3A2222EEDCD0036AAC7 /* DerivedAlgorithmParameters.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27E3C3A1222EEDCD0036AAC7 /* DerivedAlgorithmParameters.swift */; };
+		27E3C3A3222EEDCD0036AAC7 /* DerivedAlgorithmParameters.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27E3C3A1222EEDCD0036AAC7 /* DerivedAlgorithmParameters.swift */; };
+		27E3C3A4222F01030036AAC7 /* LibreGlucose.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43C418AE1CE0488900405B6A /* LibreGlucose.swift */; };
 		4325E9CF210E6A0A00969CE5 /* HKUnit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4325E9CE210E6A0A00969CE5 /* HKUnit.swift */; };
 		4325E9D3210E6ADA00969CE5 /* IdentifiableClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4325E9D2210E6ADA00969CE5 /* IdentifiableClass.swift */; };
 		4325E9D5210E6B4400969CE5 /* UIColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4325E9D4210E6B4300969CE5 /* UIColor.swift */; };
@@ -177,6 +192,13 @@
 		27C335E721667C7C00CF0868 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		27C335EA21667C7C00CF0868 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		27C335EC21667C7C00CF0868 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		27E3C38F222EDF560036AAC7 /* LibreError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibreError.swift; sourceTree = "<group>"; };
+		27E3C392222EE2EC0036AAC7 /* Calibration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Calibration.swift; sourceTree = "<group>"; };
+		27E3C395222EE9450036AAC7 /* LibreOOPDefaults.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LibreOOPDefaults.swift; sourceTree = "<group>"; };
+		27E3C396222EE9450036AAC7 /* LibreOOPClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LibreOOPClient.swift; sourceTree = "<group>"; };
+		27E3C397222EE9450036AAC7 /* LibreOOPResponse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LibreOOPResponse.swift; sourceTree = "<group>"; };
+		27E3C39E222EE9A80036AAC7 /* LibreOOPWebExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LibreOOPWebExtensions.swift; sourceTree = "<group>"; };
+		27E3C3A1222EEDCD0036AAC7 /* DerivedAlgorithmParameters.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DerivedAlgorithmParameters.swift; sourceTree = "<group>"; };
 		4325E9CE210E6A0A00969CE5 /* HKUnit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HKUnit.swift; sourceTree = "<group>"; };
 		4325E9D2210E6ADA00969CE5 /* IdentifiableClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IdentifiableClass.swift; sourceTree = "<group>"; };
 		4325E9D4210E6B4300969CE5 /* UIColor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIColor.swift; sourceTree = "<group>"; };
@@ -282,12 +304,19 @@
 		2729D6A62220C1030030E1B8 /* LibreSensor */ = {
 			isa = PBXGroup;
 			children = (
+				27E3C39E222EE9A80036AAC7 /* LibreOOPWebExtensions.swift */,
+				27E3C396222EE9450036AAC7 /* LibreOOPClient.swift */,
+				27E3C395222EE9450036AAC7 /* LibreOOPDefaults.swift */,
+				27E3C397222EE9450036AAC7 /* LibreOOPResponse.swift */,
 				2729D68F221F44670030E1B8 /* SensorState.swift */,
 				2729D686221F43150030E1B8 /* SensorData.swift */,
 				2729D6A2221F44C70030E1B8 /* Data.swift */,
 				2729D68E221F44670030E1B8 /* SensorSerialNumber.swift */,
 				2729D68D221F44670030E1B8 /* CRC.swift */,
 				2729D68B221F44660030E1B8 /* Measurement.swift */,
+				27E3C38F222EDF560036AAC7 /* LibreError.swift */,
+				27E3C392222EE2EC0036AAC7 /* Calibration.swift */,
+				27E3C3A1222EEDCD0036AAC7 /* DerivedAlgorithmParameters.swift */,
 			);
 			path = LibreSensor;
 			sourceTree = "<group>";
@@ -672,10 +701,16 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				27E3C39F222EE9A80036AAC7 /* LibreOOPWebExtensions.swift in Sources */,
+				27E3C390222EDF560036AAC7 /* LibreError.swift in Sources */,
 				4325E9CF210E6A0A00969CE5 /* HKUnit.swift in Sources */,
+				27E3C39A222EE9450036AAC7 /* LibreOOPClient.swift in Sources */,
 				2729D69F221F44670030E1B8 /* SensorState.swift in Sources */,
 				2729D690221F44670030E1B8 /* TemperatureAlgorithmParameters.swift in Sources */,
+				27E3C398222EE9450036AAC7 /* LibreOOPDefaults.swift in Sources */,
+				27E3C393222EE2EC0036AAC7 /* Calibration.swift in Sources */,
 				27C335B82165667300CF0868 /* LibreGlucose.swift in Sources */,
+				27E3C3A2222EEDCD0036AAC7 /* DerivedAlgorithmParameters.swift in Sources */,
 				2729D69C221F44670030E1B8 /* SensorSerialNumber.swift in Sources */,
 				43A8EC9D210E68CE00A81379 /* MiaomiaoClientManager.swift in Sources */,
 				43AB51362133177800B3D58D /* LocalizedString.swift in Sources */,
@@ -688,6 +723,7 @@
 				2729D699221F44670030E1B8 /* CRC.swift in Sources */,
 				2729D6A3221F44C80030E1B8 /* Data.swift in Sources */,
 				2729D687221F43150030E1B8 /* SensorData.swift in Sources */,
+				27E3C39C222EE9450036AAC7 /* LibreOOPResponse.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -703,11 +739,19 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				27E3C3A3222EEDCD0036AAC7 /* DerivedAlgorithmParameters.swift in Sources */,
+				27E3C3A0222EE9A80036AAC7 /* LibreOOPWebExtensions.swift in Sources */,
 				43A8EC92210E676500A81379 /* MiaomiaoClientSettingsViewController.swift in Sources */,
 				2729D6A0221F44670030E1B8 /* SensorState.swift in Sources */,
 				2729D691221F44670030E1B8 /* TemperatureAlgorithmParameters.swift in Sources */,
 				4325E9D5210E6B4400969CE5 /* UIColor.swift in Sources */,
+				27E3C39D222EE9450036AAC7 /* LibreOOPResponse.swift in Sources */,
+				27E3C399222EE9450036AAC7 /* LibreOOPDefaults.swift in Sources */,
+				27E3C391222EDF560036AAC7 /* LibreError.swift in Sources */,
 				43A8EC97210E680100A81379 /* ShareService+UI.swift in Sources */,
+				27E3C394222EE2EC0036AAC7 /* Calibration.swift in Sources */,
+				27E3C3A4222F01030036AAC7 /* LibreGlucose.swift in Sources */,
+				27E3C39B222EE9450036AAC7 /* LibreOOPClient.swift in Sources */,
 				275B74962225CF23009CD5EB /* MiaoMiaoManager.swift in Sources */,
 				2729D69D221F44670030E1B8 /* SensorSerialNumber.swift in Sources */,
 				43AB51372133177800B3D58D /* LocalizedString.swift in Sources */,

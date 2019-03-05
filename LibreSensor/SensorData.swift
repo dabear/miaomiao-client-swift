@@ -98,11 +98,11 @@ public struct SensorData {
     /// Get array of 16 trend glucose measurements. 
     /// Each array is sorted such that the most recent value is at index 0 and corresponds to the time when the sensor was read, i.e. self.date. The following measurements are each one more minute behind, i.e. -1 minute, -2 mintes, -3 minutes, ... -15 minutes.
     ///
-    /// - parameter offset: offset in mg/dl that is added
-    /// - parameter slope:  slope in (mg/dl)/ raw
+    /// - parameter offset: offset in mg/dl that is added (NOT IN USE FOR DERIVEDALGO)
+    /// - parameter slope:  slope in (mg/dl)/ raw (NOT IN USE FOR DERIVEDALGO)
     ///
     /// - returns: Array of Measurements
-    func trendMeasurements(_ offset: Double = 0.0, slope: Double = 0.1) -> [Measurement] {
+    func trendMeasurements(_ offset: Double = 0.0, slope: Double = 0.1, derivedAlgorithmParameterSet: DerivedAlgorithmParameters?) -> [Measurement] {
         var measurements = [Measurement]()
         // Trend data is stored in body from byte 4 to byte 4+96=100 in units of 6 bytes. Index on data such that most recent block is first.
         for blockIndex in 0...15 {
@@ -113,7 +113,7 @@ public struct SensorData {
             let range = index..<index+6
             let measurementBytes = Array(body[range])
             let measurementDate = date.addingTimeInterval(Double(-60 * blockIndex))
-            let measurement = Measurement(bytes: measurementBytes, slope: slope, offset: offset, date: measurementDate, derivedAlgorithmParameterSet: nil)
+            let measurement = Measurement(bytes: measurementBytes, slope: slope, offset: offset, date: measurementDate, derivedAlgorithmParameterSet: derivedAlgorithmParameterSet)
             measurements.append(measurement)
         }
         return measurements
