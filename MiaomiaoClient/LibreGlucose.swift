@@ -9,6 +9,7 @@
 import Foundation
 import LoopKit
 import HealthKit
+
 public struct LibreGlucose {
     public let glucose: UInt16
     public let trend: UInt8

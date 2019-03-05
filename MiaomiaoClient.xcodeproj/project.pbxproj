@@ -78,7 +78,7 @@
 		27E3C3A0222EE9A80036AAC7 /* LibreOOPWebExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27E3C39E222EE9A80036AAC7 /* LibreOOPWebExtensions.swift */; };
 		27E3C3A2222EEDCD0036AAC7 /* DerivedAlgorithmParameters.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27E3C3A1222EEDCD0036AAC7 /* DerivedAlgorithmParameters.swift */; };
 		27E3C3A3222EEDCD0036AAC7 /* DerivedAlgorithmParameters.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27E3C3A1222EEDCD0036AAC7 /* DerivedAlgorithmParameters.swift */; };
-		27E3C3A4222F01030036AAC7 /* LibreGlucose.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43C418AE1CE0488900405B6A /* LibreGlucose.swift */; };
+		27E3C3A5222F03EF0036AAC7 /* LibreGlucose.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43C418AE1CE0488900405B6A /* LibreGlucose.swift */; };
 		4325E9CF210E6A0A00969CE5 /* HKUnit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4325E9CE210E6A0A00969CE5 /* HKUnit.swift */; };
 		4325E9D3210E6ADA00969CE5 /* IdentifiableClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4325E9D2210E6ADA00969CE5 /* IdentifiableClass.swift */; };
 		4325E9D5210E6B4400969CE5 /* UIColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4325E9D4210E6B4300969CE5 /* UIColor.swift */; };
@@ -739,6 +739,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				27E3C3A5222F03EF0036AAC7 /* LibreGlucose.swift in Sources */,
 				27E3C3A3222EEDCD0036AAC7 /* DerivedAlgorithmParameters.swift in Sources */,
 				27E3C3A0222EE9A80036AAC7 /* LibreOOPWebExtensions.swift in Sources */,
 				43A8EC92210E676500A81379 /* MiaomiaoClientSettingsViewController.swift in Sources */,
@@ -750,7 +751,6 @@
 				27E3C391222EDF560036AAC7 /* LibreError.swift in Sources */,
 				43A8EC97210E680100A81379 /* ShareService+UI.swift in Sources */,
 				27E3C394222EE2EC0036AAC7 /* Calibration.swift in Sources */,
-				27E3C3A4222F01030036AAC7 /* LibreGlucose.swift in Sources */,
 				27E3C39B222EE9450036AAC7 /* LibreOOPClient.swift in Sources */,
 				275B74962225CF23009CD5EB /* MiaoMiaoManager.swift in Sources */,
 				2729D69D221F44670030E1B8 /* SensorSerialNumber.swift in Sources */,
