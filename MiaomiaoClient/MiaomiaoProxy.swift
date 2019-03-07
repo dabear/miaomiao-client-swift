@@ -104,14 +104,14 @@ public final class MiaoMiaoProxy: MiaoMiaoManagerDelegate {
         if let calibrationdata = calibrationdata{
             NSLog("dabear:: calibrationdata loaded")
             
-            if calibrationdata.isValidForFooterWithReverseCRCs.byteSwapped == data.footerCrc {
+            if calibrationdata.isValidForFooterWithReverseCRCs == data.footerCrc.byteSwapped {
                 NSLog("dabear:: calibrationdata correct for this sensor, returning last values")
                 let last16 = data.trendMeasurements(derivedAlgorithmParameterSet: calibrationdata)
                 callback(nil, trendToLibreGlucose(last16) )
                 return
                 
             } else {
-                NSLog("dabear:: calibrationdata incorrect for this sensor")
+                NSLog("dabear:: calibrationdata incorrect for this sensor, calibrationdata.isValidForFooterWithReverseCRCs: \(calibrationdata.isValidForFooterWithReverseCRCs),  data.footerCrc.byteSwapped: \(data.footerCrc.byteSwapped)")
             }
             
         } else {
@@ -133,7 +133,8 @@ public final class MiaoMiaoProxy: MiaoMiaoManagerDelegate {
                 callback(LibreError.invalidCalibrationData, nil)
                 return
             }
-            
+            //here we assume success, data is not changed,
+            //and we trust that the remote endpoint returns correct data for the sensor
             let last16 = data.trendMeasurements(derivedAlgorithmParameterSet: calibrationdata)
             callback(nil, self?.trendToLibreGlucose(last16) )
             
