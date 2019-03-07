@@ -35,7 +35,7 @@ extension KeychainManager {
 }
 
 func calibrateSensor(_ sensordata: SensorData,  callback: @escaping (DerivedAlgorithmParameters?) -> Void) {
-    let accessToken = "TODO: FILL OUT ACCESSTOKEN FROM SETTINGS"
+    let accessToken = "todo"
     let libreOOPClient = LibreOOPClient(accessToken: accessToken)
     libreOOPClient.uploadCalibration(reading: sensordata.bytes, {calibrationResult, success, errormessage in
         guard success, let calibrationResult = calibrationResult else {

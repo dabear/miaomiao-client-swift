@@ -81,7 +81,7 @@ public final class MiaoMiaoProxy: MiaoMiaoManagerDelegate {
         var arr = [LibreGlucose]()
         
         for trend in measurements {
-            let glucose = LibreGlucose(glucose: UInt16(trend.temperatureAlgorithmGlucose.rounded().rawValue), trend: UInt8(GlucoseTrend.flat.rawValue), timestamp: trend.date, collector: "MiaoMiao")
+            let glucose = LibreGlucose(glucose: UInt16(trend.temperatureAlgorithmGlucose.rounded().rawValue), trend: UInt8(GlucoseTrend.flat.rawValue), timestamp: trend.date.rounded(on: 1, .second), collector: "MiaoMiao")
             arr.append(glucose)
         }
         
