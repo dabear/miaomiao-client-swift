@@ -76,7 +76,7 @@ public class MiaomiaoClientManager: CGMManager {
 
     public let providesBLEHeartbeat = false
 
-    public let shouldSyncToRemoteService = false
+    public let shouldSyncToRemoteService = true
 
     /*public var sensorState: SensorDisplayable? {
         return latestBackfill
