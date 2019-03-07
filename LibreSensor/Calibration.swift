@@ -39,6 +39,7 @@ func calibrateSensor(_ sensordata: SensorData,  callback: @escaping (DerivedAlgo
         guard success, let calibrationResult = calibrationResult else {
             
             NSLog("remote: upload calibration failed! \(errormessage)")
+            callback(nil)
             return
         }
         NSLog("uuid received: " + calibrationResult.uuid)
