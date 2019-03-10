@@ -8,7 +8,7 @@
 
 import Foundation
 
-extension Date {
+public extension Date {
     
     func rounded(on amount: Int, _ component: Calendar.Component) -> Date {
         let cal = Calendar.current
