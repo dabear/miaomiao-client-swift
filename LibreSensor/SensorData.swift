@@ -70,7 +70,9 @@ public struct SensorData {
             return nil
         }
         self.bytes = bytes
-        self.date = date
+        // we don't actually know when this reading was done, only that
+        // it was produced within the last minute
+        self.date = date.rounded(on: 1, .minute)
         
         let headerRange =   0..<24   //  24 bytes, i.e.  3 blocks a 8 bytes
         let bodyRange   =  24..<320  // 296 bytes, i.e. 37 blocks a 8 bytes
