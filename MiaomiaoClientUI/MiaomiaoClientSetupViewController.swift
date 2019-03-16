@@ -14,10 +14,10 @@ import MiaomiaoClient
 class MiaomiaoClientSetupViewController: UINavigationController, CGMManagerSetupViewController {
     var setupDelegate: CGMManagerSetupViewControllerDelegate?
 
-    let cgmManager = MiaoMiaoClientManager()
+    let cgmManager = MiaomiaoClientManager()
 
     init() {
-        let authVC = AuthenticationViewController(authentication: MiaoMiaoClientManager.miaomiaoService)
+        let authVC = AuthenticationViewController(authentication: MiaomiaoClientManager.miaomiaoService)
 
         super.init(rootViewController: authVC)
 
