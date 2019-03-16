@@ -8,22 +8,140 @@
 
 import Foundation
 import LoopKit
-import os.log
+import LoopKitUI
 
-public final class MiaoMiaoProxy: MiaoMiaoManagerDelegate {
-    public private(set) var lastConnected : Date?
+import os.log
+import HealthKit
+
+public final class MiaoMiaoClientManager: CGMManager, MiaoMiaoBluetoothManagerDelegate {
+    public var sensorState: SensorDisplayable?
     
-    private var lastValidSensorData : SensorData? = nil
+    public var managedDataInterval: TimeInterval?
+    
+    public var device: HKDevice? {
+        
+        return HKDevice(
+            name: "MiaomiaoClient",
+            manufacturer: "Tomato",
+            model: nil, //latestSpikeCollector,
+            hardwareVersion: hardwareVersion,
+            firmwareVersion: firmwareVersion,
+            softwareVersion: nil,
+            localIdentifier: nil,
+            udiDeviceIdentifier: nil
+        )
+    }
+    
+    public var debugDescription: String {
+        
+        return [
+            "## MiaomiaoClientManager",
+            "Testdata: foo",
+            "lastConnected: \(String(describing: lastConnected))",
+            "Connection state: \(connectionState)",
+            "Sensor state: \(sensorStateDescription)",
+            "bridge battery: \(battery)",
+            //"latestBackfill: \(String(describing: "latestBackfill))",
+            //"latestCollector: \(String(describing: latestSpikeCollector))",
+            ""
+            ].joined(separator: "\n")
+    }
+    
+    private static var sharedInstance: MiaomiaoService?
+    public class var miaomiaoService : MiaomiaoService {
+        guard let sharedInstance = self.sharedInstance else {
+            let sharedInstance = MiaomiaoService()
+            self.sharedInstance = sharedInstance
+            return sharedInstance
+        }
+        return sharedInstance
+    }
+    
+    public func fetchNewDataIfNeeded(_ completion: @escaping (CGMResult) -> Void) {
+        guard proxy != nil else {
+            completion(.noData)
+            return
+        }
+        NSLog("dabear:: fetchNewDataIfNeeded called but we don't continue")
+        self.autoconnect()
+        completion(.noData)
+        /*
+        self.getLastSensorValues { (error, glucose) in
+            if let error = error {
+                NSLog("dabear:: getLastSensorValues returned with error")
+                completion(.error(error))
+                return
+            }
+            
+            guard let glucose = glucose else {
+                NSLog("dabear:: getLastSensorValues returned with no data")
+                completion(.noData)
+                return
+            }
+            
+            let startDate = self.latestBackfill?.startDate
+            let newGlucose = glucose.filterDateRange(startDate, nil).filter({ $0.isStateValid }).map {
+                return NewGlucoseSample(date: $0.startDate, quantity: $0.quantity, isDisplayOnly: false, syncIdentifier: "\(Int($0.startDate.timeIntervalSince1970))", device: self.device)
+            }
+            
+            self.latestBackfill = glucose.first
+            
+            if newGlucose.count > 0 {
+                completion(.newData(newGlucose))
+            } else {
+                completion(.noData)
+            }
+            
+        } */
+    }
+    
+    
+    
+    public private(set) var lastConnected : Date?
+   
+    public private(set) var latestBackfill: LibreGlucose?
+    public static var managerIdentifier = "DexMiaomiaoClient1"
+    
+    required convenience public init?(rawState: CGMManager.RawStateValue) {
+        os_log("dabear:: MiaomiaoClientManager will init from rawstate")
+        self.init()
+    }
+    
+    public var rawState: CGMManager.RawStateValue {
+        return [:]
+    }
     
     private let keychain = KeychainManager()
     
-    private var proxy : MiaoMiaoManager?
+    //public var miaomiaoService: MiaomiaoService
+    
+    public static let localizedTitle = LocalizedString("Miaomiao", comment: "Title for the CGMManager option")
+    
+    public let appURL: URL? = nil //URL(string: "spikeapp://")
+    
+    weak public var cgmManagerDelegate: CGMManagerDelegate?
+    
+    public let providesBLEHeartbeat = false
+    
+    public let shouldSyncToRemoteService = true
+
+    
+    private var lastValidSensorData : SensorData? = nil
+    
+    
+    
+    private var proxy : MiaoMiaoBluetoothManager?
     public init(){
         lastConnected = nil
-        os_log("dabear: miaomiaomanager will be created now")
-        proxy = MiaoMiaoManager()
-        proxy?.delegate = self
-        //proxy?.connect()
+        
+        if !(self is CGMManagerUI) {
+            os_log("dabear: miaomiaomanager will be created now")
+            proxy = MiaoMiaoBluetoothManager()
+            proxy?.delegate = self
+            //proxy?.connect()
+        }
+        
+        
     }
     
     public var connectionState : String {
@@ -31,7 +149,7 @@ public final class MiaoMiaoProxy: MiaoMiaoManagerDelegate {
         
     }
     
-    public var sensorState : String {
+    public var sensorStateDescription : String {
         return proxy?.sensorData?.state.description ?? "n/a"
     }
     
@@ -149,7 +267,7 @@ public final class MiaoMiaoProxy: MiaoMiaoManagerDelegate {
     
    
     
-    public func miaoMiaoManagerPeripheralStateChanged(_ state: MiaoMiaoManagerState) {
+    public func miaoMiaoBluetoothManagerPeripheralStateChanged(_ state: MiaoMiaoManagerState) {
         switch state {
         case .Connected:
             lastConnected = Date()
@@ -159,7 +277,7 @@ public final class MiaoMiaoProxy: MiaoMiaoManagerDelegate {
         return
     }
     
-    public func miaoMiaoManagerReceivedMessage(_ messageIdentifier: UInt16, txFlags: UInt8, payloadData: Data) {
+    public func miaoMiaoBluetoothManagerReceivedMessage(_ messageIdentifier: UInt16, txFlags: UInt8, payloadData: Data) {
         guard let packet = MiaoMiaoResponseState.init(rawValue: txFlags) else {
             // Incomplete package?
             // this would only happen if delegate is called manually with an unknown txFlags value
@@ -186,18 +304,53 @@ public final class MiaoMiaoProxy: MiaoMiaoManagerDelegate {
         
     }
     
-    public func miaoMiaoManagerDidUpdateSensorAndMiaoMiao(sensorData: SensorData, miaoMiao: MiaoMiao) {
+    public func miaoMiaoBluetoothManagerDidUpdateSensorAndMiaoMiao(sensorData: SensorData, miaoMiao: MiaoMiao) {
         if sensorData.hasValidCRCs {
             
             if sensorData.state == .ready ||  sensorData.state == .starting {
                 os_log("got sensordata with valid crcs, sensor was ready")
                 self.lastValidSensorData = sensorData
+                
+                self.getLastSensorValues { (error, glucose) in
+                    if let error = error {
+                        NSLog("dabear:: getLastSensorValues returned with error")
+                        
+                        self.cgmManagerDelegate?.cgmManager(self, didUpdateWith: .error(error))
+                        return
+                    }
+                    
+                    guard let glucose = glucose else {
+                        NSLog("dabear:: getLastSensorValues returned with no data")
+                        self.cgmManagerDelegate?.cgmManager(self, didUpdateWith: .noData)
+                        
+                        return
+                    }
+                    
+                    let startDate = self.latestBackfill?.startDate
+                    let newGlucose = glucose.filterDateRange(startDate, nil).filter({ $0.isStateValid }).map {
+                        return NewGlucoseSample(date: $0.startDate, quantity: $0.quantity, isDisplayOnly: false, syncIdentifier: "\(Int($0.startDate.timeIntervalSince1970))", device: self.device)
+                    }
+                    
+                    self.latestBackfill = glucose.first
+                    
+                    if newGlucose.count > 0 {
+                        self.cgmManagerDelegate?.cgmManager(self, didUpdateWith: .newData(newGlucose))
+                        
+                    } else {
+                        self.cgmManagerDelegate?.cgmManager(self, didUpdateWith: .noData)
+                        
+                    }
+                    
+                }
+                
             } else {
                 os_log("got sensordata with valid crcs, but sensor is either expired or failed")
+                self.cgmManagerDelegate?.cgmManager(self, didUpdateWith: .error(LibreError.expiredSensor))
             }
             
             
         } else {
+            self.cgmManagerDelegate?.cgmManager(self, didUpdateWith: .error(LibreError.checksumValidationError))
             os_log("dit not get sensordata with valid crcs")
         }
         return
