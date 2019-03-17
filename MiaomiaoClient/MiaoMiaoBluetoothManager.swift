@@ -192,13 +192,13 @@ extension MiaoMiaoResponseState: CustomStringConvertible {
     }
 }
 
-protocol MiaoMiaoManagerDelegate {
-    func miaoMiaoManagerPeripheralStateChanged(_ state: MiaoMiaoManagerState)
-    func miaoMiaoManagerReceivedMessage(_ messageIdentifier:UInt16, txFlags:UInt8, payloadData:Data)
-    func miaoMiaoManagerDidUpdateSensorAndMiaoMiao(sensorData: SensorData, miaoMiao: MiaoMiao) -> Void
+protocol MiaoMiaoBluetoothManagerDelegate {
+    func miaoMiaoBluetoothManagerPeripheralStateChanged(_ state: MiaoMiaoManagerState)
+    func miaoMiaoBluetoothManagerReceivedMessage(_ messageIdentifier:UInt16, txFlags:UInt8, payloadData:Data)
+    func miaoMiaoBluetoothManagerDidUpdateSensorAndMiaoMiao(sensorData: SensorData, miaoMiao: MiaoMiao) -> Void
 }
 
-final class MiaoMiaoManager: NSObject, CBCentralManagerDelegate, CBPeripheralDelegate {
+final class MiaoMiaoBluetoothManager: NSObject, CBCentralManagerDelegate, CBPeripheralDelegate {
     
     // MARK: - Properties
     private var wantsToTerminate = false
@@ -221,17 +221,17 @@ final class MiaoMiaoManager: NSObject, CBCentralManagerDelegate, CBPeripheralDel
     var BLEScanDuration = 3.0
     weak var timer: Timer?
     
-    var delegate: MiaoMiaoManagerDelegate? {
+    var delegate: MiaoMiaoBluetoothManagerDelegate? {
         didSet {
             // Help delegate initialize by sending current state directly after delegate assignment
-            delegate?.miaoMiaoManagerPeripheralStateChanged(state)
+            delegate?.miaoMiaoBluetoothManagerPeripheralStateChanged(state)
         }
     }
     
     var state: MiaoMiaoManagerState = .Unassigned {
         didSet {
             // Help delegate initialize by sending current state directly after delegate assignment
-            delegate?.miaoMiaoManagerPeripheralStateChanged(state)
+            delegate?.miaoMiaoBluetoothManagerPeripheralStateChanged(state)
         }
     }
     
@@ -241,15 +241,15 @@ final class MiaoMiaoManager: NSObject, CBCentralManagerDelegate, CBPeripheralDel
         super.init()
         centralManager = CBCentralManager(delegate: self, queue: nil, options: nil)
         //        slipBuffer.delegate = self
-        os_log("miaomiaomanager init called ", log: MiaoMiaoManager.bt_log)
+        os_log("miaomiaomanager init called ", log: MiaoMiaoBluetoothManager.bt_log)
         
     }
     
     func scanForMiaoMiao() {
-        os_log("Scan for MiaoMiao while state %{public}@", log: MiaoMiaoManager.bt_log, type: .default, String(describing: state))
+        os_log("Scan for MiaoMiao while state %{public}@", log: MiaoMiaoBluetoothManager.bt_log, type: .default, String(describing: state))
         //        print(centralManager.debugDescription)
         if centralManager.state == .poweredOn {
-            os_log("Before scan for MiaoMiao while central manager state %{public}@", log: MiaoMiaoManager.bt_log, type: .default, String(describing: centralManager.state.rawValue))
+            os_log("Before scan for MiaoMiao while central manager state %{public}@", log: MiaoMiaoBluetoothManager.bt_log, type: .default, String(describing: centralManager.state.rawValue))
             
             centralManager.scanForPeripherals(withServices: nil, options: nil)
             
@@ -268,7 +268,7 @@ final class MiaoMiaoManager: NSObject, CBCentralManagerDelegate, CBPeripheralDel
     }
     
     func connect() {
-        os_log("Connect while state %{public}@", log: MiaoMiaoManager.bt_log, type: .default, String(describing: state.rawValue))
+        os_log("Connect while state %{public}@", log: MiaoMiaoBluetoothManager.bt_log, type: .default, String(describing: state.rawValue))
         if let peripheral = peripheral {
             peripheral.delegate = self
             centralManager.stopScan()
@@ -278,7 +278,7 @@ final class MiaoMiaoManager: NSObject, CBCentralManagerDelegate, CBPeripheralDel
     }
     
     func disconnectManually() {
-        os_log("Disconnect manually while state %{public}@", log: MiaoMiaoManager.bt_log, type: .default, String(describing: state.rawValue))
+        os_log("Disconnect manually while state %{public}@", log: MiaoMiaoBluetoothManager.bt_log, type: .default, String(describing: state.rawValue))
         //        NotificationManager.scheduleDebugNotification(message: "Timer fired in Background", wait: 3)
         //        _ = Timer(timeInterval: 150, repeats: false, block: {timer in NotificationManager.scheduleDebugNotification(message: "Timer fired in Background", wait: 0.5)})
         
@@ -289,7 +289,7 @@ final class MiaoMiaoManager: NSObject, CBCentralManagerDelegate, CBPeripheralDel
             self.wantsToTerminate = true
         case .Scanning:
             self.state = .DisconnectingDueToButtonPress  // to avoid reconnect in didDisconnetPeripheral
-             os_log("stopping scan", log: MiaoMiaoManager.bt_log, type: .default)
+             os_log("stopping scan", log: MiaoMiaoBluetoothManager.bt_log, type: .default)
             centralManager.stopScan()
             self.wantsToTerminate = true
             // at this point, the peripherial is not connected and therefore not available either
@@ -307,18 +307,18 @@ final class MiaoMiaoManager: NSObject, CBCentralManagerDelegate, CBPeripheralDel
     
     func centralManagerDidUpdateState(_ central: CBCentralManager) {
         
-        os_log("Central Manager did update state to %{public}@", log: MiaoMiaoManager.bt_log, type: .default, String(describing: central.state.rawValue))
+        os_log("Central Manager did update state to %{public}@", log: MiaoMiaoBluetoothManager.bt_log, type: .default, String(describing: central.state.rawValue))
         
         
         switch central.state {
         case .poweredOff, .resetting, .unauthorized, .unknown, .unsupported:
-            os_log("Central Manager was either .poweredOff, .resetting, .unauthorized, .unknown, .unsupported: %{public}@", log: MiaoMiaoManager.bt_log, type: .default, String(describing: central.state))
+            os_log("Central Manager was either .poweredOff, .resetting, .unauthorized, .unknown, .unsupported: %{public}@", log: MiaoMiaoBluetoothManager.bt_log, type: .default, String(describing: central.state))
             state = .Unassigned
         case .poweredOn:
             if state == .DisconnectingDueToButtonPress {
-                os_log("Central Manager was powered on but sensorstate was DisconnectingDueToButtonPress:  %{public}@", log: MiaoMiaoManager.bt_log, type: .default, String(describing: central.state))
+                os_log("Central Manager was powered on but sensorstate was DisconnectingDueToButtonPress:  %{public}@", log: MiaoMiaoBluetoothManager.bt_log, type: .default, String(describing: central.state))
             } else {
-                os_log("Central Manager was powered on, scanningformiaomiao: state: %{public}@", log: MiaoMiaoManager.bt_log, type: .default, String(describing: state))
+                os_log("Central Manager was powered on, scanningformiaomiao: state: %{public}@", log: MiaoMiaoBluetoothManager.bt_log, type: .default, String(describing: state))
                 scanForMiaoMiao() // power was switched on, while app is running -> reconnect.
             }
             
@@ -328,7 +328,7 @@ final class MiaoMiaoManager: NSObject, CBCentralManagerDelegate, CBPeripheralDel
     
     func centralManager(_ central: CBCentralManager, didDiscover peripheral: CBPeripheral, advertisementData: [String : Any], rssi RSSI: NSNumber) {
         
-        os_log("Did discover peripheral while state %{public}@ with name: %{public}@, wantstoterminate?:  %d", log: MiaoMiaoManager.bt_log, type: .default, String(describing: state.rawValue), String(describing: peripheral.name), self.wantsToTerminate)
+        os_log("Did discover peripheral while state %{public}@ with name: %{public}@, wantstoterminate?:  %d", log: MiaoMiaoBluetoothManager.bt_log, type: .default, String(describing: state.rawValue), String(describing: peripheral.name), self.wantsToTerminate)
         
         
         
@@ -341,7 +341,7 @@ final class MiaoMiaoManager: NSObject, CBCentralManagerDelegate, CBPeripheralDel
     
     func centralManager(_ central: CBCentralManager, didConnect peripheral: CBPeripheral) {
         
-        os_log("Did connect peripheral while state %{public}@ with name: %{public}@", log: MiaoMiaoManager.bt_log, type: .default, String(describing: state.rawValue), String(describing: peripheral.name))
+        os_log("Did connect peripheral while state %{public}@ with name: %{public}@", log: MiaoMiaoBluetoothManager.bt_log, type: .default, String(describing: state.rawValue), String(describing: peripheral.name))
         state = .Connected
         // Discover all Services. This might be helpful if writing is needed some time
         peripheral.discoverServices(nil)
@@ -349,9 +349,9 @@ final class MiaoMiaoManager: NSObject, CBCentralManagerDelegate, CBPeripheralDel
     
     func centralManager(_ central: CBCentralManager, didFailToConnect peripheral: CBPeripheral, error: Error?) {
         
-        os_log("Did fail to connect peripheral while state: %{public}@", log: MiaoMiaoManager.bt_log, type: .default, String(describing: state.rawValue))
+        os_log("Did fail to connect peripheral while state: %{public}@", log: MiaoMiaoBluetoothManager.bt_log, type: .default, String(describing: state.rawValue))
         if let error = error {
-            os_log("Did fail to connect peripheral error: %{public}@", log: MiaoMiaoManager.bt_log, type: .error ,  "\(error.localizedDescription)")
+            os_log("Did fail to connect peripheral error: %{public}@", log: MiaoMiaoBluetoothManager.bt_log, type: .error ,  "\(error.localizedDescription)")
         }
         state = .Disconnected
     }
@@ -359,9 +359,9 @@ final class MiaoMiaoManager: NSObject, CBCentralManagerDelegate, CBPeripheralDel
     func centralManager(_ central: CBCentralManager, didDisconnectPeripheral peripheral: CBPeripheral, error: Error?) {
         
         
-        os_log("Did disconnect peripheral while state: %{public}@", log: MiaoMiaoManager.bt_log, type: .default, String(describing: state.rawValue))
+        os_log("Did disconnect peripheral while state: %{public}@", log: MiaoMiaoBluetoothManager.bt_log, type: .default, String(describing: state.rawValue))
         if let error = error {
-            os_log("Did disconnect peripheral error: %{public}@", log: MiaoMiaoManager.bt_log, type: .error ,  "\(error.localizedDescription)")
+            os_log("Did disconnect peripheral error: %{public}@", log: MiaoMiaoBluetoothManager.bt_log, type: .error ,  "\(error.localizedDescription)")
         }
         
         
@@ -389,9 +389,9 @@ final class MiaoMiaoManager: NSObject, CBCentralManagerDelegate, CBPeripheralDel
     
     func peripheral(_ peripheral: CBPeripheral, didDiscoverServices error: Error?) {
         
-        os_log("Did discover services", log: MiaoMiaoManager.bt_log, type: .default)
+        os_log("Did discover services", log: MiaoMiaoBluetoothManager.bt_log, type: .default)
         if let error = error {
-            os_log("Did discover services error: %{public}@", log: MiaoMiaoManager.bt_log, type: .error ,  "\(error.localizedDescription)")
+            os_log("Did discover services error: %{public}@", log: MiaoMiaoBluetoothManager.bt_log, type: .error ,  "\(error.localizedDescription)")
         }
         
         
@@ -400,7 +400,7 @@ final class MiaoMiaoManager: NSObject, CBCentralManagerDelegate, CBPeripheralDel
             for service in services {
                 peripheral.discoverCharacteristics(nil, for: service)
                 
-                os_log("Did discover service: %{public}@", log: MiaoMiaoManager.bt_log, type: .default, String(describing: service.debugDescription))
+                os_log("Did discover service: %{public}@", log: MiaoMiaoBluetoothManager.bt_log, type: .default, String(describing: service.debugDescription))
             }
         }
     }
@@ -408,15 +408,15 @@ final class MiaoMiaoManager: NSObject, CBCentralManagerDelegate, CBPeripheralDel
     
     func peripheral(_ peripheral: CBPeripheral, didDiscoverCharacteristicsFor service: CBService, error: Error?) {
         
-        os_log("Did discover characteristics for service %{public}@", log: MiaoMiaoManager.bt_log, type: .default, String(describing: peripheral.name))
+        os_log("Did discover characteristics for service %{public}@", log: MiaoMiaoBluetoothManager.bt_log, type: .default, String(describing: peripheral.name))
         
         if let error = error {
-            os_log("Did discover characteristics for service error: %{public}@", log: MiaoMiaoManager.bt_log, type: .error ,  "\(error.localizedDescription)")
+            os_log("Did discover characteristics for service error: %{public}@", log: MiaoMiaoBluetoothManager.bt_log, type: .error ,  "\(error.localizedDescription)")
         }
         
         if let characteristics = service.characteristics {
             for characteristic in characteristics {
-                os_log("Did discover characteristic: %{public}@", log: MiaoMiaoManager.bt_log, type: .default, String(describing: characteristic.debugDescription))
+                os_log("Did discover characteristic: %{public}@", log: MiaoMiaoBluetoothManager.bt_log, type: .default, String(describing: characteristic.debugDescription))
                 //                print("Characteristic: ")
                 //                debugPrint(characteristic.debugDescription)
                 //                print("... with properties: ")
@@ -440,24 +440,24 @@ final class MiaoMiaoManager: NSObject, CBCentralManagerDelegate, CBPeripheralDel
                 // Choose the notifiying characteristic and Register to be notified whenever the MiaoMiao transmits
                 if (characteristic.properties.intersection(.notify)) == .notify && characteristic.uuid == CBUUID(string: "6E400003-B5A3-F393-E0A9-E50E24DCCA9E") {
                     peripheral.setNotifyValue(true, for: characteristic)
-                    os_log("Set notify value for this characteristic", log: MiaoMiaoManager.bt_log, type: .default)
+                    os_log("Set notify value for this characteristic", log: MiaoMiaoBluetoothManager.bt_log, type: .default)
                 }
                 if (characteristic.uuid == CBUUID(string: "6E400002-B5A3-F393-E0A9-E50E24DCCA9E")) {
                     writeCharacteristic = characteristic
                 }
             }
         } else {
-            os_log("Discovered characteristics, but no characteristics listed. There must be some error.", log: MiaoMiaoManager.bt_log, type: .default)
+            os_log("Discovered characteristics, but no characteristics listed. There must be some error.", log: MiaoMiaoBluetoothManager.bt_log, type: .default)
         }
     }
     
     
     func peripheral(_ peripheral: CBPeripheral, didUpdateNotificationStateFor characteristic: CBCharacteristic, error: Error?) {
         
-        os_log("Did update notification state for characteristic: %{public}@", log: MiaoMiaoManager.bt_log, type: .default, String(describing: characteristic.debugDescription))
+        os_log("Did update notification state for characteristic: %{public}@", log: MiaoMiaoBluetoothManager.bt_log, type: .default, String(describing: characteristic.debugDescription))
         
         if let error = error {
-            os_log("Peripheral did update notification state for characteristic: %{public}@ with error", log: MiaoMiaoManager.bt_log, type: .error ,  "\(error.localizedDescription)")
+            os_log("Peripheral did update notification state for characteristic: %{public}@ with error", log: MiaoMiaoBluetoothManager.bt_log, type: .error ,  "\(error.localizedDescription)")
         } else {
             resetBuffer()
             requestData()
@@ -466,15 +466,15 @@ final class MiaoMiaoManager: NSObject, CBCentralManagerDelegate, CBPeripheralDel
     }
     
     func peripheral(_ peripheral: CBPeripheral, didUpdateValueFor characteristic: CBCharacteristic, error: Error?) {
-        os_log("Did update value for characteristic: %{public}@", log: MiaoMiaoManager.bt_log, type: .default, String(describing: characteristic.debugDescription))
+        os_log("Did update value for characteristic: %{public}@", log: MiaoMiaoBluetoothManager.bt_log, type: .default, String(describing: characteristic.debugDescription))
         
         if let error = error {
-            os_log("Characteristic update error: %{public}@", log: MiaoMiaoManager.bt_log, type: .error ,  "\(error.localizedDescription)")
+            os_log("Characteristic update error: %{public}@", log: MiaoMiaoBluetoothManager.bt_log, type: .error ,  "\(error.localizedDescription)")
         } else {
             if characteristic.uuid == CBUUID(string: "6E400003-B5A3-F393-E0A9-E50E24DCCA9E"), let value = characteristic.value {
                 
                 rxBuffer.append(value)
-                os_log("Appended value with length %{public}@, buffer length is: %{public}@", log: MiaoMiaoManager.bt_log, type: .default, String(describing: value.count), String(describing: rxBuffer.count))
+                os_log("Appended value with length %{public}@, buffer length is: %{public}@", log: MiaoMiaoBluetoothManager.bt_log, type: .default, String(describing: value.count), String(describing: rxBuffer.count))
                 
                 if let firstByte = rxBuffer.first {
                     miaoMiaoResponseState = MiaoMiaoResponseState(rawValue: firstByte)
@@ -486,24 +486,24 @@ final class MiaoMiaoManager: NSObject, CBCentralManagerDelegate, CBPeripheralDel
                             // Any old buffer is invalidated and a new buffer created with every reception of data
                             timer?.invalidate()
                             timer = Timer.scheduledTimer(withTimeInterval: 8, repeats: false) { _ in
-                                os_log("********** MiaoMiaoManagertimer fired **********", log: MiaoMiaoManager.bt_log, type: .default)
+                                os_log("********** MiaoMiaoManagertimer fired **********", log: MiaoMiaoBluetoothManager.bt_log, type: .default)
                                 if self.rxBuffer.count >= 364 {
                                     // buffer large enough and can be used
-                                    os_log("Buffer incomplete but large enough, inform delegate.", log: MiaoMiaoManager.bt_log, type: .default)
-                                    self.delegate?.miaoMiaoManagerReceivedMessage(0x0000, txFlags: 0x29, payloadData: self.rxBuffer)
+                                    os_log("Buffer incomplete but large enough, inform delegate.", log: MiaoMiaoBluetoothManager.bt_log, type: .default)
+                                    self.delegate?.miaoMiaoBluetoothManagerReceivedMessage(0x0000, txFlags: 0x29, payloadData: self.rxBuffer)
                                     self.handleCompleteMessage()
                                     
                                     self.rxBuffer = Data()  // reset buffer, once completed and delegate is informed
                                 } else {
                                     // buffer not large enough and has to be reset
-                                    os_log("Buffer incomplete and not large enough, reset buffer and request new data, again", log: MiaoMiaoManager.bt_log, type: .default)
+                                    os_log("Buffer incomplete and not large enough, reset buffer and request new data, again", log: MiaoMiaoBluetoothManager.bt_log, type: .default)
                                     self.requestData()
                                 }
                             }
                             
                             if rxBuffer.count >= 363 && rxBuffer.last! == 0x29 {
-                                os_log("Buffer complete, inform delegate.", log: MiaoMiaoManager.bt_log, type: .default)
-                                delegate?.miaoMiaoManagerReceivedMessage(0x0000, txFlags: 0x28, payloadData: rxBuffer)
+                                os_log("Buffer complete, inform delegate.", log: MiaoMiaoBluetoothManager.bt_log, type: .default)
+                                delegate?.miaoMiaoBluetoothManagerReceivedMessage(0x0000, txFlags: 0x28, payloadData: rxBuffer)
                                 handleCompleteMessage()
                                 rxBuffer = Data()  // reset buffer, once completed and delegate is informed
                                 timer?.invalidate()
@@ -516,23 +516,23 @@ final class MiaoMiaoManager: NSObject, CBCentralManagerDelegate, CBPeripheralDel
                             // if data is not complete after 10 seconds: use anyways, if long enough, do not use if not long enough and reset buffer in both cases.
                             
                         case .newSensor: // 0x32: // A new sensor has been detected -> acknowledge to use sensor and reset buffer
-                            delegate?.miaoMiaoManagerReceivedMessage(0x0000, txFlags: 0x32, payloadData: rxBuffer)
+                            delegate?.miaoMiaoBluetoothManagerReceivedMessage(0x0000, txFlags: 0x32, payloadData: rxBuffer)
                             if let writeCharacteristic = writeCharacteristic {
                                 peripheral.writeValue(Data.init(bytes: [0xD3, 0x01]), for: writeCharacteristic, type: .withResponse)
                             }
                             rxBuffer = Data()
                         case .noSensor: // 0x34: // No sensor has been detected -> reset buffer (and wait for new data to arrive)
-                            delegate?.miaoMiaoManagerReceivedMessage(0x0000, txFlags: 0x34, payloadData: rxBuffer)
+                            delegate?.miaoMiaoBluetoothManagerReceivedMessage(0x0000, txFlags: 0x34, payloadData: rxBuffer)
                             rxBuffer = Data()
                         case .frequencyChangedResponse: // 0xD1: // Success of fail for setting time intervall
-                            delegate?.miaoMiaoManagerReceivedMessage(0x0000, txFlags: 0xD1, payloadData: rxBuffer)
+                            delegate?.miaoMiaoBluetoothManagerReceivedMessage(0x0000, txFlags: 0xD1, payloadData: rxBuffer)
                             if rxBuffer.count >= 2 {
                                 if rxBuffer[2] == 0x01 {
-                                    os_log("Success setting time interval.", log: MiaoMiaoManager.bt_log, type: .default)
+                                    os_log("Success setting time interval.", log: MiaoMiaoBluetoothManager.bt_log, type: .default)
                                 } else if rxBuffer[2] == 0x00 {
-                                    os_log("Failure setting time interval.", log: MiaoMiaoManager.bt_log, type: .default)
+                                    os_log("Failure setting time interval.", log: MiaoMiaoBluetoothManager.bt_log, type: .default)
                                 } else {
-                                    os_log("Unkown response for setting time interval.", log: MiaoMiaoManager.bt_log, type: .default)
+                                    os_log("Unkown response for setting time interval.", log: MiaoMiaoBluetoothManager.bt_log, type: .default)
                                 }
                             }
                             rxBuffer = Data()
@@ -543,7 +543,7 @@ final class MiaoMiaoManager: NSObject, CBCentralManagerDelegate, CBPeripheralDel
                     }
                 } else {
                     // any other data (e.g. partial response ...)
-                    delegate?.miaoMiaoManagerReceivedMessage(0x0000, txFlags: 0x99, payloadData: rxBuffer)
+                    delegate?.miaoMiaoBluetoothManagerReceivedMessage(0x0000, txFlags: 0x99, payloadData: rxBuffer)
                     rxBuffer = Data() // reset buffer, since no valid response
                 }
             }
@@ -552,7 +552,7 @@ final class MiaoMiaoManager: NSObject, CBCentralManagerDelegate, CBPeripheralDel
     
     
     func peripheral(_ peripheral: CBPeripheral, didWriteValueFor characteristic: CBCharacteristic, error: Error?) {
-        os_log("Did Write value %{public}@ for characteristic %{public}@", log: MiaoMiaoManager.bt_log, type: .default, String(characteristic.value.debugDescription), String(characteristic.debugDescription))
+        os_log("Did Write value %{public}@ for characteristic %{public}@", log: MiaoMiaoBluetoothManager.bt_log, type: .default, String(characteristic.value.debugDescription), String(characteristic.debugDescription))
     }
     
     // Miaomiao specific commands
@@ -610,7 +610,7 @@ final class MiaoMiaoManager: NSObject, CBCentralManagerDelegate, CBPeripheralDel
         
         
         // Inform delegate that new data is available
-        delegate?.miaoMiaoManagerDidUpdateSensorAndMiaoMiao(sensorData: sensorData!, miaoMiao: miaoMiao)
+        delegate?.miaoMiaoBluetoothManagerDidUpdateSensorAndMiaoMiao(sensorData: sensorData!, miaoMiao: miaoMiao)
         
         
         
