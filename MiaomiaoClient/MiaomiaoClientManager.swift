@@ -10,7 +10,7 @@ import HealthKit
 import os.log
 
 
-public class MiaomiaoClientManager: CGMManager {
+/*public class MiaomiaoClientManagerOld: CGMManager {
     public var sensorState: SensorDisplayable?
     public private(set) var latestBackfill: LibreGlucose?
     public static var managerIdentifier = "DexMiaomiaoClient1"
@@ -189,3 +189,4 @@ public class MiaomiaoClientManager: CGMManager {
         ].joined(separator: "\n")
     }
 }
+*/
