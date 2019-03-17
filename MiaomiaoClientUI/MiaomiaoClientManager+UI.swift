@@ -10,7 +10,7 @@ import HealthKit
 import MiaomiaoClient
 
 
-extension MiaoMiaoClientManager: CGMManagerUI {
+extension MiaomiaoClientManager: CGMManagerUI {
     public static func setupViewController() -> (UIViewController & CGMManagerSetupViewController)? {
         return MiaomiaoClientSetupViewController()
     }

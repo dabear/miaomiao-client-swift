@@ -14,13 +14,13 @@ import MiaomiaoClient
 
 public class MiaomiaoClientSettingsViewController: UITableViewController {
 
-    public let cgmManager: MiaoMiaoClientManager
+    public let cgmManager: MiaomiaoClientManager
 
     public let glucoseUnit: HKUnit
 
     public let allowsDeletion: Bool
 
-    public init(cgmManager: MiaoMiaoClientManager, glucoseUnit: HKUnit, allowsDeletion: Bool) {
+    public init(cgmManager: MiaomiaoClientManager, glucoseUnit: HKUnit, allowsDeletion: Bool) {
         self.cgmManager = cgmManager
         self.glucoseUnit = glucoseUnit
         self.allowsDeletion = allowsDeletion
@@ -159,7 +159,7 @@ public class MiaomiaoClientSettingsViewController: UITableViewController {
     public override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         switch Section(rawValue: indexPath.section)! {
         case .authentication:
-            let vc = AuthenticationViewController(authentication: MiaoMiaoClientManager.miaomiaoService)
+            let vc = AuthenticationViewController(authentication: MiaomiaoClientManager.miaomiaoService)
             vc.authenticationObserver = { [weak self] (service) in
                 //self?.cgmManager.miaomiaoService = service
 

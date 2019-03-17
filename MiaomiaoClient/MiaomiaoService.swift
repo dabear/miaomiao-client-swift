@@ -16,12 +16,11 @@ public class MiaomiaoService: ServiceAuthentication {
 
     public let title: String = LocalizedString("MiaomiaoService", comment: "The title of the MiaomiaoService")
     
-    //private static var _client: MiaoMiaoProxy? = nil
+    private static var _client: MiaoMiaoProxy? = nil
     //todo: This shouldn't be a singleton,
     // but is required because Loop seems to be creating two instances of the cgmmanager sometimes
-    /*public var client: MiaoMiaoProxy? {
+    public var client: MiaoMiaoProxy? {
         get {
-            return nil
             if let client = MiaomiaoService._client {
                 return client
             }
@@ -32,7 +31,7 @@ public class MiaomiaoService: ServiceAuthentication {
         set {
             MiaomiaoService._client = newValue
         }
-    }*/
+    }
 
     public init() {
         os_log("dabear: MiaomiaoService init here")
@@ -70,13 +69,13 @@ public class MiaomiaoService: ServiceAuthentication {
     public func reset() {
         os_log("dabear:: miaomiaoservice reset called")
         isAuthorized = false
-        //client = nil
+        client = nil
     }
     
     deinit {
         os_log("dabear:: miaomiaoservice deinit called")
-        //client?.disconnect()
-        //client = nil
+        client?.disconnect()
+        client = nil
     }
 }
 
