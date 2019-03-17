@@ -8,7 +8,7 @@
 
 import Foundation
 import LoopKit
-import LoopKitUI
+//import LoopKitUI
 
 import os.log
 import HealthKit
@@ -134,12 +134,12 @@ public final class MiaoMiaoClientManager: CGMManager, MiaoMiaoBluetoothManagerDe
     public init(){
         lastConnected = nil
         
-        if !(self is CGMManagerUI) {
+        //if !(self is CGMManagerUI) {
             os_log("dabear: miaomiaomanager will be created now")
             proxy = MiaoMiaoBluetoothManager()
             proxy?.delegate = self
             //proxy?.connect()
-        }
+        //}
         
         
     }

@@ -23,41 +23,30 @@
 /* Begin PBXBuildFile section */
 		2729D677221F421C0030E1B8 /* MiaoMiao.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2729D676221F421C0030E1B8 /* MiaoMiao.swift */; };
 		2729D678221F421C0030E1B8 /* MiaoMiao.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2729D676221F421C0030E1B8 /* MiaoMiao.swift */; };
-		2729D679221F421C0030E1B8 /* MiaoMiao.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2729D676221F421C0030E1B8 /* MiaoMiao.swift */; };
 		2729D67B221F421F0030E1B8 /* MiaoMiaoBluetoothManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2729D67A221F421F0030E1B8 /* MiaoMiaoBluetoothManager.swift */; };
 		2729D685221F42760030E1B8 /* BloodSugarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2729D682221F42760030E1B8 /* BloodSugarController.swift */; };
 		2729D687221F43150030E1B8 /* SensorData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2729D686221F43150030E1B8 /* SensorData.swift */; };
-		2729D688221F43150030E1B8 /* SensorData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2729D686221F43150030E1B8 /* SensorData.swift */; };
 		2729D689221F43150030E1B8 /* SensorData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2729D686221F43150030E1B8 /* SensorData.swift */; };
 		2729D690221F44670030E1B8 /* TemperatureAlgorithmParameters.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2729D68A221F44660030E1B8 /* TemperatureAlgorithmParameters.swift */; };
-		2729D691221F44670030E1B8 /* TemperatureAlgorithmParameters.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2729D68A221F44660030E1B8 /* TemperatureAlgorithmParameters.swift */; };
 		2729D692221F44670030E1B8 /* TemperatureAlgorithmParameters.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2729D68A221F44660030E1B8 /* TemperatureAlgorithmParameters.swift */; };
 		2729D693221F44670030E1B8 /* Measurement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2729D68B221F44660030E1B8 /* Measurement.swift */; };
-		2729D694221F44670030E1B8 /* Measurement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2729D68B221F44660030E1B8 /* Measurement.swift */; };
 		2729D695221F44670030E1B8 /* Measurement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2729D68B221F44660030E1B8 /* Measurement.swift */; };
 		2729D699221F44670030E1B8 /* CRC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2729D68D221F44670030E1B8 /* CRC.swift */; };
-		2729D69A221F44670030E1B8 /* CRC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2729D68D221F44670030E1B8 /* CRC.swift */; };
 		2729D69B221F44670030E1B8 /* CRC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2729D68D221F44670030E1B8 /* CRC.swift */; };
 		2729D69C221F44670030E1B8 /* SensorSerialNumber.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2729D68E221F44670030E1B8 /* SensorSerialNumber.swift */; };
-		2729D69D221F44670030E1B8 /* SensorSerialNumber.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2729D68E221F44670030E1B8 /* SensorSerialNumber.swift */; };
 		2729D69E221F44670030E1B8 /* SensorSerialNumber.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2729D68E221F44670030E1B8 /* SensorSerialNumber.swift */; };
 		2729D69F221F44670030E1B8 /* SensorState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2729D68F221F44670030E1B8 /* SensorState.swift */; };
-		2729D6A0221F44670030E1B8 /* SensorState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2729D68F221F44670030E1B8 /* SensorState.swift */; };
 		2729D6A1221F44670030E1B8 /* SensorState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2729D68F221F44670030E1B8 /* SensorState.swift */; };
 		2729D6A3221F44C80030E1B8 /* Data.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2729D6A2221F44C70030E1B8 /* Data.swift */; };
-		2729D6A4221F44C80030E1B8 /* Data.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2729D6A2221F44C70030E1B8 /* Data.swift */; };
 		2729D6A5221F44C80030E1B8 /* Data.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2729D6A2221F44C70030E1B8 /* Data.swift */; };
 		2729D6A822248BDD0030E1B8 /* MiaomiaoProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2729D6A722248BDD0030E1B8 /* MiaomiaoProxy.swift */; };
-		2729D6A922248BDD0030E1B8 /* MiaomiaoProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2729D6A722248BDD0030E1B8 /* MiaomiaoProxy.swift */; };
 		2729D6AA22248BDD0030E1B8 /* MiaomiaoProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2729D6A722248BDD0030E1B8 /* MiaomiaoProxy.swift */; };
-		273894012166801B0075A197 /* LoopKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 43A8EC7B210E661400A81379 /* LoopKit.framework */; };
-		273894022166801B0075A197 /* LoopKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 43A8EC7B210E661400A81379 /* LoopKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		272DFE6F223E909600FBE2CB /* LoopKitUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 272DFE6D223E909500FBE2CB /* LoopKitUI.framework */; };
+		272DFE71223E909E00FBE2CB /* LoopKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 272DFE70223E909E00FBE2CB /* LoopKit.framework */; };
+		272DFE72223E909E00FBE2CB /* LoopKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 272DFE70223E909E00FBE2CB /* LoopKit.framework */; };
 		275B74912225BF90009CD5EB /* MiaomiaoClient.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 432B0E881CDFC3C50045347B /* MiaomiaoClient.framework */; };
 		275B74922225BF90009CD5EB /* MiaomiaoClient.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 432B0E881CDFC3C50045347B /* MiaomiaoClient.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		275B74952225C137009CD5EB /* MiaoMiaoBluetoothManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2729D67A221F421F0030E1B8 /* MiaoMiaoBluetoothManager.swift */; };
-		275B74962225CF23009CD5EB /* MiaoMiaoBluetoothManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2729D67A221F421F0030E1B8 /* MiaoMiaoBluetoothManager.swift */; };
-		276E5FD2223D10360084C273 /* LoopKitUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 276E5FD1223D10360084C273 /* LoopKitUI.framework */; };
-		276E5FD3223D128A0084C273 /* MiaomiaoService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43A8EC98210E682A00A81379 /* MiaomiaoService.swift */; };
 		2795404F2165502600D657E5 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2795404E2165502600D657E5 /* main.swift */; };
 		27C335B82165667300CF0868 /* LibreGlucose.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43C418AE1CE0488900405B6A /* LibreGlucose.swift */; };
 		27C335B9216566C500CF0868 /* MiaomiaoClient.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 432B0E881CDFC3C50045347B /* MiaomiaoClient.framework */; };
@@ -66,34 +55,23 @@
 		27C335E621667C7B00CF0868 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 27C335E421667C7B00CF0868 /* Main.storyboard */; };
 		27C335E821667C7C00CF0868 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 27C335E721667C7C00CF0868 /* Assets.xcassets */; };
 		27C335EB21667C7C00CF0868 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 27C335E921667C7C00CF0868 /* LaunchScreen.storyboard */; };
+		27CFAB52223EA0B2006DEFE3 /* MiaomiaoClient.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 432B0E881CDFC3C50045347B /* MiaomiaoClient.framework */; };
 		27D0DA6B2231CBB7007BBB2C /* DateExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27D0DA6A2231CBB7007BBB2C /* DateExtensions.swift */; };
 		27E3C390222EDF560036AAC7 /* LibreError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27E3C38F222EDF560036AAC7 /* LibreError.swift */; };
-		27E3C391222EDF560036AAC7 /* LibreError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27E3C38F222EDF560036AAC7 /* LibreError.swift */; };
 		27E3C393222EE2EC0036AAC7 /* Calibration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27E3C392222EE2EC0036AAC7 /* Calibration.swift */; };
-		27E3C394222EE2EC0036AAC7 /* Calibration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27E3C392222EE2EC0036AAC7 /* Calibration.swift */; };
 		27E3C398222EE9450036AAC7 /* LibreOOPDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27E3C395222EE9450036AAC7 /* LibreOOPDefaults.swift */; };
-		27E3C399222EE9450036AAC7 /* LibreOOPDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27E3C395222EE9450036AAC7 /* LibreOOPDefaults.swift */; };
 		27E3C39A222EE9450036AAC7 /* LibreOOPClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27E3C396222EE9450036AAC7 /* LibreOOPClient.swift */; };
-		27E3C39B222EE9450036AAC7 /* LibreOOPClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27E3C396222EE9450036AAC7 /* LibreOOPClient.swift */; };
 		27E3C39C222EE9450036AAC7 /* LibreOOPResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27E3C397222EE9450036AAC7 /* LibreOOPResponse.swift */; };
-		27E3C39D222EE9450036AAC7 /* LibreOOPResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27E3C397222EE9450036AAC7 /* LibreOOPResponse.swift */; };
 		27E3C39F222EE9A80036AAC7 /* LibreOOPWebExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27E3C39E222EE9A80036AAC7 /* LibreOOPWebExtensions.swift */; };
-		27E3C3A0222EE9A80036AAC7 /* LibreOOPWebExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27E3C39E222EE9A80036AAC7 /* LibreOOPWebExtensions.swift */; };
 		27E3C3A2222EEDCD0036AAC7 /* DerivedAlgorithmParameters.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27E3C3A1222EEDCD0036AAC7 /* DerivedAlgorithmParameters.swift */; };
-		27E3C3A3222EEDCD0036AAC7 /* DerivedAlgorithmParameters.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27E3C3A1222EEDCD0036AAC7 /* DerivedAlgorithmParameters.swift */; };
-		27E3C3A5222F03EF0036AAC7 /* LibreGlucose.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43C418AE1CE0488900405B6A /* LibreGlucose.swift */; };
 		4325E9CF210E6A0A00969CE5 /* HKUnit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4325E9CE210E6A0A00969CE5 /* HKUnit.swift */; };
 		4325E9D3210E6ADA00969CE5 /* IdentifiableClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4325E9D2210E6ADA00969CE5 /* IdentifiableClass.swift */; };
 		4325E9D5210E6B4400969CE5 /* UIColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4325E9D4210E6B4300969CE5 /* UIColor.swift */; };
 		432B0E931CDFC3C50045347B /* MiaomiaoClient.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 432B0E881CDFC3C50045347B /* MiaomiaoClient.framework */; };
 		432B0E981CDFC3C50045347B /* MiaomiaoClientTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 432B0E971CDFC3C50045347B /* MiaomiaoClientTests.swift */; };
-		43A8EC7C210E661400A81379 /* LoopKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 43A8EC7B210E661400A81379 /* LoopKit.framework */; };
-		43A8EC8A210E664C00A81379 /* LoopKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 43A8EC7B210E661400A81379 /* LoopKit.framework */; };
-		43A8EC8C210E665700A81379 /* LoopKitUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 43A8EC8B210E665600A81379 /* LoopKitUI.framework */; };
 		43A8EC90210E676500A81379 /* MiaomiaoClientSetupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43A8EC8D210E676500A81379 /* MiaomiaoClientSetupViewController.swift */; };
 		43A8EC91210E676500A81379 /* MiaomiaoClientManager+UI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43A8EC8E210E676500A81379 /* MiaomiaoClientManager+UI.swift */; };
 		43A8EC92210E676500A81379 /* MiaomiaoClientSettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43A8EC8F210E676500A81379 /* MiaomiaoClientSettingsViewController.swift */; };
-		43A8EC93210E679B00A81379 /* MiaomiaoClient.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 432B0E881CDFC3C50045347B /* MiaomiaoClient.framework */; };
 		43A8EC95210E67B000A81379 /* HealthKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 43A8EC94210E67B000A81379 /* HealthKit.framework */; };
 		43A8EC97210E680100A81379 /* ShareService+UI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43A8EC96210E680100A81379 /* ShareService+UI.swift */; };
 		43A8EC99210E682A00A81379 /* MiaomiaoService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43A8EC98210E682A00A81379 /* MiaomiaoService.swift */; };
@@ -157,7 +135,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				273894022166801B0075A197 /* LoopKit.framework in Embed Frameworks */,
 				275B74922225BF90009CD5EB /* MiaomiaoClient.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
@@ -186,7 +163,8 @@
 		2729D68F221F44670030E1B8 /* SensorState.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SensorState.swift; sourceTree = "<group>"; };
 		2729D6A2221F44C70030E1B8 /* Data.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Data.swift; sourceTree = "<group>"; };
 		2729D6A722248BDD0030E1B8 /* MiaomiaoProxy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MiaomiaoProxy.swift; sourceTree = "<group>"; };
-		276E5FD1223D10360084C273 /* LoopKitUI.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = LoopKitUI.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		272DFE6D223E909500FBE2CB /* LoopKitUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = LoopKitUI.framework; path = ../../Build/iOS/LoopKitUI.framework; sourceTree = "<group>"; };
+		272DFE70223E909E00FBE2CB /* LoopKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = LoopKit.framework; path = ../../Build/iOS/LoopKit.framework; sourceTree = "<group>"; };
 		2795404C2165502600D657E5 /* clitester */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = clitester; sourceTree = BUILT_PRODUCTS_DIR; };
 		2795404E2165502600D657E5 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		27C335DE21667C7A00CF0868 /* singleviewtesterapp2.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = singleviewtesterapp2.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -212,10 +190,8 @@
 		432B0E921CDFC3C50045347B /* MiaomiaoClientTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MiaomiaoClientTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		432B0E971CDFC3C50045347B /* MiaomiaoClientTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MiaomiaoClientTests.swift; sourceTree = "<group>"; };
 		432B0E991CDFC3C50045347B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		43A8EC7B210E661400A81379 /* LoopKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = LoopKit.framework; path = Carthage/Build/iOS/LoopKit.framework; sourceTree = "<group>"; };
 		43A8EC82210E664300A81379 /* MiaomiaoClientUI.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = MiaomiaoClientUI.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		43A8EC85210E664300A81379 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		43A8EC8B210E665600A81379 /* LoopKitUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = LoopKitUI.framework; path = Carthage/Build/iOS/LoopKitUI.framework; sourceTree = "<group>"; };
 		43A8EC8D210E676500A81379 /* MiaomiaoClientSetupViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MiaomiaoClientSetupViewController.swift; sourceTree = "<group>"; };
 		43A8EC8E210E676500A81379 /* MiaomiaoClientManager+UI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MiaomiaoClientManager+UI.swift"; sourceTree = "<group>"; };
 		43A8EC8F210E676500A81379 /* MiaomiaoClientSettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MiaomiaoClientSettingsViewController.swift; sourceTree = "<group>"; };
@@ -261,7 +237,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				273894012166801B0075A197 /* LoopKit.framework in Frameworks */,
 				275B74912225BF90009CD5EB /* MiaomiaoClient.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -270,9 +245,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				276E5FD2223D10360084C273 /* LoopKitUI.framework in Frameworks */,
 				43A8EC95210E67B000A81379 /* HealthKit.framework in Frameworks */,
-				43A8EC7C210E661400A81379 /* LoopKit.framework in Frameworks */,
+				272DFE71223E909E00FBE2CB /* LoopKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -288,9 +262,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				43A8EC93210E679B00A81379 /* MiaomiaoClient.framework in Frameworks */,
-				43A8EC8C210E665700A81379 /* LoopKitUI.framework in Frameworks */,
-				43A8EC8A210E664C00A81379 /* LoopKit.framework in Frameworks */,
+				27CFAB52223EA0B2006DEFE3 /* MiaomiaoClient.framework in Frameworks */,
+				272DFE6F223E909600FBE2CB /* LoopKitUI.framework in Frameworks */,
+				272DFE72223E909E00FBE2CB /* LoopKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -405,10 +379,9 @@
 		43A8EC7A210E661300A81379 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				276E5FD1223D10360084C273 /* LoopKitUI.framework */,
+				272DFE70223E909E00FBE2CB /* LoopKit.framework */,
+				272DFE6D223E909500FBE2CB /* LoopKitUI.framework */,
 				43A8EC94210E67B000A81379 /* HealthKit.framework */,
-				43A8EC8B210E665600A81379 /* LoopKitUI.framework */,
-				43A8EC7B210E661400A81379 /* LoopKit.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -748,32 +721,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				27E3C3A5222F03EF0036AAC7 /* LibreGlucose.swift in Sources */,
-				27E3C3A3222EEDCD0036AAC7 /* DerivedAlgorithmParameters.swift in Sources */,
-				27E3C3A0222EE9A80036AAC7 /* LibreOOPWebExtensions.swift in Sources */,
 				43A8EC92210E676500A81379 /* MiaomiaoClientSettingsViewController.swift in Sources */,
-				2729D6A0221F44670030E1B8 /* SensorState.swift in Sources */,
-				2729D691221F44670030E1B8 /* TemperatureAlgorithmParameters.swift in Sources */,
 				4325E9D5210E6B4400969CE5 /* UIColor.swift in Sources */,
-				27E3C39D222EE9450036AAC7 /* LibreOOPResponse.swift in Sources */,
-				27E3C399222EE9450036AAC7 /* LibreOOPDefaults.swift in Sources */,
-				27E3C391222EDF560036AAC7 /* LibreError.swift in Sources */,
 				43A8EC97210E680100A81379 /* ShareService+UI.swift in Sources */,
-				27E3C394222EE2EC0036AAC7 /* Calibration.swift in Sources */,
-				27E3C39B222EE9450036AAC7 /* LibreOOPClient.swift in Sources */,
-				275B74962225CF23009CD5EB /* MiaoMiaoBluetoothManager.swift in Sources */,
-				2729D69D221F44670030E1B8 /* SensorSerialNumber.swift in Sources */,
 				43AB51372133177800B3D58D /* LocalizedString.swift in Sources */,
 				4325E9D3210E6ADA00969CE5 /* IdentifiableClass.swift in Sources */,
-				276E5FD3223D128A0084C273 /* MiaomiaoService.swift in Sources */,
-				2729D694221F44670030E1B8 /* Measurement.swift in Sources */,
-				2729D679221F421C0030E1B8 /* MiaoMiao.swift in Sources */,
-				2729D6A922248BDD0030E1B8 /* MiaomiaoProxy.swift in Sources */,
 				43A8EC91210E676500A81379 /* MiaomiaoClientManager+UI.swift in Sources */,
 				43A8EC90210E676500A81379 /* MiaomiaoClientSetupViewController.swift in Sources */,
-				2729D69A221F44670030E1B8 /* CRC.swift in Sources */,
-				2729D6A4221F44C80030E1B8 /* Data.swift in Sources */,
-				2729D688221F43150030E1B8 /* SensorData.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
