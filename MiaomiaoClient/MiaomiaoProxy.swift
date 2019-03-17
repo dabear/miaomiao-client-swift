@@ -121,7 +121,7 @@ public final class MiaoMiaoClientManager: CGMManager, MiaoMiaoBluetoothManagerDe
     
     weak public var cgmManagerDelegate: CGMManagerDelegate?
     
-    public let providesBLEHeartbeat = false
+    public let providesBLEHeartbeat = true
     
     public let shouldSyncToRemoteService = true
 
