@@ -56,6 +56,7 @@
 		27C335E821667C7C00CF0868 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 27C335E721667C7C00CF0868 /* Assets.xcassets */; };
 		27C335EB21667C7C00CF0868 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 27C335E921667C7C00CF0868 /* LaunchScreen.storyboard */; };
 		27CFAB52223EA0B2006DEFE3 /* MiaomiaoClient.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 432B0E881CDFC3C50045347B /* MiaomiaoClient.framework */; };
+		27CFAB53223EA4A7006DEFE3 /* LoopKitUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 272DFE6D223E909500FBE2CB /* LoopKitUI.framework */; };
 		27D0DA6B2231CBB7007BBB2C /* DateExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27D0DA6A2231CBB7007BBB2C /* DateExtensions.swift */; };
 		27E3C390222EDF560036AAC7 /* LibreError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27E3C38F222EDF560036AAC7 /* LibreError.swift */; };
 		27E3C393222EE2EC0036AAC7 /* Calibration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27E3C392222EE2EC0036AAC7 /* Calibration.swift */; };
@@ -247,6 +248,7 @@
 			files = (
 				43A8EC95210E67B000A81379 /* HealthKit.framework in Frameworks */,
 				272DFE71223E909E00FBE2CB /* LoopKit.framework in Frameworks */,
+				27CFAB53223EA4A7006DEFE3 /* LoopKitUI.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1072,7 +1074,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.mddub.MiaomiaoClient;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
-				SUPPORTED_PLATFORMS = "iphonesimulator iphoneos watchos watchsimulator";
+				SUPPORTED_PLATFORMS = "iphonesimulator iphoneos";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2,4";
@@ -1101,7 +1103,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.mddub.MiaomiaoClient;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
-				SUPPORTED_PLATFORMS = "iphonesimulator iphoneos watchos watchsimulator";
+				SUPPORTED_PLATFORMS = "iphonesimulator iphoneos";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2,4";
 			};
