@@ -58,7 +58,7 @@ public final class MiaoMiaoClientManager: CGMManager, MiaoMiaoBluetoothManagerDe
     }
     
     public func fetchNewDataIfNeeded(_ completion: @escaping (CGMResult) -> Void) {
-        guard proxy != nil else {
+        guard MiaoMiaoClientManager.proxy != nil else {
             completion(.noData)
             return
         }
@@ -130,39 +130,40 @@ public final class MiaoMiaoClientManager: CGMManager, MiaoMiaoBluetoothManagerDe
     
     
     
-    private var proxy : MiaoMiaoBluetoothManager?
+    
     public init(){
         lastConnected = nil
+        //let isui = (self is CGMManagerUI)
         
-        if !(self is CGMManagerUI) {
-            os_log("dabear: miaomiaomanager will be created now")
-            proxy = MiaoMiaoBluetoothManager()
-            proxy?.delegate = self
+        
+        os_log("dabear: MiaoMiaoClientManager will be created now")
+        //proxy = MiaoMiaoBluetoothManager()
+        MiaoMiaoClientManager.proxy?.delegate = self
             //proxy?.connect()
-        }
         
+        MiaoMiaoClientManager.instanceCount += 1
         
     }
     
     public var connectionState : String {
-        return proxy?.state.rawValue ?? "n/a"
+        return MiaoMiaoClientManager.proxy?.state.rawValue ?? "n/a"
         
     }
     
     public var sensorStateDescription : String {
-        return proxy?.sensorData?.state.description ?? "n/a"
+        return MiaoMiaoClientManager.proxy?.sensorData?.state.description ?? "n/a"
     }
     
     public var firmwareVersion : String {
-        return proxy?.miaoMiao?.firmware ?? "n/a"
+        return MiaoMiaoClientManager.proxy?.miaoMiao?.firmware ?? "n/a"
     }
     
     public var hardwareVersion : String {
-        return proxy?.miaoMiao?.hardware ?? "n/a"
+        return MiaoMiaoClientManager.proxy?.miaoMiao?.hardware ?? "n/a"
     }
     
     public var battery : String {
-        if let bat = proxy?.miaoMiao?.battery {
+        if let bat = MiaoMiaoClientManager.proxy?.miaoMiao?.battery {
             return "\(bat)%"
         }
         return "n/a"
@@ -170,13 +171,56 @@ public final class MiaoMiaoClientManager: CGMManager, MiaoMiaoBluetoothManagerDe
     
     public func disconnect(){
        
-        proxy?.disconnectManually()
-        proxy?.delegate = nil
-        proxy = nil
+        MiaoMiaoClientManager.proxy?.disconnectManually()
+        MiaoMiaoClientManager.proxy?.delegate = nil
+        //MiaoMiaoClientManager.proxy = nil
     }
     
+    deinit {
+        os_log("dabear:: MiaoMiaoClientManager deinit")
+        os_log("dabear:: miaomiaoproxy deinit called2")
+        
+        
+        //cleanup any references to events to this class
+        disconnect()
+        MiaoMiaoClientManager.instanceCount -= 1
+    }
+
+    
+    private static var instanceCount = 0 {
+        didSet {
+            
+            //this is to workaround a bug where multiple managers might exist
+            os_log("dabear:: MiaoMiaoClientManager instanceCount changed to %s", type: .default, String(describing: instanceCount))
+            if instanceCount < 1 {
+                os_log("dabear:: instancecount is 0, deiniting service", type: .default)
+                MiaoMiaoClientManager.sharedProxy = nil
+            }
+            //this is another attempt to workaround a bug where multiple managers might exist
+            if oldValue > instanceCount {
+                os_log("dabear:: MiaoMiaoClientManager decremented, stop all miaomiao bluetooth services")
+                MiaoMiaoClientManager.sharedProxy = nil
+            }
+            
+            
+        }
+    }
+    
+    
+    private static var sharedProxy: MiaoMiaoBluetoothManager?
+    private class var proxy : MiaoMiaoBluetoothManager? {
+        guard let sharedProxy = self.sharedProxy else {
+            let sharedProxy = MiaoMiaoBluetoothManager()
+            self.sharedProxy = sharedProxy
+            return sharedProxy
+        }
+        return sharedProxy
+    }
+    
+   
+    
     func autoconnect(){
-        guard let proxy = proxy else {
+        guard let proxy = MiaoMiaoClientManager.proxy else {
             os_log("dabear: could not do autoconnect, proxy was nil")
             return
         }
@@ -308,7 +352,7 @@ public final class MiaoMiaoClientManager: CGMManager, MiaoMiaoBluetoothManagerDe
         if sensorData.hasValidCRCs {
             
             if sensorData.state == .ready ||  sensorData.state == .starting {
-                os_log("got sensordata with valid crcs, sensor was ready")
+                NSLog("dabear:: got sensordata with valid crcs, sensor was ready")
                 self.lastValidSensorData = sensorData
                 
                 self.getLastSensorValues { (error, glucose) in
@@ -334,9 +378,11 @@ public final class MiaoMiaoClientManager: CGMManager, MiaoMiaoBluetoothManagerDe
                     self.latestBackfill = glucose.first
                     
                     if newGlucose.count > 0 {
+                        NSLog("dabear:: getLastSensorValues returned with \(newGlucose.count) new glucose samples")
                         self.cgmManagerDelegate?.cgmManager(self, didUpdateWith: .newData(newGlucose))
                         
                     } else {
+                        NSLog("dabear:: getLastSensorValues returned with no new data")
                         self.cgmManagerDelegate?.cgmManager(self, didUpdateWith: .noData)
                         
                     }
@@ -344,7 +390,7 @@ public final class MiaoMiaoClientManager: CGMManager, MiaoMiaoBluetoothManagerDe
                 }
                 
             } else {
-                os_log("got sensordata with valid crcs, but sensor is either expired or failed")
+                os_log("dabear:: got sensordata with valid crcs, but sensor is either expired or failed")
                 self.cgmManagerDelegate?.cgmManager(self, didUpdateWith: .error(LibreError.expiredSensor))
             }
             
@@ -356,16 +402,7 @@ public final class MiaoMiaoClientManager: CGMManager, MiaoMiaoBluetoothManagerDe
         return
     }
     
-    deinit {
-        
-        os_log("dabear:: miaomiaoproxy deinit called2")
-        
-        
-        //cleanup any references to events to this class
-        disconnect()
-        
-        
-    }
+    
     
     
 }
