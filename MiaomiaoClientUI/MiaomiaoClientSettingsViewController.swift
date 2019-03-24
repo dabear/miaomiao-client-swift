@@ -166,7 +166,7 @@ public class MiaomiaoClientSettingsViewController: UITableViewController {
                 cell.detailTextLabel?.text = cgmManager.sensorSerialNumber
                 
             case .footerChecksum:
-                cell.textLabel?.text = LocalizedString("Sensor footer checksum", comment: "Title describing Sensor footer checksum")
+                cell.textLabel?.text = LocalizedString("Sensor Footer checksum", comment: "Title describing Sensor footer reverse checksum")
                 
                 
                 cell.detailTextLabel?.text = cgmManager.sensorFooterChecksums
@@ -222,7 +222,7 @@ public class MiaomiaoClientSettingsViewController: UITableViewController {
             switch LatestCalibrationDataInfoRow(rawValue: indexPath.row)! {
             
             case .slopeslope:
-                cell.textLabel?.text = LocalizedString("slopeslope", comment: "Title describing calibrationdata slopeslope")
+                cell.textLabel?.text = LocalizedString("Slope_slope", comment: "Title describing calibrationdata slopeslope")
                 
                 if let data=data{
                     cell.detailTextLabel?.text = "\(data.slope_slope)"
@@ -230,7 +230,7 @@ public class MiaomiaoClientSettingsViewController: UITableViewController {
                     cell.detailTextLabel?.text = SettingsTableViewCell.NoValueString
                 }
             case .slopeoffset:
-                cell.textLabel?.text = LocalizedString("slopeoffset", comment: "Title describing calibrationdata slopeoffset")
+                cell.textLabel?.text = LocalizedString("Slope_offset", comment: "Title describing calibrationdata slopeoffset")
                 
                 if let data=data{
                     cell.detailTextLabel?.text = "\(data.slope_offset)"
@@ -238,7 +238,7 @@ public class MiaomiaoClientSettingsViewController: UITableViewController {
                     cell.detailTextLabel?.text = SettingsTableViewCell.NoValueString
                 }
             case .offsetslope:
-                cell.textLabel?.text = LocalizedString("offsetslope", comment: "Title describing calibrationdata offsetslope")
+                cell.textLabel?.text = LocalizedString("Offset_slope", comment: "Title describing calibrationdata offsetslope")
                 
                 if let data=data{
                     cell.detailTextLabel?.text = "\(data.offset_slope)"
@@ -246,7 +246,7 @@ public class MiaomiaoClientSettingsViewController: UITableViewController {
                     cell.detailTextLabel?.text = SettingsTableViewCell.NoValueString
                 }
             case .offsetoffset:
-                cell.textLabel?.text = LocalizedString("offsetoffset", comment: "Title describing calibrationdata offsetoffset")
+                cell.textLabel?.text = LocalizedString("Offset_offset", comment: "Title describing calibrationdata offsetoffset")
                 
                 if let data=data{
                     cell.detailTextLabel?.text = "\(data.offset_offset)"
@@ -255,10 +255,10 @@ public class MiaomiaoClientSettingsViewController: UITableViewController {
                 }
             
             case .isValidForFooterWithCRCs:
-                cell.textLabel?.text = LocalizedString("Calibration valid for", comment: "Title describing calibrationdata validity")
+                cell.textLabel?.text = LocalizedString("Valid For Footer", comment: "Title describing calibrationdata validity")
                 
                 if let data=data{
-                    cell.detailTextLabel?.text = "\(data.isValidForFooterWithReverseCRCs.byteSwapped)"
+                    cell.detailTextLabel?.text = "\(data.isValidForFooterWithReverseCRCs)"
                 } else {
                     cell.detailTextLabel?.text = SettingsTableViewCell.NoValueString
                 }

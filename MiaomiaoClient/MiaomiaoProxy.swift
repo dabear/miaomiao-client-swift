@@ -155,7 +155,7 @@ public final class MiaoMiaoClientManager: CGMManager, MiaoMiaoBluetoothManagerDe
     }
     
     public var sensorFooterChecksums: String {
-        if let crc = MiaoMiaoClientManager.proxy?.sensorData?.footerCrc {
+        if let crc = MiaoMiaoClientManager.proxy?.sensorData?.footerCrc.byteSwapped {
             return  "\(crc)"
         }
         return  "n/a"
