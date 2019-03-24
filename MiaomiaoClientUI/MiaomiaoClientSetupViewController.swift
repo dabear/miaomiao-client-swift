@@ -14,7 +14,7 @@ import MiaomiaoClient
 class MiaomiaoClientSetupViewController: UINavigationController, CGMManagerSetupViewController {
     var setupDelegate: CGMManagerSetupViewControllerDelegate?
 
-    let cgmManager = MiaoMiaoClientManager()
+    lazy var cgmManager : MiaoMiaoClientManager? = MiaoMiaoClientManager()
 
     init() {
         let authVC = AuthenticationViewController(authentication: MiaoMiaoClientManager.miaomiaoService)
@@ -22,7 +22,7 @@ class MiaomiaoClientSetupViewController: UINavigationController, CGMManagerSetup
         super.init(rootViewController: authVC)
 
         authVC.authenticationObserver = {  (service) in
-            //self?.cgmManager.miaomiaoService = service
+            //self?.cgmManager?.miaomiaoService = service
             return
         }
         /*
@@ -37,6 +37,11 @@ class MiaomiaoClientSetupViewController: UINavigationController, CGMManagerSetup
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
     }
+    
+    deinit {
+        NSLog("dabear MiaomiaoClientSetupViewController() deinit was called")
+        cgmManager = nil
+    }
 
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
@@ -47,7 +52,10 @@ class MiaomiaoClientSetupViewController: UINavigationController, CGMManagerSetup
     }
 
     @objc private func save() {
-        setupDelegate?.cgmManagerSetupViewController(self, didSetUpCGMManager: cgmManager)
+        if let cgmManager = cgmManager {
+            setupDelegate?.cgmManagerSetupViewController(self, didSetUpCGMManager: cgmManager)
+        }
+        
     }
 
 }

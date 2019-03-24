@@ -186,15 +186,17 @@ public final class MiaoMiaoClientManager: CGMManager, MiaoMiaoBluetoothManagerDe
     }
     
     public func disconnect(){
-       
+       NSLog("dabear:: MiaoMiaoClientManager disconnect called")
+        
+        
         MiaoMiaoClientManager.proxy?.disconnectManually()
         MiaoMiaoClientManager.proxy?.delegate = nil
         //MiaoMiaoClientManager.proxy = nil
     }
     
     deinit {
-        os_log("dabear:: MiaoMiaoClientManager deinit")
-        os_log("dabear:: miaomiaoproxy deinit called2")
+        
+        NSLog("dabear:: MiaoMiaoClientManager deinit called")
         
         
         //cleanup any references to events to this class
@@ -211,11 +213,13 @@ public final class MiaoMiaoClientManager: CGMManager, MiaoMiaoBluetoothManagerDe
             if instanceCount < 1 {
                 os_log("dabear:: instancecount is 0, deiniting service", type: .default)
                 MiaoMiaoClientManager.sharedProxy = nil
+                MiaoMiaoClientManager.sharedInstance = nil
             }
             //this is another attempt to workaround a bug where multiple managers might exist
             if oldValue > instanceCount {
                 os_log("dabear:: MiaoMiaoClientManager decremented, stop all miaomiao bluetooth services")
                 MiaoMiaoClientManager.sharedProxy = nil
+                MiaoMiaoClientManager.sharedInstance = nil
             }
             
             
@@ -331,6 +335,7 @@ public final class MiaoMiaoClientManager: CGMManager, MiaoMiaoBluetoothManagerDe
         switch state {
         case .Connected:
             lastConnected = Date()
+        
         default:
             break
         }

@@ -9,8 +9,7 @@ import LoopKit
 import HealthKit
 import os.log
 
-
-/*public class MiaomiaoClientManagerOld: CGMManager {
+/* public class MiaomiaoClientManagerOld: CGMManager {
     public var sensorState: SensorDisplayable?
     public private(set) var latestBackfill: LibreGlucose?
     public static var managerIdentifier = "DexMiaomiaoClient1"
@@ -188,5 +187,5 @@ import os.log
             ""
         ].joined(separator: "\n")
     }
-}
-*/
+}*/
+

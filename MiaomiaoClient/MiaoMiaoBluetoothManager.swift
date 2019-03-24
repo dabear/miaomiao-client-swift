@@ -617,6 +617,7 @@ final class MiaoMiaoBluetoothManager: NSObject, CBCentralManagerDelegate, CBPeri
     }
     
     deinit {
+        self.delegate = nil
         os_log("dabear:: miaomiaomanager deinit called")
         
         

@@ -14,7 +14,7 @@ import MiaomiaoClient
 
 public class MiaomiaoClientSettingsViewController: UITableViewController {
 
-    public let cgmManager: MiaoMiaoClientManager
+    public var cgmManager: MiaoMiaoClientManager?
 
     public let glucoseUnit: HKUnit
 
@@ -35,7 +35,7 @@ public class MiaomiaoClientSettingsViewController: UITableViewController {
     override public func viewDidLoad() {
         super.viewDidLoad()
 
-        title = cgmManager.localizedTitle
+        title = cgmManager?.localizedTitle
 
         tableView.rowHeight = UITableViewAutomaticDimension
         tableView.estimatedRowHeight = 44
@@ -136,7 +136,7 @@ public class MiaomiaoClientSettingsViewController: UITableViewController {
             return cell
         case .latestReading:
             let cell = tableView.dequeueReusableCell(withIdentifier: SettingsTableViewCell.className, for: indexPath) as! SettingsTableViewCell
-            let glucose = cgmManager.latestBackfill
+            let glucose = cgmManager?.latestBackfill
 
             switch LatestReadingRow(rawValue: indexPath.row)! {
             case .glucose:
@@ -163,13 +163,13 @@ public class MiaomiaoClientSettingsViewController: UITableViewController {
                 cell.textLabel?.text = LocalizedString("Sensor Serial", comment: "Title describing sensor serial")
                 
                 
-                cell.detailTextLabel?.text = cgmManager.sensorSerialNumber
+                cell.detailTextLabel?.text = cgmManager?.sensorSerialNumber
                 
             case .footerChecksum:
                 cell.textLabel?.text = LocalizedString("Sensor Footer checksum", comment: "Title describing Sensor footer reverse checksum")
                 
                 
-                cell.detailTextLabel?.text = cgmManager.sensorFooterChecksums
+                cell.detailTextLabel?.text = cgmManager?.sensorFooterChecksums
             }
 
             return cell
@@ -190,29 +190,29 @@ public class MiaomiaoClientSettingsViewController: UITableViewController {
                 cell.textLabel?.text = LocalizedString("Battery", comment: "Title describing bridge battery info")
                 
                 
-                cell.detailTextLabel?.text = cgmManager.battery
+                cell.detailTextLabel?.text = cgmManager?.battery
                 
             case .firmware:
                 cell.textLabel?.text = LocalizedString("Firmware", comment: "Title describing bridge firmware info")
                 
                 
-                cell.detailTextLabel?.text = cgmManager.firmwareVersion
+                cell.detailTextLabel?.text = cgmManager?.firmwareVersion
                 
             case .hardware:
                 cell.textLabel?.text = LocalizedString("Hardware", comment: "Title describing bridge hardware info")
                 
-                cell.detailTextLabel?.text = cgmManager.hardwareVersion
+                cell.detailTextLabel?.text = cgmManager?.hardwareVersion
             case .connectionState:
                 cell.textLabel?.text = LocalizedString("Connection State", comment: "Title Bridge connection state")
                 
-                cell.detailTextLabel?.text = cgmManager.connectionState
+                cell.detailTextLabel?.text = cgmManager?.connectionState
             }
             
             return cell
         case .latestCalibrationData:
             let cell = tableView.dequeueReusableCell(withIdentifier: SettingsTableViewCell.className, for: indexPath) as! SettingsTableViewCell
             
-            let data = cgmManager.calibrationData
+            let data = cgmManager?.calibrationData
             /*
              case slopeslope
              case slopeoffset
@@ -297,7 +297,17 @@ public class MiaomiaoClientSettingsViewController: UITableViewController {
             tableView.deselectRow(at: indexPath, animated: true)
         case .delete:
             let confirmVC = UIAlertController(cgmDeletionHandler: {
-                self.cgmManager.cgmManagerDelegate?.cgmManagerWantsDeletion(self.cgmManager)
+                NSLog("dabear:: confirmed: cgmmanagerwantsdeletion")
+                if let cgmManager = self.cgmManager {
+                    cgmManager.disconnect()
+                    cgmManager.cgmManagerDelegate?.cgmManagerWantsDeletion(cgmManager)
+                    
+                    self.cgmManager = nil
+                    
+                    
+                    
+                }
+                
                 self.navigationController?.popViewController(animated: true)
             })
 
