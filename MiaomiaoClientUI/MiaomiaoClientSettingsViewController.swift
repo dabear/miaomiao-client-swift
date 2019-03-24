@@ -52,9 +52,11 @@ public class MiaomiaoClientSettingsViewController: UITableViewController {
     private enum Section: Int {
         case authentication
         case latestReading
+        case latestBridgeInfo
+        case latestCalibrationData
         case delete
 
-        static let count = 3
+        static let count = 5
     }
 
     override public func numberOfSections(in tableView: UITableView) -> Int {
@@ -65,8 +67,29 @@ public class MiaomiaoClientSettingsViewController: UITableViewController {
         case glucose
         case date
         case trend
-
-        static let count = 3
+        case footerChecksum
+        case sensorSerialNumber
+        static let count = 5
+    }
+    private enum LatestBridgeInfoRow: Int {
+        
+        case battery
+        case hardware
+        case firmware
+        case connectionState
+        
+        static let count = 4
+    }
+    
+    private enum LatestCalibrationDataInfoRow: Int {
+        case slopeslope
+        case slopeoffset
+        case offsetslope
+        case offsetoffset
+        case isValidForFooterWithCRCs
+        
+        
+        static let count = 5
     }
 
     override public func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -77,6 +100,11 @@ public class MiaomiaoClientSettingsViewController: UITableViewController {
             return LatestReadingRow.count
         case .delete:
             return 1
+        case .latestBridgeInfo:
+            return LatestBridgeInfoRow.count
+            
+        case .latestCalibrationData:
+            return LatestCalibrationDataInfoRow.count
         }
     }
 
@@ -131,6 +159,17 @@ public class MiaomiaoClientSettingsViewController: UITableViewController {
                 cell.textLabel?.text = LocalizedString("Trend", comment: "Title describing glucose trend")
 
                 cell.detailTextLabel?.text = glucose?.trendType?.localizedDescription ?? SettingsTableViewCell.NoValueString
+            case .sensorSerialNumber:
+                cell.textLabel?.text = LocalizedString("Sensor Serial", comment: "Title describing sensor serial")
+                
+                
+                cell.detailTextLabel?.text = cgmManager.sensorSerialNumber
+                
+            case .footerChecksum:
+                cell.textLabel?.text = LocalizedString("Sensor footer checksum", comment: "Title describing Sensor footer checksum")
+                
+                
+                cell.detailTextLabel?.text = cgmManager.sensorFooterChecksums
             }
 
             return cell
@@ -141,6 +180,89 @@ public class MiaomiaoClientSettingsViewController: UITableViewController {
             cell.textLabel?.textAlignment = .center
             cell.tintColor = .delete
             cell.isEnabled = true
+            return cell
+        case .latestBridgeInfo:
+            let cell = tableView.dequeueReusableCell(withIdentifier: SettingsTableViewCell.className, for: indexPath) as! SettingsTableViewCell
+            
+            
+            switch LatestBridgeInfoRow(rawValue: indexPath.row)! {
+            case .battery:
+                cell.textLabel?.text = LocalizedString("Battery", comment: "Title describing bridge battery info")
+                
+                
+                cell.detailTextLabel?.text = cgmManager.battery
+                
+            case .firmware:
+                cell.textLabel?.text = LocalizedString("Firmware", comment: "Title describing bridge firmware info")
+                
+                
+                cell.detailTextLabel?.text = cgmManager.firmwareVersion
+                
+            case .hardware:
+                cell.textLabel?.text = LocalizedString("Hardware", comment: "Title describing bridge hardware info")
+                
+                cell.detailTextLabel?.text = cgmManager.hardwareVersion
+            case .connectionState:
+                cell.textLabel?.text = LocalizedString("Connection State", comment: "Title Bridge connection state")
+                
+                cell.detailTextLabel?.text = cgmManager.connectionState
+            }
+            
+            return cell
+        case .latestCalibrationData:
+            let cell = tableView.dequeueReusableCell(withIdentifier: SettingsTableViewCell.className, for: indexPath) as! SettingsTableViewCell
+            
+            let data = cgmManager.calibrationData
+            /*
+             case slopeslope
+             case slopeoffset
+             case offsetslope
+             case offsetoffset
+             */
+            switch LatestCalibrationDataInfoRow(rawValue: indexPath.row)! {
+            
+            case .slopeslope:
+                cell.textLabel?.text = LocalizedString("slopeslope", comment: "Title describing calibrationdata slopeslope")
+                
+                if let data=data{
+                    cell.detailTextLabel?.text = "\(data.slope_slope)"
+                } else {
+                    cell.detailTextLabel?.text = SettingsTableViewCell.NoValueString
+                }
+            case .slopeoffset:
+                cell.textLabel?.text = LocalizedString("slopeoffset", comment: "Title describing calibrationdata slopeoffset")
+                
+                if let data=data{
+                    cell.detailTextLabel?.text = "\(data.slope_offset)"
+                } else {
+                    cell.detailTextLabel?.text = SettingsTableViewCell.NoValueString
+                }
+            case .offsetslope:
+                cell.textLabel?.text = LocalizedString("offsetslope", comment: "Title describing calibrationdata offsetslope")
+                
+                if let data=data{
+                    cell.detailTextLabel?.text = "\(data.offset_slope)"
+                } else {
+                    cell.detailTextLabel?.text = SettingsTableViewCell.NoValueString
+                }
+            case .offsetoffset:
+                cell.textLabel?.text = LocalizedString("offsetoffset", comment: "Title describing calibrationdata offsetoffset")
+                
+                if let data=data{
+                    cell.detailTextLabel?.text = "\(data.offset_offset)"
+                } else {
+                    cell.detailTextLabel?.text = SettingsTableViewCell.NoValueString
+                }
+            
+            case .isValidForFooterWithCRCs:
+                cell.textLabel?.text = LocalizedString("Calibration valid for", comment: "Title describing calibrationdata validity")
+                
+                if let data=data{
+                    cell.detailTextLabel?.text = "\(data.isValidForFooterWithReverseCRCs.byteSwapped)"
+                } else {
+                    cell.detailTextLabel?.text = SettingsTableViewCell.NoValueString
+                }
+            }
             return cell
         }
     }
@@ -153,6 +275,10 @@ public class MiaomiaoClientSettingsViewController: UITableViewController {
             return LocalizedString("Latest Reading", comment: "Section title for latest glucose reading")
         case .delete:
             return nil
+        case .latestBridgeInfo:
+            return LocalizedString("Latest Bridge info", comment: "Section title for latest bridge info")
+        case .latestCalibrationData:
+            return LocalizedString("Latest Autocalibration Parameters", comment: "Section title for latest bridge info")
         }
     }
 
@@ -178,6 +304,10 @@ public class MiaomiaoClientSettingsViewController: UITableViewController {
             present(confirmVC, animated: true) {
                 tableView.deselectRow(at: indexPath, animated: true)
             }
+        case .latestBridgeInfo:
+            tableView.deselectRow(at: indexPath, animated: true)
+        case .latestCalibrationData:
+            tableView.deselectRow(at: indexPath, animated: true)
         }
     }
 }

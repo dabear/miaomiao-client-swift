@@ -150,6 +150,18 @@ public final class MiaoMiaoClientManager: CGMManager, MiaoMiaoBluetoothManagerDe
         
     }
     
+    public var sensorSerialNumber: String {
+        return MiaoMiaoClientManager.proxy?.sensorData?.serialNumber ?? "n/a"
+    }
+    
+    public var sensorFooterChecksums: String {
+        if let crc = MiaoMiaoClientManager.proxy?.sensorData?.footerCrc {
+            return  "\(crc)"
+        }
+        return  "n/a"
+    }
+    
+    
     public var sensorStateDescription : String {
         return MiaoMiaoClientManager.proxy?.sensorData?.state.description ?? "n/a"
     }
@@ -167,6 +179,10 @@ public final class MiaoMiaoClientManager: CGMManager, MiaoMiaoBluetoothManagerDe
             return "\(bat)%"
         }
         return "n/a"
+    }
+    
+    public var calibrationData : DerivedAlgorithmParameters? {
+        return keychain.getLibreCalibrationData()
     }
     
     public func disconnect(){
