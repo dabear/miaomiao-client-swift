@@ -39,4 +39,21 @@ public extension Date {
         
         return date
     }
+    
+    
+}
+
+extension TimeInterval{
+    
+    func stringDaysFromTimeInterval() -> String {
+        
+        let aday = 86400.0 //in seconds
+        let time = Double(self).magnitude
+        
+        let days = time / aday
+        
+        
+        return String(format: "%.02f", days)
+        
+    }
 }

@@ -52,8 +52,10 @@ public class MiaomiaoClientSettingsViewController: UITableViewController {
     private enum Section: Int {
         case authentication
         case latestReading
+        case sensorInfo
         case latestBridgeInfo
         case latestCalibrationData
+        
         case delete
 
         static let count = 5
@@ -68,9 +70,16 @@ public class MiaomiaoClientSettingsViewController: UITableViewController {
         case date
         case trend
         case footerChecksum
-        case sensorSerialNumber
-        static let count = 5
+        static let count = 4
     }
+    
+    private enum LatestSensorInfoRow: Int {
+        case sensorAge
+        case sensorState
+        case sensorSerialNumber
+        static let count = 3
+    }
+    
     private enum LatestBridgeInfoRow: Int {
         
         case battery
@@ -98,6 +107,8 @@ public class MiaomiaoClientSettingsViewController: UITableViewController {
             return 1
         case .latestReading:
             return LatestReadingRow.count
+        case .sensorInfo:
+            return LatestSensorInfoRow.count
         case .delete:
             return 1
         case .latestBridgeInfo:
@@ -105,6 +116,7 @@ public class MiaomiaoClientSettingsViewController: UITableViewController {
             
         case .latestCalibrationData:
             return LatestCalibrationDataInfoRow.count
+        
         }
     }
 
@@ -159,12 +171,7 @@ public class MiaomiaoClientSettingsViewController: UITableViewController {
                 cell.textLabel?.text = LocalizedString("Trend", comment: "Title describing glucose trend")
 
                 cell.detailTextLabel?.text = glucose?.trendType?.localizedDescription ?? SettingsTableViewCell.NoValueString
-            case .sensorSerialNumber:
-                cell.textLabel?.text = LocalizedString("Sensor Serial", comment: "Title describing sensor serial")
-                
-                
-                cell.detailTextLabel?.text = cgmManager?.sensorSerialNumber
-                
+           
             case .footerChecksum:
                 cell.textLabel?.text = LocalizedString("Sensor Footer checksum", comment: "Title describing Sensor footer reverse checksum")
                 
@@ -264,6 +271,30 @@ public class MiaomiaoClientSettingsViewController: UITableViewController {
                 }
             }
             return cell
+        case .sensorInfo:
+            let cell = tableView.dequeueReusableCell(withIdentifier: SettingsTableViewCell.className, for: indexPath) as! SettingsTableViewCell
+            
+            
+            switch LatestSensorInfoRow(rawValue: indexPath.row)! {
+            case .sensorState:
+                cell.textLabel?.text = LocalizedString("Sensor State", comment: "Title describing sensor state")
+                
+                cell.detailTextLabel?.text = cgmManager?.sensorStateDescription
+            case .sensorAge:
+                cell.textLabel?.text = LocalizedString("Sensor Age", comment: "Title describing sensor Age")
+                
+                cell.detailTextLabel?.text = cgmManager?.sensorAge
+                
+            case .sensorSerialNumber:
+                cell.textLabel?.text = LocalizedString("Sensor Serial", comment: "Title describing sensor serial")
+                
+                cell.detailTextLabel?.text = cgmManager?.sensorSerialNumber
+                
+                
+                
+                
+            }
+            return cell
         }
     }
 
@@ -271,6 +302,8 @@ public class MiaomiaoClientSettingsViewController: UITableViewController {
         switch Section(rawValue: section)! {
         case .authentication:
             return nil
+        case .sensorInfo:
+            return LocalizedString("Sensor Info", comment: "Section title for latest sensor info")
         case .latestReading:
             return LocalizedString("Latest Reading", comment: "Section title for latest glucose reading")
         case .delete:
@@ -279,6 +312,7 @@ public class MiaomiaoClientSettingsViewController: UITableViewController {
             return LocalizedString("Latest Bridge info", comment: "Section title for latest bridge info")
         case .latestCalibrationData:
             return LocalizedString("Latest Autocalibration Parameters", comment: "Section title for latest bridge info")
+       
         }
     }
 
@@ -317,6 +351,8 @@ public class MiaomiaoClientSettingsViewController: UITableViewController {
         case .latestBridgeInfo:
             tableView.deselectRow(at: indexPath, animated: true)
         case .latestCalibrationData:
+            tableView.deselectRow(at: indexPath, animated: true)
+        case .sensorInfo:
             tableView.deselectRow(at: indexPath, animated: true)
         }
     }

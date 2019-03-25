@@ -154,6 +154,17 @@ public final class MiaoMiaoClientManager: CGMManager, MiaoMiaoBluetoothManagerDe
         return MiaoMiaoClientManager.proxy?.sensorData?.serialNumber ?? "n/a"
     }
     
+    public var sensorAge: String {
+        guard let data =  MiaoMiaoClientManager.proxy?.sensorData else {
+            return "n/a"
+        }
+     
+        let sensorStart = Calendar.current.date(byAdding: .minute, value: -data.minutesSinceStart, to: data.date)!
+        
+        return  sensorStart.timeIntervalSinceNow.stringDaysFromTimeInterval() +  " day(s)"
+        
+    }
+    
     public var sensorFooterChecksums: String {
         if let crc = MiaoMiaoClientManager.proxy?.sensorData?.footerCrc.byteSwapped {
             return  "\(crc)"
