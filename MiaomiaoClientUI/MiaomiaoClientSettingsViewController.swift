@@ -13,7 +13,7 @@ import MiaomiaoClient
 
 
 public class MiaomiaoClientSettingsViewController: UITableViewController {
-
+    private let isDemoMode = false
     public var cgmManager: MiaoMiaoClientManager?
 
     public let glucoseUnit: HKUnit
@@ -176,7 +176,7 @@ public class MiaomiaoClientSettingsViewController: UITableViewController {
                 cell.textLabel?.text = LocalizedString("Sensor Footer checksum", comment: "Title describing Sensor footer reverse checksum")
                 
                 
-                cell.detailTextLabel?.text = cgmManager?.sensorFooterChecksums
+                cell.detailTextLabel?.text = isDemoMode ? "demo123" : cgmManager?.sensorFooterChecksums
             }
 
             return cell
@@ -232,7 +232,7 @@ public class MiaomiaoClientSettingsViewController: UITableViewController {
                 cell.textLabel?.text = LocalizedString("Slope_slope", comment: "Title describing calibrationdata slopeslope")
                 
                 if let data=data{
-                    cell.detailTextLabel?.text = "\(data.slope_slope)"
+                    cell.detailTextLabel?.text = "\(data.slope_slope.scientificStyle)"
                 } else {
                     cell.detailTextLabel?.text = SettingsTableViewCell.NoValueString
                 }
@@ -240,7 +240,7 @@ public class MiaomiaoClientSettingsViewController: UITableViewController {
                 cell.textLabel?.text = LocalizedString("Slope_offset", comment: "Title describing calibrationdata slopeoffset")
                 
                 if let data=data{
-                    cell.detailTextLabel?.text = "\(data.slope_offset)"
+                    cell.detailTextLabel?.text = "\(data.slope_offset.scientificStyle)"
                 } else {
                     cell.detailTextLabel?.text = SettingsTableViewCell.NoValueString
                 }
@@ -248,7 +248,7 @@ public class MiaomiaoClientSettingsViewController: UITableViewController {
                 cell.textLabel?.text = LocalizedString("Offset_slope", comment: "Title describing calibrationdata offsetslope")
                 
                 if let data=data{
-                    cell.detailTextLabel?.text = "\(data.offset_slope)"
+                    cell.detailTextLabel?.text = "\(data.offset_slope.scientificStyle)"
                 } else {
                     cell.detailTextLabel?.text = SettingsTableViewCell.NoValueString
                 }
@@ -256,7 +256,7 @@ public class MiaomiaoClientSettingsViewController: UITableViewController {
                 cell.textLabel?.text = LocalizedString("Offset_offset", comment: "Title describing calibrationdata offsetoffset")
                 
                 if let data=data{
-                    cell.detailTextLabel?.text = "\(data.offset_offset)"
+                    cell.detailTextLabel?.text = "\(data.offset_offset.fourDecimals)"
                 } else {
                     cell.detailTextLabel?.text = SettingsTableViewCell.NoValueString
                 }
@@ -265,7 +265,7 @@ public class MiaomiaoClientSettingsViewController: UITableViewController {
                 cell.textLabel?.text = LocalizedString("Valid For Footer", comment: "Title describing calibrationdata validity")
                 
                 if let data=data{
-                    cell.detailTextLabel?.text = "\(data.isValidForFooterWithReverseCRCs)"
+                    cell.detailTextLabel?.text = isDemoMode ? "demo123"  : "\(data.isValidForFooterWithReverseCRCs)"
                 } else {
                     cell.detailTextLabel?.text = SettingsTableViewCell.NoValueString
                 }
@@ -288,7 +288,7 @@ public class MiaomiaoClientSettingsViewController: UITableViewController {
             case .sensorSerialNumber:
                 cell.textLabel?.text = LocalizedString("Sensor Serial", comment: "Title describing sensor serial")
                 
-                cell.detailTextLabel?.text = cgmManager?.sensorSerialNumber
+                cell.detailTextLabel?.text = isDemoMode ? "0M007DEMO1" :cgmManager?.sensorSerialNumber
                 
                 
                 

@@ -53,7 +53,7 @@ extension TimeInterval{
         let days = time / aday
         
         
-        return String(format: "%.02f", days)
+        return days.twoDecimals
         
     }
 }

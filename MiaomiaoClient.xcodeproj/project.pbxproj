@@ -57,6 +57,8 @@
 		27C335EB21667C7C00CF0868 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 27C335E921667C7C00CF0868 /* LaunchScreen.storyboard */; };
 		27CFAB52223EA0B2006DEFE3 /* MiaomiaoClient.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 432B0E881CDFC3C50045347B /* MiaomiaoClient.framework */; };
 		27CFAB53223EA4A7006DEFE3 /* LoopKitUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 272DFE6D223E909500FBE2CB /* LoopKitUI.framework */; };
+		27CFAB5522496C7A006DEFE3 /* DoubleExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27CFAB5422496C7A006DEFE3 /* DoubleExtensions.swift */; };
+		27CFAB5622496CBB006DEFE3 /* DoubleExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27CFAB5422496C7A006DEFE3 /* DoubleExtensions.swift */; };
 		27D0DA6B2231CBB7007BBB2C /* DateExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27D0DA6A2231CBB7007BBB2C /* DateExtensions.swift */; };
 		27E3C390222EDF560036AAC7 /* LibreError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27E3C38F222EDF560036AAC7 /* LibreError.swift */; };
 		27E3C393222EE2EC0036AAC7 /* Calibration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27E3C392222EE2EC0036AAC7 /* Calibration.swift */; };
@@ -175,6 +177,7 @@
 		27C335E721667C7C00CF0868 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		27C335EA21667C7C00CF0868 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		27C335EC21667C7C00CF0868 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		27CFAB5422496C7A006DEFE3 /* DoubleExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DoubleExtensions.swift; sourceTree = "<group>"; };
 		27D0DA6A2231CBB7007BBB2C /* DateExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateExtensions.swift; sourceTree = "<group>"; };
 		27E3C38F222EDF560036AAC7 /* LibreError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibreError.swift; sourceTree = "<group>"; };
 		27E3C392222EE2EC0036AAC7 /* Calibration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Calibration.swift; sourceTree = "<group>"; };
@@ -406,6 +409,7 @@
 		43AB51342133176B00B3D58D /* Common */ = {
 			isa = PBXGroup;
 			children = (
+				27CFAB5422496C7A006DEFE3 /* DoubleExtensions.swift */,
 				43AB51352133177800B3D58D /* LocalizedString.swift */,
 				27D0DA6A2231CBB7007BBB2C /* DateExtensions.swift */,
 			);
@@ -696,6 +700,7 @@
 				27C335B82165667300CF0868 /* LibreGlucose.swift in Sources */,
 				27E3C3A2222EEDCD0036AAC7 /* DerivedAlgorithmParameters.swift in Sources */,
 				2729D69C221F44670030E1B8 /* SensorSerialNumber.swift in Sources */,
+				27CFAB5622496CBB006DEFE3 /* DoubleExtensions.swift in Sources */,
 				43A8EC9D210E68CE00A81379 /* MiaomiaoClientManager.swift in Sources */,
 				43AB51362133177800B3D58D /* LocalizedString.swift in Sources */,
 				2729D693221F44670030E1B8 /* Measurement.swift in Sources */,
@@ -727,6 +732,7 @@
 				4325E9D5210E6B4400969CE5 /* UIColor.swift in Sources */,
 				43A8EC97210E680100A81379 /* ShareService+UI.swift in Sources */,
 				43AB51372133177800B3D58D /* LocalizedString.swift in Sources */,
+				27CFAB5522496C7A006DEFE3 /* DoubleExtensions.swift in Sources */,
 				4325E9D3210E6ADA00969CE5 /* IdentifiableClass.swift in Sources */,
 				43A8EC91210E676500A81379 /* MiaomiaoClientManager+UI.swift in Sources */,
 				43A8EC90210E676500A81379 /* MiaomiaoClientSetupViewController.swift in Sources */,
