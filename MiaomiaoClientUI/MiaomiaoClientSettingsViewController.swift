@@ -58,7 +58,7 @@ public class MiaomiaoClientSettingsViewController: UITableViewController {
         
         case delete
 
-        static let count = 5
+        static let count = 6
     }
 
     override public func numberOfSections(in tableView: UITableView) -> Int {
