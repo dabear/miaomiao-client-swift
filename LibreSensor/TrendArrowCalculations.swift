@@ -32,6 +32,7 @@ class TrendArrowCalculation {
     }
     
     static func GetGlucoseDirection(current: LibreGlucose?, last: LibreGlucose?) -> GlucoseTrend {
+        NSLog("GetGlucoseDirection:: current:\(current), last: \(last)")
         guard let current = current, let last = last else {
             return GlucoseTrend.flat
         }

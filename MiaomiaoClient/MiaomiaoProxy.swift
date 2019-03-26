@@ -14,7 +14,9 @@ import os.log
 import HealthKit
 
 public final class MiaoMiaoClientManager: CGMManager, MiaoMiaoBluetoothManagerDelegate {
-    public var sensorState: SensorDisplayable?
+    public var sensorState: SensorDisplayable? {
+        return latestBackfill
+    }
     
     public var managedDataInterval: TimeInterval?
     
