@@ -59,6 +59,10 @@
 		27CFAB53223EA4A7006DEFE3 /* LoopKitUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 272DFE6D223E909500FBE2CB /* LoopKitUI.framework */; };
 		27CFAB5522496C7A006DEFE3 /* DoubleExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27CFAB5422496C7A006DEFE3 /* DoubleExtensions.swift */; };
 		27CFAB5622496CBB006DEFE3 /* DoubleExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27CFAB5422496C7A006DEFE3 /* DoubleExtensions.swift */; };
+		27CFAB59224977B9006DEFE3 /* GlucoseSmoothing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27CFAB5722497744006DEFE3 /* GlucoseSmoothing.swift */; };
+		27CFAB5C224AA93E006DEFE3 /* TrendArrowCalculations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27CFAB5A224AA8D1006DEFE3 /* TrendArrowCalculations.swift */; };
+		27CFAB5E224AB265006DEFE3 /* CollectionExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27CFAB5D224AB265006DEFE3 /* CollectionExtensions.swift */; };
+		27CFAB5F224AB27B006DEFE3 /* CollectionExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27CFAB5D224AB265006DEFE3 /* CollectionExtensions.swift */; };
 		27D0DA6B2231CBB7007BBB2C /* DateExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27D0DA6A2231CBB7007BBB2C /* DateExtensions.swift */; };
 		27E3C390222EDF560036AAC7 /* LibreError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27E3C38F222EDF560036AAC7 /* LibreError.swift */; };
 		27E3C393222EE2EC0036AAC7 /* Calibration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27E3C392222EE2EC0036AAC7 /* Calibration.swift */; };
@@ -178,6 +182,9 @@
 		27C335EA21667C7C00CF0868 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		27C335EC21667C7C00CF0868 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		27CFAB5422496C7A006DEFE3 /* DoubleExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DoubleExtensions.swift; sourceTree = "<group>"; };
+		27CFAB5722497744006DEFE3 /* GlucoseSmoothing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlucoseSmoothing.swift; sourceTree = "<group>"; };
+		27CFAB5A224AA8D1006DEFE3 /* TrendArrowCalculations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrendArrowCalculations.swift; sourceTree = "<group>"; };
+		27CFAB5D224AB265006DEFE3 /* CollectionExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionExtensions.swift; sourceTree = "<group>"; };
 		27D0DA6A2231CBB7007BBB2C /* DateExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateExtensions.swift; sourceTree = "<group>"; };
 		27E3C38F222EDF560036AAC7 /* LibreError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibreError.swift; sourceTree = "<group>"; };
 		27E3C392222EE2EC0036AAC7 /* Calibration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Calibration.swift; sourceTree = "<group>"; };
@@ -302,6 +309,8 @@
 				27E3C38F222EDF560036AAC7 /* LibreError.swift */,
 				27E3C392222EE2EC0036AAC7 /* Calibration.swift */,
 				27E3C3A1222EEDCD0036AAC7 /* DerivedAlgorithmParameters.swift */,
+				27CFAB5722497744006DEFE3 /* GlucoseSmoothing.swift */,
+				27CFAB5A224AA8D1006DEFE3 /* TrendArrowCalculations.swift */,
 			);
 			path = LibreSensor;
 			sourceTree = "<group>";
@@ -412,6 +421,7 @@
 				27CFAB5422496C7A006DEFE3 /* DoubleExtensions.swift */,
 				43AB51352133177800B3D58D /* LocalizedString.swift */,
 				27D0DA6A2231CBB7007BBB2C /* DateExtensions.swift */,
+				27CFAB5D224AB265006DEFE3 /* CollectionExtensions.swift */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -689,9 +699,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				27E3C39F222EE9A80036AAC7 /* LibreOOPWebExtensions.swift in Sources */,
+				27CFAB5F224AB27B006DEFE3 /* CollectionExtensions.swift in Sources */,
 				27E3C390222EDF560036AAC7 /* LibreError.swift in Sources */,
 				4325E9CF210E6A0A00969CE5 /* HKUnit.swift in Sources */,
+				27CFAB59224977B9006DEFE3 /* GlucoseSmoothing.swift in Sources */,
 				27E3C39A222EE9450036AAC7 /* LibreOOPClient.swift in Sources */,
+				27CFAB5C224AA93E006DEFE3 /* TrendArrowCalculations.swift in Sources */,
 				2729D69F221F44670030E1B8 /* SensorState.swift in Sources */,
 				27D0DA6B2231CBB7007BBB2C /* DateExtensions.swift in Sources */,
 				2729D690221F44670030E1B8 /* TemperatureAlgorithmParameters.swift in Sources */,
@@ -732,6 +745,7 @@
 				4325E9D5210E6B4400969CE5 /* UIColor.swift in Sources */,
 				43A8EC97210E680100A81379 /* ShareService+UI.swift in Sources */,
 				43AB51372133177800B3D58D /* LocalizedString.swift in Sources */,
+				27CFAB5E224AB265006DEFE3 /* CollectionExtensions.swift in Sources */,
 				27CFAB5522496C7A006DEFE3 /* DoubleExtensions.swift in Sources */,
 				4325E9D3210E6ADA00969CE5 /* IdentifiableClass.swift in Sources */,
 				43A8EC91210E676500A81379 /* MiaomiaoClientManager+UI.swift in Sources */,
@@ -1103,6 +1117,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/$(CARTHAGE_PLATFORM_PATH_$(PLATFORM_NAME))",
 				);
+				GCC_OPTIMIZATION_LEVEL = 0;
 				INFOPLIST_FILE = MiaomiaoClient/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";

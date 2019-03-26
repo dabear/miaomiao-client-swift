@@ -271,14 +271,44 @@ public final class MiaoMiaoClientManager: CGMManager, MiaoMiaoBluetoothManagerDe
         }
     }
     private func trendToLibreGlucose(_ measurements: [Measurement]) -> [LibreGlucose]?{
-        var arr = [LibreGlucose]()
+        var origarr = [LibreGlucose]()
+        
+        //whether or not to return all the 16 latest trends or just every fifth element
+        let returnAllTrends = true
+        
+        
         
         for trend in measurements {
-            let glucose = LibreGlucose(glucose: UInt16(trend.temperatureAlgorithmGlucose.rounded().rawValue), trend: UInt8(GlucoseTrend.flat.rawValue), timestamp: trend.date, collector: "MiaoMiao")
-            arr.append(glucose)
+            let glucose = LibreGlucose(unsmoothedGlucose: UInt16(trend.temperatureAlgorithmGlucose.rounded().rawValue), glucose: 0, trend: UInt8(GlucoseTrend.flat.rawValue), timestamp: trend.date, collector: "MiaoMiao")
+            origarr.append(glucose)
+        }
+        //NSLog("dabear:: glucose samples before smoothing: \(String(describing: origarr))")
+        let arr : [LibreGlucose]
+        arr = CalculateSmothedData5Points(origtrends: origarr)
+        
+        
+        
+        for i in 0 ..< arr.count {
+            var trend = arr[i]
+            let arrow = TrendArrowCalculation.GetGlucoseDirection(current: trend, last: arr[safe: i+5])
+            trend.trend = UInt8(arrow.rawValue)
+            NSLog("Date: \(trend.timestamp), before: \(trend.unsmoothedGlucose), after: \(trend.glucose), arrow: \(trend.trend)")
         }
         
-        return arr
+        
+        
+        
+        if returnAllTrends {
+            return arr
+        }
+        
+        var filtered = [LibreGlucose]()
+        for elm in arr.enumerated() where elm.offset % 5 == 0 {
+            filtered.append(elm.element)
+        }
+        
+        //NSLog("dabear:: glucose samples after smoothing: \(String(describing: arr))")
+        return filtered
     }
     
     public func getLastSensorValues(_ callback: @escaping (LibreError?, [LibreGlucose]?) -> Void) {
