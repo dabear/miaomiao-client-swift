@@ -285,7 +285,7 @@ public final class MiaoMiaoClientManager: CGMManager, MiaoMiaoBluetoothManagerDe
             origarr.append(glucose)
         }
         //NSLog("dabear:: glucose samples before smoothing: \(String(describing: origarr))")
-        let arr : [LibreGlucose]
+        var arr : [LibreGlucose]
         arr = CalculateSmothedData5Points(origtrends: origarr)
         
         
@@ -293,7 +293,7 @@ public final class MiaoMiaoClientManager: CGMManager, MiaoMiaoBluetoothManagerDe
         for i in 0 ..< arr.count {
             var trend = arr[i]
             let arrow = TrendArrowCalculation.GetGlucoseDirection(current: trend, last: arr[safe: i+5])
-            trend.trend = UInt8(arrow.rawValue)
+            arr[i].trend = UInt8(arrow.rawValue)
             NSLog("Date: \(trend.timestamp), before: \(trend.unsmoothedGlucose), after: \(trend.glucose), arrow: \(trend.trend)")
         }
         
