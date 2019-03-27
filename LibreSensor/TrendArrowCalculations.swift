@@ -23,7 +23,7 @@ class TrendArrowCalculation {
         
         
         
-        return (Double(last.glucose) - Double(current.glucose)) / (_last - _curr)
+        return (Double(last.unsmoothedGlucose) - Double(current.unsmoothedGlucose)) / (_last - _curr)
     }
     
     static func calculateSlopeByMinute(current: LibreGlucose, last: LibreGlucose) -> Double

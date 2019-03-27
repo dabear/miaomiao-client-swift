@@ -39,7 +39,7 @@ extension LibreGlucose: SensorDisplayable {
     }
     
     public var isLocal: Bool {
-        return false
+        return true
     }
 }
 
