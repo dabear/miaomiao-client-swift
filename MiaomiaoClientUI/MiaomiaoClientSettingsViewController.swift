@@ -141,7 +141,7 @@ public class MiaomiaoClientSettingsViewController: UITableViewController {
 
             
 
-            cell.textLabel?.text = LocalizedString("Credentials", comment: "Title of cell to set credentials")
+            cell.textLabel?.text = LocalizedString("Calibration Settings", comment: "Title of cell to set credentials")
             let tokenLength = cgmManager?.miaomiaoService.accessToken?.count ?? 0
             
             cell.detailTextLabel?.text =  tokenLength > 0 ? "token set" : "token not set"

@@ -28,6 +28,13 @@ class MiaomiaoClientSetupViewController: UINavigationController, CGMManagerSetup
         authVC.authenticationObserver = {  (service) in
             //self?.cgmManager?.miaomiaoService = service
             NSLog("miaomiaoservice was setup")
+            let keychain = KeychainManager()
+            do{
+                NSLog("dabear:: miaomiaoservice setAutoCalibrateWebAccessToken called")
+                try keychain.setAutoCalibrateWebAccessToken(accessToken: service.accessToken, url: service.url)
+            } catch {
+                NSLog("dabear:: miaomiaoservice could not permanently save setAutoCalibrateWebAccessToken")
+            }
             
             return
         }

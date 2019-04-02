@@ -38,7 +38,7 @@ public class MiaomiaoService: ServiceAuthentication {
         return credentialValues[0]
     }
     
-    var url: URL? {
+    public var url: URL? {
         guard let urlString = credentialValues[1] else {
             return nil
         }
@@ -76,7 +76,7 @@ public class MiaomiaoService: ServiceAuthentication {
 let AutoCalibrateWebServiceLabel = "LibreOOPWebClient1"
 
 extension KeychainManager {
-    func setAutoCalibrateWebAccessToken(accessToken: String?, url: URL?) throws {
+    public func setAutoCalibrateWebAccessToken(accessToken: String?, url: URL?) throws {
         let credentials: InternetCredentials?
         
         if let accessToken = accessToken, let url = url {
