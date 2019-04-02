@@ -13,7 +13,7 @@ import MiaomiaoClient
 
 
 public class MiaomiaoClientSettingsViewController: UITableViewController {
-    private let isDemoMode = false
+    private let isDemoMode = true
     public var cgmManager: MiaoMiaoClientManager?
 
     public let glucoseUnit: HKUnit
@@ -328,8 +328,16 @@ public class MiaomiaoClientSettingsViewController: UITableViewController {
             }
             let vc = AuthenticationViewController(authentication: service)
             vc.authenticationObserver = { [weak self] (service) in
-                //self?.cgmManager.miaomiaoService = service
-
+                self?.cgmManager?.miaomiaoService = service
+                
+                let keychain = KeychainManager()
+                do{
+                    NSLog("dabear:: miaomiaoservice alter: setAutoCalibrateWebAccessToken called")
+                    try keychain.setAutoCalibrateWebAccessToken(accessToken: service.accessToken, url: service.url)
+                } catch {
+                    NSLog("dabear:: miaomiaoservice alter:could not permanently save setAutoCalibrateWebAccessToken")
+                }
+                
                 self?.tableView.reloadRows(at: [indexPath], with: .none)
             }
 
