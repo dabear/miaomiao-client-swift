@@ -49,15 +49,17 @@ public final class MiaoMiaoClientManager: CGMManager, MiaoMiaoBluetoothManagerDe
             ].joined(separator: "\n")
     }
     
-    private static var sharedInstance: MiaomiaoService?
+   /* private static var sharedInstance: MiaomiaoService?
     public class var miaomiaoService : MiaomiaoService {
         guard let sharedInstance = self.sharedInstance else {
-            let sharedInstance = MiaomiaoService()
+            let sharedInstance = MiaomiaoService(keychainManager: keychain)
             self.sharedInstance = sharedInstance
             return sharedInstance
         }
         return sharedInstance
-    }
+    }*/
+    
+    public var miaomiaoService : MiaomiaoService
     
     public func fetchNewDataIfNeeded(_ completion: @escaping (CGMResult) -> Void) {
         guard MiaoMiaoClientManager.proxy != nil else {
@@ -136,7 +138,7 @@ public final class MiaoMiaoClientManager: CGMManager, MiaoMiaoBluetoothManagerDe
     public init(){
         lastConnected = nil
         //let isui = (self is CGMManagerUI)
-        
+        self.miaomiaoService = MiaomiaoService(keychainManager: keychain)
         
         os_log("dabear: MiaoMiaoClientManager will be created now")
         //proxy = MiaoMiaoBluetoothManager()
@@ -144,6 +146,9 @@ public final class MiaoMiaoClientManager: CGMManager, MiaoMiaoBluetoothManagerDe
             //proxy?.connect()
         
         MiaoMiaoClientManager.instanceCount += 1
+        
+        
+        
         
     }
     
@@ -226,13 +231,13 @@ public final class MiaoMiaoClientManager: CGMManager, MiaoMiaoBluetoothManagerDe
             if instanceCount < 1 {
                 os_log("dabear:: instancecount is 0, deiniting service", type: .default)
                 MiaoMiaoClientManager.sharedProxy = nil
-                MiaoMiaoClientManager.sharedInstance = nil
+                //MiaoMiaoClientManager.sharedInstance = nil
             }
             //this is another attempt to workaround a bug where multiple managers might exist
             if oldValue > instanceCount {
                 os_log("dabear:: MiaoMiaoClientManager decremented, stop all miaomiao bluetooth services")
                 MiaoMiaoClientManager.sharedProxy = nil
-                MiaoMiaoClientManager.sharedInstance = nil
+                //MiaoMiaoClientManager.sharedInstance = nil
             }
             
             
@@ -292,6 +297,9 @@ public final class MiaoMiaoClientManager: CGMManager, MiaoMiaoBluetoothManagerDe
         
         for i in 0 ..< arr.count {
             var trend = arr[i]
+            //we know that the array "always" (almost) will contain 16 entries
+            //the last five entries will get a trend arrow of flat, because it's not computable when we don't have
+            //more entries in the array to base it on
             let arrow = TrendArrowCalculation.GetGlucoseDirection(current: trend, last: arr[safe: i+5])
             arr[i].trend = UInt8(arrow.rawValue)
             NSLog("Date: \(trend.timestamp), before: \(trend.unsmoothedGlucose), after: \(trend.glucose), arrow: \(trend.trend)")

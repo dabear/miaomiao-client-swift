@@ -139,10 +139,12 @@ public class MiaomiaoClientSettingsViewController: UITableViewController {
         case .authentication:
             let cell = tableView.dequeueReusableCell(withIdentifier: SettingsTableViewCell.className, for: indexPath) as! SettingsTableViewCell
 
-            //let service = cgmManager.miaomiaoService
+            
 
             cell.textLabel?.text = LocalizedString("Credentials", comment: "Title of cell to set credentials")
-            cell.detailTextLabel?.text = "no username needed"
+            let tokenLength = cgmManager?.miaomiaoService.accessToken?.count ?? 0
+            
+            cell.detailTextLabel?.text =  tokenLength > 0 ? "token set" : "token not set"
             cell.accessoryType = .disclosureIndicator
 
             return cell
@@ -319,7 +321,12 @@ public class MiaomiaoClientSettingsViewController: UITableViewController {
     public override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         switch Section(rawValue: indexPath.section)! {
         case .authentication:
-            let vc = AuthenticationViewController(authentication: MiaoMiaoClientManager.miaomiaoService)
+            guard let service = cgmManager?.miaomiaoService else {
+                NSLog("dabear:: no miaomiaoservice?")
+                self.tableView.reloadRows(at: [indexPath], with: .none)
+                break
+            }
+            let vc = AuthenticationViewController(authentication: service)
             vc.authenticationObserver = { [weak self] (service) in
                 //self?.cgmManager.miaomiaoService = service
 

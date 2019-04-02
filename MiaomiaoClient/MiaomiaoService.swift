@@ -16,41 +16,35 @@ public class MiaomiaoService: ServiceAuthentication {
 
     public let title: String = LocalizedString("MiaomiaoService", comment: "The title of the MiaomiaoService")
     
-    //private static var _client: MiaoMiaoProxy? = nil
-    //todo: This shouldn't be a singleton,
-    // but is required because Loop seems to be creating two instances of the cgmmanager sometimes
-    /*public var client: MiaoMiaoProxy? {
-        get {
-            return nil
-            if let client = MiaomiaoService._client {
-                return client
-            }
-            
-            MiaomiaoService._client = MiaoMiaoProxy()
-            return MiaomiaoService._client!
-        }
-        set {
-            MiaomiaoService._client = newValue
-        }
-    }*/
+   
 
-    public init() {
+    public init( accessToken: String?, url: URL?) {
         os_log("dabear: MiaomiaoService init here")
+        credentialValues = [
+            accessToken,
+            url?.absoluteString
+        ]
         
-        credentialValues = [""]
-        isAuthorized = true
-        //client will only be needed to be created once
         
-        //client = MiaoMiaoProxy()
-        //client?.connect()
+        if let accessToken = accessToken, let url = url {
+            isAuthorized = true
+        }
+        
+       
         
     }
-
-    // The share client
-    //private(set) var client: MiaoMiaoProxy?
-
     
-   
+    public var accessToken: String? {
+        return credentialValues[0]
+    }
+    
+    var url: URL? {
+        guard let urlString = credentialValues[1] else {
+            return nil
+        }
+        
+        return URL(string: urlString)
+    }
 
     public var isAuthorized: Bool = false
 
@@ -79,9 +73,43 @@ public class MiaomiaoService: ServiceAuthentication {
         //client = nil
     }
 }
+let AutoCalibrateWebServiceLabel = "LibreOOPWebClient1"
+
+extension KeychainManager {
+    func setAutoCalibrateWebAccessToken(accessToken: String?, url: URL?) throws {
+        let credentials: InternetCredentials?
+        
+        if let accessToken = accessToken, let url = url {
+            credentials = InternetCredentials(username: "whatever", password: accessToken, url: url)
+        } else {
+            credentials = nil
+        }
+    
+        try replaceInternetCredentials(credentials, forLabel: AutoCalibrateWebServiceLabel)
+    }
+    
+    func getAutoCalibrateWebCredentials() -> (accessToken: String, url: URL)? {
+        do { // Silence all errors and return nil
+            do {
+                let credentials = try getInternetCredentials(label: AutoCalibrateWebServiceLabel)
+                
+                return (accessToken: credentials.password, url: credentials.url)
+            }
+        } catch {
+            return nil
+        }
+    }
+}
 
 
 
-private let SpikeGlucoseServiceLabel = "MiaomiaoClient1"
-
+extension MiaomiaoService {
+    public convenience init(keychainManager: KeychainManager = KeychainManager()) {
+        if let (accessToken, url) = keychainManager.getAutoCalibrateWebCredentials() {
+            self.init(accessToken: accessToken, url: url)
+        } else {
+            self.init(accessToken: nil, url: nil)
+        }
+    }
+}
 

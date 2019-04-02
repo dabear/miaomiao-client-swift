@@ -14,15 +14,21 @@ import MiaomiaoClient
 class MiaomiaoClientSetupViewController: UINavigationController, CGMManagerSetupViewController {
     var setupDelegate: CGMManagerSetupViewControllerDelegate?
 
-    lazy var cgmManager : MiaoMiaoClientManager? = MiaoMiaoClientManager()
+    lazy var cgmManager : MiaoMiaoClientManager? =  MiaoMiaoClientManager()
 
     init() {
-        let authVC = AuthenticationViewController(authentication: MiaoMiaoClientManager.miaomiaoService)
+        
+        let service = MiaomiaoService(keychainManager: KeychainManager())
+        let authVC = AuthenticationViewController(authentication: service)
+        
+        
 
         super.init(rootViewController: authVC)
 
         authVC.authenticationObserver = {  (service) in
             //self?.cgmManager?.miaomiaoService = service
+            NSLog("miaomiaoservice was setup")
+            
             return
         }
         /*
@@ -40,7 +46,7 @@ class MiaomiaoClientSetupViewController: UINavigationController, CGMManagerSetup
     
     deinit {
         NSLog("dabear MiaomiaoClientSetupViewController() deinit was called")
-        cgmManager = nil
+        //cgmManager = nil
     }
 
     required init?(coder aDecoder: NSCoder) {

@@ -8,17 +8,27 @@
 import LoopKitUI
 import MiaomiaoClient
 
+public enum LibreOOPWebAzzure: String {
+    case LibreOOPWebAzzure="https://libreoopweb.azurewebsites.net"
+    
+    
+}
 
 extension MiaomiaoService: ServiceAuthenticationUI {
     public var credentialFormFields: [ServiceCredential] {
         return [
-           
+
             ServiceCredential(
-                title: LocalizedString("Libre Sensor operational mode", comment: "The title of the Sensor operational mode"),
+                title: LocalizedString("Password", comment: "The title of the Spike password credential"),
+                isSecret: true,
+                keyboardType: .asciiCapable
+            ),
+            ServiceCredential(
+                title: LocalizedString("AutoCalibrationSite", comment: "The title of the auto calibration server URL credential"),
                 isSecret: false,
                 options: [
-                    (title: LocalizedString("Spike", comment: "Spike server option title"),
-                     value: "Default raw operational mode")
+                    (title: LocalizedString("LibreOOPWeb", comment: "LibreOOPWeb server option"),
+                     value: LibreOOPWebAzzure.LibreOOPWebAzzure.rawValue)
                     
                 ]
             )
