@@ -321,10 +321,10 @@ public final class MiaoMiaoClientManager: CGMManager, MiaoMiaoBluetoothManagerDe
         return filtered
     }
     
-    public func getLastSensorValues(_ callback: @escaping (LibreError?, [LibreGlucose]?) -> Void) {
+    public func handleGoodReading(data: SensorData?,_ callback: @escaping (LibreError?, [LibreGlucose]?) -> Void) {
         //only care about the once per minute readings here, historical data will not be considered
         
-        guard let data=lastValidSensorData else {
+        guard let data=data else {
             callback(LibreError.noSensorData, nil)
             return
             
@@ -427,16 +427,16 @@ public final class MiaoMiaoClientManager: CGMManager, MiaoMiaoBluetoothManagerDe
                 NSLog("dabear:: got sensordata with valid crcs, sensor was ready")
                 self.lastValidSensorData = sensorData
                 
-                self.getLastSensorValues { (error, glucose) in
+                self.handleGoodReading(data: sensorData) { (error, glucose) in
                     if let error = error {
-                        NSLog("dabear:: getLastSensorValues returned with error")
+                        NSLog("dabear:: handleGoodReading returned with error: \(error)")
                         
                         self.cgmManagerDelegate?.cgmManager(self, didUpdateWith: .error(error))
                         return
                     }
                     
                     guard let glucose = glucose else {
-                        NSLog("dabear:: getLastSensorValues returned with no data")
+                        NSLog("dabear:: handleGoodReading returned with no data")
                         self.cgmManagerDelegate?.cgmManager(self, didUpdateWith: .noData)
                         
                         return
@@ -450,11 +450,11 @@ public final class MiaoMiaoClientManager: CGMManager, MiaoMiaoBluetoothManagerDe
                     self.latestBackfill = glucose.first
                     
                     if newGlucose.count > 0 {
-                        NSLog("dabear:: getLastSensorValues returned with \(newGlucose.count) new glucose samples")
+                        NSLog("dabear:: handleGoodReading returned with \(newGlucose.count) new glucose samples")
                         self.cgmManagerDelegate?.cgmManager(self, didUpdateWith: .newData(newGlucose))
                         
                     } else {
-                        NSLog("dabear:: getLastSensorValues returned with no new data")
+                        NSLog("dabear:: handleGoodReading returned with no new data")
                         self.cgmManagerDelegate?.cgmManager(self, didUpdateWith: .noData)
                         
                     }
