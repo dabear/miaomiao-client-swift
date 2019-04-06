@@ -14,4 +14,6 @@ public enum LibreError: Error {
     case invalidCalibrationData
     case checksumValidationError
     case expiredSensor
+    case invalidAutoCalibrationCredentials
+    case encryptedSensor
 }

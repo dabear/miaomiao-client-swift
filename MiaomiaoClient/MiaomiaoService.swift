@@ -49,16 +49,22 @@ public class MiaomiaoService: ServiceAuthentication {
     public var isAuthorized: Bool = false
 
     public func verify(_ completion: @escaping (_ success: Bool, _ error: Error?) -> Void) {
-        //client = MiaoMiaoProxy()
-
-        /*let client = MiaomiaoClient()
-        /*client.fetchLast(1) { (error, _) in
-            completion(true, error)
-
-        }*/
-        self.client = client*/
-        //TODO: don't always assume success
-        completion(true, nil)
+        
+        guard let accessToken = accessToken, let url = url else {
+            completion(false, nil)
+            return
+        }
+        
+        let client = LibreOOPClient(accessToken: accessToken, site: url.absoluteString)
+        
+        client.verifyToken { (success) in
+            var error : Error? = nil
+            if !success {
+                error = LibreError.invalidAutoCalibrationCredentials
+            }
+            completion(success, error)
+        }
+        
     }
 
     public func reset() {

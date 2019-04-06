@@ -13,7 +13,7 @@ import MiaomiaoClient
 
 
 public class MiaomiaoClientSettingsViewController: UITableViewController {
-    private let isDemoMode = true
+    private let isDemoMode = false
     public var cgmManager: MiaoMiaoClientManager?
 
     public let glucoseUnit: HKUnit
