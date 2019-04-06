@@ -352,8 +352,16 @@ public final class MiaoMiaoClientManager: CGMManager, MiaoMiaoBluetoothManagerDe
             
         }
         
-        calibrateSensor(data) { [weak self] (params)  in
-            guard let params = params else {
+        guard let (accessToken, url) =  self.keychain.getAutoCalibrateWebCredentials() else {
+            NSLog("dabear:: could not calibrate, accesstoken or url was nil")
+            callback(LibreError.invalidAutoCalibrationCredentials, nil)
+            return
+        }
+        
+        
+        
+        calibrateSensor(accessToken: accessToken, site: url.absoluteString, sensordata: data) { [weak self] (calibrationparams)  in
+            guard let params = calibrationparams else {
                 NSLog("dabear:: could not calibrate sensor, check libreoopweb permissions and internet connection")
                 callback(LibreError.noCalibrationData, nil)
                 return
