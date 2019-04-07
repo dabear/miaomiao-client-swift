@@ -408,17 +408,20 @@ public final class MiaoMiaoClientManager: CGMManager, MiaoMiaoBluetoothManagerDe
             // this was the case for readouts that were not yet complete
             // but that was commented out in MiaoMiaoManager.swift, see comment there:
             // "dabear-edit: don't notify on incomplete readouts"
-            os_log("incomplete package or unknown response state")
+            NSLog("dabear:: incomplete package or unknown response state")
             return
         }
         
         switch packet {
         case .newSensor:
-            //invalidate any saved calibration parameters
+            NSLog("dabear:: new libresensor detected")
             break
         case .noSensor:
+            NSLog("dabear:: no libresensor detected")
             break
-        //consider notifying user here that sensor is not found
+        case .frequencyChangedResponse:
+            NSLog("dabear:: miaomiao readout interval has changed!")
+            break
         default:
             //we don't care about the rest!
             break
