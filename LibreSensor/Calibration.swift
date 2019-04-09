@@ -15,14 +15,14 @@ private let LibreUsername = "LibreUsername"
 
 
 extension KeychainManager {
-    func setLibreCalibrationData(_ calibrationData: DerivedAlgorithmParameters) throws {
+    public func setLibreCalibrationData(_ calibrationData: DerivedAlgorithmParameters) throws {
         let credentials: InternetCredentials?
         credentials = InternetCredentials(username: LibreUsername, password: serializeAlgorithmParameters(calibrationData), url: LibreCalibrationUrl)
         NSLog("dabear: Setting calibrationdata to \(String(describing: calibrationData))")
         try replaceInternetCredentials(credentials, forLabel: LibreCalibrationLabel)
     }
     
-    func getLibreCalibrationData() -> DerivedAlgorithmParameters? {
+    public func getLibreCalibrationData() -> DerivedAlgorithmParameters? {
         do { // Silence all errors and return nil
             let credentials = try getInternetCredentials(label: LibreCalibrationLabel)
             NSLog("dabear:: credentials.password was retrieved: \(credentials.password)")
@@ -34,7 +34,7 @@ extension KeychainManager {
     }
 }
 
-func calibrateSensor(accessToken: String, site:String, sensordata: SensorData,  callback: @escaping (DerivedAlgorithmParameters?) -> Void) {
+public func calibrateSensor(accessToken: String, site:String, sensordata: SensorData,  callback: @escaping (DerivedAlgorithmParameters?) -> Void) {
     
     let libreOOPClient = LibreOOPClient(accessToken: accessToken, site: site)
     libreOOPClient.uploadCalibration(reading: sensordata.bytes, {calibrationResult, success, errormessage in

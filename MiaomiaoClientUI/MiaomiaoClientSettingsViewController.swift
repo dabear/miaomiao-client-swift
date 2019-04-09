@@ -366,15 +366,90 @@ public class MiaomiaoClientSettingsViewController: UITableViewController {
         case .latestBridgeInfo:
             tableView.deselectRow(at: indexPath, animated: true)
         case .latestCalibrationData:
-            tableView.deselectRow(at: indexPath, animated: true)
+            
+            let confirmVC = UIAlertController(calibrateHandler:  {
+                NSLog("dabear:: confirmed: will recalibrate")
+                NSLog("dabear:: recalibrate, cmgmanager is: \(self.cgmManager)")
+                if let cgmManager = self.cgmManager {
+                   
+                    guard let (accessToken, url) =  cgmManager.keychain.getAutoCalibrateWebCredentials() else {
+                        NSLog("dabear:: could not calibrate, accesstoken or url was nil")
+                        self.presentStatus(OKAlertController(LibreError.invalidAutoCalibrationCredentials.errorDescription, title: "Error"))
+                        
+                        return
+                    }
+                    
+                    guard let data = cgmManager.lastValidSensorData else {
+                        NSLog("No sensordata was present, unable to recalibrate!")
+                        self.presentStatus(OKAlertController(LibreError.noSensorData.errorDescription, title: "Error"))
+                        
+                        return
+                    }
+                    
+                    calibrateSensor(accessToken: accessToken, site: url.absoluteString, sensordata: data) { [weak self] (calibrationparams)  in
+                        guard let params = calibrationparams else {
+                            NSLog("dabear:: could not calibrate sensor, check libreoopweb permissions and internet connection")
+                            self?.presentStatus(OKAlertController(LibreError.noCalibrationData.errorDescription, title: "Error"))
+                            
+                            return
+                        }
+                        
+                        do {
+                            try self?.cgmManager?.keychain.setLibreCalibrationData(params)
+                        } catch {
+                            NSLog("dabear:: could not save calibrationdata")
+                            self?.presentStatus(OKAlertController(LibreError.invalidCalibrationData.errorDescription, title: "Error"))
+                            return
+                        }
+                        
+                        self?.presentStatus(OKAlertController("Calibration success!", title: "Success"))
+                       
+                        
+                        
+                    }
+                    
+                    
+                    
+                }
+                
+                
+            })
+            
+            present(confirmVC, animated: true) {
+                tableView.deselectRow(at: indexPath, animated: true)
+                
+            }
+            
+            
         case .sensorInfo:
             tableView.deselectRow(at: indexPath, animated: true)
         }
     }
+    
+    func presentStatus(_ controller: UIAlertController) {
+        self.present(controller, animated: true) {
+            NSLog("calibrationstatus shown")
+        }
+    }
+}
+
+func OKAlertController(_ message: String, title: String )-> UIAlertController {
+    let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
+    
+    // Create OK button
+    let OKAction = UIAlertAction(title: "OK", style: .default) { (action:UIAlertAction!) in
+        
+        // Code in this block will trigger when OK button tapped.
+        
+        
+    }
+    alertController.addAction(OKAction)
+    return alertController
 }
 
 
 private extension UIAlertController {
+    
     convenience init(cgmDeletionHandler handler: @escaping () -> Void) {
         self.init(
             title: nil,
@@ -390,6 +465,24 @@ private extension UIAlertController {
             }
         ))
 
+        let cancel = LocalizedString("Cancel", comment: "The title of the cancel action in an action sheet")
+        addAction(UIAlertAction(title: cancel, style: .cancel, handler: nil))
+    }
+    convenience init(calibrateHandler handler: @escaping () -> Void) {
+        self.init(
+            title: nil,
+            message: LocalizedString("Are you sure you want to recalibrate this sensor?", comment: "Confirmation message for recalibrate sensor"),
+            preferredStyle: .actionSheet
+        )
+        
+        addAction(UIAlertAction(
+            title: LocalizedString("Recalibrate", comment: "Button title to recalibrate"),
+            style: .destructive,
+            handler: { (_) in
+                handler()
+        }
+        ))
+        
         let cancel = LocalizedString("Cancel", comment: "The title of the cancel action in an action sheet")
         addAction(UIAlertAction(title: cancel, style: .cancel, handler: nil))
     }

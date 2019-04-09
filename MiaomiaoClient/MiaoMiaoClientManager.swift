@@ -115,7 +115,7 @@ public final class MiaoMiaoClientManager: CGMManager, MiaoMiaoBluetoothManagerDe
         return [:]
     }
     
-    private let keychain = KeychainManager()
+    public let keychain = KeychainManager()
     
     //public var miaomiaoService: MiaomiaoService
     
@@ -130,7 +130,7 @@ public final class MiaoMiaoClientManager: CGMManager, MiaoMiaoBluetoothManagerDe
     public let shouldSyncToRemoteService = true
 
     
-    private var lastValidSensorData : SensorData? = nil
+    private(set) public var lastValidSensorData : SensorData? = nil
     
     
     

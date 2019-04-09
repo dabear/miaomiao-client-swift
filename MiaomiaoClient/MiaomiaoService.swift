@@ -94,7 +94,7 @@ extension KeychainManager {
         try replaceInternetCredentials(credentials, forLabel: AutoCalibrateWebServiceLabel)
     }
     
-    func getAutoCalibrateWebCredentials() -> (accessToken: String, url: URL)? {
+    public func getAutoCalibrateWebCredentials() -> (accessToken: String, url: URL)? {
         do { // Silence all errors and return nil
             do {
                 let credentials = try getInternetCredentials(label: AutoCalibrateWebServiceLabel)
