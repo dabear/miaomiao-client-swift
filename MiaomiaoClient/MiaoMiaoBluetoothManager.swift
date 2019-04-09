@@ -337,7 +337,7 @@ final class MiaoMiaoBluetoothManager: NSObject, CBCentralManagerDelegate, CBPeri
                     self.peripheral = peripheral
                     connect()
                 } else {
-                    os_log("Did not connect to miamiao with identifier %{public}@, because it did not match previously connected miaomiao with identifer", log: MiaoMiaoBluetoothManager.bt_log, type: .default, String(describing: peripheral.identifier.uuidString), lastConnectedIdentifier)
+                    os_log("Did not connect to miamiao with identifier %{public}@, because it did not match previously connected miaomiao with identifer %{public}@", log: MiaoMiaoBluetoothManager.bt_log, type: .default, String(describing: peripheral.identifier.uuidString), lastConnectedIdentifier)
                 }
                 
             } else {
