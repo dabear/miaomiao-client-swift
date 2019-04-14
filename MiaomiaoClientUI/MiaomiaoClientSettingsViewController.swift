@@ -55,6 +55,7 @@ public class MiaomiaoClientSettingsViewController: UITableViewController {
         case sensorInfo
         case latestBridgeInfo
         case latestCalibrationData
+        case alarms
         
         case delete
 
@@ -100,6 +101,12 @@ public class MiaomiaoClientSettingsViewController: UITableViewController {
         
         static let count = 5
     }
+    
+    private enum AlarmInfoRow {
+        case alarms
+        
+        static let count = 1
+    }
 
     override public func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         switch Section(rawValue: section)! {
@@ -117,6 +124,8 @@ public class MiaomiaoClientSettingsViewController: UITableViewController {
         case .latestCalibrationData:
             return LatestCalibrationDataInfoRow.count
         
+        case .alarms:
+            return AlarmInfoRow.count
         }
     }
 
@@ -297,6 +306,12 @@ public class MiaomiaoClientSettingsViewController: UITableViewController {
                 
             }
             return cell
+        case .alarms:
+            let cell = tableView.dequeueReusableCell(withIdentifier: SettingsTableViewCell.className, for: indexPath) as! SettingsTableViewCell
+            cell.textLabel?.text = LocalizedString("Alarms", comment: "Title describing sensor serial")
+            
+            cell.detailTextLabel?.text = "Alarms details"
+            return cell
         }
     }
 
@@ -315,6 +330,8 @@ public class MiaomiaoClientSettingsViewController: UITableViewController {
         case .latestCalibrationData:
             return LocalizedString("Latest Autocalibration Parameters", comment: "Section title for latest bridge info")
        
+        case .alarms:
+            return LocalizedString("Alarms", comment: "Section Alarms")
         }
     }
 
@@ -368,8 +385,7 @@ public class MiaomiaoClientSettingsViewController: UITableViewController {
         case .latestCalibrationData:
             
             let confirmVC = UIAlertController(calibrateHandler:  {
-                NSLog("dabear:: confirmed: will recalibrate")
-                NSLog("dabear:: recalibrate, cmgmanager is: \(self.cgmManager)")
+               
                 if let cgmManager = self.cgmManager {
                    
                     guard let (accessToken, url) =  cgmManager.keychain.getAutoCalibrateWebCredentials() else {
@@ -423,6 +439,10 @@ public class MiaomiaoClientSettingsViewController: UITableViewController {
             
         case .sensorInfo:
             tableView.deselectRow(at: indexPath, animated: true)
+        case .alarms:
+            tableView.deselectRow(at: indexPath, animated: true)
+            let alarmsVC = AlarmSettingsTableViewController()
+            show(alarmsVC, sender: nil)
         }
     }
     
