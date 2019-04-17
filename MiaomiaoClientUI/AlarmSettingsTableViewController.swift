@@ -41,11 +41,14 @@ public class AlarmSettingsTableViewController: UITableViewController, AlarmTimeI
     }
     
     
-    
+    private var datepickerSender : AlarmTimeInputRangeCell?
     public func didPickTime(_ start: String, end: String, startComponents: DateComponents?, endComponents: DateComponents?) {
         NSLog("YES, TIME WAS PICKED")
         print(startComponents)
         print(endComponents)
+        
+        datepickerSender?.minValue = start
+        datepickerSender?.maxValue = end
     }
     
     
@@ -59,6 +62,7 @@ public class AlarmSettingsTableViewController: UITableViewController, AlarmTimeI
         //self.navigationController?.pushViewController(timePicker, animated: true)
         self.navigationController?.show(timePicker, sender: cell)
         timePicker.delegate = self
+        self.datepickerSender = cell
     }
     
     public var maximumBasalRatePerHour: Double? {
