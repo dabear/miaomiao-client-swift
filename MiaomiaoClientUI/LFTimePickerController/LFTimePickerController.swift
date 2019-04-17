@@ -357,9 +357,11 @@ extension LFTimePickerController: UITableViewDelegate {
         
         
         
-        
+        var currentLeftIndex : Int?
+        var currentRightIndex : Int?
         if let rowIndex = leftTimeTable.indexPathsForVisibleRows?.first?.row {
             firstRowIndex = rowIndex
+            currentLeftIndex = rowIndex
         }
         
         /*if rightTimeTable.visibleCells.count < leftTimeTable.visibleCells.count {
@@ -369,8 +371,15 @@ extension LFTimePickerController: UITableViewDelegate {
         
         if let rowIndex = rightTimeTable.indexPathsForVisibleRows?.first?.row {
             firstRowIndex = rowIndex
+            currentRightIndex = rowIndex
         }
         
+        if let currentLeftIndex=currentLeftIndex,
+            let currentRightIndex=currentRightIndex,
+            currentLeftIndex > currentRightIndex{
+            let indexPath = IndexPath(row: currentLeftIndex+3, section: 0)
+            rightTimeTable.scrollToRow(at: indexPath, at: .top, animated: false)
+        }
         
     }
 }
