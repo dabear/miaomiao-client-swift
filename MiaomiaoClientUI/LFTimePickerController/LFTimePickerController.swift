@@ -74,7 +74,7 @@ open class LFTimePickerController: UIViewController {
     }
     
     open var backgroundColor = UIColor(red: 255 / 255, green: 128 / 255, blue: 0, alpha: 1)
-    
+    //open var backgroundColor = UIColor.white
     open var titleText: String = "Schedule"
     open var saveText: String = "Save"
     open var cancelText: String = "Cancel"
@@ -173,7 +173,7 @@ open class LFTimePickerController: UIViewController {
         lblLeftTimeSelected.center = CGPoint(x: 100, y: detailBackgroundView.frame.height / 2)
         
         lblLeftTimeSelected.font = UIFont.systemFont(ofSize: 40)
-        lblLeftTimeSelected.text = "00:00"
+        lblLeftTimeSelected.text = LFTimePickerController.wants12hourClock ? "12:00 AM" : "00:00"
         if let first = startTimes[safe: 9] {
             lastSelectedComponentLeft = first
         } else {
@@ -186,7 +186,7 @@ open class LFTimePickerController: UIViewController {
         lblRightTimeSelected.center = CGPoint(x: detailBackgroundView.bounds.width - 100, y: detailBackgroundView.frame.height / 2)
         
         lblRightTimeSelected.font = UIFont.systemFont(ofSize: 40)
-        lblRightTimeSelected.text = "00:00"
+        lblRightTimeSelected.text = LFTimePickerController.wants12hourClock ? "12:00 AM" : "00:00"
         if let first = endTimes[safe: 9] {
             lastSelectedComponentRight = first
         } else {
@@ -325,7 +325,7 @@ extension LFTimePickerController: UITableViewDelegate {
             }
             
         } else {
-            self.lblLeftTimeSelected.text = "00:00"
+            self.lblLeftTimeSelected.text = LFTimePickerController.wants12hourClock ? "12:00 AM" : "00:00"
             if let first = startTimes[safe: 9]{
                 lastSelectedComponentLeft = first
             } else {
@@ -346,7 +346,7 @@ extension LFTimePickerController: UITableViewDelegate {
                 self.lblRightTimeSelected.text = lastSelectedRight
             }
         } else {
-            lblRightTimeSelected.text = "00:00"
+            lblRightTimeSelected.text = LFTimePickerController.wants12hourClock ? "12:00 AM" : "00:00"
             
             if let first = endTimes[safe: 9] {
                 lastSelectedComponentRight = first

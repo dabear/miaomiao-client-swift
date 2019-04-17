@@ -49,6 +49,8 @@ public class AlarmSettingsTableViewController: UITableViewController, AlarmTimeI
         
         datepickerSender?.minValue = start
         datepickerSender?.maxValue = end
+        datepickerSender?.minComponents = startComponents
+        datepickerSender?.maxComponents = endComponents
     }
     
     
