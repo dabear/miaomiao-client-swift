@@ -13,11 +13,15 @@ import UIKit
 
 
 protocol AlarmTimeInputCellDelegate: class {
-    func AlarmTimeInputCelllDidUpdateValue(_ cell: AlarmTimeInputRangeCell)
+    //func AlarmTimeInputCellDidUpdateValue(_ cell: AlarmTimeInputRangeCell)
+    func AlarmTimeInputRangeCellDidTouch(_ cell: AlarmTimeInputRangeCell)
 }
 
 
 class AlarmTimeInputRangeCell: UITableViewCell, UITextFieldDelegate {
+    
+    
+    
     
     weak var delegate: AlarmTimeInputCellDelegate?
     
@@ -81,6 +85,7 @@ class AlarmTimeInputRangeCell: UITableViewCell, UITextFieldDelegate {
         
         // code which you want to execute when the user touch myTextField
         NSLog("dabear:: user has touched mytextfield")
+        delegate?.AlarmTimeInputRangeCellDidTouch(self)
         return false
     }
     
@@ -105,6 +110,6 @@ class AlarmTimeInputRangeCell: UITableViewCell, UITextFieldDelegate {
             break
         }
         
-        delegate?.AlarmTimeInputCelllDidUpdateValue(self)
+        //delegate?.AlarmTimeInputCelllDidUpdateValue(self)
     }
 }

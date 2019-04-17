@@ -47,6 +47,9 @@
 		275B74912225BF90009CD5EB /* MiaomiaoClient.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 432B0E881CDFC3C50045347B /* MiaomiaoClient.framework */; };
 		275B74922225BF90009CD5EB /* MiaomiaoClient.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 432B0E881CDFC3C50045347B /* MiaomiaoClient.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		275B74952225C137009CD5EB /* MiaoMiaoBluetoothManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2729D67A221F421F0030E1B8 /* MiaoMiaoBluetoothManager.swift */; };
+		2769B5BC2264EE4A006F1935 /* LFTimePickerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2769B5BB2264EE4A006F1935 /* LFTimePickerController.swift */; };
+		2769B5BE2264FA22006F1935 /* DateComponentUITableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2769B5BD2264FA22006F1935 /* DateComponentUITableViewCell.swift */; };
+		2769B5C12267766F006F1935 /* LFTimePickerControllerOriginal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2769B5C02267766F006F1935 /* LFTimePickerControllerOriginal.swift */; };
 		2795404F2165502600D657E5 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2795404E2165502600D657E5 /* main.swift */; };
 		27C335B82165667300CF0868 /* LibreGlucose.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43C418AE1CE0488900405B6A /* LibreGlucose.swift */; };
 		27C335B9216566C500CF0868 /* MiaomiaoClient.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 432B0E881CDFC3C50045347B /* MiaomiaoClient.framework */; };
@@ -176,6 +179,9 @@
 		2729D6A722248BDD0030E1B8 /* MiaoMiaoClientManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MiaoMiaoClientManager.swift; sourceTree = "<group>"; };
 		272DFE6D223E909500FBE2CB /* LoopKitUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = LoopKitUI.framework; path = ../../Build/iOS/LoopKitUI.framework; sourceTree = "<group>"; };
 		272DFE70223E909E00FBE2CB /* LoopKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = LoopKit.framework; path = ../../Build/iOS/LoopKit.framework; sourceTree = "<group>"; };
+		2769B5BB2264EE4A006F1935 /* LFTimePickerController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LFTimePickerController.swift; sourceTree = "<group>"; };
+		2769B5BD2264FA22006F1935 /* DateComponentUITableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateComponentUITableViewCell.swift; sourceTree = "<group>"; };
+		2769B5C02267766F006F1935 /* LFTimePickerControllerOriginal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LFTimePickerControllerOriginal.swift; sourceTree = "<group>"; };
 		2795404C2165502600D657E5 /* clitester */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = clitester; sourceTree = BUILT_PRODUCTS_DIR; };
 		2795404E2165502600D657E5 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		27C335DE21667C7A00CF0868 /* singleviewtesterapp2.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = singleviewtesterapp2.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -323,6 +329,16 @@
 			path = LibreSensor;
 			sourceTree = "<group>";
 		};
+		2769B5BA2264EDFD006F1935 /* LFTimePickerController */ = {
+			isa = PBXGroup;
+			children = (
+				2769B5BB2264EE4A006F1935 /* LFTimePickerController.swift */,
+				2769B5BD2264FA22006F1935 /* DateComponentUITableViewCell.swift */,
+				2769B5C02267766F006F1935 /* LFTimePickerControllerOriginal.swift */,
+			);
+			path = LFTimePickerController;
+			sourceTree = "<group>";
+		};
 		2795404D2165502600D657E5 /* clitester */ = {
 			isa = PBXGroup;
 			children = (
@@ -410,6 +426,7 @@
 		43A8EC83210E664300A81379 /* MiaomiaoClientUI */ = {
 			isa = PBXGroup;
 			children = (
+				2769B5BA2264EDFD006F1935 /* LFTimePickerController */,
 				27CBEB5B2261E1E0004F7BF5 /* AlarmTimeInputRangeCell.xib */,
 				27CBEB542261DF9C004F7BF5 /* AlarmTimeInputRangeCell.swift */,
 				27CBEB3D225FE5CB004F7BF5 /* AlarmSettingsTableViewController.swift */,
@@ -757,6 +774,7 @@
 				43A8EC92210E676500A81379 /* MiaomiaoClientSettingsViewController.swift in Sources */,
 				4325E9D5210E6B4400969CE5 /* UIColor.swift in Sources */,
 				43A8EC97210E680100A81379 /* ShareService+UI.swift in Sources */,
+				2769B5BE2264FA22006F1935 /* DateComponentUITableViewCell.swift in Sources */,
 				43AB51372133177800B3D58D /* LocalizedString.swift in Sources */,
 				27CFAB5E224AB265006DEFE3 /* CollectionExtensions.swift in Sources */,
 				27CBEB3C225FB3A7004F7BF5 /* NibLoadable.swift in Sources */,
@@ -764,7 +782,9 @@
 				27CBEB3F225FE5CB004F7BF5 /* AlarmSettingsTableViewController.swift in Sources */,
 				4325E9D3210E6ADA00969CE5 /* IdentifiableClass.swift in Sources */,
 				27CBEB552261DF9D004F7BF5 /* AlarmTimeInputRangeCell.swift in Sources */,
+				2769B5C12267766F006F1935 /* LFTimePickerControllerOriginal.swift in Sources */,
 				43A8EC91210E676500A81379 /* MiaomiaoClientManager+UI.swift in Sources */,
+				2769B5BC2264EE4A006F1935 /* LFTimePickerController.swift in Sources */,
 				43A8EC90210E676500A81379 /* MiaomiaoClientSetupViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

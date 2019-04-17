@@ -35,11 +35,31 @@ public protocol AlarmSettingsTableViewControllerSyncSource: class {
 }
 
 
-public class AlarmSettingsTableViewController: UITableViewController {
+public class AlarmSettingsTableViewController: UITableViewController, AlarmTimeInputCellDelegate, LFTimePickerDelegate {
+    public func didPickTime(_ start: String, end: String) {
+        NSLog("YES, TIME WAS PICKED")
+    }
+    
+    
+    
+    public func didPickTime(_ start: String, end: String, startComponents: DateComponents?, endComponents: DateComponents?) {
+        NSLog("YES, TIME WAS PICKED")
+        print(startComponents)
+        print(endComponents)
+    }
+    
     
     public weak var delegate: AlarmSettingsTableViewControllerDelegate?
     
-    
+    func AlarmTimeInputRangeCellDidTouch(_ cell: AlarmTimeInputRangeCell) {
+        //1. Create a LFTimePickerController
+        let timePicker = LFTimePickerController()
+        
+        //2. Present the timePicker
+        //self.navigationController?.pushViewController(timePicker, animated: true)
+        self.navigationController?.show(timePicker, sender: cell)
+        timePicker.delegate = self
+    }
     
     public var maximumBasalRatePerHour: Double? {
         didSet {
@@ -69,6 +89,7 @@ public class AlarmSettingsTableViewController: UITableViewController {
     
     private var isSyncInProgress = false {
         didSet {
+           
             for cell in tableView.visibleCells {
                 switch cell {
                 case let cell as TextButtonTableViewCell:
@@ -166,20 +187,14 @@ public class AlarmSettingsTableViewController: UITableViewController {
             cell.minValue = "first"
             cell.maxValue = "second"
            
-           
             
-           
-            
-
-            
-            
-            //cell.delegate = self
+            cell.delegate = self
             
             return cell
         case .schedule2:
             let cell = tableView.dequeueReusableCell(withIdentifier: AlarmTimeInputRangeCell.className, for: indexPath) as!  AlarmTimeInputRangeCell
             
-            //cell.minValue = "first"
+            cell.delegate = self
             
             return cell
         case .sync:
