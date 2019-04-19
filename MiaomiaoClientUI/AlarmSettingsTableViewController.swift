@@ -102,7 +102,7 @@ public class AlarmSettingsTableViewController: UITableViewController, AlarmTimeI
         for var cell in tableView.visibleCells {
             let index = tableView.indexPath(for: cell)
             //todo: replace with dynamic check of number of schedules
-            if let section = index?.section, section > 2 {
+            if let section = index?.section, section >  Section.scheduleCount{
                 
                 break
             }
@@ -193,7 +193,10 @@ public class AlarmSettingsTableViewController: UITableViewController, AlarmTimeI
         case sync
         
         static let count=3
+        static let scheduleCount = 2
     }
+    
+    
     
     private enum ScheduleRow : Int {
         case timerange
