@@ -59,7 +59,7 @@ public class MiaomiaoClientSettingsViewController: UITableViewController {
         
         case delete
 
-        static let count = 6
+        static let count = 7
     }
 
     override public func numberOfSections(in tableView: UITableView) -> Int {
@@ -78,6 +78,7 @@ public class MiaomiaoClientSettingsViewController: UITableViewController {
         case sensorAge
         case sensorState
         case sensorSerialNumber
+        
         static let count = 3
     }
     
@@ -441,7 +442,8 @@ public class MiaomiaoClientSettingsViewController: UITableViewController {
             tableView.deselectRow(at: indexPath, animated: true)
         case .alarms:
             tableView.deselectRow(at: indexPath, animated: true)
-            let alarmsVC = AlarmSettingsTableViewController()
+            
+            let alarmsVC = AlarmSettingsTableViewController(glucoseUnit: self.glucoseUnit)
             show(alarmsVC, sender: nil)
         }
     }

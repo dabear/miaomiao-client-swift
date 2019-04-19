@@ -23,3 +23,4 @@ extension NibLoadable {
 extension TextFieldTableViewCell: NibLoadable { }
 
 extension AlarmTimeInputRangeCell: NibLoadable { }
+extension GlucoseAlarmInputCell: NibLoadable {}

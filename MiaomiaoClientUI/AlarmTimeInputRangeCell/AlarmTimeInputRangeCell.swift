@@ -15,6 +15,8 @@ import UIKit
 protocol AlarmTimeInputCellDelegate: class {
     //func AlarmTimeInputCellDidUpdateValue(_ cell: AlarmTimeInputRangeCell)
     func AlarmTimeInputRangeCellDidTouch(_ cell: AlarmTimeInputRangeCell)
+    func AlarmTimeInputRangeCellWasDisabled(_ cell: AlarmTimeInputRangeCell)
+    
 }
 
 
@@ -67,6 +69,16 @@ class AlarmTimeInputRangeCell: UITableViewCell, UITextFieldDelegate {
     
     @IBOutlet weak var maxValueTextField: UITextField!
     
+    
+    @IBOutlet weak var toggleIsSelected: UISwitch!
+    
+    @IBAction func switchChanged(sender : UISwitch) {
+        print("switch changed")
+        minValueTextField.isEnabled = sender.isOn
+        maxValueTextField.isEnabled = sender.isOn
+        
+        delegate?.AlarmTimeInputRangeCellWasDisabled(self)
+    }
     
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style:style, reuseIdentifier: reuseIdentifier)

@@ -12,23 +12,23 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="49" id="1bgs-bY-Joo" customClass="AlarmTimeInputRangeCell" customModule="MiaomiaoClientUI" customModuleProvider="target">
-            <rect key="frame" x="0.0" y="0.0" width="309" height="49"/>
+            <rect key="frame" x="0.0" y="0.0" width="378" height="49"/>
             <autoresizingMask key="autoresizingMask"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="1bgs-bY-Joo" id="4Li-Xy-eDu">
-                <rect key="frame" x="0.0" y="0.0" width="309" height="48.5"/>
+                <rect key="frame" x="0.0" y="0.0" width="378" height="48.5"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="AlarmTimeInputRangeCell.bundle/schedule-icon48.jpg" translatesAutoresizingMaskIntoConstraints="NO" id="JLS-MP-4l4">
-                        <rect key="frame" x="16" y="0.0" width="48" height="49"/>
+                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="JLS-MP-4l4">
+                        <rect key="frame" x="16" y="0.0" width="64.5" height="48.5"/>
                     </imageView>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="751" misplaced="YES" text="–" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pXd-Eo-nXg">
-                        <rect key="frame" x="173" y="11" width="52" height="22"/>
+                        <rect key="frame" x="181" y="11" width="52" height="22"/>
                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                         <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" horizontalHuggingPriority="251" horizontalCompressionResistancePriority="751" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="active from" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="e6a-FR-F1s" customClass="PaddedTextField" customModule="LoopKitUI">
-                        <rect key="frame" x="72" y="10" width="93" height="23"/>
+                        <rect key="frame" x="80" y="10" width="93" height="23"/>
                         <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
                         <textInputTraits key="textInputTraits" keyboardType="decimalPad"/>
                         <userDefinedRuntimeAttributes>
@@ -40,8 +40,14 @@
                             <outlet property="delegate" destination="1bgs-bY-Joo" id="DVd-rf-XWP"/>
                         </connections>
                     </textField>
+                    <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="OM8-Q2-6Wv">
+                        <rect key="frame" x="315" y="7" width="49" height="31"/>
+                        <connections>
+                            <action selector="switchChangedWithSender:" destination="1bgs-bY-Joo" eventType="valueChanged" id="TG5-no-G5t"/>
+                        </connections>
+                    </switch>
                     <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" horizontalHuggingPriority="251" horizontalCompressionResistancePriority="751" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="active to" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="yNd-og-d4r" customClass="PaddedTextField" customModule="LoopKitUI">
-                        <rect key="frame" x="195" y="10" width="90" height="27"/>
+                        <rect key="frame" x="203" y="9" width="90" height="27"/>
                         <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
                         <textInputTraits key="textInputTraits" keyboardType="decimalPad"/>
                         <userDefinedRuntimeAttributes>
@@ -57,11 +63,15 @@
                 <constraints>
                     <constraint firstAttribute="bottomMargin" secondItem="yNd-og-d4r" secondAttribute="bottom" id="9gf-G7-SWZ"/>
                     <constraint firstItem="pXd-Eo-nXg" firstAttribute="top" secondItem="4Li-Xy-eDu" secondAttribute="topMargin" id="B3y-Gw-6uj"/>
+                    <constraint firstItem="OM8-Q2-6Wv" firstAttribute="leading" secondItem="yNd-og-d4r" secondAttribute="trailing" constant="30" id="BYX-VZ-3aR"/>
+                    <constraint firstItem="OM8-Q2-6Wv" firstAttribute="centerY" secondItem="pXd-Eo-nXg" secondAttribute="centerY" id="GL3-th-xyy"/>
                     <constraint firstItem="e6a-FR-F1s" firstAttribute="top" secondItem="4Li-Xy-eDu" secondAttribute="topMargin" id="KBz-ho-Rjg"/>
                     <constraint firstItem="yNd-og-d4r" firstAttribute="top" secondItem="4Li-Xy-eDu" secondAttribute="topMargin" id="L7Q-Ut-9PT"/>
                     <constraint firstItem="pXd-Eo-nXg" firstAttribute="leading" secondItem="e6a-FR-F1s" secondAttribute="trailing" constant="3" id="NXG-pr-GPB"/>
                     <constraint firstAttribute="bottom" secondItem="JLS-MP-4l4" secondAttribute="bottom" id="O4j-px-PoA"/>
                     <constraint firstItem="e6a-FR-F1s" firstAttribute="width" secondItem="yNd-og-d4r" secondAttribute="width" id="Sxx-j3-4G5"/>
+                    <constraint firstAttribute="trailingMargin" secondItem="OM8-Q2-6Wv" secondAttribute="trailing" constant="-2" id="Wha-1t-U8x"/>
+                    <constraint firstItem="OM8-Q2-6Wv" firstAttribute="bottom" secondItem="4Li-Xy-eDu" secondAttribute="bottomMargin" id="aBZ-Lw-IW1"/>
                     <constraint firstItem="yNd-og-d4r" firstAttribute="leading" secondItem="pXd-Eo-nXg" secondAttribute="trailing" constant="3" id="bDQ-zJ-4Fa"/>
                     <constraint firstAttribute="bottomMargin" secondItem="pXd-Eo-nXg" secondAttribute="bottom" constant="0.5" id="eNT-Be-QBt"/>
                     <constraint firstItem="JLS-MP-4l4" firstAttribute="leading" secondItem="4Li-Xy-eDu" secondAttribute="leadingMargin" id="gez-zj-hyA"/>
@@ -75,11 +85,9 @@
                 <outlet property="iconImageView" destination="JLS-MP-4l4" id="gDf-KJ-Qz0"/>
                 <outlet property="maxValueTextField" destination="yNd-og-d4r" id="hM0-Pc-71Q"/>
                 <outlet property="minValueTextField" destination="e6a-FR-F1s" id="D1m-MM-ucW"/>
+                <outlet property="toggleIsSelected" destination="OM8-Q2-6Wv" id="Pe7-cx-DEw"/>
             </connections>
-            <point key="canvasLocation" x="216.80000000000001" y="183.05847076461771"/>
+            <point key="canvasLocation" x="272" y="183.05847076461771"/>
         </tableViewCell>
     </objects>
-    <resources>
-        <image name="AlarmTimeInputRangeCell.bundle/schedule-icon48.jpg" width="16" height="16"/>
-    </resources>
 </document>

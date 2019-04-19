@@ -9,7 +9,7 @@ import UIKit
 import LoopKitUI
 import LoopKit
 
-
+import HealthKit
 
 public protocol AlarmSettingsTableViewControllerDelegate: class {
     func deliveryLimitSettingsTableViewControllerDidUpdateMaximumBasalRatePerHour(_ vc: DeliveryLimitSettingsTableViewController)
@@ -36,6 +36,10 @@ public protocol AlarmSettingsTableViewControllerSyncSource: class {
 
 
 public class AlarmSettingsTableViewController: UITableViewController, AlarmTimeInputCellDelegate, LFTimePickerDelegate {
+    func AlarmTimeInputRangeCellWasDisabled(_ cell: AlarmTimeInputRangeCell) {
+        NSLog("this schedule was disabled")
+    }
+    
     public func didPickTime(_ start: String, end: String) {
         NSLog("YES, TIME WAS PICKED")
     }
@@ -53,7 +57,7 @@ public class AlarmSettingsTableViewController: UITableViewController, AlarmTimeI
         datepickerSender?.maxComponents = endComponents
     }
     
-    
+    private var glucoseUnit : HKUnit
     public weak var delegate: AlarmSettingsTableViewControllerDelegate?
     
     func AlarmTimeInputRangeCellDidTouch(_ cell: AlarmTimeInputRangeCell) {
@@ -126,8 +130,10 @@ public class AlarmSettingsTableViewController: UITableViewController, AlarmTimeI
     }()
     
     // MARK: -
-    public init() {
+    public init(glucoseUnit: HKUnit) {
+        self.glucoseUnit = glucoseUnit
         super.init(style: .grouped)
+        
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -137,6 +143,8 @@ public class AlarmSettingsTableViewController: UITableViewController, AlarmTimeI
         super.viewDidLoad()
         
         tableView.register(AlarmTimeInputRangeCell.nib(), forCellReuseIdentifier: AlarmTimeInputRangeCell.className)
+        
+        tableView.register(GlucoseAlarmInputCell.nib(), forCellReuseIdentifier: GlucoseAlarmInputCell.className)
         
         tableView.register(TextFieldTableViewCell.nib(), forCellReuseIdentifier: TextFieldTableViewCell.className)
         tableView.register(TextButtonTableViewCell.self, forCellReuseIdentifier: TextButtonTableViewCell.className)
@@ -153,6 +161,14 @@ public class AlarmSettingsTableViewController: UITableViewController, AlarmTimeI
         static let count=3
     }
     
+    private enum ScheduleRow : Int {
+        case timerange
+        case lowglucose
+        case highglucose
+        
+        static let count = 3
+    }
+    
     
     public override func numberOfSections(in tableView: UITableView) -> Int {
         return Section.count
@@ -162,9 +178,9 @@ public class AlarmSettingsTableViewController: UITableViewController, AlarmTimeI
     public override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         switch Section(rawValue: section)! {
         case .schedule1:
-            return 2
+            return ScheduleRow.count
         case .schedule2:
-            return 2
+            return ScheduleRow.count
         case .sync:
             return 1
         }
@@ -172,7 +188,8 @@ public class AlarmSettingsTableViewController: UITableViewController, AlarmTimeI
     
     public override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         switch Section(rawValue: indexPath.section)! {
-        case .schedule1:
+        
+        case .schedule1, .schedule2:
             /*
              switch LatestReadingRow(rawValue: indexPath.row)! {
              case .glucose:
@@ -187,22 +204,38 @@ public class AlarmSettingsTableViewController: UITableViewController, AlarmTimeI
             cell.textField.isEnabled = !isReadOnly && !isSyncInProgress
             cell.unitLabel?.text = LocalizedString("mgdl", comment: "The unit string for low glucose")
             */
+            let bundle = Bundle(for: type(of: self))
             
-            let cell = tableView.dequeueReusableCell(withIdentifier: AlarmTimeInputRangeCell.className, for: indexPath) as!  AlarmTimeInputRangeCell
+            switch ScheduleRow(rawValue: indexPath.row)! {
+                
+            case .timerange:
+                let cell = tableView.dequeueReusableCell(withIdentifier: AlarmTimeInputRangeCell.className, for: indexPath) as!  AlarmTimeInputRangeCell
+                
+                cell.minValue = "first"
+                cell.maxValue = "second"
+                cell.delegate = self
+                
+                
+                cell.iconImageView.image = UIImage(named: "icons8-schedule-50", in: bundle, compatibleWith: traitCollection)
+                
+                return cell
+            case .lowglucose:
+                let cell = tableView.dequeueReusableCell(withIdentifier: GlucoseAlarmInputCell.className, for: indexPath) as!  GlucoseAlarmInputCell
+                cell.titleLabel.text = "Low Glucose"
+                cell.minValueTextField.placeholder = "glucose"
+                cell.unitString = self.glucoseUnit.localizedShortUnitString
+                cell.iconImageView.image = UIImage(named: "icons8-drop-down-arrow-50", in: bundle, compatibleWith: traitCollection)
+                return cell
+            case .highglucose:
+                let cell = tableView.dequeueReusableCell(withIdentifier: GlucoseAlarmInputCell.className, for: indexPath) as!  GlucoseAlarmInputCell
+                cell.titleLabel.text = "High Glucose"
+                cell.unitString = self.glucoseUnit.localizedShortUnitString
+                cell.minValueTextField.placeholder = "glucose"
+                cell.iconImageView.image = UIImage(named: "icons8-slide-up-50", in: bundle, compatibleWith: traitCollection)
+                
+                return cell
+            }
             
-            cell.minValue = "first"
-            cell.maxValue = "second"
-           
-            
-            cell.delegate = self
-            
-            return cell
-        case .schedule2:
-            let cell = tableView.dequeueReusableCell(withIdentifier: AlarmTimeInputRangeCell.className, for: indexPath) as!  AlarmTimeInputRangeCell
-            
-            cell.delegate = self
-            
-            return cell
         case .sync:
             let cell = tableView.dequeueReusableCell(withIdentifier: TextButtonTableViewCell.className, for: indexPath) as! TextButtonTableViewCell
             

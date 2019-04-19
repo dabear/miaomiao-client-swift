@@ -21,6 +21,14 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
+		270C265B22691253005B27F3 /* GlucoseAlarmInputCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 270C265922691253005B27F3 /* GlucoseAlarmInputCell.xib */; };
+		270C265C22691253005B27F3 /* GlucoseAlarmInputCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 270C265A22691253005B27F3 /* GlucoseAlarmInputCell.swift */; };
+		270C26602269E51F005B27F3 /* icons8-down-arrow-50.png in Resources */ = {isa = PBXBuildFile; fileRef = 270C265F2269E51F005B27F3 /* icons8-down-arrow-50.png */; };
+		270C26622269E53F005B27F3 /* icons8-up-50.png in Resources */ = {isa = PBXBuildFile; fileRef = 270C26612269E53F005B27F3 /* icons8-up-50.png */; };
+		270C26652269E611005B27F3 /* icons8-drop-down-arrow-50.png in Resources */ = {isa = PBXBuildFile; fileRef = 270C26632269E610005B27F3 /* icons8-drop-down-arrow-50.png */; };
+		270C26662269E611005B27F3 /* icons8-slide-up-50.png in Resources */ = {isa = PBXBuildFile; fileRef = 270C26642269E610005B27F3 /* icons8-slide-up-50.png */; };
+		270C266C226A24AB005B27F3 /* icons8-schedule-50.png in Resources */ = {isa = PBXBuildFile; fileRef = 270C266B226A24AB005B27F3 /* icons8-schedule-50.png */; };
+		270C266D226A2F8E005B27F3 /* HKUnit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4325E9CE210E6A0A00969CE5 /* HKUnit.swift */; };
 		2729D677221F421C0030E1B8 /* MiaoMiao.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2729D676221F421C0030E1B8 /* MiaoMiao.swift */; };
 		2729D678221F421C0030E1B8 /* MiaoMiao.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2729D676221F421C0030E1B8 /* MiaoMiao.swift */; };
 		2729D67B221F421F0030E1B8 /* MiaoMiaoBluetoothManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2729D67A221F421F0030E1B8 /* MiaoMiaoBluetoothManager.swift */; };
@@ -60,7 +68,6 @@
 		27C335EB21667C7C00CF0868 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 27C335E921667C7C00CF0868 /* LaunchScreen.storyboard */; };
 		27CBEB3C225FB3A7004F7BF5 /* NibLoadable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27CBEB3B225FB3A7004F7BF5 /* NibLoadable.swift */; };
 		27CBEB3F225FE5CB004F7BF5 /* AlarmSettingsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27CBEB3D225FE5CB004F7BF5 /* AlarmSettingsTableViewController.swift */; };
-		27CBEB5222613C72004F7BF5 /* AlarmTimeInputRangeCell.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 27CBEB5122613C72004F7BF5 /* AlarmTimeInputRangeCell.bundle */; };
 		27CBEB552261DF9D004F7BF5 /* AlarmTimeInputRangeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27CBEB542261DF9C004F7BF5 /* AlarmTimeInputRangeCell.swift */; };
 		27CBEB5C2261E1E6004F7BF5 /* AlarmTimeInputRangeCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 27CBEB5B2261E1E0004F7BF5 /* AlarmTimeInputRangeCell.xib */; };
 		27CFAB52223EA0B2006DEFE3 /* MiaomiaoClient.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 432B0E881CDFC3C50045347B /* MiaomiaoClient.framework */; };
@@ -166,6 +173,14 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		270C265922691253005B27F3 /* GlucoseAlarmInputCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = GlucoseAlarmInputCell.xib; sourceTree = "<group>"; };
+		270C265A22691253005B27F3 /* GlucoseAlarmInputCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GlucoseAlarmInputCell.swift; sourceTree = "<group>"; };
+		270C265F2269E51F005B27F3 /* icons8-down-arrow-50.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icons8-down-arrow-50.png"; sourceTree = "<group>"; };
+		270C26612269E53F005B27F3 /* icons8-up-50.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icons8-up-50.png"; sourceTree = "<group>"; };
+		270C26632269E610005B27F3 /* icons8-drop-down-arrow-50.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icons8-drop-down-arrow-50.png"; sourceTree = "<group>"; };
+		270C26642269E610005B27F3 /* icons8-slide-up-50.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icons8-slide-up-50.png"; sourceTree = "<group>"; };
+		270C26682269E6B7005B27F3 /* schedule-icon48.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "schedule-icon48.jpg"; sourceTree = "<group>"; };
+		270C266B226A24AB005B27F3 /* icons8-schedule-50.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icons8-schedule-50.png"; sourceTree = "<group>"; };
 		2729D676221F421C0030E1B8 /* MiaoMiao.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MiaoMiao.swift; sourceTree = "<group>"; };
 		2729D67A221F421F0030E1B8 /* MiaoMiaoBluetoothManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MiaoMiaoBluetoothManager.swift; sourceTree = "<group>"; };
 		2729D682221F42760030E1B8 /* BloodSugarController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BloodSugarController.swift; sourceTree = "<group>"; };
@@ -193,7 +208,6 @@
 		27C335EC21667C7C00CF0868 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		27CBEB3B225FB3A7004F7BF5 /* NibLoadable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NibLoadable.swift; sourceTree = "<group>"; };
 		27CBEB3D225FE5CB004F7BF5 /* AlarmSettingsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlarmSettingsTableViewController.swift; sourceTree = "<group>"; };
-		27CBEB5122613C72004F7BF5 /* AlarmTimeInputRangeCell.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = AlarmTimeInputRangeCell.bundle; sourceTree = "<group>"; };
 		27CBEB542261DF9C004F7BF5 /* AlarmTimeInputRangeCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlarmTimeInputRangeCell.swift; sourceTree = "<group>"; };
 		27CBEB5B2261E1E0004F7BF5 /* AlarmTimeInputRangeCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AlarmTimeInputRangeCell.xib; sourceTree = "<group>"; };
 		27CFAB5422496C7A006DEFE3 /* DoubleExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DoubleExtensions.swift; sourceTree = "<group>"; };
@@ -297,6 +311,37 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		270C2657226911BB005B27F3 /* AlarmTimeInputRangeCell */ = {
+			isa = PBXGroup;
+			children = (
+				27CBEB5B2261E1E0004F7BF5 /* AlarmTimeInputRangeCell.xib */,
+				27CBEB542261DF9C004F7BF5 /* AlarmTimeInputRangeCell.swift */,
+			);
+			path = AlarmTimeInputRangeCell;
+			sourceTree = "<group>";
+		};
+		270C2658226911DB005B27F3 /* GlucoseAlarmInputCell */ = {
+			isa = PBXGroup;
+			children = (
+				270C265A22691253005B27F3 /* GlucoseAlarmInputCell.swift */,
+				270C265922691253005B27F3 /* GlucoseAlarmInputCell.xib */,
+			);
+			path = GlucoseAlarmInputCell;
+			sourceTree = "<group>";
+		};
+		270C26672269E67A005B27F3 /* Graphics */ = {
+			isa = PBXGroup;
+			children = (
+				270C266B226A24AB005B27F3 /* icons8-schedule-50.png */,
+				270C26682269E6B7005B27F3 /* schedule-icon48.jpg */,
+				270C26632269E610005B27F3 /* icons8-drop-down-arrow-50.png */,
+				270C26642269E610005B27F3 /* icons8-slide-up-50.png */,
+				270C26612269E53F005B27F3 /* icons8-up-50.png */,
+				270C265F2269E51F005B27F3 /* icons8-down-arrow-50.png */,
+			);
+			path = Graphics;
+			sourceTree = "<group>";
+		};
 		2729D671221F42070030E1B8 /* Bluetooth */ = {
 			isa = PBXGroup;
 			children = (
@@ -395,7 +440,6 @@
 				2729D67A221F421F0030E1B8 /* MiaoMiaoBluetoothManager.swift */,
 				43C418AE1CE0488900405B6A /* LibreGlucose.swift */,
 				43AB5125213315D300B3D58D /* Localizable.strings */,
-				4325E9CE210E6A0A00969CE5 /* HKUnit.swift */,
 				43A8EC9A210E68BA00A81379 /* ShareGlucose+GlucoseKit.swift */,
 				43A8EC98210E682A00A81379 /* MiaomiaoService.swift */,
 				432B0E8D1CDFC3C50045347B /* Info.plist */,
@@ -426,9 +470,10 @@
 		43A8EC83210E664300A81379 /* MiaomiaoClientUI */ = {
 			isa = PBXGroup;
 			children = (
+				270C26672269E67A005B27F3 /* Graphics */,
+				270C2658226911DB005B27F3 /* GlucoseAlarmInputCell */,
+				270C2657226911BB005B27F3 /* AlarmTimeInputRangeCell */,
 				2769B5BA2264EDFD006F1935 /* LFTimePickerController */,
-				27CBEB5B2261E1E0004F7BF5 /* AlarmTimeInputRangeCell.xib */,
-				27CBEB542261DF9C004F7BF5 /* AlarmTimeInputRangeCell.swift */,
 				27CBEB3D225FE5CB004F7BF5 /* AlarmSettingsTableViewController.swift */,
 				43AB511921330D1400B3D58D /* Localizable.strings */,
 				4325E9D2210E6ADA00969CE5 /* IdentifiableClass.swift */,
@@ -439,7 +484,6 @@
 				4325E9D4210E6B4300969CE5 /* UIColor.swift */,
 				43A8EC85210E664300A81379 /* Info.plist */,
 				27CBEB3B225FB3A7004F7BF5 /* NibLoadable.swift */,
-				27CBEB5122613C72004F7BF5 /* AlarmTimeInputRangeCell.bundle */,
 			);
 			path = MiaomiaoClientUI;
 			sourceTree = "<group>";
@@ -447,6 +491,7 @@
 		43AB51342133176B00B3D58D /* Common */ = {
 			isa = PBXGroup;
 			children = (
+				4325E9CE210E6A0A00969CE5 /* HKUnit.swift */,
 				27CFAB5422496C7A006DEFE3 /* DoubleExtensions.swift */,
 				43AB51352133177800B3D58D /* LocalizedString.swift */,
 				27D0DA6A2231CBB7007BBB2C /* DateExtensions.swift */,
@@ -671,9 +716,14 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				27CBEB5222613C72004F7BF5 /* AlarmTimeInputRangeCell.bundle in Resources */,
+				270C265B22691253005B27F3 /* GlucoseAlarmInputCell.xib in Resources */,
+				270C266C226A24AB005B27F3 /* icons8-schedule-50.png in Resources */,
+				270C26652269E611005B27F3 /* icons8-drop-down-arrow-50.png in Resources */,
+				270C26602269E51F005B27F3 /* icons8-down-arrow-50.png in Resources */,
+				270C26622269E53F005B27F3 /* icons8-up-50.png in Resources */,
 				27CBEB5C2261E1E6004F7BF5 /* AlarmTimeInputRangeCell.xib in Resources */,
 				43AB511B21330D1400B3D58D /* Localizable.strings in Resources */,
+				270C26662269E611005B27F3 /* icons8-slide-up-50.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -775,6 +825,7 @@
 				4325E9D5210E6B4400969CE5 /* UIColor.swift in Sources */,
 				43A8EC97210E680100A81379 /* ShareService+UI.swift in Sources */,
 				2769B5BE2264FA22006F1935 /* DateComponentUITableViewCell.swift in Sources */,
+				270C265C22691253005B27F3 /* GlucoseAlarmInputCell.swift in Sources */,
 				43AB51372133177800B3D58D /* LocalizedString.swift in Sources */,
 				27CFAB5E224AB265006DEFE3 /* CollectionExtensions.swift in Sources */,
 				27CBEB3C225FB3A7004F7BF5 /* NibLoadable.swift in Sources */,
@@ -785,6 +836,7 @@
 				2769B5C12267766F006F1935 /* LFTimePickerControllerOriginal.swift in Sources */,
 				43A8EC91210E676500A81379 /* MiaomiaoClientManager+UI.swift in Sources */,
 				2769B5BC2264EE4A006F1935 /* LFTimePickerController.swift in Sources */,
+				270C266D226A2F8E005B27F3 /* HKUnit.swift in Sources */,
 				43A8EC90210E676500A81379 /* MiaomiaoClientSetupViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
