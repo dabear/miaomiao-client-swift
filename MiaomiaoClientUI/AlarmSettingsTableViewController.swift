@@ -95,6 +95,40 @@ public class AlarmSettingsTableViewController: UITableViewController, AlarmTimeI
         }
     }
     
+    private func serializeSettings() -> [GlucoseSchedule] {
+        var schedules = [GlucoseSchedule]()
+        var schedule = GlucoseSchedule()
+        
+        for var cell in tableView.visibleCells {
+            let index = tableView.indexPath(for: cell)
+            //todo: replace with dynamic check of number of schedules
+            if let section = index?.section, section > 2 {
+                
+                break
+            }
+            if let cell = cell as? AlarmTimeInputRangeCell {
+                schedule = GlucoseSchedule()
+                schedules.append(schedule)
+                
+                schedule.enabled = cell.toggleIsSelected.isOn
+                schedule.from = cell.minComponents
+                schedule.to = cell.maxComponents
+                schedule.glucoseUnit = self.glucoseUnit
+                
+            } else if let cell = cell as? GlucoseAlarmInputCell {
+                if cell.alarmType == GlucoseAlarmType.low {
+                    schedule.lowAlarm = NSNumber(value: cell.minValue)
+                } else if cell.alarmType == GlucoseAlarmType.high {
+                    schedule.highAlarm = NSNumber(value: cell.minValue)
+                }
+            }
+            
+            
+            
+        }
+        return schedules
+    }
+    
     public var isReadOnly = false
     
     private var isSyncInProgress = false {
@@ -221,14 +255,16 @@ public class AlarmSettingsTableViewController: UITableViewController, AlarmTimeI
                 return cell
             case .lowglucose:
                 let cell = tableView.dequeueReusableCell(withIdentifier: GlucoseAlarmInputCell.className, for: indexPath) as!  GlucoseAlarmInputCell
-                cell.titleLabel.text = "Low Glucose"
+                cell.alarmType = GlucoseAlarmType.low
                 cell.minValueTextField.placeholder = "glucose"
                 cell.unitString = self.glucoseUnit.localizedShortUnitString
                 cell.iconImageView.image = UIImage(named: "icons8-drop-down-arrow-50", in: bundle, compatibleWith: traitCollection)
                 return cell
             case .highglucose:
                 let cell = tableView.dequeueReusableCell(withIdentifier: GlucoseAlarmInputCell.className, for: indexPath) as!  GlucoseAlarmInputCell
-                cell.titleLabel.text = "High Glucose"
+                
+                cell.alarmType = GlucoseAlarmType.high
+                
                 cell.unitString = self.glucoseUnit.localizedShortUnitString
                 cell.minValueTextField.placeholder = "glucose"
                 cell.iconImageView.image = UIImage(named: "icons8-slide-up-50", in: bundle, compatibleWith: traitCollection)
@@ -252,7 +288,7 @@ public class AlarmSettingsTableViewController: UITableViewController, AlarmTimeI
         case .schedule1:
             return LocalizedString("Glucose Alarm Schedule #1", comment: "The title text for the Glucose Alarm Schedule #1")
         case .schedule2:
-            return LocalizedString("Glucose Alarm Schedule #2", comment: "The title text for the lGlucose Alarm Schedule #2")
+            return LocalizedString("Glucose Alarm Schedule #2", comment: "The title text for the Glucose Alarm Schedule #2")
         case .sync:
             return nil
         }
@@ -291,6 +327,11 @@ public class AlarmSettingsTableViewController: UITableViewController, AlarmTimeI
             
             DispatchQueue.main.async {
                 usleep(5000000)
+                
+                var settings = self.serializeSettings()
+                
+                print("serialized settings: \(settings)")
+                
                 self.isSyncInProgress = false
             }
             

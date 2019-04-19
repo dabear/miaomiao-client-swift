@@ -20,6 +20,7 @@ protocol AlarmTimeInputCellDelegate: class {
 }
 
 
+
 class AlarmTimeInputRangeCell: UITableViewCell, UITextFieldDelegate {
     
     
@@ -39,6 +40,8 @@ class AlarmTimeInputRangeCell: UITableViewCell, UITextFieldDelegate {
             maxValueTextField.text =  maxValue
         }
     }
+    
+    
     
     lazy var valueNumberFormatter: NumberFormatter = {
         let formatter = NumberFormatter()

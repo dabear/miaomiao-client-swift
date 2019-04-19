@@ -13,6 +13,11 @@ protocol GlucoseAlarmInputCellDelegate: class {
     func glucoseAlarmInputCellDidUpdateValue(_ cell: GlucoseAlarmInputCell)
 }
 
+enum GlucoseAlarmType: String {
+    case low = "Low Glucose"
+    case high = "High Glucose"
+}
+
 
 class GlucoseAlarmInputCell: UITableViewCell, UITextFieldDelegate {
 
@@ -33,6 +38,14 @@ class GlucoseAlarmInputCell: UITableViewCell, UITextFieldDelegate {
 
         return formatter
     }()
+    
+    var alarmType : GlucoseAlarmType?  {
+        didSet {
+            titleLabel.text = alarmType?.rawValue ?? "invalid"
+            
+        }
+    }
+
 
     var unitString: String? {
         get {
