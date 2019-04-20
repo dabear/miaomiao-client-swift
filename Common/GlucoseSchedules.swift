@@ -9,22 +9,41 @@
 import Foundation
 import HealthKit
 
+class GlucoseScheduleList : Codable, CustomStringConvertible {
 
-class GlucoseSchedule: CustomStringConvertible {
+    var description: String {
+        get {
+            return "(schedules: \(schedules) )"
+        }
+    }
+    
+    public var schedules : [GlucoseSchedule]? = [GlucoseSchedule]()
+    
+    
+}
+
+class GlucoseSchedule: Codable, CustomStringConvertible{
+    
+
     var from: DateComponents?
     var to: DateComponents?
-    var lowAlarm: NSNumber?
-    var highAlarm: NSNumber?
-    var glucoseUnit: HKUnit?
+    var lowAlarm: Double?
+    var highAlarm: Double?
+    var glucoseUnitIsMgdl : Bool?
     var enabled: Bool?
     
     init() {
         
     }
     
+    
+    
     var description : String {
         get {
-            return "from: \(from), to: \(to), low: \(lowAlarm), high: \(highAlarm), glucoseUnit: \(glucoseUnit), enabled: \(enabled)"
+            return "(from: \(from), to: \(to), low: \(lowAlarm), high: \(highAlarm), glucoseUnitIsMgdl: \(glucoseUnitIsMgdl), enabled: \(enabled))"
         }
     }
 }
+
+
+

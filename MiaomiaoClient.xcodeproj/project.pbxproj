@@ -60,6 +60,8 @@
 		2769B5BC2264EE4A006F1935 /* LFTimePickerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2769B5BB2264EE4A006F1935 /* LFTimePickerController.swift */; };
 		2769B5BE2264FA22006F1935 /* DateComponentUITableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2769B5BD2264FA22006F1935 /* DateComponentUITableViewCell.swift */; };
 		2769B5C12267766F006F1935 /* LFTimePickerControllerOriginal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2769B5C02267766F006F1935 /* LFTimePickerControllerOriginal.swift */; };
+		277DAD0D226B970300422ADA /* UserDefaults+Alarmsettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 277DAD0C226B970300422ADA /* UserDefaults+Alarmsettings.swift */; };
+		277DAD0E226B971A00422ADA /* UserDefaults+Alarmsettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 277DAD0C226B970300422ADA /* UserDefaults+Alarmsettings.swift */; };
 		2795404F2165502600D657E5 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2795404E2165502600D657E5 /* main.swift */; };
 		27C335B82165667300CF0868 /* LibreGlucose.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43C418AE1CE0488900405B6A /* LibreGlucose.swift */; };
 		27C335B9216566C500CF0868 /* MiaomiaoClient.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 432B0E881CDFC3C50045347B /* MiaomiaoClient.framework */; };
@@ -200,6 +202,7 @@
 		2769B5BB2264EE4A006F1935 /* LFTimePickerController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LFTimePickerController.swift; sourceTree = "<group>"; };
 		2769B5BD2264FA22006F1935 /* DateComponentUITableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateComponentUITableViewCell.swift; sourceTree = "<group>"; };
 		2769B5C02267766F006F1935 /* LFTimePickerControllerOriginal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LFTimePickerControllerOriginal.swift; sourceTree = "<group>"; };
+		277DAD0C226B970300422ADA /* UserDefaults+Alarmsettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserDefaults+Alarmsettings.swift"; sourceTree = "<group>"; };
 		2795404C2165502600D657E5 /* clitester */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = clitester; sourceTree = BUILT_PRODUCTS_DIR; };
 		2795404E2165502600D657E5 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		27C335DE21667C7A00CF0868 /* singleviewtesterapp2.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = singleviewtesterapp2.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -500,6 +503,7 @@
 				27D0DA6A2231CBB7007BBB2C /* DateExtensions.swift */,
 				27CFAB5D224AB265006DEFE3 /* CollectionExtensions.swift */,
 				270C266E226A5A6E005B27F3 /* GlucoseSchedules.swift */,
+				277DAD0C226B970300422ADA /* UserDefaults+Alarmsettings.swift */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -663,6 +667,7 @@
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
+				English,
 				en,
 				Base,
 				fr,
@@ -794,6 +799,7 @@
 				27D0DA6B2231CBB7007BBB2C /* DateExtensions.swift in Sources */,
 				2729D690221F44670030E1B8 /* TemperatureAlgorithmParameters.swift in Sources */,
 				27E3C398222EE9450036AAC7 /* LibreOOPDefaults.swift in Sources */,
+				277DAD0D226B970300422ADA /* UserDefaults+Alarmsettings.swift in Sources */,
 				27E3C393222EE2EC0036AAC7 /* Calibration.swift in Sources */,
 				27C335B82165667300CF0868 /* LibreGlucose.swift in Sources */,
 				27E3C3A2222EEDCD0036AAC7 /* DerivedAlgorithmParameters.swift in Sources */,
@@ -836,6 +842,7 @@
 				27CBEB3C225FB3A7004F7BF5 /* NibLoadable.swift in Sources */,
 				27CFAB5522496C7A006DEFE3 /* DoubleExtensions.swift in Sources */,
 				27CBEB3F225FE5CB004F7BF5 /* AlarmSettingsTableViewController.swift in Sources */,
+				277DAD0E226B971A00422ADA /* UserDefaults+Alarmsettings.swift in Sources */,
 				4325E9D3210E6ADA00969CE5 /* IdentifiableClass.swift in Sources */,
 				27CBEB552261DF9D004F7BF5 /* AlarmTimeInputRangeCell.swift in Sources */,
 				2769B5C12267766F006F1935 /* LFTimePickerControllerOriginal.swift in Sources */,

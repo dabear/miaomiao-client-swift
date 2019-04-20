@@ -45,6 +45,8 @@ public class AlarmSettingsTableViewController: UITableViewController, AlarmTimeI
     }
     
     
+    
+    
     private var datepickerSender : AlarmTimeInputRangeCell?
     public func didPickTime(_ start: String, end: String, startComponents: DateComponents?, endComponents: DateComponents?) {
         NSLog("YES, TIME WAS PICKED")
@@ -95,8 +97,8 @@ public class AlarmSettingsTableViewController: UITableViewController, AlarmTimeI
         }
     }
     
-    private func serializeSettings() -> [GlucoseSchedule] {
-        var schedules = [GlucoseSchedule]()
+    private func serializeSettings() -> GlucoseScheduleList {
+        var schedules = GlucoseScheduleList()
         var schedule = GlucoseSchedule()
         
         for var cell in tableView.visibleCells {
@@ -108,18 +110,19 @@ public class AlarmSettingsTableViewController: UITableViewController, AlarmTimeI
             }
             if let cell = cell as? AlarmTimeInputRangeCell {
                 schedule = GlucoseSchedule()
-                schedules.append(schedule)
+                schedules.schedules?.append(schedule)
                 
                 schedule.enabled = cell.toggleIsSelected.isOn
                 schedule.from = cell.minComponents
                 schedule.to = cell.maxComponents
-                schedule.glucoseUnit = self.glucoseUnit
+                
+                schedule.glucoseUnitIsMgdl = (self.glucoseUnit == HKUnit.milligramsPerDeciliter)
                 
             } else if let cell = cell as? GlucoseAlarmInputCell {
                 if cell.alarmType == GlucoseAlarmType.low {
-                    schedule.lowAlarm = NSNumber(value: cell.minValue)
+                    schedule.lowAlarm =  cell.minValue
                 } else if cell.alarmType == GlucoseAlarmType.high {
-                    schedule.highAlarm = NSNumber(value: cell.minValue)
+                    schedule.highAlarm = cell.minValue
                 }
             }
             
@@ -166,6 +169,9 @@ public class AlarmSettingsTableViewController: UITableViewController, AlarmTimeI
     // MARK: -
     public init(glucoseUnit: HKUnit) {
         self.glucoseUnit = glucoseUnit
+        
+        
+        print("loaded glucose schedule was \(UserDefaults.standard.glucoseSchedules)")
         super.init(style: .grouped)
         
     }
@@ -331,9 +337,14 @@ public class AlarmSettingsTableViewController: UITableViewController, AlarmTimeI
             DispatchQueue.main.async {
                 usleep(5000000)
                 
-                var settings = self.serializeSettings()
+                let settings = self.serializeSettings()
+                print("saving glucose schedule: ")
                 
-                print("serialized settings: \(settings)")
+                print("saving glucose schedule as: : \(settings)")
+                UserDefaults.standard.glucoseSchedules = settings
+                UserDefaults.standard.synchronize()
+                
+                print("saved glucose schedule was \(UserDefaults.standard.glucoseSchedules)")
                 
                 self.isSyncInProgress = false
             }
