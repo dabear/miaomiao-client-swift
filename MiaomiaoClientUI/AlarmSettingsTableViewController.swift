@@ -347,6 +347,8 @@ public class AlarmSettingsTableViewController: UITableViewController, AlarmTimeI
                 print("saved glucose schedule was \(UserDefaults.standard.glucoseSchedules)")
                 
                 self.isSyncInProgress = false
+                let ok = OKAlertController("Glucose alarms successfully saved", title: "Glucose Alarms")
+                self.present(ok, animated: true)
             }
             
             /*syncSource.syncDeliveryLimitSettings(for: self) { (result) in
