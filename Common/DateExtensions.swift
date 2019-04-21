@@ -40,7 +40,26 @@ public extension Date {
         return date
     }
     
+    public static var LocaleWantsAMPM : Bool{
+        return DateFormatter.dateFormat(fromTemplate: "j", options:0, locale:NSLocale.current)!.contains("a")
+    }
     
+}
+
+extension DateComponents {
+    func ToTimeString(wantsAMPM: Bool=true) -> String {
+        
+        var date = Calendar.current.date(bySettingHour: self.hour ?? 0, minute: self.minute ?? 0, second: 0, of: Date())!
+        
+        
+        let formatter = DateFormatter()
+        formatter.dateStyle = DateFormatter.Style.long
+        formatter.timeStyle = DateFormatter.Style.medium
+        
+        formatter.dateFormat = wantsAMPM ? "hh:mm a" : "HH:mm"
+        return formatter.string(from: date)
+        
+    }
 }
 
 extension TimeInterval{

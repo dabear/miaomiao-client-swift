@@ -67,10 +67,7 @@ open class LFTimePickerController: UIViewController {
     //open var timeType = TimeType.hour12
     
     open class var wants12hourClock: Bool {
-        
-        
-        let wantsAMPM = DateFormatter.dateFormat(fromTemplate: "j", options:0, locale:NSLocale.current)!.contains("a")
-        return wantsAMPM
+        return Date.LocaleWantsAMPM
     }
     
     open var backgroundColor = UIColor(red: 255 / 255, green: 128 / 255, blue: 0, alpha: 1)

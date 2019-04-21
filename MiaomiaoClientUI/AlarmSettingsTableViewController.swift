@@ -53,8 +53,8 @@ public class AlarmSettingsTableViewController: UITableViewController, AlarmTimeI
         print(startComponents)
         print(endComponents)
         
-        datepickerSender?.minValue = start
-        datepickerSender?.maxValue = end
+        //datepickerSender?.minValue = start
+        //datepickerSender?.maxValue = end
         datepickerSender?.minComponents = startComponents
         datepickerSender?.maxComponents = endComponents
     }
@@ -245,15 +245,22 @@ public class AlarmSettingsTableViewController: UITableViewController, AlarmTimeI
             
             let bundle = Bundle(for: type(of: self))
             
+            var savedSchedule = glucoseSchedules?.schedules?[safe: indexPath.section]
+            
             switch ScheduleRow(rawValue: indexPath.row)! {
                 
             case .timerange:
                 let cell = tableView.dequeueReusableCell(withIdentifier: AlarmTimeInputRangeCell.className, for: indexPath) as!  AlarmTimeInputRangeCell
                 
-                cell.minValue = "first"
-                cell.maxValue = "second"
+                //cell.minValue = "first"
+                //cell.maxValue = "second"
                 cell.delegate = self
                 
+                if let schedule = savedSchedule {
+                    cell.minComponents = schedule.from
+                    cell.maxComponents = schedule.to
+                    cell.toggleIsSelected.isOn = schedule.enabled ?? true
+                }
                 
                 
                 cell.iconImageView.image = UIImage(named: "icons8-schedule-50", in: bundle, compatibleWith: traitCollection)
@@ -266,6 +273,12 @@ public class AlarmSettingsTableViewController: UITableViewController, AlarmTimeI
                 cell.unitString = self.glucoseUnit.localizedShortUnitString
                 cell.minValueTextField.keyboardType = .decimalPad
                 cell.iconImageView.image = UIImage(named: "icons8-drop-down-arrow-50", in: bundle, compatibleWith: traitCollection)
+                
+                if let schedule = savedSchedule,
+                    let glucose = schedule.glucose(forUnit: self.glucoseUnit, type: GlucoseAlarmType.low)  {
+                    cell.minValue = glucose
+                }
+                
                 return cell
             case .highglucose:
                 let cell = tableView.dequeueReusableCell(withIdentifier: GlucoseAlarmInputCell.className, for: indexPath) as!  GlucoseAlarmInputCell
@@ -276,6 +289,11 @@ public class AlarmSettingsTableViewController: UITableViewController, AlarmTimeI
                 cell.unitString = self.glucoseUnit.localizedShortUnitString
                 cell.minValueTextField.placeholder = "glucose"
                 cell.iconImageView.image = UIImage(named: "icons8-slide-up-50", in: bundle, compatibleWith: traitCollection)
+                
+                if let schedule = savedSchedule,
+                    let glucose = schedule.glucose(forUnit: self.glucoseUnit, type: GlucoseAlarmType.high)  {
+                    cell.minValue = glucose
+                }
                 
                 return cell
             }
@@ -335,7 +353,7 @@ public class AlarmSettingsTableViewController: UITableViewController, AlarmTimeI
             
             
             DispatchQueue.main.async {
-                usleep(5000000)
+                
                 
                 let settings = self.serializeSettings()
                 print("saving glucose schedule: ")

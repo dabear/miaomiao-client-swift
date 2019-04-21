@@ -27,8 +27,18 @@ class AlarmTimeInputRangeCell: UITableViewCell, UITextFieldDelegate {
     
     
     weak var delegate: AlarmTimeInputCellDelegate?
-    var minComponents: DateComponents?
-    var maxComponents: DateComponents?
+    var minComponents: DateComponents? {
+        didSet {
+            
+            minValue = minComponents?.ToTimeString() ?? ""
+        }
+    }
+    var maxComponents: DateComponents? {
+        didSet {
+            
+            maxValue = maxComponents?.ToTimeString() ?? ""
+        }
+    }
     var minValue: String = "" {
         didSet {
             minValueTextField.text = minValue

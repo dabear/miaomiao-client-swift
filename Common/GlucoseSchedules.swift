@@ -35,7 +35,38 @@ class GlucoseSchedule: Codable, CustomStringConvertible{
     init() {
         
     }
+    private func storedGlucoseUnit()-> HKUnit? {
+        if let glucoseUnitIsMgdl = glucoseUnitIsMgdl {
+            return glucoseUnitIsMgdl ? HKUnit.milligramsPerDeciliter : HKUnit.millimolesPerLiter
+        }
+        return nil
+    }
     
+    public func glucose(forUnit wantsUnit:HKUnit, type glucoseType: GlucoseAlarmType)-> Double? {
+        let value = glucoseType == GlucoseAlarmType.high ? highAlarm : lowAlarm
+        
+        if let value = value {
+            if let storedUnit = storedGlucoseUnit() {
+                if storedUnit == wantsUnit {
+                    // no convertion needed
+                    return value
+                }
+                
+                if storedUnit == HKUnit.milligramsPerDeciliter && wantsUnit == HKUnit.millimolesPerLiter{
+                        return value / 18
+                }
+                
+                if storedUnit == HKUnit.millimolesPerLiter && wantsUnit == HKUnit.millimolesPerLiter{
+                        return value * 18
+                    
+                }
+                
+                
+            }
+        }
+        
+        return nil
+    }
     
     
     var description : String {

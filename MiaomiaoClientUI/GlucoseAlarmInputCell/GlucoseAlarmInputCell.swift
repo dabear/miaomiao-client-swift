@@ -13,11 +13,6 @@ protocol GlucoseAlarmInputCellDelegate: class {
     func glucoseAlarmInputCellDidUpdateValue(_ cell: GlucoseAlarmInputCell)
 }
 
-enum GlucoseAlarmType: String {
-    case low = "Low Glucose"
-    case high = "High Glucose"
-}
-
 
 class GlucoseAlarmInputCell: UITableViewCell, UITextFieldDelegate {
 

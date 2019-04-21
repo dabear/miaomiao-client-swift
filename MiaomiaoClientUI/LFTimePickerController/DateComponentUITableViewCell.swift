@@ -27,7 +27,7 @@ class DateComponentUITableViewCell: UITableViewCell {
     
     
     
-    func componentsToTimeString(_ components: DateComponents, wantsAMPM: Bool=true) -> String {
+    /*func componentsToTimeString(_ components: DateComponents, wantsAMPM: Bool=true) -> String {
 
         var date = Calendar.current.date(bySettingHour: components.hour ?? 0, minute: components.minute ?? 0, second: 0, of: Date())!
         
@@ -39,7 +39,7 @@ class DateComponentUITableViewCell: UITableViewCell {
         formatter.dateFormat = wantsAMPM ? "hh:mm a" : "HH:mm"
         return formatter.string(from: date)
         
-    }
+    }*/
     
     
     required init?(coder aDecoder: NSCoder) {
@@ -54,7 +54,7 @@ class DateComponentUITableViewCell: UITableViewCell {
     public var components: DateComponents? = nil{
         didSet {
             if let components = components {
-                self.textLabel!.text = componentsToTimeString(components, wantsAMPM: wantsAMPM)
+                self.textLabel!.text = components.ToTimeString(wantsAMPM: wantsAMPM)
                
                 //print("set cell text to \(self.textLabel!.text)")
             } else {
