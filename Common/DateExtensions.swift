@@ -47,9 +47,9 @@ public extension Date {
 }
 
 extension DateComponents {
-    func ToTimeString(wantsAMPM: Bool=true) -> String {
+    func ToTimeString(wantsAMPM: Bool=Date.LocaleWantsAMPM) -> String {
         
-        var date = Calendar.current.date(bySettingHour: self.hour ?? 0, minute: self.minute ?? 0, second: 0, of: Date())!
+        let date = Calendar.current.date(bySettingHour: self.hour ?? 0, minute: self.minute ?? 0, second: 0, of: Date())!
         
         
         let formatter = DateFormatter()

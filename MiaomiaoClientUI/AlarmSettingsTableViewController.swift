@@ -174,6 +174,7 @@ public class AlarmSettingsTableViewController: UITableViewController, AlarmTimeI
         super.init(style: .grouped)
         print("loaded glucose schedule was \(glucoseSchedules)")
         
+        
     }
     
     required init?(coder aDecoder: NSCoder) {
