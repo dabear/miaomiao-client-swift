@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -18,23 +18,17 @@
                 <rect key="frame" x="0.0" y="0.0" width="346" height="43.5"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="JLS-MP-4l4">
-                        <rect key="frame" x="16" y="0.0" width="129" height="44"/>
+                    <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="JLS-MP-4l4">
+                        <rect key="frame" x="16" y="0.0" width="64.5" height="48.5"/>
                     </imageView>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="248" verticalHuggingPriority="251" horizontalCompressionResistancePriority="752" misplaced="YES" text="Low" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Vj3-UD-z09">
-                        <rect key="frame" x="164" y="11" width="31" height="23"/>
-                        <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
-                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                        <nil key="highlightedColor"/>
-                    </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="751" text="U" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xmj-pp-6GS">
-                        <rect key="frame" x="310" y="10.5" width="13" height="22.5"/>
+                        <rect key="frame" x="310.5" y="11" width="12.5" height="21.5"/>
                         <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
                         <color key="textColor" red="0.56000000238418579" green="0.56000000238418579" blue="0.56000000238418579" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" horizontalHuggingPriority="251" horizontalCompressionResistancePriority="751" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="min" textAlignment="right" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="e6a-FR-F1s" customClass="PaddedTextField" customModule="LoopKitUI">
-                        <rect key="frame" x="203" y="10" width="88" height="23"/>
+                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" horizontalHuggingPriority="251" horizontalCompressionResistancePriority="751" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="min" textAlignment="right" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="e6a-FR-F1s" customClass="PaddedTextField" customModule="LoopKitUI">
+                        <rect key="frame" x="202" y="11" width="80" height="21.5"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="88" id="7gO-hr-pYm"/>
                         </constraints>
@@ -49,23 +43,25 @@
                             <outlet property="delegate" destination="bgs-bY-Joo" id="yND-yP-YTl"/>
                         </connections>
                     </textField>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="248" verticalHuggingPriority="251" horizontalCompressionResistancePriority="752" ambiguous="YES" misplaced="YES" text="Low" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Vj3-UD-z09">
+                        <rect key="frame" x="103" y="11" width="31" height="23"/>
+                        <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
+                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
                 </subviews>
                 <constraints>
                     <constraint firstAttribute="bottomMargin" secondItem="xmj-pp-6GS" secondAttribute="bottom" constant="0.5" id="4wd-8k-6zz"/>
-                    <constraint firstItem="e6a-FR-F1s" firstAttribute="bottom" secondItem="4Li-Xy-eDu" secondAttribute="bottomMargin" id="8l6-Um-Xwf"/>
-                    <constraint firstItem="Vj3-UD-z09" firstAttribute="leading" secondItem="JLS-MP-4l4" secondAttribute="trailing" constant="8" symbolic="YES" id="FPs-Yz-623"/>
+                    <constraint firstItem="Vj3-UD-z09" firstAttribute="leading" secondItem="JLS-MP-4l4" secondAttribute="trailing" constant="5" id="FPs-Yz-623"/>
                     <constraint firstAttribute="bottom" secondItem="JLS-MP-4l4" secondAttribute="bottom" id="O4j-px-PoA"/>
                     <constraint firstAttribute="trailingMargin" secondItem="xmj-pp-6GS" secondAttribute="trailing" constant="7" id="R8G-wC-BWu"/>
                     <constraint firstAttribute="bottomMargin" secondItem="Vj3-UD-z09" secondAttribute="bottom" priority="750" id="ULf-XT-Z6y"/>
                     <constraint firstItem="e6a-FR-F1s" firstAttribute="centerY" secondItem="JLS-MP-4l4" secondAttribute="centerY" id="UuC-fh-iF8"/>
-                    <constraint firstItem="e6a-FR-F1s" firstAttribute="centerY" secondItem="xmj-pp-6GS" secondAttribute="centerY" id="VJ2-7L-Udr"/>
-                    <constraint firstItem="e6a-FR-F1s" firstAttribute="centerY" secondItem="4Li-Xy-eDu" secondAttribute="centerY" id="Vdu-l2-Zss"/>
                     <constraint firstItem="xmj-pp-6GS" firstAttribute="top" secondItem="4Li-Xy-eDu" secondAttribute="topMargin" id="ZQO-Oo-BYm"/>
                     <constraint firstItem="JLS-MP-4l4" firstAttribute="leading" secondItem="4Li-Xy-eDu" secondAttribute="leadingMargin" id="gez-zj-hyA"/>
-                    <constraint firstItem="e6a-FR-F1s" firstAttribute="leading" secondItem="Vj3-UD-z09" secondAttribute="trailing" constant="8" symbolic="YES" id="lqV-WF-uGQ"/>
+                    <constraint firstItem="xmj-pp-6GS" firstAttribute="leading" secondItem="e6a-FR-F1s" secondAttribute="trailing" constant="10" id="ktX-6g-qcr"/>
                     <constraint firstItem="Vj3-UD-z09" firstAttribute="top" secondItem="4Li-Xy-eDu" secondAttribute="topMargin" id="pxv-s0-my6"/>
                     <constraint firstItem="JLS-MP-4l4" firstAttribute="top" secondItem="4Li-Xy-eDu" secondAttribute="top" id="tEI-6F-huj"/>
-                    <constraint firstItem="xmj-pp-6GS" firstAttribute="leading" secondItem="e6a-FR-F1s" secondAttribute="trailing" constant="19" id="wJK-dL-Fci"/>
                     <constraint firstItem="e6a-FR-F1s" firstAttribute="bottom" secondItem="xmj-pp-6GS" secondAttribute="bottom" id="xU9-Zo-yUG"/>
                 </constraints>
             </tableViewCellContentView>

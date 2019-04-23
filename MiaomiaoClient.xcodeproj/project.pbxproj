@@ -327,8 +327,8 @@
 		270C2657226911BB005B27F3 /* AlarmTimeInputRangeCell */ = {
 			isa = PBXGroup;
 			children = (
-				27CBEB5B2261E1E0004F7BF5 /* AlarmTimeInputRangeCell.xib */,
 				27CBEB542261DF9C004F7BF5 /* AlarmTimeInputRangeCell.swift */,
+				27CBEB5B2261E1E0004F7BF5 /* AlarmTimeInputRangeCell.xib */,
 			);
 			path = AlarmTimeInputRangeCell;
 			sourceTree = "<group>";
