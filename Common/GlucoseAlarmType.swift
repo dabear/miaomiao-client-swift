@@ -8,6 +8,6 @@
 
 import Foundation
 public enum GlucoseAlarmType: String {
-    case low = "Low Glucose"
-    case high = "High Glucose"
+    case low = "Low"
+    case high = "High"
 }
