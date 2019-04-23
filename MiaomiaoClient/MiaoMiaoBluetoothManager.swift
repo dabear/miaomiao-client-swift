@@ -372,6 +372,7 @@ final class MiaoMiaoBluetoothManager: NSObject, CBCentralManagerDelegate, CBPeri
             os_log("Did fail to connect peripheral error: %{public}@", log: MiaoMiaoBluetoothManager.bt_log, type: .error ,  "\(error.localizedDescription)")
         }
         state = .Disconnected
+        connect()
     }
     
     func centralManager(_ central: CBCentralManager, didDisconnectPeripheral peripheral: CBPeripheral, error: Error?) {
