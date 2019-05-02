@@ -8,7 +8,7 @@
 import LoopKitUI
 import HealthKit
 import MiaomiaoClient
-
+import UIKit
 
 extension MiaoMiaoClientManager: CGMManagerUI {
     public static func setupViewController() -> (UIViewController & CGMManagerSetupViewController)? {
@@ -20,6 +20,8 @@ extension MiaoMiaoClientManager: CGMManagerUI {
     }
 
     public var smallImage: UIImage? {
-        return nil
+        let bundle = Bundle(for: type(of: self))
+        
+        return UIImage(named: "miaomiao-small", in: bundle, compatibleWith: nil)
     }
 }

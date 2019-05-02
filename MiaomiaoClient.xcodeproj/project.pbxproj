@@ -21,6 +21,8 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
+		2701478A227B53AB0013C9E3 /* miaomiao-small.png in Resources */ = {isa = PBXBuildFile; fileRef = 27014789227B53AB0013C9E3 /* miaomiao-small.png */; };
+		2701478B227B584B0013C9E3 /* miaomiao-small.png in Resources */ = {isa = PBXBuildFile; fileRef = 27014789227B53AB0013C9E3 /* miaomiao-small.png */; };
 		270C265B22691253005B27F3 /* GlucoseAlarmInputCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 270C265922691253005B27F3 /* GlucoseAlarmInputCell.xib */; };
 		270C265C22691253005B27F3 /* GlucoseAlarmInputCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 270C265A22691253005B27F3 /* GlucoseAlarmInputCell.swift */; };
 		270C26602269E51F005B27F3 /* icons8-down-arrow-50.png in Resources */ = {isa = PBXBuildFile; fileRef = 270C265F2269E51F005B27F3 /* icons8-down-arrow-50.png */; };
@@ -67,6 +69,8 @@
 		277DAD12226C9FA800422ADA /* DateExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27D0DA6A2231CBB7007BBB2C /* DateExtensions.swift */; };
 		277DAD14226CACF300422ADA /* MessagePassing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 277DAD13226CACF300422ADA /* MessagePassing.swift */; };
 		277DAD15226CACF700422ADA /* MessagePassing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 277DAD13226CACF300422ADA /* MessagePassing.swift */; };
+		277DAD41226F9CD000422ADA /* pickercell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 277DAD3F226F9CD000422ADA /* pickercell.swift */; };
+		277DAD42226F9CD000422ADA /* pickercell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 277DAD40226F9CD000422ADA /* pickercell.xib */; };
 		2795404F2165502600D657E5 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2795404E2165502600D657E5 /* main.swift */; };
 		27C335B82165667300CF0868 /* LibreGlucose.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43C418AE1CE0488900405B6A /* LibreGlucose.swift */; };
 		27C335B9216566C500CF0868 /* MiaomiaoClient.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 432B0E881CDFC3C50045347B /* MiaomiaoClient.framework */; };
@@ -182,6 +186,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		27014789227B53AB0013C9E3 /* miaomiao-small.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "miaomiao-small.png"; sourceTree = "<group>"; };
 		270C265922691253005B27F3 /* GlucoseAlarmInputCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = GlucoseAlarmInputCell.xib; sourceTree = "<group>"; };
 		270C265A22691253005B27F3 /* GlucoseAlarmInputCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GlucoseAlarmInputCell.swift; sourceTree = "<group>"; };
 		270C265F2269E51F005B27F3 /* icons8-down-arrow-50.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icons8-down-arrow-50.png"; sourceTree = "<group>"; };
@@ -210,6 +215,8 @@
 		277DAD0C226B970300422ADA /* UserDefaults+Alarmsettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserDefaults+Alarmsettings.swift"; sourceTree = "<group>"; };
 		277DAD0F226C93D000422ADA /* GlucoseAlarmType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlucoseAlarmType.swift; sourceTree = "<group>"; };
 		277DAD13226CACF300422ADA /* MessagePassing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessagePassing.swift; sourceTree = "<group>"; };
+		277DAD3F226F9CD000422ADA /* pickercell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = pickercell.swift; sourceTree = "<group>"; };
+		277DAD40226F9CD000422ADA /* pickercell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = pickercell.xib; sourceTree = "<group>"; };
 		2795404C2165502600D657E5 /* clitester */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = clitester; sourceTree = BUILT_PRODUCTS_DIR; };
 		2795404E2165502600D657E5 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		27C335DE21667C7A00CF0868 /* singleviewtesterapp2.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = singleviewtesterapp2.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -345,6 +352,7 @@
 		270C26672269E67A005B27F3 /* Graphics */ = {
 			isa = PBXGroup;
 			children = (
+				27014789227B53AB0013C9E3 /* miaomiao-small.png */,
 				270C266B226A24AB005B27F3 /* icons8-schedule-50.png */,
 				270C26682269E6B7005B27F3 /* schedule-icon48.jpg */,
 				270C26632269E610005B27F3 /* icons8-drop-down-arrow-50.png */,
@@ -390,6 +398,8 @@
 		2769B5BA2264EDFD006F1935 /* LFTimePickerController */ = {
 			isa = PBXGroup;
 			children = (
+				277DAD3F226F9CD000422ADA /* pickercell.swift */,
+				277DAD40226F9CD000422ADA /* pickercell.xib */,
 				2769B5BB2264EE4A006F1935 /* LFTimePickerController.swift */,
 				2769B5BD2264FA22006F1935 /* DateComponentUITableViewCell.swift */,
 				2769B5C02267766F006F1935 /* LFTimePickerControllerOriginal.swift */,
@@ -720,6 +730,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				43AB5127213315D300B3D58D /* Localizable.strings in Resources */,
+				2701478B227B584B0013C9E3 /* miaomiao-small.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -742,6 +753,8 @@
 				27CBEB5C2261E1E6004F7BF5 /* AlarmTimeInputRangeCell.xib in Resources */,
 				43AB511B21330D1400B3D58D /* Localizable.strings in Resources */,
 				270C26662269E611005B27F3 /* icons8-slide-up-50.png in Resources */,
+				277DAD42226F9CD000422ADA /* pickercell.xib in Resources */,
+				2701478A227B53AB0013C9E3 /* miaomiao-small.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -855,6 +868,7 @@
 				277DAD15226CACF700422ADA /* MessagePassing.swift in Sources */,
 				27CFAB5522496C7A006DEFE3 /* DoubleExtensions.swift in Sources */,
 				27CBEB3F225FE5CB004F7BF5 /* AlarmSettingsTableViewController.swift in Sources */,
+				277DAD41226F9CD000422ADA /* pickercell.swift in Sources */,
 				277DAD0E226B971A00422ADA /* UserDefaults+Alarmsettings.swift in Sources */,
 				4325E9D3210E6ADA00969CE5 /* IdentifiableClass.swift in Sources */,
 				27CBEB552261DF9D004F7BF5 /* AlarmTimeInputRangeCell.swift in Sources */,
