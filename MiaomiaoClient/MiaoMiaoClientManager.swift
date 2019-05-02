@@ -9,6 +9,7 @@
 import Foundation
 import LoopKit
 import LoopKitUI
+import UserNotifications
 
 import os.log
 import HealthKit
@@ -20,6 +21,7 @@ public final class MiaoMiaoClientManager: CGMManager, MiaoMiaoBluetoothManagerDe
     
     public var managedDataInterval: TimeInterval?
     
+    public var shouldSendGlucoseNotifications = true
     public var device: HKDevice? {
         
         return HKDevice(
@@ -42,22 +44,71 @@ public final class MiaoMiaoClientManager: CGMManager, MiaoMiaoBluetoothManagerDe
             "lastConnected: \(String(describing: lastConnected))",
             "Connection state: \(connectionState)",
             "Sensor state: \(sensorStateDescription)",
-            "bridge battery: \(battery)",
+            "Bridge battery: \(battery)",
+            "Notification glucoseunit: \(glucoseUnit)",
+            "shouldSendGlucoseNotifications: \(shouldSendGlucoseNotifications)",
             //"latestBackfill: \(String(describing: "latestBackfill))",
             //"latestCollector: \(String(describing: latestSpikeCollector))",
             ""
             ].joined(separator: "\n")
     }
+    private var glucoseUnit = HKUnit.millimolesPerLiter
     
-   /* private static var sharedInstance: MiaomiaoService?
-    public class var miaomiaoService : MiaomiaoService {
-        guard let sharedInstance = self.sharedInstance else {
-            let sharedInstance = MiaomiaoService(keychainManager: keychain)
-            self.sharedInstance = sharedInstance
-            return sharedInstance
+    private lazy var glucoseFormatter: QuantityFormatter = {
+        let formatter = QuantityFormatter()
+        formatter.setPreferredNumberFormatter(for: glucoseUnit)
+        return formatter
+    }()
+    
+    func sendGlucoseNotitifcation(glucose: LibreGlucose, oldValue: LibreGlucose?){
+        
+        // TODO: handle oldValue if present
+        
+        //main loop code will handle authorization, so we skip authorizing here
+        guard (shouldSendGlucoseNotifications) else {
+            NSLog("dabear:: not sending glucose, shouldSendGlucoseNotification was false")
+            return
+            
         }
-        return sharedInstance
-    }*/
+        UNUserNotificationCenter.current().getNotificationSettings { (settings) in
+            if #available(iOSApplicationExtension 12.0, *) {
+                guard (settings.authorizationStatus == .authorized || settings.authorizationStatus == .provisional) else {
+                    NSLog("dabear:: not sending glucose, authorization denied")
+                    return
+                    
+                }
+            } else {
+                // Fallback on earlier versions
+                guard (settings.authorizationStatus == .authorized ) else {
+                    NSLog("dabear:: not sending glucose, authorization denied")
+                    return
+                    
+                }
+            }
+            NSLog("dabear:: sending glucose notification")
+            
+            guard let formatted = self.glucoseFormatter.string(from: glucose.quantity, for: self.glucoseUnit) else {
+                NSLog("dabear:: could not create glucose formatter, not sending glucose")
+                return
+            }
+            let content = UNMutableNotificationContent()
+            content.title = "New Reading \(formatted)"
+            content.body = "Glucose: \(formatted)"
+            if let trend = glucose.trendType?.localizedDescription {
+                content.body += ", \(trend)"
+            }
+            
+            //content.sound = UNNotificationSound.
+            let request = UNNotificationRequest(identifier: "no.bjorninge.miaomiao.glucose-notification", content: content, trigger: nil)
+            
+            UNUserNotificationCenter.current().add(request) { (error) in
+                if let error = error {
+                    NSLog("dabear:: unable to add glucose notification: \(error.localizedDescription)")
+                }
+            }
+            
+        }
+    }
     
     public var miaomiaoService : MiaomiaoService
     
@@ -103,12 +154,22 @@ public final class MiaoMiaoClientManager: CGMManager, MiaoMiaoBluetoothManagerDe
     
     public private(set) var lastConnected : Date?
    
-    public private(set) var latestBackfill: LibreGlucose?
+    public private(set) var latestBackfill: LibreGlucose? {
+        didSet(oldValue) {
+            NSLog("dabear:: latestBackfill set, newvalue is \(latestBackfill)")
+            if let latestBackfill = latestBackfill {
+                NSLog("dabear:: sending glucose notification")
+                sendGlucoseNotitifcation(glucose: latestBackfill, oldValue: oldValue)
+            }
+            
+        }
+    }
     public static var managerIdentifier = "DexMiaomiaoClient1"
     
     required convenience public init?(rawState: CGMManager.RawStateValue) {
         os_log("dabear:: MiaomiaoClientManager will init from rawstate")
         self.init()
+        
     }
     
     public var rawState: CGMManager.RawStateValue {
