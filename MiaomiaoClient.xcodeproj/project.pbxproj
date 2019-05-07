@@ -23,6 +23,7 @@
 /* Begin PBXBuildFile section */
 		2701478A227B53AB0013C9E3 /* miaomiao-small.png in Resources */ = {isa = PBXBuildFile; fileRef = 27014789227B53AB0013C9E3 /* miaomiao-small.png */; };
 		2701478B227B584B0013C9E3 /* miaomiao-small.png in Resources */ = {isa = PBXBuildFile; fileRef = 27014789227B53AB0013C9E3 /* miaomiao-small.png */; };
+		2701478D2281FA4A0013C9E3 /* GlucoseNotificationsSettingsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2701478C2281FA4A0013C9E3 /* GlucoseNotificationsSettingsTableViewController.swift */; };
 		270C265B22691253005B27F3 /* GlucoseAlarmInputCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 270C265922691253005B27F3 /* GlucoseAlarmInputCell.xib */; };
 		270C265C22691253005B27F3 /* GlucoseAlarmInputCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 270C265A22691253005B27F3 /* GlucoseAlarmInputCell.swift */; };
 		270C26602269E51F005B27F3 /* icons8-down-arrow-50.png in Resources */ = {isa = PBXBuildFile; fileRef = 270C265F2269E51F005B27F3 /* icons8-down-arrow-50.png */; };
@@ -187,6 +188,7 @@
 
 /* Begin PBXFileReference section */
 		27014789227B53AB0013C9E3 /* miaomiao-small.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "miaomiao-small.png"; sourceTree = "<group>"; };
+		2701478C2281FA4A0013C9E3 /* GlucoseNotificationsSettingsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlucoseNotificationsSettingsTableViewController.swift; sourceTree = "<group>"; };
 		270C265922691253005B27F3 /* GlucoseAlarmInputCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = GlucoseAlarmInputCell.xib; sourceTree = "<group>"; };
 		270C265A22691253005B27F3 /* GlucoseAlarmInputCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GlucoseAlarmInputCell.swift; sourceTree = "<group>"; };
 		270C265F2269E51F005B27F3 /* icons8-down-arrow-50.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icons8-down-arrow-50.png"; sourceTree = "<group>"; };
@@ -498,6 +500,7 @@
 				270C2657226911BB005B27F3 /* AlarmTimeInputRangeCell */,
 				2769B5BA2264EDFD006F1935 /* LFTimePickerController */,
 				27CBEB3D225FE5CB004F7BF5 /* AlarmSettingsTableViewController.swift */,
+				2701478C2281FA4A0013C9E3 /* GlucoseNotificationsSettingsTableViewController.swift */,
 				43AB511921330D1400B3D58D /* Localizable.strings */,
 				4325E9D2210E6ADA00969CE5 /* IdentifiableClass.swift */,
 				43A8EC8E210E676500A81379 /* MiaomiaoClientManager+UI.swift */,
@@ -868,6 +871,7 @@
 				277DAD15226CACF700422ADA /* MessagePassing.swift in Sources */,
 				27CFAB5522496C7A006DEFE3 /* DoubleExtensions.swift in Sources */,
 				27CBEB3F225FE5CB004F7BF5 /* AlarmSettingsTableViewController.swift in Sources */,
+				2701478D2281FA4A0013C9E3 /* GlucoseNotificationsSettingsTableViewController.swift in Sources */,
 				277DAD41226F9CD000422ADA /* pickercell.swift in Sources */,
 				277DAD0E226B971A00422ADA /* UserDefaults+Alarmsettings.swift in Sources */,
 				4325E9D3210E6ADA00969CE5 /* IdentifiableClass.swift in Sources */,

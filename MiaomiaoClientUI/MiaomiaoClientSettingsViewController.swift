@@ -55,7 +55,7 @@ public class MiaomiaoClientSettingsViewController: UITableViewController {
         case sensorInfo
         case latestBridgeInfo
         case latestCalibrationData
-        case alarms
+        case advanced
         
         case delete
 
@@ -103,10 +103,11 @@ public class MiaomiaoClientSettingsViewController: UITableViewController {
         static let count = 5
     }
     
-    private enum AlarmInfoRow {
+    private enum AdvancedSettingsRow: Int {
         case alarms
+        case glucoseNotifications
         
-        static let count = 1
+        static let count = 2
     }
 
     override public func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -125,8 +126,8 @@ public class MiaomiaoClientSettingsViewController: UITableViewController {
         case .latestCalibrationData:
             return LatestCalibrationDataInfoRow.count
         
-        case .alarms:
-            return AlarmInfoRow.count
+        case .advanced:
+            return AdvancedSettingsRow.count
         }
     }
 
@@ -307,11 +308,19 @@ public class MiaomiaoClientSettingsViewController: UITableViewController {
                 
             }
             return cell
-        case .alarms:
+        case .advanced:
             let cell = tableView.dequeueReusableCell(withIdentifier: SettingsTableViewCell.className, for: indexPath) as! SettingsTableViewCell
-            cell.textLabel?.text = LocalizedString("Alarms", comment: "Title describing sensor serial")
             
-            cell.detailTextLabel?.text = "Alarms details"
+            switch AdvancedSettingsRow(rawValue: indexPath.row)! {
+            case .alarms:
+                cell.textLabel?.text = LocalizedString("Alarms", comment: "Title describing sensor Gluocse Alarms")
+                cell.detailTextLabel?.text = SettingsTableViewCell.TapToSetString
+            case .glucoseNotifications:
+                cell.textLabel?.text = LocalizedString("Glucose Notifications", comment: "Title describing Glucose Notifications")
+                cell.detailTextLabel?.text = SettingsTableViewCell.TapToSetString
+            }
+            
+            cell.accessoryType = .disclosureIndicator
             return cell
         }
     }
@@ -331,8 +340,8 @@ public class MiaomiaoClientSettingsViewController: UITableViewController {
         case .latestCalibrationData:
             return LocalizedString("Latest Autocalibration Parameters", comment: "Section title for latest bridge info")
        
-        case .alarms:
-            return LocalizedString("Alarms", comment: "Section Alarms")
+        case .advanced:
+            return LocalizedString("Advanced", comment: "Advanced Section")
         }
     }
 
@@ -440,11 +449,20 @@ public class MiaomiaoClientSettingsViewController: UITableViewController {
             
         case .sensorInfo:
             tableView.deselectRow(at: indexPath, animated: true)
-        case .alarms:
+        case .advanced:
             tableView.deselectRow(at: indexPath, animated: true)
             
-            let alarmsVC = AlarmSettingsTableViewController(glucoseUnit: self.glucoseUnit)
-            show(alarmsVC, sender: nil)
+            var controller : UITableViewController
+            
+            switch AdvancedSettingsRow(rawValue: indexPath.row)! {
+            case .alarms:
+                controller = AlarmSettingsTableViewController(glucoseUnit: self.glucoseUnit)
+            case .glucoseNotifications:
+                controller = GlucoseNotificationsSettingsTableViewController(glucoseUnit: self.glucoseUnit)
+            }
+            
+           
+            show(controller, sender: nil)
         }
     }
     
