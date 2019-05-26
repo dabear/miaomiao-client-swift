@@ -483,6 +483,7 @@ public final class MiaoMiaoClientManager: CGMManager, MiaoMiaoBluetoothManagerDe
         case .frequencyChangedResponse:
             NSLog("dabear:: miaomiao readout interval has changed!")
             break
+        
         default:
             //we don't care about the rest!
             break

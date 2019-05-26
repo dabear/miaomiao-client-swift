@@ -458,7 +458,7 @@ public class MiaomiaoClientSettingsViewController: UITableViewController {
             case .alarms:
                 controller = AlarmSettingsTableViewController(glucoseUnit: self.glucoseUnit)
             case .glucoseNotifications:
-                controller = GlucoseNotificationsSettingsTableViewController(glucoseUnit: self.glucoseUnit)
+                controller = NotificationsSettingsTableViewController(glucoseUnit: self.glucoseUnit)
             }
             
            
