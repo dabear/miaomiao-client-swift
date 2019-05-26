@@ -121,7 +121,7 @@ public class NotificationsSettingsTableViewController: UITableViewController  {
                 
                 
                 let cell = tableView.dequeueReusableCell(withIdentifier: SegmentViewCell.className, for: indexPath) as!  SegmentViewCell
-                cell.label.text = "Notification Unit Override"
+                cell.label.text = "Unit Override"
                 cell.segment.replaceSegments(segments: items)
                 cell.segment.selectedSegmentIndex = items.firstIndex(where: { (item) -> Bool in
                     item == glucoseUnit.localizedShortUnitString
