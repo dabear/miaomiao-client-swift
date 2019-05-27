@@ -21,11 +21,19 @@ public class NotificationsSettingsTableViewController: UITableViewController  {
 
     
     public init(glucoseUnit: HKUnit) {
-        self.glucoseUnit = glucoseUnit
+        
+        if let savedGlucoseUnit = UserDefaults.standard.mmGlucoseUnit {
+            self.glucoseUnit = savedGlucoseUnit
+        } else {
+            self.glucoseUnit = glucoseUnit
+        }
+        
         // todo: save/persist glucoseUnit in init
         // to make it accessible for the non-ui part of this plugin
+        self.glucseSegmentsStrings =  self.glucoseSegments.map({ $0.localizedShortUnitString })
         
         super.init(style: .grouped)
+        
         
         
         
@@ -49,12 +57,15 @@ public class NotificationsSettingsTableViewController: UITableViewController  {
         self.tableView.rowHeight = 44;
     }
     
+    
+    private let glucoseSegments = [HKUnit.millimolesPerLiter, HKUnit.milligramsPerDeciliter]
+    private var glucseSegmentsStrings  : [String]
    
     private enum NotificationsSettingsRow : Int, CaseIterable {
         case always
         case lowBattery
         case invalidSensorDetected
-        case alarmNotifications
+        //case alarmNotifications
         case newSensorDetected
         case noSensorDetected
         case unit
@@ -74,26 +85,36 @@ public class NotificationsSettingsTableViewController: UITableViewController  {
     }
     @objc private func notificationAlwaysChanged(_ sender: UISwitch) {
         print("notificationalways changed to \(sender.isOn)")
+        UserDefaults.standard.mmAlwaysDisplayGlucose = sender.isOn
     }
     
     @objc private func notificationLowBatteryChanged(_ sender: UISwitch) {
         print("notificationLowBatteryChanged changed to \(sender.isOn)")
+        UserDefaults.standard.mmAlertLowBatteryWarning = sender.isOn
     }
     @objc private func alarmsSchedulesActivatedChanged(_ sender: UISwitch) {
         print("alarmsSchedulesActivatedChanged changed to \(sender.isOn)")
+        //UserDefaults.standard. = sender.isOn
     }
     
     @objc private func sensorChangeEventChanged(_ sender: UISwitch) {
         print("sensorChangeEventChanged changed to \(sender.isOn)")
+        UserDefaults.standard.mmAlertNewSensorDetected = sender.isOn
     }
     
     @objc private func noSensorDetectedEventChanged(_ sender: UISwitch) {
         print("noSensorDetectedEventChanged changed to \(sender.isOn)")
+        UserDefaults.standard.mmAlertNoSensorDetected = sender.isOn
     }
     
     @objc private func unitSegmentValueChanged(_ sender: UISegmentedControl) {
-        let newVal = sender.titleForSegment(at: sender.selectedSegmentIndex)
-        print("unitSegmentValueChanged   changed to \(newVal)")
+        
+        if let newUnit = glucoseSegments[safe: sender.selectedSegmentIndex] {
+            print("unitSegmentValueChanged   changed to \(newUnit.localizedShortUnitString)")
+            UserDefaults.standard.mmGlucoseUnit = newUnit
+        }
+
+        
     }
     
     
@@ -108,7 +129,7 @@ public class NotificationsSettingsTableViewController: UITableViewController  {
             case .always:
                 let switchCell = tableView.dequeueReusableCell(withIdentifier: mmSwitchTableViewCell.className, for: indexPath) as! mmSwitchTableViewCell
                 
-                switchCell.toggleIsSelected?.isOn = true
+                switchCell.toggleIsSelected?.isOn = UserDefaults.standard.mmAlwaysDisplayGlucose
                 //switchCell.titleLabel?.text = "test"
                 
                 switchCell.titleLabel?.text = NSLocalizedString("Always Notify Glucose", comment: "The title text for the looping enabled switch cell")
@@ -117,25 +138,31 @@ public class NotificationsSettingsTableViewController: UITableViewController  {
                 switchCell.contentView.layoutMargins.left = tableView.separatorInset.left
                 return switchCell
             case .unit:
-                let items = [HKUnit.milligramsPerDeciliter.localizedShortUnitString , HKUnit.millimolesPerLiter.localizedShortUnitString]
+                
+                
+                
+                
                 
                 
                 let cell = tableView.dequeueReusableCell(withIdentifier: SegmentViewCell.className, for: indexPath) as!  SegmentViewCell
                 cell.label.text = "Unit Override"
-                cell.segment.replaceSegments(segments: items)
-                cell.segment.selectedSegmentIndex = items.firstIndex(where: { (item) -> Bool in
+                cell.segment.replaceSegments(segments: glucseSegmentsStrings)
+                if let selectIndex = glucseSegmentsStrings.firstIndex(where: { (item) -> Bool in
                     item == glucoseUnit.localizedShortUnitString
-                }) ?? 0
+                }) {
+                    cell.segment.selectedSegmentIndex = selectIndex
+                }
+            
                 
-                cell.segment.addTarget(self, action: "unitSegmentValueChanged:", for:.valueChanged)
-                cell.segment.addTarget(self, action: "unitSegmentValueChanged:", for:.touchUpInside)
+                cell.segment.addTarget(self, action: #selector(unitSegmentValueChanged(_:)), for:.valueChanged)
+                cell.segment.addTarget(self, action: #selector(unitSegmentValueChanged(_:)), for:.touchUpInside)
                 
                 return cell
             
         case .lowBattery:
             let switchCell = tableView.dequeueReusableCell(withIdentifier: mmSwitchTableViewCell.className, for: indexPath) as! mmSwitchTableViewCell
             
-            switchCell.toggleIsSelected?.isOn = true
+            switchCell.toggleIsSelected?.isOn = UserDefaults.standard.mmAlertLowBatteryWarning
             //switchCell.titleLabel?.text = "test"
             
             switchCell.titleLabel?.text = NSLocalizedString("Low Battery Notifications", comment: "The title text for the miaomiao low battery notifications")
@@ -146,7 +173,7 @@ public class NotificationsSettingsTableViewController: UITableViewController  {
         case .invalidSensorDetected:
             let switchCell = tableView.dequeueReusableCell(withIdentifier: mmSwitchTableViewCell.className, for: indexPath) as! mmSwitchTableViewCell
             
-            switchCell.toggleIsSelected?.isOn = true
+            switchCell.toggleIsSelected?.isOn = UserDefaults.standard.mmAlertInvalidSensorDetected
             //switchCell.titleLabel?.text = "test"
             
             switchCell.titleLabel?.text = NSLocalizedString("Notify invalid on invalid sensors", comment: "The title text for the miaomiao low battery notifications")
@@ -155,7 +182,7 @@ public class NotificationsSettingsTableViewController: UITableViewController  {
             
                 
             return switchCell
-        case .alarmNotifications:
+        /*case .alarmNotifications:
             let switchCell = tableView.dequeueReusableCell(withIdentifier: mmSwitchTableViewCell.className, for: indexPath) as! mmSwitchTableViewCell
             
             switchCell.toggleIsSelected?.isOn = true
@@ -165,11 +192,11 @@ public class NotificationsSettingsTableViewController: UITableViewController  {
             
             switchCell.toggleIsSelected?.addTarget(self, action: #selector(alarmsSchedulesActivatedChanged(_:)), for: .valueChanged)
             switchCell.contentView.layoutMargins.left = tableView.separatorInset.left
-            return switchCell
+            return switchCell*/
         case .newSensorDetected:
             let switchCell = tableView.dequeueReusableCell(withIdentifier: mmSwitchTableViewCell.className, for: indexPath) as! mmSwitchTableViewCell
             
-            switchCell.toggleIsSelected?.isOn = true
+            switchCell.toggleIsSelected?.isOn = UserDefaults.standard.mmAlertNewSensorDetected
             //switchCell.titleLabel?.text = "test"
             
             switchCell.titleLabel?.text = NSLocalizedString("Sensor Change", comment: "The title text for the miaomiao sensor change detected event")
@@ -180,7 +207,7 @@ public class NotificationsSettingsTableViewController: UITableViewController  {
         case .noSensorDetected:
             let switchCell = tableView.dequeueReusableCell(withIdentifier: mmSwitchTableViewCell.className, for: indexPath) as! mmSwitchTableViewCell
             
-            switchCell.toggleIsSelected?.isOn = true
+            switchCell.toggleIsSelected?.isOn = UserDefaults.standard.mmAlertNoSensorDetected
             //switchCell.titleLabel?.text = "test"
             
             switchCell.titleLabel?.text = NSLocalizedString("Sensor Not found", comment: "The title text for the miaomiao sensor not found event")
@@ -216,8 +243,8 @@ public class NotificationsSettingsTableViewController: UITableViewController  {
             print("selected low battery row")
         case .invalidSensorDetected:
             print("selected invalidSensorDetected")
-        case .alarmNotifications:
-            print("selected alarmNotifications")
+        //case .alarmNotifications:
+        //    print("selected alarmNotifications")
         case .newSensorDetected:
            print("selected sensorChanged")
         case .noSensorDetected:
