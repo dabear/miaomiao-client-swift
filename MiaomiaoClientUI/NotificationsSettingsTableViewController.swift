@@ -12,7 +12,10 @@ import LoopKit
 import HealthKit
 
 
-public class NotificationsSettingsTableViewController: UITableViewController  {
+public class NotificationsSettingsTableViewController: UITableViewController , mmTextFieldViewCellCellDelegate {
+    
+    
+    
    
     
   
@@ -55,6 +58,8 @@ public class NotificationsSettingsTableViewController: UITableViewController  {
         tableView.register(SegmentViewCell.nib(), forCellReuseIdentifier: SegmentViewCell.className)
         
         tableView.register(mmSwitchTableViewCell.nib(), forCellReuseIdentifier: mmSwitchTableViewCell.className)
+        
+        tableView.register(mmTextFieldViewCell.nib(), forCellReuseIdentifier: mmTextFieldViewCell.className)
         self.tableView.rowHeight = 44;
     }
     
@@ -64,11 +69,13 @@ public class NotificationsSettingsTableViewController: UITableViewController  {
    
     private enum NotificationsSettingsRow : Int, CaseIterable {
         case always
+        case alertEveryXTime
         case lowBattery
         case invalidSensorDetected
         //case alarmNotifications
         case newSensorDetected
         case noSensorDetected
+        case expireSoonAlarm
         case unit
         static let count = NotificationsSettingsRow.allCases.count
     }
@@ -84,9 +91,11 @@ public class NotificationsSettingsTableViewController: UITableViewController  {
         return NotificationsSettingsRow.count
         
     }
+    private weak var notificationEveryXTimesCell: mmTextFieldViewCell?
     @objc private func notificationAlwaysChanged(_ sender: UISwitch) {
         print("notificationalways changed to \(sender.isOn)")
         UserDefaults.standard.mmAlwaysDisplayGlucose = sender.isOn
+        notificationEveryXTimesCell?.isEnabled = !sender.isOn
     }
     
     @objc private func notificationLowBatteryChanged(_ sender: UISwitch) {
@@ -103,6 +112,12 @@ public class NotificationsSettingsTableViewController: UITableViewController  {
         UserDefaults.standard.mmAlertNewSensorDetected = sender.isOn
     }
     
+    @objc private func notificationlertWillSoonExpireChanged(_ sender: UISwitch) {
+        print("mmAlertWillSoonExpire changed to \(sender.isOn)")
+        UserDefaults.standard.mmAlertWillSoonExpire = sender.isOn
+    }
+    
+    
     @objc private func noSensorDetectedEventChanged(_ sender: UISwitch) {
         print("noSensorDetectedEventChanged changed to \(sender.isOn)")
         UserDefaults.standard.mmAlertNoSensorDetected = sender.isOn
@@ -116,6 +131,14 @@ public class NotificationsSettingsTableViewController: UITableViewController  {
         }
 
         
+    }
+    
+    func mmTextFieldViewCellDidUpdateValue(_ cell: mmTextFieldViewCell, value: String?) {
+        
+        if let value = value, let intVal = Int(value) {
+            print("textfield was updated: \(intVal)")
+            UserDefaults.standard.mmNotifyEveryXTimes = intVal
+        }
     }
     
     
@@ -138,6 +161,16 @@ public class NotificationsSettingsTableViewController: UITableViewController  {
                 switchCell.toggleIsSelected?.addTarget(self, action: #selector(notificationAlwaysChanged(_:)), for: .valueChanged)
                 switchCell.contentView.layoutMargins.left = tableView.separatorInset.left
                 return switchCell
+            case .alertEveryXTime:
+                notificationEveryXTimesCell = (tableView.dequeueReusableCell(withIdentifier: mmTextFieldViewCell.className, for: indexPath) as! mmTextFieldViewCell)
+                
+                notificationEveryXTimesCell?.textInput?.text = String(UserDefaults.standard.mmNotifyEveryXTimes) 
+                notificationEveryXTimesCell!.titleLabel.text = NSLocalizedString("Notify Per Reading (0-9)", comment: "The title text for the Notify every reading nr")
+                notificationEveryXTimesCell!.delegate = self
+                notificationEveryXTimesCell!.isEnabled = !UserDefaults.standard.mmAlwaysDisplayGlucose
+                
+                return notificationEveryXTimesCell!
+            
             case .unit:
                 
                 
@@ -166,7 +199,7 @@ public class NotificationsSettingsTableViewController: UITableViewController  {
             switchCell.toggleIsSelected?.isOn = UserDefaults.standard.mmAlertLowBatteryWarning
             //switchCell.titleLabel?.text = "test"
             
-            switchCell.titleLabel?.text = NSLocalizedString("Low Battery Notifications", comment: "The title text for the miaomiao low battery notifications")
+            switchCell.titleLabel?.text = NSLocalizedString("Low Battery", comment: "The title text for the miaomiao low battery notifications")
             
             switchCell.toggleIsSelected?.addTarget(self, action: #selector(notificationLowBatteryChanged(_:)), for: .valueChanged)
             switchCell.contentView.layoutMargins.left = tableView.separatorInset.left
@@ -177,7 +210,7 @@ public class NotificationsSettingsTableViewController: UITableViewController  {
             switchCell.toggleIsSelected?.isOn = UserDefaults.standard.mmAlertInvalidSensorDetected
             //switchCell.titleLabel?.text = "test"
             
-            switchCell.titleLabel?.text = NSLocalizedString("Notify invalid on invalid sensors", comment: "The title text for the miaomiao low battery notifications")
+            switchCell.titleLabel?.text = NSLocalizedString("Invalid Sensor", comment: "The title text for the miaomiao Invalid sensor detected")
             
             switchCell.toggleIsSelected.isEnabled = false
             
@@ -216,6 +249,17 @@ public class NotificationsSettingsTableViewController: UITableViewController  {
             switchCell.toggleIsSelected?.addTarget(self, action: #selector(noSensorDetectedEventChanged(_:)), for: .valueChanged)
             switchCell.contentView.layoutMargins.left = tableView.separatorInset.left
             return switchCell
+        case .expireSoonAlarm:
+            let switchCell = tableView.dequeueReusableCell(withIdentifier: mmSwitchTableViewCell.className, for: indexPath) as! mmSwitchTableViewCell
+            
+            switchCell.toggleIsSelected?.isOn = UserDefaults.standard.mmAlertWillSoonExpire
+            //switchCell.titleLabel?.text = "test"
+            
+            switchCell.titleLabel?.text = NSLocalizedString("Sensor Expires Soon", comment: "The title text for the miaomiao sensor Sensor Expires soon event")
+            
+            switchCell.toggleIsSelected?.addTarget(self, action: #selector(notificationlertWillSoonExpireChanged(_:)), for: .valueChanged)
+            switchCell.contentView.layoutMargins.left = tableView.separatorInset.left
+            return switchCell
         }
     }
     
@@ -250,6 +294,10 @@ public class NotificationsSettingsTableViewController: UITableViewController  {
            print("selected sensorChanged")
         case .noSensorDetected:
            print("selected noSensorDetected")
+        case .expireSoonAlarm:
+            print("selected expireSoonAlarm")
+        case .alertEveryXTime:
+            print("selected alertEveryXTime")
         }
         
         tableView.deselectRow(at: indexPath, animated: true)

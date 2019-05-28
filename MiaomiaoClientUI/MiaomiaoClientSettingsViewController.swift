@@ -322,7 +322,7 @@ public class MiaomiaoClientSettingsViewController: UITableViewController {
                 cell.textLabel?.text = LocalizedString("Alarms", comment: "Title describing sensor Gluocse Alarms")
                 cell.detailTextLabel?.text = SettingsTableViewCell.TapToSetString
             case .glucoseNotifications:
-                cell.textLabel?.text = LocalizedString("Glucose Notifications", comment: "Title describing Glucose Notifications")
+                cell.textLabel?.text = LocalizedString("Notifications", comment: "Title describing  Notifications Setup")
                 cell.detailTextLabel?.text = SettingsTableViewCell.TapToSetString
             }
             

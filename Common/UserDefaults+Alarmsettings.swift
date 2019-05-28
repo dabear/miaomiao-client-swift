@@ -15,12 +15,15 @@ extension UserDefaults {
         case glucoseSchedules = "no.bjorninge.glucoseschedules"
         
         case mmAlwaysDisplayGlucose = "no.bjorninge.mmAlwaysDisplayGlucose"
+        case mmNotifyEveryXTimes = "no.bjorninge.mmNotifyEveryXTimes"
+        
         case mmAlertLowBatteryWarning = "no.bjorninge.mmLowBatteryWarning"
         case mmAlertInvalidSensorDetected = "no.bjorninge.mmInvalidSensorDetected"
         //case mmAlertalarmNotifications
         case mmAlertNewSensorDetected = "no.bjorninge.mmNewSensorDetected"
         case mmAlertNoSensorDetected = "no.bjorninge.mmNoSensorDetected"
         case mmGlucoseUnit = "no.bjorninge.mmGlucoseUnit"
+        case mmAlertSensorSoonExpire = "no.bjorninge.mmAlertSensorSoonExpire"
     }
     /*
      case always
@@ -46,6 +49,15 @@ extension UserDefaults {
         }
         set {
             set(newValue, forKey: Key.mmAlwaysDisplayGlucose.rawValue)
+        }
+    }
+    var mmNotifyEveryXTimes : Int {
+        get {
+            
+            return integer(forKey: Key.mmNotifyEveryXTimes.rawValue)
+        }
+        set {
+            set(newValue, forKey: Key.mmNotifyEveryXTimes.rawValue)
         }
     }
     
@@ -81,6 +93,15 @@ extension UserDefaults {
         }
         set {
             set(newValue, forKey: Key.mmAlertNoSensorDetected.rawValue)
+        }
+    }
+    
+    var mmAlertWillSoonExpire : Bool {
+        get {
+            return optionalBool(forKey: Key.mmAlertSensorSoonExpire.rawValue) ?? true
+        }
+        set {
+            set(newValue, forKey: Key.mmAlertSensorSoonExpire.rawValue)
         }
     }
     
