@@ -26,6 +26,7 @@ public class NotificationsSettingsTableViewController: UITableViewController  {
             self.glucoseUnit = savedGlucoseUnit
         } else {
             self.glucoseUnit = glucoseUnit
+            UserDefaults.standard.mmGlucoseUnit = glucoseUnit
         }
         
         // todo: save/persist glucoseUnit in init

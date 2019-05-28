@@ -23,6 +23,12 @@ public class MiaomiaoClientSettingsViewController: UITableViewController {
     public init(cgmManager: MiaoMiaoClientManager, glucoseUnit: HKUnit, allowsDeletion: Bool) {
         self.cgmManager = cgmManager
         self.glucoseUnit = glucoseUnit
+        
+        //only override savedglucose unit if we haven't saved this locally before
+        if UserDefaults.standard.mmGlucoseUnit == nil {
+            UserDefaults.standard.mmGlucoseUnit = glucoseUnit
+        }
+        
         self.allowsDeletion = allowsDeletion
 
         super.init(style: .grouped)
