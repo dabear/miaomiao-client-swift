@@ -35,8 +35,8 @@ extension UserDefaults {
      case unit
      */
     public func optionalBool(forKey defaultName: String) -> Bool? {
-        let defaults = self
-        if let value = defaults.value(forKey: defaultName) {
+        
+        if let value = value(forKey: defaultName) {
             return value as? Bool
         }
         return nil
