@@ -294,16 +294,16 @@ class NotificationHelper {
             return
         }
         
-        guard device.battery <= 100 else {
+        guard device.battery <= 30 else {
             NSLog("device battery is \(device.batteryString), not sending low notification")
             return
         }
         
         let now  = Date()
-        //only once per 45 minute
-        let min45 = 45.0 * 60
+        //only once per mins minute
+        let mins =  60.0 * 120
         if let earlier = lastBatteryWarning {
-            let earlierplus = earlier.addingTimeInterval(min45)
+            let earlierplus = earlier.addingTimeInterval(mins)
             if earlierplus < now {
                 sendLowBatteryNotification(batteryPercentage: device.batteryString)
                 lastBatteryWarning = now
