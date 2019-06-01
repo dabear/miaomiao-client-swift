@@ -107,7 +107,7 @@ public final class MiaoMiaoClientManager: CGMManager, MiaoMiaoBluetoothManagerDe
             NSLog("dabear:: latestBackfill set, newvalue is \(latestBackfill)")
             if let latestBackfill = latestBackfill {
                 NSLog("dabear:: sending glucose notification")
-                NotificationHelper.sendGlucoseNotitifcation(glucose: latestBackfill, oldValue: oldValue)
+                NotificationHelper.sendGlucoseNotitifcationIfNeeded(glucose: latestBackfill, oldValue: oldValue)
             }
             
         }
@@ -424,9 +424,11 @@ public final class MiaoMiaoClientManager: CGMManager, MiaoMiaoBluetoothManagerDe
         switch packet {
         case .newSensor:
             NSLog("dabear:: new libresensor detected")
+            NotificationHelper.sendSensorChangeNotificationIfNeeded(hasChanged: true)
             break
         case .noSensor:
             NSLog("dabear:: no libresensor detected")
+            NotificationHelper.sendSensorNotDetectedNotificationIfNeeded(noSensor: true)
             break
         case .frequencyChangedResponse:
             NSLog("dabear:: miaomiao readout interval has changed!")
@@ -442,6 +444,12 @@ public final class MiaoMiaoClientManager: CGMManager, MiaoMiaoBluetoothManagerDe
     }
     
     public func miaoMiaoBluetoothManagerDidUpdateSensorAndMiaoMiao(sensorData: SensorData, miaoMiao: MiaoMiao) {
+        
+        
+        NotificationHelper.sendLowBatteryNotificationIfNeeded(device: miaoMiao)
+        NotificationHelper.sendInvalidSensorNotificationIfNeeded(sensorData: sensorData)
+        NotificationHelper.sendSensorExpireAlertIfNeeded(sensorData: sensorData)
+        
         if sensorData.hasValidCRCs {
             
             if sensorData.state == .ready ||  sensorData.state == .starting {

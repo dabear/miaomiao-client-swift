@@ -64,6 +64,22 @@ public struct SensorData {
         return SensorState(stateByte: header[4])
     }
     
+    var isLikelyLibre1 : Bool {
+        if bytes.count > 23 {
+            let subset = bytes[5...23]
+            return !subset.contains(where: { $0 > 0})
+        }
+        return false
+        
+    }
+    
+    var humanReadableSensorAge : String {
+        
+        
+        let sensorStart = Calendar.current.date(byAdding: .minute, value: -self.minutesSinceStart, to: self.date)!
+        
+        return  sensorStart.timeIntervalSinceNow.stringDaysFromTimeInterval() +  " day(s)"
+    }
     
     init?(uuid: Data, bytes: [UInt8], date: Date = Date(), derivedAlgorithmParameterSet: TemperatureAlgorithmParameters? = nil) {
         guard bytes.count == numberOfBytes else {
