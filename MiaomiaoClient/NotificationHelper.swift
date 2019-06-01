@@ -90,6 +90,17 @@ class NotificationHelper {
             if let trend = glucose.trendType?.localizedDescription {
                 content.body += ", \(trend)"
             }
+            if let oldValue = oldValue {
+                
+                
+                //these are just calculations so I can use the convenience of the glucoseformatter
+                let diff = glucose.glucoseDouble - oldValue.glucoseDouble
+                let asObj = LibreGlucose(unsmoothedGlucose: diff, glucoseDouble: diff, trend: 0, timestamp: Date(), collector: nil)
+                
+                let formattedDiff = (glucoseUnit == HKUnit.milligramsPerDeciliter ? glucoseFormatterMgdl : glucoseFormatterMmol).string(from: asObj.quantity, for: glucoseUnit)
+                
+                
+            }
             
             //content.sound = UNNotificationSound.
             let request = UNNotificationRequest(identifier: "no.bjorninge.miaomiao.glucose-notification", content: content, trigger: nil)
@@ -290,11 +301,14 @@ class NotificationHelper {
         
         let now  = Date()
         //only once per 45 minute
-        let min45 = 45.0 * 60 * 60
+        let min45 = 45.0 * 60
         if let earlier = lastBatteryWarning {
-            if earlier.addingTimeInterval(min45) < now {
+            let earlierplus = earlier.addingTimeInterval(min45)
+            if earlierplus < now {
                 sendLowBatteryNotification(batteryPercentage: device.batteryString)
                 lastBatteryWarning = now
+            } else {
+                NSLog("Device battery is running low, but lastBatteryWarning Notification was sent less than 45 minutes ago, aborting. earlierplus: \(earlierplus), now: \(now)")
             }
         } else {
             sendLowBatteryNotification(batteryPercentage: device.batteryString)
@@ -328,7 +342,7 @@ class NotificationHelper {
             
             let content = UNMutableNotificationContent()
             content.title = "Low Battery"
-            content.body = "Battery is low (\(batteryPercentage)), consider charging your miaomiao device immediately!"
+            content.body = "Battery is running low (\(batteryPercentage)), consider charging your miaomiao device as soon as possible"
             
             content.sound = .default()
             
@@ -354,18 +368,20 @@ class NotificationHelper {
         }
         
         guard sensorData.minutesSinceStart >= 19440 else {
-            NSLog("sensor start was less than 13,5 days in the past, not sending notification: \(sensorData.minutesSinceStart)")
+            NSLog("sensor start was less than 13,5 days in the past, not sending notification: \(sensorData.minutesSinceStart) minutes / \(sensorData.humanReadableSensorAge)")
             return
         }
         
        
         let now  = Date()
         //only once per 6 hours
-        let min45 = 60.0 * 60 * 60 * 6
+        let min45 = 60.0  * 60 * 6
         if let earlier = lastSensorExpireAlert {
             if earlier.addingTimeInterval(min45) < now {
                 sendSensorExpireAlert(sensorData: sensorData)
                 lastSensorExpireAlert = now
+            } else {
+                NSLog("Sensor is soon expiring, but lastSensorExpireAlert was sent less than 6 hours ago, so aborting")
             }
         } else {
             sendSensorExpireAlert(sensorData: sensorData)
