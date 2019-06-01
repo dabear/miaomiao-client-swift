@@ -224,6 +224,10 @@ open class LFTimePickerController: UIViewController {
             }
             
         }
+        var components = DateComponents()
+        components.hour = 0
+        components.minute = 0
+        arr.append(components)
         
         for _ in 0...8 {
             arr.append(nil)

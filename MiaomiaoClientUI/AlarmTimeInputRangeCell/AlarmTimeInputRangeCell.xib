@@ -18,36 +18,20 @@
                 <rect key="frame" x="0.0" y="0.0" width="393" height="48.5"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="751" misplaced="YES" text="–" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pXd-Eo-nXg">
-                        <rect key="frame" x="213" y="10" width="41" height="22"/>
-                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                        <nil key="highlightedColor"/>
-                    </label>
-                    <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="OM8-Q2-6Wv">
-                        <rect key="frame" x="329" y="7" width="49" height="31"/>
+                    <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="OM8-Q2-6Wv">
+                        <rect key="frame" x="326" y="7" width="51" height="31"/>
                         <connections>
                             <action selector="switchChangedWithSender:" destination="1bgs-bY-Joo" eventType="valueChanged" id="TG5-no-G5t"/>
                         </connections>
                     </switch>
-                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" horizontalHuggingPriority="251" horizontalCompressionResistancePriority="751" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="active to" textAlignment="right" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="yNd-og-d4r" customClass="PaddedTextField" customModule="LoopKitUI">
-                        <rect key="frame" x="236" y="9" width="92" height="27"/>
-                        <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
-                        <textInputTraits key="textInputTraits" keyboardType="decimalPad"/>
-                        <userDefinedRuntimeAttributes>
-                            <userDefinedRuntimeAttribute type="size" keyPath="textInset">
-                                <size key="value" width="0.0" height="4"/>
-                            </userDefinedRuntimeAttribute>
-                        </userDefinedRuntimeAttributes>
-                        <connections>
-                            <outlet property="delegate" destination="1bgs-bY-Joo" id="qdJ-fk-urG"/>
-                        </connections>
-                    </textField>
-                    <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="MSa-m2-KBS">
-                        <rect key="frame" x="20" y="0.0" width="64.5" height="48.5"/>
+                    <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="MSa-m2-KBS">
+                        <rect key="frame" x="22" y="0.0" width="65" height="48.5"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="65" id="3VB-fk-wg2"/>
+                        </constraints>
                     </imageView>
-                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" horizontalHuggingPriority="251" horizontalCompressionResistancePriority="751" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="active from" textAlignment="right" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="e6a-FR-F1s" customClass="PaddedTextField" customModule="LoopKitUI">
-                        <rect key="frame" x="144" y="10" width="92" height="27"/>
+                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" horizontalHuggingPriority="251" horizontalCompressionResistancePriority="751" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="active from - to" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="e6a-FR-F1s">
+                        <rect key="frame" x="95" y="11" width="223" height="26.5"/>
                         <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
                         <textInputTraits key="textInputTraits" keyboardType="decimalPad"/>
                         <userDefinedRuntimeAttributes>
@@ -56,35 +40,25 @@
                             </userDefinedRuntimeAttribute>
                         </userDefinedRuntimeAttributes>
                         <connections>
-                            <outlet property="delegate" destination="1bgs-bY-Joo" id="DVd-rf-XWP"/>
+                            <outlet property="delegate" destination="1bgs-bY-Joo" id="t1Z-hb-8lp"/>
                         </connections>
                     </textField>
                 </subviews>
                 <constraints>
                     <constraint firstItem="e6a-FR-F1s" firstAttribute="centerY" secondItem="4Li-Xy-eDu" secondAttribute="centerY" id="7e4-0Q-Iwj"/>
-                    <constraint firstAttribute="bottomMargin" secondItem="yNd-og-d4r" secondAttribute="bottom" id="9gf-G7-SWZ"/>
-                    <constraint firstItem="pXd-Eo-nXg" firstAttribute="top" secondItem="4Li-Xy-eDu" secondAttribute="topMargin" id="B3y-Gw-6uj"/>
-                    <constraint firstItem="OM8-Q2-6Wv" firstAttribute="leading" secondItem="yNd-og-d4r" secondAttribute="trailing" constant="8" symbolic="YES" id="BYX-VZ-3aR"/>
                     <constraint firstItem="MSa-m2-KBS" firstAttribute="leading" secondItem="4Li-Xy-eDu" secondAttribute="leadingMargin" constant="2" id="EYD-SC-QPB"/>
-                    <constraint firstItem="OM8-Q2-6Wv" firstAttribute="centerY" secondItem="pXd-Eo-nXg" secondAttribute="centerY" id="GL3-th-xyy"/>
                     <constraint firstItem="e6a-FR-F1s" firstAttribute="top" secondItem="4Li-Xy-eDu" secondAttribute="topMargin" id="KBz-ho-Rjg"/>
-                    <constraint firstItem="yNd-og-d4r" firstAttribute="top" secondItem="4Li-Xy-eDu" secondAttribute="topMargin" id="L7Q-Ut-9PT"/>
                     <constraint firstItem="MSa-m2-KBS" firstAttribute="centerY" secondItem="e6a-FR-F1s" secondAttribute="centerY" id="LNS-73-Qdp"/>
-                    <constraint firstItem="pXd-Eo-nXg" firstAttribute="leading" secondItem="e6a-FR-F1s" secondAttribute="trailing" constant="1" id="NXG-pr-GPB"/>
-                    <constraint firstItem="e6a-FR-F1s" firstAttribute="width" secondItem="yNd-og-d4r" secondAttribute="width" id="Sxx-j3-4G5"/>
+                    <constraint firstItem="OM8-Q2-6Wv" firstAttribute="leading" secondItem="e6a-FR-F1s" secondAttribute="trailing" constant="8" symbolic="YES" id="Rmp-h5-KJq"/>
                     <constraint firstAttribute="trailingMargin" secondItem="OM8-Q2-6Wv" secondAttribute="trailing" constant="-2" id="Wha-1t-U8x"/>
-                    <constraint firstItem="OM8-Q2-6Wv" firstAttribute="leading" secondItem="pXd-Eo-nXg" secondAttribute="trailing" constant="97" id="Zgw-oO-WOM"/>
                     <constraint firstItem="OM8-Q2-6Wv" firstAttribute="bottom" secondItem="4Li-Xy-eDu" secondAttribute="bottomMargin" id="aBZ-Lw-IW1"/>
-                    <constraint firstItem="yNd-og-d4r" firstAttribute="leading" secondItem="pXd-Eo-nXg" secondAttribute="trailing" constant="1" id="bDQ-zJ-4Fa"/>
-                    <constraint firstAttribute="bottomMargin" secondItem="pXd-Eo-nXg" secondAttribute="bottom" constant="0.5" id="eNT-Be-QBt"/>
-                    <constraint firstItem="yNd-og-d4r" firstAttribute="centerY" secondItem="4Li-Xy-eDu" secondAttribute="centerY" id="tTG-VX-Sv7"/>
+                    <constraint firstItem="e6a-FR-F1s" firstAttribute="leading" secondItem="MSa-m2-KBS" secondAttribute="trailing" constant="8" symbolic="YES" id="trC-nQ-P64"/>
                     <constraint firstItem="MSa-m2-KBS" firstAttribute="top" secondItem="4Li-Xy-eDu" secondAttribute="top" id="vcP-XC-hfm"/>
                 </constraints>
             </tableViewCellContentView>
             <inset key="separatorInset" minX="46" minY="0.0" maxX="0.0" maxY="0.0"/>
             <connections>
                 <outlet property="iconImageView" destination="MSa-m2-KBS" id="GQx-51-FZu"/>
-                <outlet property="maxValueTextField" destination="yNd-og-d4r" id="hM0-Pc-71Q"/>
                 <outlet property="minValueTextField" destination="e6a-FR-F1s" id="D1m-MM-ucW"/>
                 <outlet property="toggleIsSelected" destination="OM8-Q2-6Wv" id="Pe7-cx-DEw"/>
             </connections>

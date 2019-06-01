@@ -79,7 +79,9 @@ class NotificationHelper {
                 return
             }
             
-            guard let formatted = (glucoseUnit == HKUnit.milligramsPerDeciliter ? glucoseFormatterMgdl : glucoseFormatterMmol).string(from: glucose.quantity, for: glucoseUnit) else {
+            let formatter = (glucoseUnit == HKUnit.milligramsPerDeciliter ? glucoseFormatterMgdl : glucoseFormatterMmol)
+            
+            guard let formatted = formatter.string(from: glucose.quantity, for: glucoseUnit) else {
                 NSLog("dabear:: glucose unit formatter unsuccessful, aborting notification")
                 return
             }
@@ -87,19 +89,36 @@ class NotificationHelper {
             let content = UNMutableNotificationContent()
             content.title = "New Reading \(formatted)"
             content.body = "Glucose: \(formatted)"
-            if let trend = glucose.trendType?.localizedDescription {
-                content.body += ", \(trend)"
-            }
+            
             if let oldValue = oldValue {
                 
                 
                 //these are just calculations so I can use the convenience of the glucoseformatter
-                let diff = glucose.glucoseDouble - oldValue.glucoseDouble
-                let asObj = LibreGlucose(unsmoothedGlucose: diff, glucoseDouble: diff, trend: 0, timestamp: Date(), collector: nil)
+                var diff = glucose.glucoseDouble - oldValue.glucoseDouble
                 
-                let formattedDiff = (glucoseUnit == HKUnit.milligramsPerDeciliter ? glucoseFormatterMgdl : glucoseFormatterMmol).string(from: asObj.quantity, for: glucoseUnit)
+                if diff == 0 {
+                    content.body += ", + 0"
+                } else {
+                    let sign = diff < 0 ? "-" : "+"
+                    diff = abs(diff)
+                    
+                    
+                    let asObj = LibreGlucose(unsmoothedGlucose: diff, glucoseDouble: diff, trend: 0, timestamp: Date(), collector: nil)
+                    
+                    
+                    if let formattedDiff = formatter.string(from: asObj.quantity, for: glucoseUnit) {
+                        content.body += ", " + sign + formattedDiff
+                    }
+                }
                 
                 
+                
+                
+                
+            }
+            
+            if let trend = glucose.trendType?.localizedDescription {
+                content.body += ", \(trend)"
             }
             
             //content.sound = UNNotificationSound.

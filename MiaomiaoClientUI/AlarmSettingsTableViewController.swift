@@ -63,6 +63,7 @@ public class AlarmSettingsTableViewController: UITableViewController, AlarmTimeI
     public weak var delegate: AlarmSettingsTableViewControllerDelegate?
     
     func AlarmTimeInputRangeCellDidTouch(_ cell: AlarmTimeInputRangeCell) {
+        print("dabear:: AlarmTimeInputRangeCellDidTouch called")
         //1. Create a LFTimePickerController
         let timePicker = LFTimePickerController()
         
@@ -101,7 +102,7 @@ public class AlarmSettingsTableViewController: UITableViewController, AlarmTimeI
         var schedules = GlucoseScheduleList()
         var schedule = GlucoseSchedule()
         
-        for var cell in tableView.visibleCells {
+        for var cell in tableView.cells {
             let index = tableView.indexPath(for: cell)
             //todo: replace with dynamic check of number of schedules
             if let section = index?.section, section >  glucoseSchedulesCount{
@@ -359,9 +360,9 @@ public class AlarmSettingsTableViewController: UITableViewController, AlarmTimeI
                 let settings = self.serializeSettings()
                 print("saving glucose schedule: ")
                 
-                print("saving glucose schedule as: : \(settings)")
+                print("saving glucose schedule as: : \(settings) ")
                 UserDefaults.standard.glucoseSchedules = settings
-                UserDefaults.standard.synchronize()
+                
                 
                 print("saved glucose schedule was \(UserDefaults.standard.glucoseSchedules)")
                 

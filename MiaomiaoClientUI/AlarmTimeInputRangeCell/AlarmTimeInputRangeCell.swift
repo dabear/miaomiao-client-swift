@@ -23,20 +23,24 @@ protocol AlarmTimeInputCellDelegate: class {
 
 class AlarmTimeInputRangeCell: UITableViewCell, UITextFieldDelegate {
     
-    
+    private func updateComponentTextField() {
+        let p1 = minComponents?.ToTimeString() ?? ""
+        let p2 = maxComponents?.ToTimeString() ?? ""
+        minValue = "\(p1)-\(p2)"
+    }
     
     
     weak var delegate: AlarmTimeInputCellDelegate?
     var minComponents: DateComponents? {
         didSet {
             
-            minValue = minComponents?.ToTimeString() ?? ""
+           updateComponentTextField()
         }
     }
     var maxComponents: DateComponents? {
         didSet {
             
-            maxValue = maxComponents?.ToTimeString() ?? ""
+            updateComponentTextField()
         }
     }
     var minValue: String = "" {
@@ -45,11 +49,7 @@ class AlarmTimeInputRangeCell: UITableViewCell, UITextFieldDelegate {
         }
     }
     
-    var maxValue: String = "" {
-        didSet {
-            maxValueTextField.text =  maxValue
-        }
-    }
+    
     
     
     
@@ -80,7 +80,6 @@ class AlarmTimeInputRangeCell: UITableViewCell, UITextFieldDelegate {
     
     @IBOutlet weak var minValueTextField: UITextField!
     
-    @IBOutlet weak var maxValueTextField: UITextField!
     
     
     @IBOutlet weak var toggleIsSelected: UISwitch!
@@ -88,7 +87,7 @@ class AlarmTimeInputRangeCell: UITableViewCell, UITextFieldDelegate {
     @IBAction func switchChanged(sender : UISwitch) {
         print("switch changed")
         minValueTextField.isEnabled = sender.isOn
-        maxValueTextField.isEnabled = sender.isOn
+        
         
         delegate?.AlarmTimeInputRangeCellWasDisabled(self)
     }
@@ -130,8 +129,6 @@ class AlarmTimeInputRangeCell: UITableViewCell, UITextFieldDelegate {
         switch textField {
         case minValueTextField:
             minValue = textField.text ?? "defaulta"
-        case maxValueTextField:
-            maxValue = textField.text ?? "defaultb"
         default:
             break
         }
