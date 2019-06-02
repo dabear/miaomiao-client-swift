@@ -9,6 +9,9 @@
 import Foundation
 
 public extension Date {
+    func isBetween(_ date1: Date, and date2: Date) -> Bool {
+        return date2 >= date1 && (date1 ... date2).contains(self)
+    }
     
     func rounded(on amount: Int, _ component: Calendar.Component) -> Date {
         let cal = Calendar.current

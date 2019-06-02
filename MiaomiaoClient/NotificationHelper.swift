@@ -30,14 +30,19 @@ class NotificationHelper {
         glucoseNotifyCalledCount &+= 1
         
         
-        let alarmIsActive = false
-        
         let shouldSendGlucoseAlternatingTimes = glucoseNotifyCalledCount != 0 && UserDefaults.standard.mmNotifyEveryXTimes != 0
         
         let shouldSend = UserDefaults.standard.mmAlwaysDisplayGlucose || (shouldSendGlucoseAlternatingTimes && glucoseNotifyCalledCount % UserDefaults.standard.mmNotifyEveryXTimes == 0)
         
-        if shouldSend || alarmIsActive {
-            sendGlucoseNotitifcation(glucose: glucose, oldValue: oldValue)
+        
+        let alarm = UserDefaults.standard.glucoseSchedules?.getActiveAlarms(glucose.glucoseDouble) ?? GlucoseScheduleAlarmResult.none
+        
+        NSLog("dabear:: glucose alarmtype is \(alarm)")
+        // We always send glucose notifications when alarm is active,
+        // even if glucose notifications are disabled in the UI
+        
+        if shouldSend || alarm == .high || alarm == .low {
+            sendGlucoseNotitifcation(glucose: glucose, oldValue: oldValue, alarm: alarm)
         } else {
             NSLog("dabear:: not sending glucose, shouldSend and alarmIsActive was false")
             return
@@ -46,14 +51,16 @@ class NotificationHelper {
     }
     
     
-    static private func sendGlucoseNotitifcation(glucose: LibreGlucose, oldValue: LibreGlucose?){
+    
+    
+    static private func sendGlucoseNotitifcation(glucose: LibreGlucose, oldValue: LibreGlucose?, alarm : GlucoseScheduleAlarmResult = .none){
         
         
         guard let glucoseUnit = UserDefaults.standard.mmGlucoseUnit, glucoseUnit == HKUnit.milligramsPerDeciliter || glucoseUnit == HKUnit.millimolesPerLiter else {
             NSLog("dabear:: glucose unit was not recognized, aborting notification")
             return
         }
-        // TODO: handle oldValue if present
+        
         // TODO: handle alarm
         
         UNUserNotificationCenter.current().getNotificationSettings { (settings) in
@@ -85,10 +92,23 @@ class NotificationHelper {
                 NSLog("dabear:: glucose unit formatter unsuccessful, aborting notification")
                 return
             }
-                
             let content = UNMutableNotificationContent()
-            content.title = "New Reading \(formatted)"
+            
+            switch alarm {
+            case .none:
+                content.title = "New Reading \(formatted)"
+            case .low:
+                content.title = "LOWALERT \(formatted)"
+                content.sound = .default()
+            case .high:
+                content.title = "HIGHALERT! \(formatted)"
+                content.sound = .default()
+                
+            }
+            
             content.body = "Glucose: \(formatted)"
+            
+           
             
             if let oldValue = oldValue {
                 
