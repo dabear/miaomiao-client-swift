@@ -66,7 +66,7 @@ public struct SensorData {
     
     var isLikelyLibre1 : Bool {
         if bytes.count > 23 {
-            let subset = bytes[5...23]
+            let subset = bytes[9...23]
             return !subset.contains(where: { $0 > 0})
         }
         return false
