@@ -75,7 +75,7 @@ class GlucoseAlarmInputCell: UITableViewCell, UITextFieldDelegate {
 
     func textFieldDidEndEditing(_ textField: UITextField) {
         let value = valueNumberFormatter.number(from: textField.text ?? "")?.doubleValue ?? 0
-        print("textfield did end editing, delegate is \(delegate)")
+        
         switch textField {
         case minValueTextField:
             minValue = value

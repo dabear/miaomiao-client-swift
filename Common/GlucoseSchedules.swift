@@ -29,49 +29,80 @@ class GlucoseSchedule: Codable, CustomStringConvertible{
     var to: DateComponents?
     var lowAlarm: Double?
     var highAlarm: Double?
-    var glucoseUnitIsMgdl : Bool?
     var enabled: Bool?
     
     init() {
         
     }
-    private func storedGlucoseUnit()-> HKUnit? {
-        if let glucoseUnitIsMgdl = glucoseUnitIsMgdl {
-            return glucoseUnitIsMgdl ? HKUnit.milligramsPerDeciliter : HKUnit.millimolesPerLiter
+    
+    public func storeLowAlarm(forUnit unit: HKUnit, lowAlarm: Double) {
+        if unit == HKUnit.millimolesPerLiter {
+            self.lowAlarm = lowAlarm * 18
+            return
         }
+        
+        self.lowAlarm = lowAlarm
+    }
+    public func retrieveLowAlarm(forUnit unit: HKUnit) -> Double?{
+        
+        if let lowAlarm = self.lowAlarm {
+            if unit == HKUnit.millimolesPerLiter {
+                return (lowAlarm / 18).roundTo(places: 1)
+            } else {
+                return lowAlarm
+            }
+        }
+
         return nil
     }
     
-    public func glucose(forUnit wantsUnit:HKUnit, type glucoseType: GlucoseAlarmType)-> Double? {
-        let value = glucoseType == GlucoseAlarmType.high ? highAlarm : lowAlarm
-        
-        if let value = value {
-            if let storedUnit = storedGlucoseUnit() {
-                if storedUnit == wantsUnit {
-                    // no convertion needed
-                    return value
-                }
-                
-                if storedUnit == HKUnit.milligramsPerDeciliter && wantsUnit == HKUnit.millimolesPerLiter{
-                        return value / 18
-                }
-                
-                if storedUnit == HKUnit.millimolesPerLiter && wantsUnit == HKUnit.millimolesPerLiter{
-                        return value * 18
-                    
-                }
-                
-                
-            }
+    public func storeHighAlarm(forUnit unit: HKUnit, highAlarm: Double) {
+        if unit == HKUnit.millimolesPerLiter {
+            self.highAlarm = highAlarm * 18
+            return
         }
+        
+        self.highAlarm = highAlarm
+    }
+    public func retrieveHighAlarm(forUnit unit: HKUnit) -> Double?{
+        
+        if let highAlarm = self.highAlarm {
+            if unit == HKUnit.millimolesPerLiter {
+                return (highAlarm / 18).roundTo(places: 1)
+            }
+            return highAlarm
+                
+            
+        }
+            
+            
+        
         
         return nil
     }
+    
+    
+    
+    
+    /*public func glucose(forUnit wantsUnit:HKUnit, type glucoseType: GlucoseAlarmType)-> Double? {
+        let value = glucoseType == GlucoseAlarmType.high ? highAlarm : lowAlarm
+        
+        if let value = value {
+
+            if wantsUnit == HKUnit.millimolesPerLiter{
+                return value / 18
+            }
+            return value
+            
+        }
+        
+        return nil
+    }*/
     
     
     var description : String {
         get {
-            return "(from: \(from), to: \(to), low: \(lowAlarm), high: \(highAlarm), glucoseUnitIsMgdl: \(glucoseUnitIsMgdl), enabled: \(enabled))"
+            return "(from: \(from), to: \(to), low: \(lowAlarm), high: \(highAlarm), enabled: \(enabled))"
         }
     }
 }

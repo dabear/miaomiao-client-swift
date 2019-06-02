@@ -43,9 +43,9 @@ public class AlarmSettingsTableViewController: UITableViewController, AlarmTimeI
         if let schedule = glucoseSchedules?.schedules.safeIndexAt(cell.tag, default: GlucoseSchedule()), let tag2 = cell.tag2 {
             print("glucoseAlarmInputCellDidUpdateValue, value: \(value), tag1: \(cell.tag), tag2: \(tag2)")
             if tag2 == ScheduleRowTypes.highglucose.rawValue {
-                schedule.highAlarm = value
+                schedule.storeHighAlarm(forUnit: self.glucoseUnit, highAlarm: value)
             } else if tag2 == ScheduleRowTypes.lowglucose.rawValue {
-                schedule.lowAlarm = value
+                schedule.storeLowAlarm(forUnit: self.glucoseUnit, lowAlarm: value)
             }
             
         }
@@ -78,7 +78,7 @@ public class AlarmSettingsTableViewController: UITableViewController, AlarmTimeI
             schedule.from = startComponents
             schedule.to = endComponents
             schedule.enabled = datepickerSender?.toggleIsSelected.isOn
-            schedule.glucoseUnitIsMgdl = (self.glucoseUnit == HKUnit.milligramsPerDeciliter)
+            
             
         }
     }
@@ -259,7 +259,7 @@ public class AlarmSettingsTableViewController: UITableViewController, AlarmTimeI
                 cell.iconImageView.image = UIImage(named: "icons8-drop-down-arrow-50", in: bundle, compatibleWith: traitCollection)
                 
                 if let schedule = savedSchedule,
-                    let glucose = schedule.glucose(forUnit: self.glucoseUnit, type: GlucoseAlarmType.low)  {
+                    let glucose = schedule.retrieveLowAlarm(forUnit: self.glucoseUnit) {
                     cell.minValue = glucose
                 }
                 
@@ -277,7 +277,7 @@ public class AlarmSettingsTableViewController: UITableViewController, AlarmTimeI
                 cell.iconImageView.image = UIImage(named: "icons8-slide-up-50", in: bundle, compatibleWith: traitCollection)
                 
                 if let schedule = savedSchedule,
-                    let glucose = schedule.glucose(forUnit: self.glucoseUnit, type: GlucoseAlarmType.high)  {
+                    let glucose = schedule.retrieveHighAlarm(forUnit: self.glucoseUnit)  {
                     cell.minValue = glucose
                 }
                 
