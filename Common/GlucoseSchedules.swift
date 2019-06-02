@@ -17,7 +17,7 @@ class GlucoseScheduleList : Codable, CustomStringConvertible {
         }
     }
     
-    public var schedules : [GlucoseSchedule]? = [GlucoseSchedule]()
+    public var schedules : [GlucoseSchedule] = [GlucoseSchedule]()
     
     
 }

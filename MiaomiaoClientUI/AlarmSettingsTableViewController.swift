@@ -35,14 +35,30 @@ public protocol AlarmSettingsTableViewControllerSyncSource: class {
 }
 
 
-public class AlarmSettingsTableViewController: UITableViewController, AlarmTimeInputCellDelegate, LFTimePickerDelegate {
-    func AlarmTimeInputRangeCellWasDisabled(_ cell: AlarmTimeInputRangeCell) {
-        NSLog("this schedule was disabled")
+public class AlarmSettingsTableViewController: UITableViewController, AlarmTimeInputCellDelegate, LFTimePickerDelegate, GlucoseAlarmInputCellDelegate {
+   
+    
+    func glucoseAlarmInputCellDidUpdateValue(_ cell: GlucoseAlarmInputCell, value: Double) {
+        print("glucoseAlarmInputCellDidUpdateValue ")
+        if let schedule = glucoseSchedules?.schedules.safeIndexAt(cell.tag, default: GlucoseSchedule()), let tag2 = cell.tag2 {
+            print("glucoseAlarmInputCellDidUpdateValue, value: \(value), tag1: \(cell.tag), tag2: \(tag2)")
+            if tag2 == ScheduleRowTypes.highglucose.rawValue {
+                schedule.highAlarm = value
+            } else if tag2 == ScheduleRowTypes.lowglucose.rawValue {
+                schedule.lowAlarm = value
+            }
+            
+        }
     }
     
-    public func didPickTime(_ start: String, end: String) {
-        NSLog("YES, TIME WAS PICKED")
+    func AlarmTimeInputRangeCellWasToggled(_ cell: AlarmTimeInputRangeCell, _ isOn: Bool) {
+        NSLog("this schedule was toggled \(isOn ? "on" : "off")" )
+        if let schedule = glucoseSchedules?.schedules.safeIndexAt(cell.tag, default: GlucoseSchedule()) {
+            schedule.enabled = isOn
+        }
+        
     }
+    
     
     
     
@@ -57,7 +73,17 @@ public class AlarmSettingsTableViewController: UITableViewController, AlarmTimeI
         //datepickerSender?.maxValue = end
         datepickerSender?.minComponents = startComponents
         datepickerSender?.maxComponents = endComponents
+        
+        if let index = datepickerSender?.tag, let schedule = glucoseSchedules?.schedules.safeIndexAt(index, default: GlucoseSchedule()) {
+            schedule.from = startComponents
+            schedule.to = endComponents
+            schedule.enabled = datepickerSender?.toggleIsSelected.isOn
+            schedule.glucoseUnitIsMgdl = (self.glucoseUnit == HKUnit.milligramsPerDeciliter)
+            
+        }
     }
+    
+    
     
     private var glucoseUnit : HKUnit
     public weak var delegate: AlarmSettingsTableViewControllerDelegate?
@@ -74,64 +100,7 @@ public class AlarmSettingsTableViewController: UITableViewController, AlarmTimeI
         self.datepickerSender = cell
     }
     
-    public var maximumBasalRatePerHour: Double? {
-        didSet {
-            /*if isViewLoaded, let cell = tableView.cellForRow(at: IndexPath(row: 0, section: Section.basalRate.rawValue)) as? TextFieldTableViewCell {
-             if let maximumBasalRatePerHour = maximumBasalRatePerHour {
-             cell.textField.text = valueNumberFormatter.string(from:  maximumBasalRatePerHour)
-             } else {
-             cell.textField.text = nil
-             }
-             }*/
-        }
-    }
     
-    public var maximumBolus: Double? {
-        didSet {
-            /*if isViewLoaded, let cell = tableView.cellForRow(at: IndexPath(row: 0, section: Section.bolus.rawValue)) as? TextFieldTableViewCell {
-             if let maximumBolus = maximumBolus {
-             cell.textField.text = valueNumberFormatter.string(from: maximumBolus)
-             } else {
-             cell.textField.text = nil
-             }
-             }*/
-        }
-    }
-    
-    private func serializeSettings() -> GlucoseScheduleList {
-        var schedules = GlucoseScheduleList()
-        var schedule = GlucoseSchedule()
-        
-        for var cell in tableView.cells {
-            let index = tableView.indexPath(for: cell)
-            //todo: replace with dynamic check of number of schedules
-            if let section = index?.section, section >  glucoseSchedulesCount{
-                
-                break
-            }
-            if let cell = cell as? AlarmTimeInputRangeCell {
-                schedule = GlucoseSchedule()
-                schedules.schedules?.append(schedule)
-                
-                schedule.enabled = cell.toggleIsSelected.isOn
-                schedule.from = cell.minComponents
-                schedule.to = cell.maxComponents
-                
-                schedule.glucoseUnitIsMgdl = (self.glucoseUnit == HKUnit.milligramsPerDeciliter)
-                
-            } else if let cell = cell as? GlucoseAlarmInputCell {
-                if cell.alarmType == GlucoseAlarmType.low {
-                    schedule.lowAlarm =  cell.minValue
-                } else if cell.alarmType == GlucoseAlarmType.high {
-                    schedule.highAlarm = cell.minValue
-                }
-            }
-            
-            
-            
-        }
-        return schedules
-    }
     
     public var isReadOnly = false
     
@@ -158,6 +127,7 @@ public class AlarmSettingsTableViewController: UITableViewController, AlarmTimeI
         }
     }
     private lazy var glucoseSchedules : GlucoseScheduleList? = UserDefaults.standard.glucoseSchedules
+    
     
     private lazy var valueNumberFormatter: NumberFormatter = {
         let formatter = NumberFormatter()
@@ -199,7 +169,7 @@ public class AlarmSettingsTableViewController: UITableViewController, AlarmTimeI
    
     
     private var glucoseSchedulesCount : Int{
-        let count = glucoseSchedules?.schedules?.count ?? 0
+        let count = glucoseSchedules?.schedules.count ?? 0
         return count >= minimumSchedulesCount ? count : minimumSchedulesCount
     }
     
@@ -211,6 +181,12 @@ public class AlarmSettingsTableViewController: UITableViewController, AlarmTimeI
         static let count = 3
     }
     
+    private enum ScheduleRowTypes : String {
+        
+        case timerange = "timerange"
+        case lowglucose = "lowglucose"
+        case highglucose = "highglucose"
+    }
     
     public override func numberOfSections(in tableView: UITableView) -> Int {
         //dynamic number of schedules + sync row
@@ -247,7 +223,7 @@ public class AlarmSettingsTableViewController: UITableViewController, AlarmTimeI
             
             let bundle = Bundle(for: type(of: self))
             
-            var savedSchedule = glucoseSchedules?.schedules?[safe: indexPath.section]
+            var savedSchedule = glucoseSchedules?.schedules[safe: indexPath.section]
             
             switch ScheduleRow(rawValue: indexPath.row)! {
                 
@@ -257,7 +233,8 @@ public class AlarmSettingsTableViewController: UITableViewController, AlarmTimeI
                 //cell.minValue = "first"
                 //cell.maxValue = "second"
                 cell.delegate = self
-                
+                cell.tag = indexPath.section
+                cell.tag2 = ScheduleRowTypes.timerange.rawValue
                 if let schedule = savedSchedule {
                     cell.minComponents = schedule.from
                     cell.maxComponents = schedule.to
@@ -265,11 +242,16 @@ public class AlarmSettingsTableViewController: UITableViewController, AlarmTimeI
                 }
                 
                 
+                
+                
                 cell.iconImageView.image = UIImage(named: "icons8-schedule-50", in: bundle, compatibleWith: traitCollection)
                 
                 return cell
             case .lowglucose:
                 let cell = tableView.dequeueReusableCell(withIdentifier: GlucoseAlarmInputCell.className, for: indexPath) as!  GlucoseAlarmInputCell
+                cell.tag = indexPath.section
+                cell.tag2 = ScheduleRowTypes.lowglucose.rawValue
+                cell.delegate = self
                 cell.alarmType = GlucoseAlarmType.low
                 cell.minValueTextField.placeholder = "glucose"
                 cell.unitString = self.glucoseUnit.localizedShortUnitString
@@ -284,7 +266,9 @@ public class AlarmSettingsTableViewController: UITableViewController, AlarmTimeI
                 return cell
             case .highglucose:
                 let cell = tableView.dequeueReusableCell(withIdentifier: GlucoseAlarmInputCell.className, for: indexPath) as!  GlucoseAlarmInputCell
-                
+                cell.tag = indexPath.section
+                cell.tag2 = ScheduleRowTypes.highglucose.rawValue
+                cell.delegate = self
                 cell.alarmType = GlucoseAlarmType.high
                 cell.minValueTextField.keyboardType = .decimalPad
                 
@@ -357,14 +341,15 @@ public class AlarmSettingsTableViewController: UITableViewController, AlarmTimeI
             DispatchQueue.main.async {
                 
                 
-                let settings = self.serializeSettings()
-                print("saving glucose schedule: ")
+                let settings = self.glucoseSchedules
+               
                 
-                print("saving glucose schedule as: : \(settings) ")
+                
+                print("Saving glucose schedule as: : \(settings) ")
                 UserDefaults.standard.glucoseSchedules = settings
                 
                 
-                print("saved glucose schedule was \(UserDefaults.standard.glucoseSchedules)")
+                print("Saved glucose schedule was \(UserDefaults.standard.glucoseSchedules)")
                 
                 self.isSyncInProgress = false
                 let ok = OKAlertController("Glucose alarms successfully saved", title: "Glucose Alarms")

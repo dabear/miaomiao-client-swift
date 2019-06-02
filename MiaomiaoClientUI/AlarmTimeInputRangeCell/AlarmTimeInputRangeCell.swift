@@ -15,7 +15,7 @@ import UIKit
 protocol AlarmTimeInputCellDelegate: class {
     //func AlarmTimeInputCellDidUpdateValue(_ cell: AlarmTimeInputRangeCell)
     func AlarmTimeInputRangeCellDidTouch(_ cell: AlarmTimeInputRangeCell)
-    func AlarmTimeInputRangeCellWasDisabled(_ cell: AlarmTimeInputRangeCell)
+    func AlarmTimeInputRangeCellWasToggled(_ cell: AlarmTimeInputRangeCell, _ isOn: Bool)
     
 }
 
@@ -29,6 +29,7 @@ class AlarmTimeInputRangeCell: UITableViewCell, UITextFieldDelegate {
         minValue = "\(p1)-\(p2)"
     }
     
+    public var tag2 : String? = nil
     
     weak var delegate: AlarmTimeInputCellDelegate?
     var minComponents: DateComponents? {
@@ -89,7 +90,7 @@ class AlarmTimeInputRangeCell: UITableViewCell, UITextFieldDelegate {
         minValueTextField.isEnabled = sender.isOn
         
         
-        delegate?.AlarmTimeInputRangeCellWasDisabled(self)
+        delegate?.AlarmTimeInputRangeCellWasToggled(self, sender.isOn)
     }
     
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {

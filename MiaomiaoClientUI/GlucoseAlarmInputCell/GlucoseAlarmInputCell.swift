@@ -10,7 +10,7 @@ import UIKit
 
 
 protocol GlucoseAlarmInputCellDelegate: class {
-    func glucoseAlarmInputCellDidUpdateValue(_ cell: GlucoseAlarmInputCell)
+    func glucoseAlarmInputCellDidUpdateValue(_ cell: GlucoseAlarmInputCell, value: Double)
 }
 
 
@@ -23,7 +23,8 @@ class GlucoseAlarmInputCell: UITableViewCell, UITextFieldDelegate {
             minValueTextField.text = valueNumberFormatter.string(from: NSNumber(value: minValue))
         }
     }
-
+    
+    public var tag2 : String? = nil
    
 
     lazy var valueNumberFormatter: NumberFormatter = {
@@ -66,6 +67,7 @@ class GlucoseAlarmInputCell: UITableViewCell, UITextFieldDelegate {
     // MARK: - UITextFieldDelegate
 
     func textFieldDidBeginEditing(_ textField: UITextField) {
+        print("textfield did begin editing")
         DispatchQueue.main.async {
             textField.selectedTextRange = textField.textRange(from: textField.beginningOfDocument, to: textField.endOfDocument)
         }
@@ -73,7 +75,7 @@ class GlucoseAlarmInputCell: UITableViewCell, UITextFieldDelegate {
 
     func textFieldDidEndEditing(_ textField: UITextField) {
         let value = valueNumberFormatter.number(from: textField.text ?? "")?.doubleValue ?? 0
-
+        print("textfield did end editing, delegate is \(delegate)")
         switch textField {
         case minValueTextField:
             minValue = value
@@ -82,6 +84,6 @@ class GlucoseAlarmInputCell: UITableViewCell, UITextFieldDelegate {
             break
         }
 
-        delegate?.glucoseAlarmInputCellDidUpdateValue(self)
+        delegate?.glucoseAlarmInputCellDidUpdateValue(self, value: value)
     }
 }
