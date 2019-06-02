@@ -64,10 +64,10 @@ class GlucoseScheduleList : Codable, CustomStringConvertible {
         let mySchedules = self.enabledSchedules
         
         for schedule in mySchedules {
-            if let lowAlarm = schedule.lowAlarm,  currentGlucoseInMGDL <= currentGlucoseInMGDL{
+            if let lowAlarm = schedule.lowAlarm,  currentGlucoseInMGDL <= lowAlarm{
                 return .low
             }
-            if let highAlarm = schedule.highAlarm, currentGlucoseInMGDL >= currentGlucoseInMGDL {
+            if let highAlarm = schedule.highAlarm, currentGlucoseInMGDL >= highAlarm {
                 return .high
             }
         }
