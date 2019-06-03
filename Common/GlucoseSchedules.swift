@@ -26,6 +26,7 @@ class GlucoseScheduleList : Codable, CustomStringConvertible {
     }
     
     public var schedules : [GlucoseSchedule] = [GlucoseSchedule]()
+    public var snoozedUntil : Date? = nil
     
     public var enabledSchedules : [GlucoseSchedule]{
         get {
@@ -58,6 +59,14 @@ class GlucoseScheduleList : Codable, CustomStringConvertible {
                 return nil
             }
         }
+    }
+    
+    public func isSnoozed() -> Bool{
+        let now = Date()
+        if let snoozedUntil = snoozedUntil {
+            return snoozedUntil >= now
+        }
+        return false
     }
     
     public func getActiveAlarms(_ currentGlucoseInMGDL: Double) -> GlucoseScheduleAlarmResult{

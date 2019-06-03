@@ -42,10 +42,21 @@ public class AlarmSettingsTableViewController: UITableViewController, AlarmTimeI
         print("glucoseAlarmInputCellDidUpdateValue ")
         if let schedule = glucoseSchedules?.schedules.safeIndexAt(cell.tag, default: GlucoseSchedule()), let tag2 = cell.tag2 {
             print("glucoseAlarmInputCellDidUpdateValue, value: \(value), tag1: \(cell.tag), tag2: \(tag2)")
+            
             if tag2 == ScheduleRowTypes.highglucose.rawValue {
-                schedule.storeHighAlarm(forUnit: self.glucoseUnit, highAlarm: value)
+                if value == 0 {
+                    schedule.highAlarm = nil
+                } else {
+                    schedule.storeHighAlarm(forUnit: self.glucoseUnit, highAlarm: value)
+                }
+                
             } else if tag2 == ScheduleRowTypes.lowglucose.rawValue {
-                schedule.storeLowAlarm(forUnit: self.glucoseUnit, lowAlarm: value)
+                if value == 0 {
+                    schedule.lowAlarm = nil
+                } else {
+                    schedule.storeLowAlarm(forUnit: self.glucoseUnit, lowAlarm: value)
+                }
+                
             }
             
         }

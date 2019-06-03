@@ -34,15 +34,18 @@ class NotificationHelper {
         
         let shouldSend = UserDefaults.standard.mmAlwaysDisplayGlucose || (shouldSendGlucoseAlternatingTimes && glucoseNotifyCalledCount % UserDefaults.standard.mmNotifyEveryXTimes == 0)
         
+        let schedules = UserDefaults.standard.glucoseSchedules
         
-        let alarm = UserDefaults.standard.glucoseSchedules?.getActiveAlarms(glucose.glucoseDouble) ?? GlucoseScheduleAlarmResult.none
+        
+        let alarm = schedules?.getActiveAlarms(glucose.glucoseDouble) ?? GlucoseScheduleAlarmResult.none
+        let isSnoozed = schedules?.isSnoozed() ?? false
         
         NSLog("dabear:: glucose alarmtype is \(alarm)")
         // We always send glucose notifications when alarm is active,
         // even if glucose notifications are disabled in the UI
         
         if shouldSend || alarm == .high || alarm == .low {
-            sendGlucoseNotitifcation(glucose: glucose, oldValue: oldValue, alarm: alarm)
+            sendGlucoseNotitifcation(glucose: glucose, oldValue: oldValue, alarm: alarm, isSnoozed: isSnoozed)
         } else {
             NSLog("dabear:: not sending glucose, shouldSend and alarmIsActive was false")
             return
@@ -53,7 +56,7 @@ class NotificationHelper {
     
     
     
-    static private func sendGlucoseNotitifcation(glucose: LibreGlucose, oldValue: LibreGlucose?, alarm : GlucoseScheduleAlarmResult = .none){
+    static private func sendGlucoseNotitifcation(glucose: LibreGlucose, oldValue: LibreGlucose?, alarm : GlucoseScheduleAlarmResult = .none, isSnoozed: Bool = false){
         
         
         guard let glucoseUnit = UserDefaults.standard.mmGlucoseUnit, glucoseUnit == HKUnit.milligramsPerDeciliter || glucoseUnit == HKUnit.millimolesPerLiter else {
@@ -99,10 +102,15 @@ class NotificationHelper {
                 content.title = "New Reading \(formatted)"
             case .low:
                 content.title = "LOWALERT \(formatted)"
-                content.sound = .default()
+                if !isSnoozed {
+                    content.sound = .default()
+                }
+                
             case .high:
                 content.title = "HIGHALERT! \(formatted)"
-                content.sound = .default()
+                if !isSnoozed {
+                    content.sound = .default()
+                }
                 
             }
             

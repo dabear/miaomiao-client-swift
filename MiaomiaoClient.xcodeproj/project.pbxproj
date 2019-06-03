@@ -67,7 +67,6 @@
 		275C3D9F229D9AD500E27439 /* mmTextFieldViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 275C3D9E229D9AD500E27439 /* mmTextFieldViewCell.xib */; };
 		275C3DA1229D9BBB00E27439 /* mmTextFieldViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 275C3DA0229D9BBB00E27439 /* mmTextFieldViewCell.swift */; };
 		275C3DA3229FCED400E27439 /* NotificationHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 275C3DA2229FCED400E27439 /* NotificationHelper.swift */; };
-		275C3DA522A3021100E27439 /* UITableViewDataSourceExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 275C3DA422A3021000E27439 /* UITableViewDataSourceExtensions.swift */; };
 		2769B5BC2264EE4A006F1935 /* LFTimePickerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2769B5BB2264EE4A006F1935 /* LFTimePickerController.swift */; };
 		2769B5BE2264FA22006F1935 /* DateComponentUITableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2769B5BD2264FA22006F1935 /* DateComponentUITableViewCell.swift */; };
 		2769B5C12267766F006F1935 /* LFTimePickerControllerOriginal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2769B5C02267766F006F1935 /* LFTimePickerControllerOriginal.swift */; };
@@ -226,7 +225,6 @@
 		275C3D9E229D9AD500E27439 /* mmTextFieldViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = mmTextFieldViewCell.xib; sourceTree = "<group>"; };
 		275C3DA0229D9BBB00E27439 /* mmTextFieldViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = mmTextFieldViewCell.swift; sourceTree = "<group>"; };
 		275C3DA2229FCED400E27439 /* NotificationHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationHelper.swift; sourceTree = "<group>"; };
-		275C3DA422A3021000E27439 /* UITableViewDataSourceExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UITableViewDataSourceExtensions.swift; sourceTree = "<group>"; };
 		2769B5BB2264EE4A006F1935 /* LFTimePickerController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LFTimePickerController.swift; sourceTree = "<group>"; };
 		2769B5BD2264FA22006F1935 /* DateComponentUITableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateComponentUITableViewCell.swift; sourceTree = "<group>"; };
 		2769B5C02267766F006F1935 /* LFTimePickerControllerOriginal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LFTimePickerControllerOriginal.swift; sourceTree = "<group>"; };
@@ -549,7 +547,6 @@
 				4325E9D4210E6B4300969CE5 /* UIColor.swift */,
 				43A8EC85210E664300A81379 /* Info.plist */,
 				27CBEB3B225FB3A7004F7BF5 /* NibLoadable.swift */,
-				275C3DA422A3021000E27439 /* UITableViewDataSourceExtensions.swift */,
 			);
 			path = MiaomiaoClientUI;
 			sourceTree = "<group>";
@@ -903,7 +900,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				275C3DA522A3021100E27439 /* UITableViewDataSourceExtensions.swift in Sources */,
 				43A8EC92210E676500A81379 /* MiaomiaoClientSettingsViewController.swift in Sources */,
 				4325E9D5210E6B4400969CE5 /* UIColor.swift in Sources */,
 				43A8EC97210E680100A81379 /* ShareService+UI.swift in Sources */,
