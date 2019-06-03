@@ -34,9 +34,20 @@ public protocol AlarmSettingsTableViewControllerSyncSource: class {
     func deliveryLimitSettingsTableViewControllerIsReadOnly(_ viewController: AlarmSettingsTableViewController) -> Bool
 }
 
+public protocol SubViewControllerWillDisappear: class {
+    func onDisappear() -> Void
+}
 
 public class AlarmSettingsTableViewController: UITableViewController, AlarmTimeInputCellDelegate, LFTimePickerDelegate, GlucoseAlarmInputCellDelegate {
    
+    override public func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        print("AlarmSettingsTableViewController will now disappear")
+         disappearDelegate?.onDisappear()
+        
+    }
+    public weak var disappearDelegate : SubViewControllerWillDisappear? = nil
     
     func glucoseAlarmInputCellDidUpdateValue(_ cell: GlucoseAlarmInputCell, value: Double) {
         print("glucoseAlarmInputCellDidUpdateValue ")

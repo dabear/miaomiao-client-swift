@@ -12,7 +12,14 @@ import LoopKitUI
 import MiaomiaoClient
 
 
-public class MiaomiaoClientSettingsViewController: UITableViewController {
+public class MiaomiaoClientSettingsViewController: UITableViewController, SubViewControllerWillDisappear {
+    public func onDisappear() {
+        // this is being called only from alarm and notifications ui
+        // when they disappear
+        // the idea is to reload certain gui elements that may have changed
+        self.tableView.reloadData()
+    }
+    
     private let isDemoMode = false
     public var cgmManager: MiaoMiaoClientManager?
 
@@ -320,10 +327,17 @@ public class MiaomiaoClientSettingsViewController: UITableViewController {
             switch AdvancedSettingsRow(rawValue: indexPath.row)! {
             case .alarms:
                 cell.textLabel?.text = LocalizedString("Alarms", comment: "Title describing sensor Gluocse Alarms")
-                cell.detailTextLabel?.text = SettingsTableViewCell.TapToSetString
+                let schedules = UserDefaults.standard.enabledSchedules?.count ?? 0
+                let totalSchedules = UserDefaults.standard.glucoseSchedules?.schedules.count ?? 0
+                
+                cell.detailTextLabel?.text = "enabled: \(schedules) / \(totalSchedules)"
             case .glucoseNotifications:
                 cell.textLabel?.text = LocalizedString("Notifications", comment: "Title describing  Notifications Setup")
-                cell.detailTextLabel?.text = SettingsTableViewCell.TapToSetString
+                
+                let allToggles = UserDefaults.standard.allNotificationToggles
+                let positives = allToggles.filter( { $0}).count
+                
+                cell.detailTextLabel?.text = "enabled: \(positives) / \(allToggles.count)"
             }
             
             cell.accessoryType = .disclosureIndicator
@@ -458,17 +472,22 @@ public class MiaomiaoClientSettingsViewController: UITableViewController {
         case .advanced:
             tableView.deselectRow(at: indexPath, animated: true)
             
-            var controller : UITableViewController
+            
             
             switch AdvancedSettingsRow(rawValue: indexPath.row)! {
             case .alarms:
-                controller = AlarmSettingsTableViewController(glucoseUnit: self.glucoseUnit)
+                var controller = AlarmSettingsTableViewController(glucoseUnit: self.glucoseUnit)
+                controller.disappearDelegate = self
+                show(controller, sender: nil)
             case .glucoseNotifications:
-                controller = NotificationsSettingsTableViewController(glucoseUnit: self.glucoseUnit)
+                var controller = NotificationsSettingsTableViewController(glucoseUnit: self.glucoseUnit)
+                controller.disappearDelegate = self
+                show(controller, sender: nil)
             }
             
-           
-            show(controller, sender: nil)
+            
+            
+            
         }
     }
     

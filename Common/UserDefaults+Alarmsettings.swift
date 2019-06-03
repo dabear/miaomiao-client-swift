@@ -105,6 +105,10 @@ extension UserDefaults {
         }
     }
     
+    var allNotificationToggles : [Bool] {
+        return [mmAlwaysDisplayGlucose,mmAlertLowBatteryWarning, mmAlertInvalidSensorDetected, mmAlertNewSensorDetected, mmAlertNoSensorDetected, mmAlertWillSoonExpire]
+    }
+    
     //intentionally only supports mgdl and mmol
     var mmGlucoseUnit : HKUnit? {
         get {
@@ -131,7 +135,14 @@ extension UserDefaults {
     }
     
     
-    
+    var enabledSchedules : [GlucoseSchedule]?{
+        return glucoseSchedules?.schedules.compactMap({ (schedule) -> GlucoseSchedule? in
+            if schedule.enabled ?? false {
+                return schedule
+            }
+            return nil
+        })
+    }
     var glucoseSchedules: GlucoseScheduleList? {
         get {
 

@@ -15,7 +15,13 @@ import HealthKit
 public class NotificationsSettingsTableViewController: UITableViewController , mmTextFieldViewCellCellDelegate {
     
     
+    override public func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        print("NotificationsSettingsTableViewController will now disappear")
+        disappearDelegate?.onDisappear()
+    }
     
+    public weak var disappearDelegate : SubViewControllerWillDisappear? = nil
    
     
   

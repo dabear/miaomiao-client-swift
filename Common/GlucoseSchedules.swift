@@ -28,7 +28,7 @@ class GlucoseScheduleList : Codable, CustomStringConvertible {
     public var schedules : [GlucoseSchedule] = [GlucoseSchedule]()
     public var snoozedUntil : Date? = nil
     
-    public var enabledSchedules : [GlucoseSchedule]{
+    public var activeSchedules : [GlucoseSchedule]{
         get {
             
             let now = Date()
@@ -70,7 +70,7 @@ class GlucoseScheduleList : Codable, CustomStringConvertible {
     }
     
     public func getActiveAlarms(_ currentGlucoseInMGDL: Double) -> GlucoseScheduleAlarmResult{
-        let mySchedules = self.enabledSchedules
+        let mySchedules = self.activeSchedules
         
         for schedule in mySchedules {
             if let lowAlarm = schedule.lowAlarm,  currentGlucoseInMGDL <= lowAlarm{
