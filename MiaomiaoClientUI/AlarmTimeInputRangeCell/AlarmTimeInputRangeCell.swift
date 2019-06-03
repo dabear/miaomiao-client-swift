@@ -24,9 +24,11 @@ protocol AlarmTimeInputCellDelegate: class {
 class AlarmTimeInputRangeCell: UITableViewCell, UITextFieldDelegate {
     
     private func updateComponentTextField() {
-        let p1 = minComponents?.ToTimeString() ?? ""
-        let p2 = maxComponents?.ToTimeString() ?? ""
-        minValue = "\(p1)-\(p2)"
+        
+        if let p1 = minComponents?.ToTimeString(), let p2 = maxComponents?.ToTimeString() {
+            minValue = "\(p1)-\(p2)"
+        }
+        
     }
     
     public var tag2 : String? = nil
