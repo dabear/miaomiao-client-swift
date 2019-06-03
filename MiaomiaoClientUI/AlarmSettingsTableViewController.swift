@@ -361,41 +361,39 @@ public class AlarmSettingsTableViewController: UITableViewController, AlarmTimeI
             
             
             DispatchQueue.main.async {
+                var alert : UIAlertController
+                if let settings = self.glucoseSchedules {
+                    
+                    print("Saving glucose schedule as: : \(settings) ")
+                    
+                    let validationResult = settings.validateGlucoseSchedules()
+                    
+                    switch validationResult {
+                    case .success:
+                        UserDefaults.standard.glucoseSchedules = settings
+                        print("Saved glucose schedule was \(String(describing: UserDefaults.standard.glucoseSchedules))")
+                        alert = OKAlertController("Glucose alarms successfully saved", title: "Glucose Alarms")
+                        
+                    case .error(let description):
+                        alert = ErrorAlertController("Glucose schedule could not be saved: \(description)", title: "Schedule not saved")
+                        
+                        print("Could not save glucose schedules, validation failed")
+                    }
+     
+                    
+                    
+                } else {
+                    alert = ErrorAlertController("Glucose schedules could not be modified", title: "Schedule not saved")
+                    
+                }
                 
-                
-                let settings = self.glucoseSchedules
-               
-                
-                
-                print("Saving glucose schedule as: : \(settings) ")
-                UserDefaults.standard.glucoseSchedules = settings
-                
-                
-                print("Saved glucose schedule was \(UserDefaults.standard.glucoseSchedules)")
+                self.present(alert, animated: true)
                 
                 self.isSyncInProgress = false
-                let ok = OKAlertController("Glucose alarms successfully saved", title: "Glucose Alarms")
-                self.present(ok, animated: true)
+                
             }
             
-            /*syncSource.syncDeliveryLimitSettings(for: self) { (result) in
-             DispatchQueue.main.async {
-             switch result {
-             case .success(maximumBasalRatePerHour: let maxBasal, maximumBolus: let maxBolus):
-             self.maximumBasalRatePerHour = maxBasal
-             self.maximumBolus = maxBolus
-             
-             self.delegate?.deliveryLimitSettingsTableViewControllerDidUpdateMaximumBasalRatePerHour(self)
-             self.delegate?.deliveryLimitSettingsTableViewControllerDidUpdateMaximumBolus(self)
-             
-             self.isSyncInProgress = false
-             case .failure(let error):
-             self.presentAlertController(with: error, animated: true, completion: {
-             self.isSyncInProgress = false
-             })
-             }
-             }
-             }*/
+            
         }
         
         tableView.deselectRow(at: indexPath, animated: true)

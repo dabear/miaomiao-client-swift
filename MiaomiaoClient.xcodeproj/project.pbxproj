@@ -59,6 +59,7 @@
 		272DFE72223E909E00FBE2CB /* LoopKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 272DFE70223E909E00FBE2CB /* LoopKit.framework */; };
 		272FAF08228CA590002D8064 /* SegmentViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 272FAF06228CA590002D8064 /* SegmentViewCell.swift */; };
 		272FAF09228CA590002D8064 /* SegmentViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 272FAF07228CA590002D8064 /* SegmentViewCell.xib */; };
+		274DF85222A5AEA400BFAFFE /* AlertControllers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 274DF85122A5AEA400BFAFFE /* AlertControllers.swift */; };
 		275B74912225BF90009CD5EB /* MiaomiaoClient.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 432B0E881CDFC3C50045347B /* MiaomiaoClient.framework */; };
 		275B74922225BF90009CD5EB /* MiaomiaoClient.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 432B0E881CDFC3C50045347B /* MiaomiaoClient.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		275B74952225C137009CD5EB /* MiaoMiaoBluetoothManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2729D67A221F421F0030E1B8 /* MiaoMiaoBluetoothManager.swift */; };
@@ -220,6 +221,7 @@
 		272DFE70223E909E00FBE2CB /* LoopKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = LoopKit.framework; path = ../../Build/iOS/LoopKit.framework; sourceTree = "<group>"; };
 		272FAF06228CA590002D8064 /* SegmentViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SegmentViewCell.swift; sourceTree = "<group>"; };
 		272FAF07228CA590002D8064 /* SegmentViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SegmentViewCell.xib; sourceTree = "<group>"; };
+		274DF85122A5AEA400BFAFFE /* AlertControllers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertControllers.swift; sourceTree = "<group>"; };
 		275C3D94229AA69C00E27439 /* mmSwitchTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = mmSwitchTableViewCell.swift; sourceTree = "<group>"; };
 		275C3D95229AA69C00E27439 /* mmSwitchTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = mmSwitchTableViewCell.xib; sourceTree = "<group>"; };
 		275C3D9E229D9AD500E27439 /* mmTextFieldViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = mmTextFieldViewCell.xib; sourceTree = "<group>"; };
@@ -547,6 +549,7 @@
 				4325E9D4210E6B4300969CE5 /* UIColor.swift */,
 				43A8EC85210E664300A81379 /* Info.plist */,
 				27CBEB3B225FB3A7004F7BF5 /* NibLoadable.swift */,
+				274DF85122A5AEA400BFAFFE /* AlertControllers.swift */,
 			);
 			path = MiaomiaoClientUI;
 			sourceTree = "<group>";
@@ -920,6 +923,7 @@
 				4325E9D3210E6ADA00969CE5 /* IdentifiableClass.swift in Sources */,
 				27CBEB552261DF9D004F7BF5 /* AlarmTimeInputRangeCell.swift in Sources */,
 				275C3DA1229D9BBB00E27439 /* mmTextFieldViewCell.swift in Sources */,
+				274DF85222A5AEA400BFAFFE /* AlertControllers.swift in Sources */,
 				277DAD12226C9FA800422ADA /* DateExtensions.swift in Sources */,
 				2769B5C12267766F006F1935 /* LFTimePickerControllerOriginal.swift in Sources */,
 				270C2670226A5A6E005B27F3 /* GlucoseSchedules.swift in Sources */,

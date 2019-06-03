@@ -498,19 +498,7 @@ public class MiaomiaoClientSettingsViewController: UITableViewController, SubVie
     }
 }
 
-func OKAlertController(_ message: String, title: String )-> UIAlertController {
-    let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
-    
-    // Create OK button
-    let OKAction = UIAlertAction(title: "OK", style: .default) { (action:UIAlertAction!) in
-        
-        // Code in this block will trigger when OK button tapped.
-        
-        
-    }
-    alertController.addAction(OKAction)
-    return alertController
-}
+
 
 
 private extension UIAlertController {
@@ -521,15 +509,15 @@ private extension UIAlertController {
             message: LocalizedString("Are you sure you want to delete this CGM?", comment: "Confirmation message for deleting a CGM"),
             preferredStyle: .actionSheet
         )
-
+        
         addAction(UIAlertAction(
             title: LocalizedString("Delete CGM", comment: "Button title to delete CGM"),
             style: .destructive,
             handler: { (_) in
                 handler()
-            }
+        }
         ))
-
+        
         let cancel = LocalizedString("Cancel", comment: "The title of the cancel action in an action sheet")
         addAction(UIAlertAction(title: cancel, style: .cancel, handler: nil))
     }

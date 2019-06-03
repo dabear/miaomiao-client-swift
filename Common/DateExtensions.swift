@@ -80,3 +80,36 @@ extension TimeInterval{
         
     }
 }
+
+extension Array where Element == DateInterval {
+   
+    // Check for intersection among the intervals in the given array and return
+    // the interval if found.
+    func intersect() -> DateInterval? {
+        // Algorithm:
+        // We will compare first two intervals.
+        // If an intersection is found, we will save the resultant interval
+        // and compare it with the next interval in the array.
+        // If no intersection is found at any iteration
+        // it means the intervals in the array are disjoint. Break the loop and return nil
+        // Otherwise return the last intersection.
+        
+        var previous = self.first
+        for (index, element) in self.enumerated() {
+            if index == 0 {
+                continue
+            }
+            
+            previous = previous?.intersection(with: element)
+            
+            if previous == nil {
+                break
+            }
+        }
+        
+        return previous
+    }
+}
+
+
+
