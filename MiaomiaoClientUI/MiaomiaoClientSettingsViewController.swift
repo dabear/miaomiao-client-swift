@@ -328,7 +328,7 @@ public class MiaomiaoClientSettingsViewController: UITableViewController, SubVie
             case .alarms:
                 cell.textLabel?.text = LocalizedString("Alarms", comment: "Title describing sensor Gluocse Alarms")
                 let schedules = UserDefaults.standard.enabledSchedules?.count ?? 0
-                let totalSchedules = UserDefaults.standard.glucoseSchedules?.schedules.count ?? 0
+                let totalSchedules = max(UserDefaults.standard.glucoseSchedules?.schedules.count ?? 0, GlucoseScheduleList.minimumSchedulesCount) 
                 
                 cell.detailTextLabel?.text = "enabled: \(schedules) / \(totalSchedules)"
             case .glucoseNotifications:

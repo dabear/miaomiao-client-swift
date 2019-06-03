@@ -187,12 +187,12 @@ public class AlarmSettingsTableViewController: UITableViewController, AlarmTimeI
     // MARK: - Table view data source
     
     
-    private let minimumSchedulesCount = 2
+    
    
     
     private var glucoseSchedulesCount : Int{
         let count = glucoseSchedules?.schedules.count ?? 0
-        return count >= minimumSchedulesCount ? count : minimumSchedulesCount
+        return count >= GlucoseScheduleList.minimumSchedulesCount ? count : GlucoseScheduleList.minimumSchedulesCount
     }
     
     private enum ScheduleRow : Int {

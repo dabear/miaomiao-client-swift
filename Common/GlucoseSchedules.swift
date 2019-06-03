@@ -37,6 +37,9 @@ class GlucoseScheduleList : Codable, CustomStringConvertible {
         
     }
     
+    //this is only used by the ui to count total number of schedules
+    public static let minimumSchedulesCount = 2
+    
     public var activeSchedules : [GlucoseSchedule]{
         get {
 
