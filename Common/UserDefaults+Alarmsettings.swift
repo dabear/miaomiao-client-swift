@@ -153,7 +153,7 @@ extension UserDefaults {
                 }
             }
             
-            return nil
+            return GlucoseScheduleList()
         }
         set {
             let encoder = JSONEncoder()

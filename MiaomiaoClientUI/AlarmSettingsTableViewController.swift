@@ -362,6 +362,7 @@ public class AlarmSettingsTableViewController: UITableViewController, AlarmTimeI
             
             DispatchQueue.main.async {
                 var alert : UIAlertController
+                print("before saving, schedules is: \(self.glucoseSchedules)")
                 if let settings = self.glucoseSchedules {
                     
                     print("Saving glucose schedule as: : \(settings) ")

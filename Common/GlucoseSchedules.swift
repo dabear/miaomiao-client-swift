@@ -59,6 +59,13 @@ class GlucoseScheduleList : Codable, CustomStringConvertible {
                 if low == high {
                     return .error("One of your glucose schedules had the same value for low and high thresholds")
                 }
+                if low > high {
+                    return .error("One of your glucose schedules had a low threshold set above your high threshold")
+                }
+                //just for completness sake, this would never be called
+                if high < low{
+                    return .error("One of your glucose schedules had a high threshold set below your low threshold")
+                }
             }
         }
        
