@@ -511,11 +511,11 @@ public class MiaomiaoClientSettingsViewController: UITableViewController, SubVie
             
             switch AdvancedSettingsRow(rawValue: indexPath.row)! {
             case .alarms:
-                var controller = AlarmSettingsTableViewController(glucoseUnit: self.glucoseUnit)
+                let controller = AlarmSettingsTableViewController(glucoseUnit: self.glucoseUnit)
                 controller.disappearDelegate = self
                 show(controller, sender: nil)
             case .glucoseNotifications:
-                var controller = NotificationsSettingsTableViewController(glucoseUnit: self.glucoseUnit)
+                let controller = NotificationsSettingsTableViewController(glucoseUnit: self.glucoseUnit)
                 controller.disappearDelegate = self
                 show(controller, sender: nil)
             }
@@ -525,6 +525,8 @@ public class MiaomiaoClientSettingsViewController: UITableViewController, SubVie
             
         case .snooze:
             print("Snooze called")
+            let controller = SnoozeViewController()
+            show(controller, sender: nil)
             tableView.deselectRow(at: indexPath, animated: true)
         }
     }

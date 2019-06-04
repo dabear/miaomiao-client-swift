@@ -102,6 +102,8 @@
 		27CFAB5F224AB27B006DEFE3 /* CollectionExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27CFAB5D224AB265006DEFE3 /* CollectionExtensions.swift */; };
 		27D0DA6B2231CBB7007BBB2C /* DateExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27D0DA6A2231CBB7007BBB2C /* DateExtensions.swift */; };
 		27E0968122A6E9AB00B3164D /* SnoozeView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 27E0968022A6E9AB00B3164D /* SnoozeView.xib */; };
+		27E0968422A6EFCD00B3164D /* SnoozeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27E0968322A6EFCD00B3164D /* SnoozeView.swift */; };
+		27E0968622A6F64800B3164D /* SnoozeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27E0968522A6F64800B3164D /* SnoozeViewController.swift */; };
 		27E3C390222EDF560036AAC7 /* LibreError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27E3C38F222EDF560036AAC7 /* LibreError.swift */; };
 		27E3C393222EE2EC0036AAC7 /* Calibration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27E3C392222EE2EC0036AAC7 /* Calibration.swift */; };
 		27E3C398222EE9450036AAC7 /* LibreOOPDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27E3C395222EE9450036AAC7 /* LibreOOPDefaults.swift */; };
@@ -255,6 +257,8 @@
 		27CFAB5D224AB265006DEFE3 /* CollectionExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionExtensions.swift; sourceTree = "<group>"; };
 		27D0DA6A2231CBB7007BBB2C /* DateExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateExtensions.swift; sourceTree = "<group>"; };
 		27E0968022A6E9AB00B3164D /* SnoozeView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SnoozeView.xib; sourceTree = "<group>"; };
+		27E0968322A6EFCD00B3164D /* SnoozeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SnoozeView.swift; sourceTree = "<group>"; };
+		27E0968522A6F64800B3164D /* SnoozeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SnoozeViewController.swift; sourceTree = "<group>"; };
 		27E3C38F222EDF560036AAC7 /* LibreError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibreError.swift; sourceTree = "<group>"; };
 		27E3C392222EE2EC0036AAC7 /* Calibration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Calibration.swift; sourceTree = "<group>"; };
 		27E3C395222EE9450036AAC7 /* LibreOOPDefaults.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LibreOOPDefaults.swift; sourceTree = "<group>"; };
@@ -490,9 +494,18 @@
 				2701478C2281FA4A0013C9E3 /* NotificationsSettingsTableViewController.swift */,
 				43A8EC8F210E676500A81379 /* MiaomiaoClientSettingsViewController.swift */,
 				43A8EC8D210E676500A81379 /* MiaomiaoClientSetupViewController.swift */,
-				27E0968022A6E9AB00B3164D /* SnoozeView.xib */,
 			);
 			path = Controllers;
+			sourceTree = "<group>";
+		};
+		27E0968222A6ED5200B3164D /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				27E0968022A6E9AB00B3164D /* SnoozeView.xib */,
+				27E0968322A6EFCD00B3164D /* SnoozeView.swift */,
+				27E0968522A6F64800B3164D /* SnoozeViewController.swift */,
+			);
+			path = Views;
 			sourceTree = "<group>";
 		};
 		432B0E7E1CDFC3C50045347B = {
@@ -560,6 +573,7 @@
 		43A8EC83210E664300A81379 /* MiaomiaoClientUI */ = {
 			isa = PBXGroup;
 			children = (
+				27E0968222A6ED5200B3164D /* Views */,
 				27E0967F22A6E1C300B3164D /* Controllers */,
 				274DF85322A6E12B00BFAFFE /* Cells */,
 				270C26672269E67A005B27F3 /* Graphics */,
@@ -925,6 +939,8 @@
 			files = (
 				43A8EC92210E676500A81379 /* MiaomiaoClientSettingsViewController.swift in Sources */,
 				4325E9D5210E6B4400969CE5 /* UIColor.swift in Sources */,
+				27E0968622A6F64800B3164D /* SnoozeViewController.swift in Sources */,
+				27E0968422A6EFCD00B3164D /* SnoozeView.swift in Sources */,
 				43A8EC97210E680100A81379 /* ShareService+UI.swift in Sources */,
 				275C3D99229AA88200E27439 /* mmSwitchTableViewCell.swift in Sources */,
 				2769B5BE2264FA22006F1935 /* DateComponentUITableViewCell.swift in Sources */,
