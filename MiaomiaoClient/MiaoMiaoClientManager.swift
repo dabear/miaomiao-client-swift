@@ -102,10 +102,16 @@ public final class MiaoMiaoClientManager: CGMManager, MiaoMiaoBluetoothManagerDe
     
     public private(set) var lastConnected : Date?
    
+    // This tighly tracks latestBackfill,
+    // and is defined here so that the ui can have a way to fetch the latest
+    // glucose value
+    public static var latestGlucose : LibreGlucose?
+    
     public private(set) var latestBackfill: LibreGlucose? {
         didSet(oldValue) {
             NSLog("dabear:: latestBackfill set, newvalue is \(latestBackfill)")
             if let latestBackfill = latestBackfill {
+                MiaoMiaoClientManager.latestGlucose = latestBackfill
                 NSLog("dabear:: sending glucose notification")
                 NotificationHelper.sendGlucoseNotitifcationIfNeeded(glucose: latestBackfill, oldValue: oldValue)
             }

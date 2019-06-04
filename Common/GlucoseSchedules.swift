@@ -8,14 +8,24 @@
 
 import Foundation
 import HealthKit
-
-enum GlucoseScheduleAlarmResult : Int, CaseIterable{
+import MiaomiaoClient
+public enum GlucoseScheduleAlarmResult : Int, CaseIterable{
 
     case none = 0
     case low
     case high
     
 }
+
+public enum GlucoseScheduleAlarmResultWithSnooze{
+    
+    case none
+    case low(Bool)
+    case high(Bool)
+    
+}
+
+
 enum GlucoseSchedulesValidationStatus {
     case success
     case error(String)
@@ -121,6 +131,26 @@ class GlucoseScheduleList : Codable, CustomStringConvertible {
             return snoozedUntil >= now
         }
         return false
+    }
+    
+    public static func getActiveAlarms() -> GlucoseScheduleAlarmResultWithSnooze {
+       
+        if let schedules = UserDefaults.standard.glucoseSchedules, let glucose = MiaoMiaoClientManager.latestGlucose?.glucoseDouble {
+            let isSnoozed = schedules.isSnoozed()
+            switch schedules.getActiveAlarms(glucose) {
+            case .high:
+                return .high(isSnoozed)
+            case .low:
+                return .low(isSnoozed)
+            default:
+                break
+            }
+            
+        }
+        
+        return .none
+    
+        
     }
     
     public func getActiveAlarms(_ currentGlucoseInMGDL: Double) -> GlucoseScheduleAlarmResult{

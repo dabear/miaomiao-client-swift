@@ -12,6 +12,7 @@ import LoopKitUI
 import MiaomiaoClient
 
 
+
 public class MiaomiaoClientSettingsViewController: UITableViewController, SubViewControllerWillDisappear {
     public func onDisappear() {
         // this is being called only from alarm and notifications ui
@@ -48,7 +49,14 @@ public class MiaomiaoClientSettingsViewController: UITableViewController, SubVie
     override public func tableView(_ tableView: UITableView, heightForRowAt index: IndexPath) -> CGFloat {
         switch Section(rawValue: index.section)! {
         case .snooze:
-            return 100
+            switch GlucoseScheduleList.getActiveAlarms() {
+            case .none:
+                return UITableViewAutomaticDimension
+            default:
+                return 100
+            }
+            
+            
         default:
             return UITableViewAutomaticDimension
             
@@ -356,15 +364,17 @@ public class MiaomiaoClientSettingsViewController: UITableViewController, SubVie
             cell.accessoryType = .disclosureIndicator
             return cell
         case .snooze:
-            let cell = tableView.dequeueReusableCell(withIdentifier: SettingsTableViewCell.className, for: indexPath) as! SettingsTableViewCell
+            //let cell = tableView.dequeueReusableCell(withIdentifier: SettingsTableViewCell.className, for: indexPath) as! SettingsTableViewCell
+            let cell = UITableViewCell(style: UITableViewCellStyle.default, reuseIdentifier: "DefaultCell")
             
-            
-            
-            cell.textLabel?.text = LocalizedString("Snooze Alert", comment: "Title of cell to snooze active alarms")
             cell.textLabel?.textAlignment = .center
+            cell.textLabel?.text = LocalizedString("Snooze Alerts", comment: "Title of cell to snooze active alarms")
             
-            cell.detailTextLabel?.text =  ""
-            cell.accessoryType = .none
+            //cell.textLabel?.text = LocalizedString("Snooze Alert", comment: "Title of cell to snooze active alarms")
+            //cell.textLabel?.textAlignment = .center
+            
+            //cell.detailTextLabel?.text =  ""
+            //cell.accessoryType = .none
             return cell
         }
     }
