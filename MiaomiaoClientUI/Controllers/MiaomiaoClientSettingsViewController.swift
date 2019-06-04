@@ -45,6 +45,16 @@ public class MiaomiaoClientSettingsViewController: UITableViewController, SubVie
         fatalError("init(coder:) has not been implemented")
     }
 
+    override public func tableView(_ tableView: UITableView, heightForRowAt index: IndexPath) -> CGFloat {
+        switch Section(rawValue: index.section)! {
+        case .snooze:
+            return 100
+        default:
+            return UITableViewAutomaticDimension
+            
+        }
+        
+    }
     override public func viewDidLoad() {
         super.viewDidLoad()
 
@@ -63,6 +73,7 @@ public class MiaomiaoClientSettingsViewController: UITableViewController, SubVie
     // MARK: - UITableViewDataSource
 
     private enum Section: Int {
+        case snooze
         case authentication
         case latestReading
         case sensorInfo
@@ -141,6 +152,8 @@ public class MiaomiaoClientSettingsViewController: UITableViewController, SubVie
         
         case .advanced:
             return AdvancedSettingsRow.count
+        case .snooze:
+            return 1
         }
     }
 
@@ -342,12 +355,23 @@ public class MiaomiaoClientSettingsViewController: UITableViewController, SubVie
             
             cell.accessoryType = .disclosureIndicator
             return cell
+        case .snooze:
+            let cell = tableView.dequeueReusableCell(withIdentifier: SettingsTableViewCell.className, for: indexPath) as! SettingsTableViewCell
+            
+            
+            
+            cell.textLabel?.text = LocalizedString("Snooze Alert", comment: "Title of cell to snooze active alarms")
+            cell.textLabel?.textAlignment = .center
+            
+            cell.detailTextLabel?.text =  ""
+            cell.accessoryType = .none
+            return cell
         }
     }
 
     public override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         switch Section(rawValue: section)! {
-        case .authentication:
+        case .authentication, .snooze:
             return nil
         case .sensorInfo:
             return LocalizedString("Sensor Info", comment: "Section title for latest sensor info")
@@ -362,6 +386,7 @@ public class MiaomiaoClientSettingsViewController: UITableViewController, SubVie
        
         case .advanced:
             return LocalizedString("Advanced", comment: "Advanced Section")
+        
         }
     }
 
@@ -488,6 +513,9 @@ public class MiaomiaoClientSettingsViewController: UITableViewController, SubVie
             
             
             
+        case .snooze:
+            print("Snooze called")
+            tableView.deselectRow(at: indexPath, animated: true)
         }
     }
     

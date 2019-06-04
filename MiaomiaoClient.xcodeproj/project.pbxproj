@@ -422,6 +422,19 @@
 			path = SegmentView;
 			sourceTree = "<group>";
 		};
+		274DF85322A6E12B00BFAFFE /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				27CBEB3B225FB3A7004F7BF5 /* NibLoadable.swift */,
+				275C3D8F229476D600E27439 /* mmSwitchTableViewCell */,
+				272FAF05228CA53F002D8064 /* SegmentView */,
+				270C2658226911DB005B27F3 /* GlucoseAlarmInputCell */,
+				270C2657226911BB005B27F3 /* AlarmTimeInputRangeCell */,
+				2769B5BA2264EDFD006F1935 /* LFTimePickerController */,
+			);
+			path = Cells;
+			sourceTree = "<group>";
+		};
 		275C3D8F229476D600E27439 /* mmSwitchTableViewCell */ = {
 			isa = PBXGroup;
 			children = (
@@ -465,6 +478,18 @@
 				27C335EC21667C7C00CF0868 /* Info.plist */,
 			);
 			path = singleviewtesterapp2;
+			sourceTree = "<group>";
+		};
+		27E0967F22A6E1C300B3164D /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				274DF85122A5AEA400BFAFFE /* AlertControllers.swift */,
+				27CBEB3D225FE5CB004F7BF5 /* AlarmSettingsTableViewController.swift */,
+				2701478C2281FA4A0013C9E3 /* NotificationsSettingsTableViewController.swift */,
+				43A8EC8F210E676500A81379 /* MiaomiaoClientSettingsViewController.swift */,
+				43A8EC8D210E676500A81379 /* MiaomiaoClientSetupViewController.swift */,
+			);
+			path = Controllers;
 			sourceTree = "<group>";
 		};
 		432B0E7E1CDFC3C50045347B = {
@@ -532,24 +557,15 @@
 		43A8EC83210E664300A81379 /* MiaomiaoClientUI */ = {
 			isa = PBXGroup;
 			children = (
-				275C3D8F229476D600E27439 /* mmSwitchTableViewCell */,
-				272FAF05228CA53F002D8064 /* SegmentView */,
+				27E0967F22A6E1C300B3164D /* Controllers */,
+				274DF85322A6E12B00BFAFFE /* Cells */,
 				270C26672269E67A005B27F3 /* Graphics */,
-				270C2658226911DB005B27F3 /* GlucoseAlarmInputCell */,
-				270C2657226911BB005B27F3 /* AlarmTimeInputRangeCell */,
-				2769B5BA2264EDFD006F1935 /* LFTimePickerController */,
-				27CBEB3D225FE5CB004F7BF5 /* AlarmSettingsTableViewController.swift */,
-				2701478C2281FA4A0013C9E3 /* NotificationsSettingsTableViewController.swift */,
 				43AB511921330D1400B3D58D /* Localizable.strings */,
 				4325E9D2210E6ADA00969CE5 /* IdentifiableClass.swift */,
 				43A8EC8E210E676500A81379 /* MiaomiaoClientManager+UI.swift */,
-				43A8EC8F210E676500A81379 /* MiaomiaoClientSettingsViewController.swift */,
-				43A8EC8D210E676500A81379 /* MiaomiaoClientSetupViewController.swift */,
 				43A8EC96210E680100A81379 /* ShareService+UI.swift */,
 				4325E9D4210E6B4300969CE5 /* UIColor.swift */,
 				43A8EC85210E664300A81379 /* Info.plist */,
-				27CBEB3B225FB3A7004F7BF5 /* NibLoadable.swift */,
-				274DF85122A5AEA400BFAFFE /* AlertControllers.swift */,
 			);
 			path = MiaomiaoClientUI;
 			sourceTree = "<group>";
