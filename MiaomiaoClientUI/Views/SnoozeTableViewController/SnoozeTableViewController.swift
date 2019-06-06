@@ -251,7 +251,10 @@ public class SnoozeTableViewController: UITableViewController, UIPickerViewDataS
             
             //reset if date is in the past
             UserDefaults.standard.snoozedUntil = untilDate < Date() ? nil : untilDate
-            tableView.reloadData()
+            //refresh only the description, as that is the only cell that will change
+            var descriptionIndex = IndexPath(item:  SnoozeRow.description.rawValue, section: indexPath.section)
+            self.tableView.reloadRows(at: [descriptionIndex], with: .none)
+            //tableView.reloadData()
             
         case .snoozePicker:
             print ("snoozepicker clicked")
