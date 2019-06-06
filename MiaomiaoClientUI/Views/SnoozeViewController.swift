@@ -10,6 +10,7 @@ import Foundation
 import UIKit
 
 class SnoozeViewController: UIViewController {
+   
     
     weak var customView: SnoozeView!
     
@@ -29,7 +30,7 @@ class SnoozeViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        customView.snoozeButton.setTitle("2Test2", for: .normal)
         //self.customView.textLabel.text = "Lorem ipsum"
     }
 }

@@ -24,6 +24,7 @@ extension UserDefaults {
         case mmAlertNoSensorDetected = "no.bjorninge.mmNoSensorDetected"
         case mmGlucoseUnit = "no.bjorninge.mmGlucoseUnit"
         case mmAlertSensorSoonExpire = "no.bjorninge.mmAlertSensorSoonExpire"
+        case mmSnoozedUntil = "no.bjorninge.mmSnoozedUntil"
     }
     /*
      case always
@@ -142,6 +143,14 @@ extension UserDefaults {
             }
             return nil
         })
+    }
+    var snoozedUntil: Date? {
+        get {
+            return object(forKey: Key.mmSnoozedUntil.rawValue) as? Date
+        }
+        set {
+            set (newValue, forKey: Key.mmSnoozedUntil.rawValue)
+        }
     }
     var glucoseSchedules: GlucoseScheduleList? {
         get {

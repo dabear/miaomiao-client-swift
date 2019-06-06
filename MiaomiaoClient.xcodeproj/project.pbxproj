@@ -104,6 +104,9 @@
 		27E0968122A6E9AB00B3164D /* SnoozeView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 27E0968022A6E9AB00B3164D /* SnoozeView.xib */; };
 		27E0968422A6EFCD00B3164D /* SnoozeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27E0968322A6EFCD00B3164D /* SnoozeView.swift */; };
 		27E0968622A6F64800B3164D /* SnoozeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27E0968522A6F64800B3164D /* SnoozeViewController.swift */; };
+		27E0968A22A9768800B3164D /* SnoozeTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27E0968822A9768800B3164D /* SnoozeTableViewController.swift */; };
+		27E0968D22A9806200B3164D /* CGFLoat+Double.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27E0968C22A9806200B3164D /* CGFLoat+Double.swift */; };
+		27E0968F22A9AD6F00B3164D /* TimeIntervalExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27E0968E22A9AD6F00B3164D /* TimeIntervalExtensions.swift */; };
 		27E3C390222EDF560036AAC7 /* LibreError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27E3C38F222EDF560036AAC7 /* LibreError.swift */; };
 		27E3C393222EE2EC0036AAC7 /* Calibration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27E3C392222EE2EC0036AAC7 /* Calibration.swift */; };
 		27E3C398222EE9450036AAC7 /* LibreOOPDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27E3C395222EE9450036AAC7 /* LibreOOPDefaults.swift */; };
@@ -259,6 +262,9 @@
 		27E0968022A6E9AB00B3164D /* SnoozeView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SnoozeView.xib; sourceTree = "<group>"; };
 		27E0968322A6EFCD00B3164D /* SnoozeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SnoozeView.swift; sourceTree = "<group>"; };
 		27E0968522A6F64800B3164D /* SnoozeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SnoozeViewController.swift; sourceTree = "<group>"; };
+		27E0968822A9768800B3164D /* SnoozeTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SnoozeTableViewController.swift; sourceTree = "<group>"; };
+		27E0968C22A9806200B3164D /* CGFLoat+Double.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CGFLoat+Double.swift"; sourceTree = "<group>"; };
+		27E0968E22A9AD6F00B3164D /* TimeIntervalExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeIntervalExtensions.swift; sourceTree = "<group>"; };
 		27E3C38F222EDF560036AAC7 /* LibreError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibreError.swift; sourceTree = "<group>"; };
 		27E3C392222EE2EC0036AAC7 /* Calibration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Calibration.swift; sourceTree = "<group>"; };
 		27E3C395222EE9450036AAC7 /* LibreOOPDefaults.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LibreOOPDefaults.swift; sourceTree = "<group>"; };
@@ -501,11 +507,20 @@
 		27E0968222A6ED5200B3164D /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				27E0968722A9765300B3164D /* SnoozeTableViewController */,
 				27E0968022A6E9AB00B3164D /* SnoozeView.xib */,
 				27E0968322A6EFCD00B3164D /* SnoozeView.swift */,
 				27E0968522A6F64800B3164D /* SnoozeViewController.swift */,
 			);
 			path = Views;
+			sourceTree = "<group>";
+		};
+		27E0968722A9765300B3164D /* SnoozeTableViewController */ = {
+			isa = PBXGroup;
+			children = (
+				27E0968822A9768800B3164D /* SnoozeTableViewController.swift */,
+			);
+			path = SnoozeTableViewController;
 			sourceTree = "<group>";
 		};
 		432B0E7E1CDFC3C50045347B = {
@@ -583,6 +598,7 @@
 				43A8EC96210E680100A81379 /* ShareService+UI.swift */,
 				4325E9D4210E6B4300969CE5 /* UIColor.swift */,
 				43A8EC85210E664300A81379 /* Info.plist */,
+				27E0968C22A9806200B3164D /* CGFLoat+Double.swift */,
 			);
 			path = MiaomiaoClientUI;
 			sourceTree = "<group>";
@@ -599,6 +615,7 @@
 				277DAD0C226B970300422ADA /* UserDefaults+Alarmsettings.swift */,
 				277DAD0F226C93D000422ADA /* GlucoseAlarmType.swift */,
 				277DAD13226CACF300422ADA /* MessagePassing.swift */,
+				27E0968E22A9AD6F00B3164D /* TimeIntervalExtensions.swift */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -952,11 +969,14 @@
 				277DAD15226CACF700422ADA /* MessagePassing.swift in Sources */,
 				27CFAB5522496C7A006DEFE3 /* DoubleExtensions.swift in Sources */,
 				27CBEB3F225FE5CB004F7BF5 /* AlarmSettingsTableViewController.swift in Sources */,
+				27E0968A22A9768800B3164D /* SnoozeTableViewController.swift in Sources */,
 				2701478D2281FA4A0013C9E3 /* NotificationsSettingsTableViewController.swift in Sources */,
 				277DAD41226F9CD000422ADA /* pickercell.swift in Sources */,
 				272FAF08228CA590002D8064 /* SegmentViewCell.swift in Sources */,
+				27E0968F22A9AD6F00B3164D /* TimeIntervalExtensions.swift in Sources */,
 				277DAD0E226B971A00422ADA /* UserDefaults+Alarmsettings.swift in Sources */,
 				4325E9D3210E6ADA00969CE5 /* IdentifiableClass.swift in Sources */,
+				27E0968D22A9806200B3164D /* CGFLoat+Double.swift in Sources */,
 				27CBEB552261DF9D004F7BF5 /* AlarmTimeInputRangeCell.swift in Sources */,
 				275C3DA1229D9BBB00E27439 /* mmTextFieldViewCell.swift in Sources */,
 				274DF85222A5AEA400BFAFFE /* AlertControllers.swift in Sources */,

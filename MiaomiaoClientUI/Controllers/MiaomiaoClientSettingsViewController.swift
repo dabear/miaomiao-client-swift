@@ -525,7 +525,7 @@ public class MiaomiaoClientSettingsViewController: UITableViewController, SubVie
             
         case .snooze:
             print("Snooze called")
-            let controller = SnoozeViewController()
+            let controller = SnoozeTableViewController()
             show(controller, sender: nil)
             tableView.deselectRow(at: indexPath, animated: true)
         }

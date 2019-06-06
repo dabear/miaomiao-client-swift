@@ -32,7 +32,7 @@ class View: UIView {
     }
 }
 
-class SnoozeView: View {
+class SnoozeView: View, UIPickerViewDataSource, UIPickerViewDelegate {
 
     
     
@@ -47,6 +47,23 @@ class SnoozeView: View {
     
     @IBOutlet weak var snoozeButton: UIButton!
     
+    func numberOfComponents(in pickerView: UIPickerView) -> Int {
+        return 1
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        return 3
+    }
+    
+  
+    func pickerView(_ pickerView: UIPickerView,
+                    titleForRow row: Int,
+                    forComponent component: Int) -> String? {
+        
+        // Return a string from the array for this row.
+        //return data[row]
+        return "row: \(row), component \(component)"
+    }
     
     
     override func initialize() {
@@ -70,23 +87,18 @@ class SnoozeView: View {
             self.containerView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
             ])
         
+        
+        //snoozeButton.frame.size = CGSize(width: self.frame.width, height: self.frame.height)
         snoozeButton.setTitle("Test1", for: .normal)
+        snoozePicker.dataSource = self
+        snoozePicker.delegate = self
+        snoozePicker.layer.cornerRadius = 4
+        snoozePicker.layer.borderWidth = 1
         
     }
+    
 
-    /*
-     let stackView = HUDView.nib().instantiate(withOwner: self, options: nil)[0] as! UIStackView
-     self.addSubview(stackView)
-     
-     */
-    /*private func commonInit() {
-        print("SnoozeView initialized")
-        //Bundle.main.loadNibNamed("SnoozeView", owner: self, options: nil)
-        contentView = SnoozeView.nib().instantiate(withOwner: self, options: nil)[0] as! SnoozeView
-        addSubview(contentView)
-        
-        contentView.fixInView(self)
-    }*/
+    
 }
 
 extension UIView

@@ -38,7 +38,7 @@ class NotificationHelper {
         
         
         let alarm = schedules?.getActiveAlarms(glucose.glucoseDouble) ?? GlucoseScheduleAlarmResult.none
-        let isSnoozed = schedules?.isSnoozed() ?? false
+        let isSnoozed = GlucoseScheduleList.isSnoozed()
         
         NSLog("dabear:: glucose alarmtype is \(alarm)")
         // We always send glucose notifications when alarm is active,

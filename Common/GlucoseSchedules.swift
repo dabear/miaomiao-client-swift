@@ -40,7 +40,7 @@ class GlucoseScheduleList : Codable, CustomStringConvertible {
     }
     
     public var schedules : [GlucoseSchedule] = [GlucoseSchedule]()
-    public var snoozedUntil : Date? = nil
+    
     
     public var enabledSchedules: [GlucoseSchedule] {
         return schedules.compactMap({ $0.enabled == true ? $0 : nil})
@@ -125,7 +125,12 @@ class GlucoseScheduleList : Codable, CustomStringConvertible {
     
         return .success
     }
-    public func isSnoozed() -> Bool{
+    //for convenience
+    public static var snoozedUntil : Date? {
+        return UserDefaults.standard.snoozedUntil
+        
+    }
+    public static func isSnoozed() -> Bool{
         let now = Date()
         if let snoozedUntil = snoozedUntil {
             return snoozedUntil >= now
@@ -136,7 +141,7 @@ class GlucoseScheduleList : Codable, CustomStringConvertible {
     public static func getActiveAlarms() -> GlucoseScheduleAlarmResultWithSnooze {
        
         if let schedules = UserDefaults.standard.glucoseSchedules, let glucose = MiaoMiaoClientManager.latestGlucose?.glucoseDouble {
-            let isSnoozed = schedules.isSnoozed()
+            let isSnoozed = GlucoseScheduleList.isSnoozed()
             switch schedules.getActiveAlarms(glucose) {
             case .high:
                 return .high(isSnoozed)
