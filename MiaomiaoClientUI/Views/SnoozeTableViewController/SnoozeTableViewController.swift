@@ -249,7 +249,8 @@ public class SnoozeTableViewController: UITableViewController, UIPickerViewDataS
             let untilDate = Date()+interval
             print("will snooze for \(snoozeFor) until \(untilDate.description(with: .current))")
             
-            UserDefaults.standard.snoozedUntil = untilDate
+            //reset if date is in the past
+            UserDefaults.standard.snoozedUntil = untilDate < Date() ? nil : untilDate
             tableView.reloadData()
             
         case .snoozePicker:
