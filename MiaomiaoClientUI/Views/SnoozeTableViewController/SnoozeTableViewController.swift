@@ -95,6 +95,12 @@ public class SnoozeTableViewController: UITableViewController, UIPickerViewDataS
         
     }
     
+    private var pickerSelectedRow : Int?
+    public func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+        print("pickerSelectedRow: \(row)")
+        pickerSelectedRow = row
+    }
+    
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -163,17 +169,28 @@ public class SnoozeTableViewController: UITableViewController, UIPickerViewDataS
             let height = tableView.rectForRow(at: indexPath).height
             let pickerView = UIPickerView(frame: CGRect(x: 0, y: 0, width: tableView.frame.width, height: height))
             
+            
             self.pickerView = pickerView
+            
             cell.addSubview(pickerView)
+            
             pickerView.fixInView(cell)
             pickerView.dataSource = self
             pickerView.delegate = self
+            
+            if let pickerSelectedRow = pickerSelectedRow {
+                print("cellforrow: selecting row in picker view: \(pickerSelectedRow)")
+                self.pickerView.selectRow(pickerSelectedRow, inComponent: 0, animated: false)
+                self.pickerView.reloadAllComponents()
+            }
             
             return cell
         case .description:
             let cell = UITableViewCell(style: UITableViewCellStyle.default, reuseIdentifier: "DefaultCell")
             
             cell.textLabel?.textAlignment = .center
+            cell.textLabel!.numberOfLines=0;
+            
             var snoozeDescription  = ""
             var celltext = ""
             
@@ -228,9 +245,12 @@ public class SnoozeTableViewController: UITableViewController, UIPickerViewDataS
         switch SnoozeRow(rawValue: indexPath.row)!{
         case .snoozePicker:
             
-            let count =  Double(SnoozeRow.count - 1 )// -1 to exclude this row
+           // let count =  Double(SnoozeRow.count - 1 )// -1 to exclude this row
             
-            return tableView.frame.size.height - (tableView.rowHeight*count) - tableView.sectionHeaderHeight - tableView.sectionFooterHeight - tableView.adjustedContentInset.top
+            let otherHeights = tableView.rectForRow(at: IndexPath(row: SnoozeRow.snoozeButton.rawValue, section: indexPath.section)).height +
+            tableView.rectForRow(at: IndexPath(row: SnoozeRow.description.rawValue, section: indexPath.section)).height
+            
+            return tableView.frame.size.height - otherHeights - tableView.sectionHeaderHeight - tableView.sectionFooterHeight - tableView.adjustedContentInset.top
             
             
  
@@ -238,6 +258,11 @@ public class SnoozeTableViewController: UITableViewController, UIPickerViewDataS
             return tableView.rowHeight
             
         }
+    }
+   
+    public override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+        self.tableView.reloadData()
+        
     }
     
     public override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -254,7 +279,7 @@ public class SnoozeTableViewController: UITableViewController, UIPickerViewDataS
             //reset if date is in the past
             UserDefaults.standard.snoozedUntil = untilDate < Date() ? nil : untilDate
             //refresh only the description, as that is the only cell that will change
-            var descriptionIndex = IndexPath(item:  SnoozeRow.description.rawValue, section: indexPath.section)
+            let  descriptionIndex = IndexPath(item:  SnoozeRow.description.rawValue, section: indexPath.section)
             self.tableView.reloadRows(at: [descriptionIndex], with: .none)
             //tableView.reloadData()
             
