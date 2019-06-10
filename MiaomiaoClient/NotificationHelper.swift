@@ -25,6 +25,30 @@ class NotificationHelper {
         return formatter
     }()
     
+    private static func ensureCanSendNotification(_ completion: @escaping (_ canSend: Bool) -> Void ) -> Void{
+        UNUserNotificationCenter.current().getNotificationSettings { (settings) in
+            if #available(iOSApplicationExtension 12.0, *) {
+                guard (settings.authorizationStatus == .authorized || settings.authorizationStatus == .provisional) else {
+                    NSLog("dabear:: ensureCanSendNotification failed, authorization denied")
+                    completion(false)
+                    return
+                    
+                }
+            } else {
+                // Fallback on earlier versions
+                guard (settings.authorizationStatus == .authorized ) else {
+                    NSLog("dabear:: ensureCanSendNotification failed, authorization denied")
+                    completion(false)
+                    return
+                    
+                }
+            }
+            NSLog("dabear:: sending notification was allowed")
+            completion(true)
+        }
+    }
+    
+    
     private static var glucoseNotifyCalledCount = 0
     public static func sendGlucoseNotitifcationIfNeeded(glucose: LibreGlucose, oldValue: LibreGlucose?){
         glucoseNotifyCalledCount &+= 1
@@ -44,7 +68,7 @@ class NotificationHelper {
         // We always send glucose notifications when alarm is active,
         // even if glucose notifications are disabled in the UI
         
-        if shouldSend || alarm == .high || alarm == .low {
+        if shouldSend || alarm.isAlarming() {
             sendGlucoseNotitifcation(glucose: glucose, oldValue: oldValue, alarm: alarm, isSnoozed: isSnoozed)
         } else {
             NSLog("dabear:: not sending glucose, shouldSend and alarmIsActive was false")
@@ -66,20 +90,11 @@ class NotificationHelper {
         
         // TODO: handle alarm
         
-        UNUserNotificationCenter.current().getNotificationSettings { (settings) in
-            if #available(iOSApplicationExtension 12.0, *) {
-                guard (settings.authorizationStatus == .authorized || settings.authorizationStatus == .provisional) else {
-                    NSLog("dabear:: not sending glucose, authorization denied")
-                    return
-                    
-                }
-            } else {
-                // Fallback on earlier versions
-                guard (settings.authorizationStatus == .authorized ) else {
-                    NSLog("dabear:: not sending glucose, authorization denied")
-                    return
-                    
-                }
+        ensureCanSendNotification { (ensured) in
+            
+            guard (ensured) else {
+                NSLog("dabear:: not sending sending glucose notification")
+                return
             }
             NSLog("dabear:: sending glucose notification")
             
@@ -101,14 +116,19 @@ class NotificationHelper {
             case .none:
                 content.title = "New Reading \(formatted)"
             case .low:
-                content.title = "LOWALERT \(formatted)"
-                if !isSnoozed {
+                if isSnoozed {
+                     content.title = "LOWALERT (Snoozed) \(formatted)"
+                } else {
+                    content.title = "LOWALERT \(formatted)"
                     content.sound = .default()
                 }
                 
             case .high:
-                content.title = "HIGHALERT! \(formatted)"
-                if !isSnoozed {
+            
+                if isSnoozed {
+                    content.title = "HIGHALERT (Snoozed)! \(formatted)"
+                } else {
+                    content.title = "HIGHALERT! \(formatted)"
                     content.sound = .default()
                 }
                 
@@ -130,18 +150,12 @@ class NotificationHelper {
                     let sign = diff < 0 ? "-" : "+"
                     diff = abs(diff)
                     
-                    
                     let asObj = LibreGlucose(unsmoothedGlucose: diff, glucoseDouble: diff, trend: 0, timestamp: Date(), collector: nil)
-                    
-                    
                     if let formattedDiff = formatter.string(from: asObj.quantity, for: glucoseUnit) {
                         content.body += ", " + sign + formattedDiff
                     }
                 }
-                
-                
-                
-                
+        
                 
             }
             
@@ -174,26 +188,14 @@ class NotificationHelper {
     
     private static func sendSensorNotDetectedNotification() {
         
-        UNUserNotificationCenter.current().getNotificationSettings { (settings) in
-            if #available(iOSApplicationExtension 12.0, *) {
-                guard (settings.authorizationStatus == .authorized || settings.authorizationStatus == .provisional) else {
-                    NSLog("dabear:: not sending noSensorDetected authorization denied")
-                    return
-                    
-                }
-            } else {
-                // Fallback on earlier versions
-                guard (settings.authorizationStatus == .authorized ) else {
-                    NSLog("dabear:: not sending noSensorDetected, authorization denied")
-                    return
-                    
-                }
+        ensureCanSendNotification { (ensured) in
+            
+            guard (ensured) else {
+                NSLog("dabear:: not sending noSensorDetected notification")
+                return
             }
             NSLog("dabear:: sending noSensorDetected")
-            
-            
-            
-            
+          
             let content = UNMutableNotificationContent()
             content.title = "No Sensor Detected"
             content.body = "This might be an intermittent problem, but please check that your miaomiao is tightly secured over your sensor"
@@ -215,8 +217,6 @@ class NotificationHelper {
     
     
     
-    
-    
     public static func sendSensorChangeNotificationIfNeeded(hasChanged: Bool) {
         guard UserDefaults.standard.mmAlertNewSensorDetected && hasChanged else {
             NSLog("not sending sendSensorChange notification ")
@@ -227,26 +227,13 @@ class NotificationHelper {
     }
     
     private static func sendSensorChangeNotification() {
-        
-        UNUserNotificationCenter.current().getNotificationSettings { (settings) in
-            if #available(iOSApplicationExtension 12.0, *) {
-                guard (settings.authorizationStatus == .authorized || settings.authorizationStatus == .provisional) else {
-                    NSLog("dabear:: not sending sensorChangeNotification, authorization denied")
-                    return
-                    
-                }
-            } else {
-                // Fallback on earlier versions
-                guard (settings.authorizationStatus == .authorized ) else {
-                    NSLog("dabear:: not sending sensorChangeNotification, authorization denied")
-                    return
-                    
-                }
+        ensureCanSendNotification { (ensured) in
+            
+            guard (ensured) else {
+                NSLog("dabear:: not sending sensorChangeNotification notification")
+                return
             }
             NSLog("dabear:: sending sensorChangeNotification")
-            
-            
-            
             
             let content = UNMutableNotificationContent()
             content.title = "New Sensor Detected"
@@ -287,25 +274,14 @@ class NotificationHelper {
     
     private static func sendInvalidSensorNotification(sensorData: SensorData) {
         
-        UNUserNotificationCenter.current().getNotificationSettings { (settings) in
-            if #available(iOSApplicationExtension 12.0, *) {
-                guard (settings.authorizationStatus == .authorized || settings.authorizationStatus == .provisional) else {
-                    NSLog("dabear:: not sending InvalidSensorNotification, authorization denied")
-                    return
-                    
-                }
-            } else {
-                // Fallback on earlier versions
-                guard (settings.authorizationStatus == .authorized ) else {
-                    NSLog("dabear:: not sending InvalidSensorNotification, authorization denied")
-                    return
-                    
-                }
+        ensureCanSendNotification { (ensured) in
+            
+            guard (ensured) else {
+                NSLog("dabear:: not sending InvalidSensorNotification notification")
+                return
             }
+        
             NSLog("dabear:: sending InvalidSensorNotification")
-            
-            
-            
             
             let content = UNMutableNotificationContent()
             content.title = "Invalid Sensor Detected"
@@ -366,21 +342,11 @@ class NotificationHelper {
     }
     
     private static func sendLowBatteryNotification(batteryPercentage: String){
-        
-        UNUserNotificationCenter.current().getNotificationSettings { (settings) in
-            if #available(iOSApplicationExtension 12.0, *) {
-                guard (settings.authorizationStatus == .authorized || settings.authorizationStatus == .provisional) else {
-                    NSLog("dabear:: not sending LowBattery notification, authorization denied")
-                    return
-                    
-                }
-            } else {
-                // Fallback on earlier versions
-                guard (settings.authorizationStatus == .authorized ) else {
-                    NSLog("dabear:: not sending LowBattery notification authorization denied")
-                    return
-                    
-                }
+        ensureCanSendNotification { (ensured) in
+            
+            guard (ensured) else {
+                NSLog("dabear:: not sending LowBattery notification")
+                return
             }
             NSLog("dabear:: sending LowBattery notification")
             
@@ -440,25 +406,14 @@ class NotificationHelper {
     
     private static func sendSensorExpireAlert(sensorData: SensorData){
         
-        UNUserNotificationCenter.current().getNotificationSettings { (settings) in
-            if #available(iOSApplicationExtension 12.0, *) {
-                guard (settings.authorizationStatus == .authorized || settings.authorizationStatus == .provisional) else {
-                    NSLog("dabear:: not sending SensorExpireAlert, authorization denied")
-                    return
-                    
-                }
-            } else {
-                // Fallback on earlier versions
-                guard (settings.authorizationStatus == .authorized ) else {
-                    NSLog("dabear:: not sending SensorExpireAlert, authorization denied")
-                    return
-                    
-                }
+        ensureCanSendNotification { (ensured) in
+            
+            guard (ensured) else {
+                NSLog("dabear:: not sending SensorExpireAlert notification")
+                return
             }
             NSLog("dabear:: sending SensorExpireAlert notification")
-            
-            
-            
+
             
             let content = UNMutableNotificationContent()
             content.title = "Sensor Ending Soon"

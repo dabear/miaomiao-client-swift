@@ -15,6 +15,9 @@ public enum GlucoseScheduleAlarmResult : Int, CaseIterable{
     case low
     case high
     
+    func isAlarming() -> Bool {
+        return rawValue != GlucoseScheduleAlarmResult.none.rawValue
+    }
 }
 
 public enum GlucoseScheduleAlarmResultWithSnooze{
