@@ -13,6 +13,15 @@ import LoopKit
 
 class NotificationHelper {
     
+    private enum Identifiers: String {
+        case glucocoseNotifications = "no.bjorninge.miaomiao.glucose-notification"
+        case noSensorDetected = "no.bjorninge.miaomiao.nosensordetected-notification"
+        case sensorChange = "no.bjorninge.miaomiao.sensorchange-notification"
+        case invalidSensor = "no.bjorninge.miaomiao.invalidsensor-notification"
+        case lowBattery = "no.bjorninge.miaomiao.lowbattery-notification"
+        case sensorExpire = "no.bjorninge.miaomiao.SensorExpire-notification"
+    }
+    
     private static var glucoseFormatterMgdl: QuantityFormatter = {
         let formatter = QuantityFormatter()
         formatter.setPreferredNumberFormatter(for: HKUnit.milligramsPerDeciliter)
@@ -164,7 +173,7 @@ class NotificationHelper {
             }
             
             //content.sound = UNNotificationSound.
-            let request = UNNotificationRequest(identifier: "no.bjorninge.miaomiao.glucose-notification", content: content, trigger: nil)
+            let request = UNNotificationRequest(identifier: Identifiers.glucocoseNotifications.rawValue, content: content, trigger: nil)
             
             UNUserNotificationCenter.current().add(request) { (error) in
                 if let error = error {
@@ -204,7 +213,7 @@ class NotificationHelper {
             
             
             //content.sound = UNNotificationSound.
-            let request = UNNotificationRequest(identifier: "no.bjorninge.miaomiao.nosensordetected-notification", content: content, trigger: nil)
+            let request = UNNotificationRequest(identifier: Identifiers.noSensorDetected.rawValue, content: content, trigger: nil)
             
             UNUserNotificationCenter.current().add(request) { (error) in
                 if let error = error {
@@ -243,7 +252,7 @@ class NotificationHelper {
             
             
             //content.sound = UNNotificationSound.
-            let request = UNNotificationRequest(identifier: "no.bjorninge.miaomiao.sensorchange-notification", content: content, trigger: nil)
+            let request = UNNotificationRequest(identifier: Identifiers.sensorChange.rawValue, content: content, trigger: nil)
             
             UNUserNotificationCenter.current().add(request) { (error) in
                 if let error = error {
@@ -296,7 +305,7 @@ class NotificationHelper {
             content.sound = .default()
             
             //content.sound = UNNotificationSound.
-            let request = UNNotificationRequest(identifier: "no.bjorninge.miaomiao.invalidsensor-notification", content: content, trigger: nil)
+            let request = UNNotificationRequest(identifier: Identifiers.invalidSensor.rawValue, content: content, trigger: nil)
             
             UNUserNotificationCenter.current().add(request) { (error) in
                 if let error = error {
@@ -360,7 +369,7 @@ class NotificationHelper {
             content.sound = .default()
             
             //content.sound = UNNotificationSound.
-            let request = UNNotificationRequest(identifier: "no.bjorninge.miaomiao.lowbattery-notification", content: content, trigger: nil)
+            let request = UNNotificationRequest(identifier: Identifiers.lowBattery.rawValue, content: content, trigger: nil)
             
             UNUserNotificationCenter.current().add(request) { (error) in
                 if let error = error {
@@ -422,7 +431,7 @@ class NotificationHelper {
             //content.sound = .default()
             
             //content.sound = UNNotificationSound.
-            let request = UNNotificationRequest(identifier: "no.bjorninge.miaomiao.SensorExpire-notification", content: content, trigger: nil)
+            let request = UNNotificationRequest(identifier: Identifiers.sensorExpire.rawValue, content: content, trigger: nil)
             
             UNUserNotificationCenter.current().add(request) { (error) in
                 if let error = error {
