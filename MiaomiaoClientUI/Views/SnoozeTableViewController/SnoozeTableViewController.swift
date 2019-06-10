@@ -162,8 +162,10 @@ public class SnoozeTableViewController: UITableViewController, UIPickerViewDataS
             let cell = UITableViewCell(style: UITableViewCellStyle.default, reuseIdentifier: "DefaultCell")
             let height = tableView.rectForRow(at: indexPath).height
             let pickerView = UIPickerView(frame: CGRect(x: 0, y: 0, width: tableView.frame.width, height: height))
+            
             self.pickerView = pickerView
             cell.addSubview(pickerView)
+            pickerView.fixInView(cell)
             pickerView.dataSource = self
             pickerView.delegate = self
             
