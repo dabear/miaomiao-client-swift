@@ -47,7 +47,7 @@ public class SnoozeTableViewController: UITableViewController, UIPickerViewDataS
         let mins40 = mins10*4
         
         
-        arr.append(TimeInterval(hours: -24))
+        
         
         for hr in 0..<2 {
             for min in [0.0, mins20,mins20*2]{
