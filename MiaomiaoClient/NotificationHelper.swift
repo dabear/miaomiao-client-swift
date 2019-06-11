@@ -10,6 +10,7 @@ import Foundation
 import UserNotifications
 import HealthKit
 import LoopKit
+import AudioToolbox
 
 class NotificationHelper {
     
@@ -33,6 +34,21 @@ class NotificationHelper {
         formatter.setPreferredNumberFormatter(for: HKUnit.millimolesPerLiter)
         return formatter
     }()
+    
+    public static func vibrateIfNeeded(count: Int = 3) {
+        if UserDefaults.standard.mmGlucoseAlarmsVibrate {
+            vibrate(count: count)
+        }
+    }
+    private static func vibrate(count: Int) {
+        guard count >= 0 else {
+            return
+        }
+        AudioServicesPlayAlertSoundWithCompletion(kSystemSoundID_Vibrate) {  
+            vibrate(count: count - 1)
+        }
+    }
+    
     
     private static func ensureCanSendNotification(_ completion: @escaping (_ canSend: Bool) -> Void ) -> Void{
         UNUserNotificationCenter.current().getNotificationSettings { (settings) in
@@ -130,6 +146,7 @@ class NotificationHelper {
                 } else {
                     content.title = "LOWALERT \(formatted)"
                     content.sound = .default()
+                    vibrateIfNeeded()
                 }
                 
             case .high:
@@ -139,6 +156,8 @@ class NotificationHelper {
                 } else {
                     content.title = "HIGHALERT! \(formatted)"
                     content.sound = .default()
+                    vibrateIfNeeded()
+                    
                 }
                 
             }
