@@ -83,6 +83,7 @@ public class NotificationsSettingsTableViewController: UITableViewController , m
         case noSensorDetected
         case expireSoonAlarm
         case unit
+        case glucoseVibrate
         static let count = NotificationsSettingsRow.allCases.count
     }
     
@@ -138,6 +139,13 @@ public class NotificationsSettingsTableViewController: UITableViewController , m
 
         
     }
+    
+    @objc private func notificationGlucoseAlarmsVibrate(_ sender: UISwitch) {
+        print("mmGlucoseAlarmsVibrate changed to \(sender.isOn)")
+        UserDefaults.standard.mmGlucoseAlarmsVibrate = sender.isOn
+    }
+    
+    
     
     func mmTextFieldViewCellDidUpdateValue(_ cell: mmTextFieldViewCell, value: String?) {
         
@@ -266,6 +274,17 @@ public class NotificationsSettingsTableViewController: UITableViewController , m
             switchCell.toggleIsSelected?.addTarget(self, action: #selector(notificationlertWillSoonExpireChanged(_:)), for: .valueChanged)
             switchCell.contentView.layoutMargins.left = tableView.separatorInset.left
             return switchCell
+        case .glucoseVibrate:
+            let switchCell = tableView.dequeueReusableCell(withIdentifier: mmSwitchTableViewCell.className, for: indexPath) as! mmSwitchTableViewCell
+            
+            switchCell.toggleIsSelected?.isOn = UserDefaults.standard.mmGlucoseAlarmsVibrate
+            //switchCell.titleLabel?.text = "test"
+            
+            switchCell.titleLabel?.text = NSLocalizedString("Glucose Alarms vibrate", comment: "The title text for the Glucose Alarms vibrate notifications")
+            
+            switchCell.toggleIsSelected?.addTarget(self, action: #selector(notificationGlucoseAlarmsVibrate(_:)), for: .valueChanged)
+            switchCell.contentView.layoutMargins.left = tableView.separatorInset.left
+            return switchCell
         }
     }
     
@@ -304,6 +323,8 @@ public class NotificationsSettingsTableViewController: UITableViewController , m
             print("selected expireSoonAlarm")
         case .alertEveryXTime:
             print("selected alertEveryXTime")
+        case .glucoseVibrate:
+            print("selected glucoseVibrate")
         }
         
         tableView.deselectRow(at: indexPath, animated: true)
