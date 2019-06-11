@@ -172,10 +172,15 @@ class NotificationHelper {
                 content.body += ", \(trend)"
             }
             
+            let center = UNUserNotificationCenter.current()
             //content.sound = UNNotificationSound.
             let request = UNNotificationRequest(identifier: Identifiers.glucocoseNotifications.rawValue, content: content, trigger: nil)
             
-            UNUserNotificationCenter.current().add(request) { (error) in
+            // Required since ios12+ have started to cache/group notifications
+            center.removeDeliveredNotifications(withIdentifiers: [Identifiers.glucocoseNotifications.rawValue])
+            center.removePendingNotificationRequests(withIdentifiers: [Identifiers.glucocoseNotifications.rawValue])
+            
+            center.add(request) { (error) in
                 if let error = error {
                     NSLog("dabear:: unable to add glucose notification: \(error.localizedDescription)")
                 }
@@ -209,13 +214,14 @@ class NotificationHelper {
             content.title = "No Sensor Detected"
             content.body = "This might be an intermittent problem, but please check that your miaomiao is tightly secured over your sensor"
             
+            let center = UNUserNotificationCenter.current()
             
-            
+           
             
             //content.sound = UNNotificationSound.
             let request = UNNotificationRequest(identifier: Identifiers.noSensorDetected.rawValue, content: content, trigger: nil)
             
-            UNUserNotificationCenter.current().add(request) { (error) in
+            center.add(request) { (error) in
                 if let error = error {
                     NSLog("dabear:: unable to add no sensordetected-notification: \(error.localizedDescription)")
                 }
