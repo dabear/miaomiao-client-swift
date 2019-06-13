@@ -108,6 +108,8 @@
 		27E0968D22A9806200B3164D /* CGFLoat+Double.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27E0968C22A9806200B3164D /* CGFLoat+Double.swift */; };
 		27E0968F22A9AD6F00B3164D /* TimeIntervalExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27E0968E22A9AD6F00B3164D /* TimeIntervalExtensions.swift */; };
 		27E0969122B2A89D00B3164D /* CalibrationEditTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27E0969022B2A89D00B3164D /* CalibrationEditTableViewController.swift */; };
+		27E0969422B2C4D700B3164D /* mmTextFieldViewCell2.xib in Resources */ = {isa = PBXBuildFile; fileRef = 27E0969222B2C4D700B3164D /* mmTextFieldViewCell2.xib */; };
+		27E0969522B2C4D700B3164D /* mmTextFieldViewCell2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27E0969322B2C4D700B3164D /* mmTextFieldViewCell2.swift */; };
 		27E3C390222EDF560036AAC7 /* LibreError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27E3C38F222EDF560036AAC7 /* LibreError.swift */; };
 		27E3C393222EE2EC0036AAC7 /* Calibration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27E3C392222EE2EC0036AAC7 /* Calibration.swift */; };
 		27E3C398222EE9450036AAC7 /* LibreOOPDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27E3C395222EE9450036AAC7 /* LibreOOPDefaults.swift */; };
@@ -267,6 +269,8 @@
 		27E0968C22A9806200B3164D /* CGFLoat+Double.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CGFLoat+Double.swift"; sourceTree = "<group>"; };
 		27E0968E22A9AD6F00B3164D /* TimeIntervalExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeIntervalExtensions.swift; sourceTree = "<group>"; };
 		27E0969022B2A89D00B3164D /* CalibrationEditTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CalibrationEditTableViewController.swift; sourceTree = "<group>"; };
+		27E0969222B2C4D700B3164D /* mmTextFieldViewCell2.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = mmTextFieldViewCell2.xib; sourceTree = "<group>"; };
+		27E0969322B2C4D700B3164D /* mmTextFieldViewCell2.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = mmTextFieldViewCell2.swift; sourceTree = "<group>"; };
 		27E3C38F222EDF560036AAC7 /* LibreError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibreError.swift; sourceTree = "<group>"; };
 		27E3C392222EE2EC0036AAC7 /* Calibration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Calibration.swift; sourceTree = "<group>"; };
 		27E3C395222EE9450036AAC7 /* LibreOOPDefaults.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LibreOOPDefaults.swift; sourceTree = "<group>"; };
@@ -452,6 +456,8 @@
 		275C3D8F229476D600E27439 /* mmSwitchTableViewCell */ = {
 			isa = PBXGroup;
 			children = (
+				27E0969322B2C4D700B3164D /* mmTextFieldViewCell2.swift */,
+				27E0969222B2C4D700B3164D /* mmTextFieldViewCell2.xib */,
 				275C3DA0229D9BBB00E27439 /* mmTextFieldViewCell.swift */,
 				275C3D9E229D9AD500E27439 /* mmTextFieldViewCell.xib */,
 				275C3D94229AA69C00E27439 /* mmSwitchTableViewCell.swift */,
@@ -854,6 +860,7 @@
 				27E0968122A6E9AB00B3164D /* SnoozeView.xib in Resources */,
 				275C3D9A229AA88500E27439 /* mmSwitchTableViewCell.xib in Resources */,
 				277DAD42226F9CD000422ADA /* pickercell.xib in Resources */,
+				27E0969422B2C4D700B3164D /* mmTextFieldViewCell2.xib in Resources */,
 				2701478A227B53AB0013C9E3 /* miaomiao-small.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -976,6 +983,7 @@
 				27E0968A22A9768800B3164D /* SnoozeTableViewController.swift in Sources */,
 				2701478D2281FA4A0013C9E3 /* NotificationsSettingsTableViewController.swift in Sources */,
 				277DAD41226F9CD000422ADA /* pickercell.swift in Sources */,
+				27E0969522B2C4D700B3164D /* mmTextFieldViewCell2.swift in Sources */,
 				272FAF08228CA590002D8064 /* SegmentViewCell.swift in Sources */,
 				27E0968F22A9AD6F00B3164D /* TimeIntervalExtensions.swift in Sources */,
 				277DAD0E226B971A00422ADA /* UserDefaults+Alarmsettings.swift in Sources */,

@@ -505,7 +505,7 @@ public class MiaomiaoClientSettingsViewController: UITableViewController, SubVie
                 if UserDefaults.standard.dangerModeActivated {
                     //ok
                     print("user can edit calibrations")
-                    let controller = CalibrationEditTableViewController()
+                    let controller = CalibrationEditTableViewController(cgmManager: self.cgmManager)
                     self.show(controller, sender: self)
                 } else {
                     self.presentStatus(OKAlertController("Could not access calibration settings, danger mode was node activated!", title: "No can do!"))

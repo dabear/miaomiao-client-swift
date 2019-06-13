@@ -10,14 +10,16 @@ import LoopKitUI
 import LoopKit
 
 import HealthKit
+import MiaomiaoClient
 
-
-public class CalibrationEditTableViewController: UITableViewController , mmTextFieldViewCellCellDelegate {
+public class CalibrationEditTableViewController: UITableViewController , mmTextFieldViewCellCellDelegate2 {
+    
+    public var cgmManager: MiaoMiaoClientManager?
     
     
     override public func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        print("NotificationsSettingsTableViewController will now disappear")
+        print("CalibrationEditTableViewController will now disappear")
         disappearDelegate?.onDisappear()
     }
     
@@ -25,15 +27,20 @@ public class CalibrationEditTableViewController: UITableViewController , mmTextF
    
     
   
-    
+    private var newParams : DerivedAlgorithmParameters?
     
 
     
-    public init() {
-        
+    public init(cgmManager: MiaoMiaoClientManager?) {
+        self.cgmManager = cgmManager
         super.init(style: .grouped)
         
+        newParams = cgmManager?.keychain.getLibreCalibrationData()
         
+        // for testing only
+        /*
+         newParams = DerivedAlgorithmParameters(slope_slope: 0.0, slope_offset:0.0, offset_slope: 0.0, offset_offset: 0.0, isValidForFooterWithReverseCRCs: 1234, extraSlope: 1.0, extraOffset: 0.0)
+         */
         
         
     }
@@ -45,6 +52,7 @@ public class CalibrationEditTableViewController: UITableViewController , mmTextF
         super.viewDidLoad()
         
         tableView.register(AlarmTimeInputRangeCell.nib(), forCellReuseIdentifier: AlarmTimeInputRangeCell.className)
+        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "UITableViewCell")
         
         tableView.register(GlucoseAlarmInputCell.nib(), forCellReuseIdentifier: GlucoseAlarmInputCell.className)
         
@@ -54,7 +62,7 @@ public class CalibrationEditTableViewController: UITableViewController , mmTextF
         
         tableView.register(mmSwitchTableViewCell.nib(), forCellReuseIdentifier: mmSwitchTableViewCell.className)
         
-        tableView.register(mmTextFieldViewCell.nib(), forCellReuseIdentifier: mmTextFieldViewCell.className)
+        tableView.register(mmTextFieldViewCell2.nib(), forCellReuseIdentifier: mmTextFieldViewCell2.className)
         self.tableView.rowHeight = 44;
     }
     
@@ -90,58 +98,43 @@ public class CalibrationEditTableViewController: UITableViewController , mmTextF
             return 1
         }
     }
-    private weak var notificationEveryXTimesCell: mmTextFieldViewCell?
-    @objc private func notificationAlwaysChanged(_ sender: UISwitch) {
-        print("notificationalways changed to \(sender.isOn)")
-        UserDefaults.standard.mmAlwaysDisplayGlucose = sender.isOn
-        notificationEveryXTimesCell?.isEnabled = !sender.isOn
-    }
+    /*
+    weak var slopeslopece: mmTextFieldViewCell2?
+    weak var slopeslopeCell: mmTextFieldViewCell2?
+    weak var slopeoffsetCell: mmTextFieldViewCell2?
+    weak var offsetslopeCell: mmTextFieldViewCell2?
+    weak var offsetoffsetCell: mmTextFieldViewCell2?
+    weak var isValidForFooterWithCRCsCell: mmTextFieldViewCell2?
+    */
     
-    @objc private func notificationLowBatteryChanged(_ sender: UISwitch) {
-        print("notificationLowBatteryChanged changed to \(sender.isOn)")
-        UserDefaults.standard.mmAlertLowBatteryWarning = sender.isOn
-    }
-    @objc private func alarmsSchedulesActivatedChanged(_ sender: UISwitch) {
-        print("alarmsSchedulesActivatedChanged changed to \(sender.isOn)")
-        //UserDefaults.standard. = sender.isOn
-    }
-    
-    @objc private func sensorChangeEventChanged(_ sender: UISwitch) {
-        print("sensorChangeEventChanged changed to \(sender.isOn)")
-        UserDefaults.standard.mmAlertNewSensorDetected = sender.isOn
-    }
-    
-    @objc private func notificationlertWillSoonExpireChanged(_ sender: UISwitch) {
-        print("mmAlertWillSoonExpire changed to \(sender.isOn)")
-        UserDefaults.standard.mmAlertWillSoonExpire = sender.isOn
-    }
-    
-    
-    @objc private func noSensorDetectedEventChanged(_ sender: UISwitch) {
-        print("noSensorDetectedEventChanged changed to \(sender.isOn)")
-        UserDefaults.standard.mmAlertNoSensorDetected = sender.isOn
-    }
-    
-    @objc private func unitSegmentValueChanged(_ sender: UISegmentedControl) {
-      
-
-        
-    }
-    
-    @objc private func notificationGlucoseAlarmsVibrate(_ sender: UISwitch) {
-        print("mmGlucoseAlarmsVibrate changed to \(sender.isOn)")
-        UserDefaults.standard.mmGlucoseAlarmsVibrate = sender.isOn
-    }
-    
-    
-    
-    func mmTextFieldViewCellDidUpdateValue(_ cell: mmTextFieldViewCell, value: String?) {
-        
-        if let value = value, let intVal = Int(value) {
-            print("textfield was updated: \(intVal)")
-            UserDefaults.standard.mmNotifyEveryXTimes = intVal
+    func mmTextFieldViewCellDidUpdateValue(_ cell: mmTextFieldViewCell2, value: String?) {
+        if let value = value, let numVal = Double(value) {
+            
+            
+            
+            switch CalibrationDataInfoRow(rawValue: cell.tag)! {
+            case .isValidForFooterWithCRCs:
+                //this should not happen as crc can not change
+                
+                print("isValidForFooterWithCRCs was updated: \(numVal)")
+            case .slopeslope:
+                newParams?.slope_slope = numVal
+                print("slopeslope was updated: \(numVal)")
+            case .slopeoffset:
+                newParams?.slope_offset = numVal
+                print("slopeoffset was updated: \(numVal)")
+            case .offsetslope:
+                newParams?.offset_slope = numVal
+                print("offsetslope was updated: \(numVal)")
+            case .offsetoffset:
+                newParams?.offset_offset = numVal
+                print("offsetoffset was updated: \(numVal)")
+            }
+            
         }
     }
+    
+    
     
     
     
@@ -157,49 +150,50 @@ public class CalibrationEditTableViewController: UITableViewController , mmTextF
         }
         
         
+        
+        
+        
+        
         switch CalibrationDataInfoRow(rawValue: indexPath.row)! {
         case .offsetoffset:
-            let cell = (tableView.dequeueReusableCell(withIdentifier: mmTextFieldViewCell.className, for: indexPath) as! mmTextFieldViewCell)
-            
-            cell.textInput?.text = "-1"
+            let cell = (tableView.dequeueReusableCell(withIdentifier: mmTextFieldViewCell2.className, for: indexPath) as! mmTextFieldViewCell2)
+            cell.tag = indexPath.row
+            cell.textInput?.text = String(newParams?.offset_offset ?? 0)
             cell.titleLabel.text = NSLocalizedString("offsetoffset", comment: "The title text for offsetoffset calibration setting")
             cell.delegate = self
             
             return cell
             
         case .offsetslope:
-            let cell = (tableView.dequeueReusableCell(withIdentifier: mmTextFieldViewCell.className, for: indexPath) as! mmTextFieldViewCell)
-            cell.textInput?.text = "-1"
+            let cell = (tableView.dequeueReusableCell(withIdentifier: mmTextFieldViewCell2.className, for: indexPath) as! mmTextFieldViewCell2)
+            cell.tag = indexPath.row
+            cell.textInput?.text = String(newParams?.offset_slope ?? 0)
             cell.titleLabel.text = NSLocalizedString("offsetslope", comment: "The title text for offsetslope calibration setting")
             cell.delegate = self
+            
             return cell
         case .slopeoffset:
-            let cell = (tableView.dequeueReusableCell(withIdentifier: mmTextFieldViewCell.className, for: indexPath) as! mmTextFieldViewCell)
-            cell.textInput?.text = "-1"
+            let cell = (tableView.dequeueReusableCell(withIdentifier: mmTextFieldViewCell2.className, for: indexPath) as! mmTextFieldViewCell2)
+            cell.tag = indexPath.row
+            cell.textInput?.text = String(newParams?.slope_offset ?? 0)
             cell.titleLabel.text = NSLocalizedString("slopeoffset", comment: "The title text for slopeoffset calibration setting")
             cell.delegate = self
             return cell
         case .slopeslope:
-            let cell = (tableView.dequeueReusableCell(withIdentifier: mmTextFieldViewCell.className, for: indexPath) as! mmTextFieldViewCell)
+            let cell = (tableView.dequeueReusableCell(withIdentifier: mmTextFieldViewCell2.className, for: indexPath) as! mmTextFieldViewCell2)
             
-            
-            cell.textInput?.allowedChars = ""
-            cell.textInput?.maxLength = 99
-        
-            
-            cell.textInput?.text = "-1"
+            cell.tag = indexPath.row
+            cell.textInput?.text = String(newParams?.slope_slope ?? 0)
             cell.titleLabel.text = NSLocalizedString("slopeslope", comment: "The title text for slopeslope calibration setting")
             cell.delegate = self
             return cell
             
         case .isValidForFooterWithCRCs:
-            let cell = (tableView.dequeueReusableCell(withIdentifier: mmTextFieldViewCell.className, for: indexPath) as! mmTextFieldViewCell)
+            let cell = (tableView.dequeueReusableCell(withIdentifier: mmTextFieldViewCell2.className, for: indexPath) as! mmTextFieldViewCell2)
             
-           
-            
-            cell.textInput?.allowedChars = ""
-            cell.textInput?.maxLength = 99
-            cell.textInput?.text = "11111"
+            cell.tag = indexPath.row
+          
+            cell.textInput?.text = String(newParams?.isValidForFooterWithReverseCRCs ?? 0)
             
             cell.titleLabel.text = NSLocalizedString("IsValidForFooter", comment: "The title for the footer crc checksum linking these calibration values to this particular sensor")
             cell.delegate = self
@@ -246,7 +240,25 @@ public class CalibrationEditTableViewController: UITableViewController , mmTextF
             }
         case .sync:
             print("calibration save clicked")
-            let controller = ErrorAlertController("Nope, not implemented!", title: "nope")
+            var isSaved  = false
+            let controller : UIAlertController
+            
+            if let params = newParams {
+                do {
+                    try self.cgmManager?.keychain.setLibreCalibrationData(params)
+                    isSaved = true
+                } catch {
+                    print("error: \(error.localizedDescription)")
+                }
+            }
+            
+            if isSaved {
+                controller = OKAlertController("Calibrations saved!", title: "ok")
+            } else {
+                controller = ErrorAlertController("Calibrations could not be saved, Check that footer crc is non-zero and that all values have sane defaults", title: "calibration error")
+            }
+            
+            
             self.present(controller, animated: false)
            
         }

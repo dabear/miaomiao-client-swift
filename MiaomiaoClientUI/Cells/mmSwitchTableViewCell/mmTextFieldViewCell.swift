@@ -80,7 +80,7 @@ class mmTextFieldViewCell: UITableViewCell, UITextFieldDelegate {
 
 
 // 2
-extension UITextField {
+extension AllowedCharsTextField {
     
     // 3
     @IBInspectable var maxLength: Int {
@@ -104,9 +104,12 @@ extension UITextField {
     
     @objc func limitLength(textField: UITextField) {
         // 6
+        NSLog("maxlength for uitextfield is: \(maxLength)")
         guard let prospectiveText = textField.text, prospectiveText.count > maxLength else {
-                return
+            NSLog("limitlength returned, prospectiveText.count is \(textField.text?.count)")
+            return
         }
+        NSLog("limitlength continue")
         
         let selection = selectedTextRange
        

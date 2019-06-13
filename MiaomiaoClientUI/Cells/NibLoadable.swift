@@ -27,4 +27,5 @@ extension GlucoseAlarmInputCell: NibLoadable {}
 extension SegmentViewCell: NibLoadable {}
 extension mmSwitchTableViewCell: NibLoadable {}
 extension mmTextFieldViewCell: NibLoadable {}
+extension mmTextFieldViewCell2: NibLoadable {}
 extension SnoozeView: NibLoadable {}
