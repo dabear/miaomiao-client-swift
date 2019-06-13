@@ -15,7 +15,7 @@ import MiaomiaoClient
 
 public class MiaomiaoClientSettingsViewController: UITableViewController, SubViewControllerWillDisappear {
     public func onDisappear() {
-        // this is being called only from alarm and notifications ui
+        // this is being called only from alarm, calibration and notifications ui
         // when they disappear
         // the idea is to reload certain gui elements that may have changed
         self.tableView.reloadData()
@@ -506,6 +506,7 @@ public class MiaomiaoClientSettingsViewController: UITableViewController, SubVie
                     //ok
                     print("user can edit calibrations")
                     let controller = CalibrationEditTableViewController(cgmManager: self.cgmManager)
+                    controller.disappearDelegate = self
                     self.show(controller, sender: self)
                 } else {
                     self.presentStatus(OKAlertController("Could not access calibration settings, danger mode was node activated!", title: "No can do!"))

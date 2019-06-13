@@ -38,9 +38,9 @@ public class CalibrationEditTableViewController: UITableViewController , mmTextF
         newParams = cgmManager?.keychain.getLibreCalibrationData()
         
         // for testing only
-        /*
-         newParams = DerivedAlgorithmParameters(slope_slope: 0.0, slope_offset:0.0, offset_slope: 0.0, offset_offset: 0.0, isValidForFooterWithReverseCRCs: 1234, extraSlope: 1.0, extraOffset: 0.0)
-         */
+        
+         /*newParams = DerivedAlgorithmParameters(slope_slope: 0.0, slope_offset:0.0, offset_slope: 0.0, offset_offset: 0.0, isValidForFooterWithReverseCRCs: 1234, extraSlope: 1.0, extraOffset: 0.0)*/
+        
         
         
     }
