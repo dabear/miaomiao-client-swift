@@ -131,15 +131,16 @@ public class MiaomiaoClientSettingsViewController: UITableViewController, SubVie
         case offsetoffset
         case isValidForFooterWithCRCs
         
+        case edit
         
-        static let count = 5
+        static let count = 6
     }
     
     private enum AdvancedSettingsRow: Int {
         case alarms
         case glucoseNotifications
-        
-        static let count = 2
+        case dangermode
+        static let count = 3
     }
 
     override public func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -178,6 +179,35 @@ public class MiaomiaoClientSettingsViewController: UITableViewController, SubVie
         formatter.doesRelativeDateFormatting = true
         return formatter
     }()
+    
+    private func dangerModeActivation(_ isOk: Bool, controller: UIAlertController) {
+        if isOk, let textfield = (controller.textFields?[safe: 0]), let text = textfield.text {
+            if let bundleSeed = bundleSeedID() {
+                
+                let controller: UIAlertController
+                if text.trimmingCharacters(in: .whitespaces).lowercased() == bundleSeed.lowercased() {
+                    UserDefaults.standard.dangerModeActivated = true
+                    controller = OKAlertController("Danger mode activated! You can now edit calibrations!", title: "Danger mode successful")
+                } else {
+                    controller = ErrorAlertController("Danger mode could not be activated, check that your team identifier matches", title: "Danger mode unsuccessful")
+                    
+                }
+                let dangerCellIndex = IndexPath(row: AdvancedSettingsRow.dangermode.rawValue, section: Section.advanced.rawValue)
+                
+                
+                
+                let editCellIndex = IndexPath(row:  LatestCalibrationDataInfoRow.edit.rawValue, section: Section.latestCalibrationData.rawValue)
+                
+                self.tableView.reloadRows(at: [dangerCellIndex, editCellIndex],with: .none)
+                
+                self.presentStatus(controller)
+                
+                
+                
+            }
+            
+        }
+    }
 
     public override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         switch Section(rawValue: indexPath.section)! {
@@ -316,6 +346,16 @@ public class MiaomiaoClientSettingsViewController: UITableViewController, SubVie
                 } else {
                     cell.detailTextLabel?.text = SettingsTableViewCell.NoValueString
                 }
+            case .edit:
+                
+                cell.textLabel?.text = LocalizedString("Edit", comment: "Title describing calibrationdata edit button")
+                cell.textLabel?.textColor = UIColor.blue
+                if UserDefaults.standard.dangerModeActivated{
+                    cell.detailTextLabel?.text = "Edit calibrations"
+                    cell.accessoryType = .disclosureIndicator
+                } else {
+                    cell.detailTextLabel?.text = "Not Available"
+                }
             }
             return cell
         case .sensorInfo:
@@ -352,6 +392,7 @@ public class MiaomiaoClientSettingsViewController: UITableViewController, SubVie
                 let totalSchedules = max(UserDefaults.standard.glucoseSchedules?.schedules.count ?? 0, GlucoseScheduleList.minimumSchedulesCount) 
                 
                 cell.detailTextLabel?.text = "enabled: \(schedules) / \(totalSchedules)"
+                cell.accessoryType = .disclosureIndicator
             case .glucoseNotifications:
                 cell.textLabel?.text = LocalizedString("Notifications", comment: "Title describing  Notifications Setup")
                 
@@ -359,9 +400,20 @@ public class MiaomiaoClientSettingsViewController: UITableViewController, SubVie
                 let positives = allToggles.filter( { $0}).count
                 
                 cell.detailTextLabel?.text = "enabled: \(positives) / \(allToggles.count)"
+                cell.accessoryType = .disclosureIndicator
+            case .dangermode:
+                cell.textLabel?.text = LocalizedString("Danger mode", comment: "Title describing  Advanced dangerous settings button")
+                
+                
+                if UserDefaults.standard.dangerModeActivated {
+                    cell.detailTextLabel?.text = "Activated"
+                } else {
+                    cell.detailTextLabel?.text = "Deactivated"
+                }
+                
             }
             
-            cell.accessoryType = .disclosureIndicator
+            
             return cell
         case .snooze:
             //let cell = tableView.dequeueReusableCell(withIdentifier: SettingsTableViewCell.className, for: indexPath) as! SettingsTableViewCell
@@ -449,6 +501,19 @@ public class MiaomiaoClientSettingsViewController: UITableViewController, SubVie
             tableView.deselectRow(at: indexPath, animated: true)
         case .latestCalibrationData:
             
+            if LatestCalibrationDataInfoRow(rawValue: indexPath.row)! == .edit {
+                if UserDefaults.standard.dangerModeActivated {
+                    //ok
+                    print("user can edit calibrations")
+                    let controller = CalibrationEditTableViewController()
+                    self.show(controller, sender: self)
+                } else {
+                    self.presentStatus(OKAlertController("Could not access calibration settings, danger mode was node activated!", title: "No can do!"))
+                }
+                tableView.deselectRow(at: indexPath, animated: true)
+                return
+            }
+            
             let confirmVC = UIAlertController(calibrateHandler:  {
                
                 if let cgmManager = self.cgmManager {
@@ -518,6 +583,23 @@ public class MiaomiaoClientSettingsViewController: UITableViewController, SubVie
                 let controller = NotificationsSettingsTableViewController(glucoseUnit: self.glucoseUnit)
                 controller.disappearDelegate = self
                 show(controller, sender: nil)
+            case .dangermode:
+                if UserDefaults.standard.dangerModeActivated {
+                    UserDefaults.standard.dangerModeActivated = false
+                    let dangerCellIndex = IndexPath(row: AdvancedSettingsRow.dangermode.rawValue, section: Section.advanced.rawValue)
+                    let editCellIndex = IndexPath(row:  LatestCalibrationDataInfoRow.edit.rawValue, section: Section.latestCalibrationData.rawValue)
+                    self.tableView.reloadRows(at: [dangerCellIndex, editCellIndex], with: .none)
+                    
+                } else {
+                    let team = bundleSeedID() ?? "Unknown???!"
+                    let msg = "To activate dangermode, please input your team identifier. It is important that you take an active choice here, so don't copy/paste but type it in correctly. Your team identifer is: \(team)"
+                    
+                    let controller = InputAlertController(msg, title: "Activate danger mode", inputPlaceholder: "Enter your team identifer") { [weak self] (isOk, controller) in
+                        self?.dangerModeActivation(isOk, controller: controller)
+                        
+                    }
+                    self.presentStatus(controller)
+                }
             }
             
             

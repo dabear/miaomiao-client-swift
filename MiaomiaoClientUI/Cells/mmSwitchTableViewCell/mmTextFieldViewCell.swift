@@ -54,7 +54,7 @@ class mmTextFieldViewCell: UITableViewCell, UITextFieldDelegate {
         }
     }
     
-    @IBOutlet weak var textInput: UITextField?
+    @IBOutlet weak var textInput: AllowedCharsTextField?
     
     
     
@@ -137,6 +137,9 @@ class AllowedCharsTextField: UITextField, UITextFieldDelegate {
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         // 6
         guard string.count > 0 else {
+            return true
+        }
+        guard allowedChars.count > 0 else {
             return true
         }
         

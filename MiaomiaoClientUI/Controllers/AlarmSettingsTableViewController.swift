@@ -118,6 +118,8 @@ public class AlarmSettingsTableViewController: UITableViewController, AlarmTimeI
         //2. Present the timePicker
         //self.navigationController?.pushViewController(timePicker, animated: true)
         self.navigationController?.show(timePicker, sender: cell)
+        self.show(timePicker, sender:  cell)
+        
         timePicker.delegate = self
         self.datepickerSender = cell
     }
