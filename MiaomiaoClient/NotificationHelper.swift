@@ -44,7 +44,8 @@ class NotificationHelper {
         guard count >= 0 else {
             return
         }
-        AudioServicesPlayAlertSoundWithCompletion(kSystemSoundID_Vibrate) {  
+        
+        AudioServicesPlaySystemSoundWithCompletion(kSystemSoundID_Vibrate) {
             vibrate(count: count - 1)
         }
     }

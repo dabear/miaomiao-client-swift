@@ -353,14 +353,17 @@ public class MiaomiaoClientSettingsViewController: UITableViewController, SubVie
                     cell.detailTextLabel?.text = SettingsTableViewCell.NoValueString
                 }
             case .edit:
-                cell = tableView.dequeueReusableCell(withIdentifier: TextButtonTableViewCell.className, for: indexPath) as! TextButtonTableViewCell
+                cell = tableView.dequeueReusableCell(withIdentifier: TextButtonTableViewCell.className, for: indexPath) 
                 
-                cell.textLabel?.text = LocalizedString("Edit Notifications", comment: "Title describing calibrationdata edit button")
+                cell.textLabel?.text = LocalizedString("Edit Calibrations", comment: "Title describing calibrationdata edit button")
+            
                 cell.textLabel?.textColor = UIColor.blue
                 if UserDefaults.standard.dangerModeActivated{
+                    
                     cell.detailTextLabel?.text = "Available"
                     cell.accessoryType = .disclosureIndicator
                 } else {
+                    
                     cell.detailTextLabel?.text = "Unavailable"
                 }
             case .extraSlope:
