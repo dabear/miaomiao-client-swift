@@ -80,9 +80,9 @@ struct Measurement {
             //        self.oopSlope = slope_slope * Double(rawTemperature) + slope_offset
             //        self.oopOffset = offset_slope * Double(rawTemperature) + offset_offset
             let oopGlucose = oopSlope * Double(rawGlucose) + oopOffset
-            self.temperatureAlgorithmGlucose = oopGlucose
+            //self.temperatureAlgorithmGlucose = oopGlucose
             // Final correction, if sensor values are very low and need to be compensated
-            //self.temperatureAlgorithmGlucose = oopGlucose * derivedAlgorithmParameterSet.additionalSlope + derivedAlgorithmParameterSet.additionalOffset
+            self.temperatureAlgorithmGlucose = oopGlucose * derivedAlgorithmParameterSet.extraSlope + derivedAlgorithmParameterSet.extraOffset
         } else {
             self.oopSlope = 0
             self.oopOffset = 0

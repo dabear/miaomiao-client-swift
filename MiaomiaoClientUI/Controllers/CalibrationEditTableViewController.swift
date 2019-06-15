@@ -71,11 +71,13 @@ public class CalibrationEditTableViewController: UITableViewController , mmTextF
         case slopeoffset
         case offsetslope
         case offsetoffset
+        case extraoffset
+        case extraslope
         case isValidForFooterWithCRCs
         
         
         
-        static let count = 5
+        static let count = 7
     }
     
     private enum Section: Int {
@@ -129,6 +131,12 @@ public class CalibrationEditTableViewController: UITableViewController , mmTextF
             case .offsetoffset:
                 newParams?.offset_offset = numVal
                 print("offsetoffset was updated: \(numVal)")
+            case .extraoffset:
+                newParams?.extraOffset = numVal
+                print("extraoffset was updated: \(numVal)")
+            case .extraslope:
+                newParams?.extraSlope = numVal
+                print("extraslope was updated: \(numVal)")
             }
             
         }
@@ -199,6 +207,22 @@ public class CalibrationEditTableViewController: UITableViewController , mmTextF
             cell.delegate = self
             cell.isEnabled = false
             return cell
+        case .extraoffset:
+            let cell = (tableView.dequeueReusableCell(withIdentifier: mmTextFieldViewCell2.className, for: indexPath) as! mmTextFieldViewCell2)
+            
+            cell.tag = indexPath.row
+            cell.textInput?.text = String(newParams?.extraOffset ?? 0)
+            cell.titleLabel.text = NSLocalizedString("extraOffset", comment: "The title text for extra offset calibration setting")
+            cell.delegate = self
+            return cell
+        case .extraslope:
+            let cell = (tableView.dequeueReusableCell(withIdentifier: mmTextFieldViewCell2.className, for: indexPath) as! mmTextFieldViewCell2)
+            
+            cell.tag = indexPath.row
+            cell.textInput?.text = String(newParams?.extraSlope ?? 0)
+            cell.titleLabel.text = NSLocalizedString("extraSlope", comment: "The title text for extra slope calibration setting")
+            cell.delegate = self
+            return cell
         }
     }
     
@@ -237,6 +261,10 @@ public class CalibrationEditTableViewController: UITableViewController , mmTextF
                 print("offsetoffset clicked")
             case .isValidForFooterWithCRCs:
                 print("isValidForFooterWithCRCs clicked")
+            case .extraoffset:
+                print("extraoffset clicked")
+            case .extraslope:
+                print("extraslope clicked")
             }
         case .sync:
             print("calibration save clicked")

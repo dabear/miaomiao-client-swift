@@ -129,11 +129,15 @@ public class MiaomiaoClientSettingsViewController: UITableViewController, SubVie
         case slopeoffset
         case offsetslope
         case offsetoffset
+        case extraSlope
+        case extraOffset
+        
         case isValidForFooterWithCRCs
+        
         
         case edit
         
-        static let count = 6
+        static let count = 8
     }
     
     private enum AdvancedSettingsRow: Int {
@@ -294,7 +298,7 @@ public class MiaomiaoClientSettingsViewController: UITableViewController, SubVie
             
             return cell
         case .latestCalibrationData:
-            let cell = tableView.dequeueReusableCell(withIdentifier: SettingsTableViewCell.className, for: indexPath) as! SettingsTableViewCell
+            var cell = tableView.dequeueReusableCell(withIdentifier: SettingsTableViewCell.className, for: indexPath)
             
             let data = cgmManager?.calibrationData
             /*
@@ -302,6 +306,8 @@ public class MiaomiaoClientSettingsViewController: UITableViewController, SubVie
              case slopeoffset
              case offsetslope
              case offsetoffset
+             extraSlope
+             extraOffset
              */
             switch LatestCalibrationDataInfoRow(rawValue: indexPath.row)! {
             
@@ -347,14 +353,31 @@ public class MiaomiaoClientSettingsViewController: UITableViewController, SubVie
                     cell.detailTextLabel?.text = SettingsTableViewCell.NoValueString
                 }
             case .edit:
+                cell = tableView.dequeueReusableCell(withIdentifier: TextButtonTableViewCell.className, for: indexPath) as! TextButtonTableViewCell
                 
-                cell.textLabel?.text = LocalizedString("Edit", comment: "Title describing calibrationdata edit button")
+                cell.textLabel?.text = LocalizedString("Edit Notifications", comment: "Title describing calibrationdata edit button")
                 cell.textLabel?.textColor = UIColor.blue
                 if UserDefaults.standard.dangerModeActivated{
-                    cell.detailTextLabel?.text = "Edit calibrations"
+                    cell.detailTextLabel?.text = "Available"
                     cell.accessoryType = .disclosureIndicator
                 } else {
-                    cell.detailTextLabel?.text = "Not Available"
+                    cell.detailTextLabel?.text = "Unavailable"
+                }
+            case .extraSlope:
+                cell.textLabel?.text = LocalizedString("Extra_slope", comment: "Title describing calibrationdata extra slope")
+                
+                if let data=data{
+                    cell.detailTextLabel?.text = "\(data.extraSlope)"
+                } else {
+                    cell.detailTextLabel?.text = SettingsTableViewCell.NoValueString
+                }
+            case .extraOffset:
+                cell.textLabel?.text = LocalizedString("Extra_offset", comment: "Title describing calibrationdata extra offset")
+                
+                if let data=data{
+                    cell.detailTextLabel?.text = "\(data.extraOffset)"
+                } else {
+                    cell.detailTextLabel?.text = SettingsTableViewCell.NoValueString
                 }
             }
             return cell
@@ -509,7 +532,7 @@ public class MiaomiaoClientSettingsViewController: UITableViewController, SubVie
                     controller.disappearDelegate = self
                     self.show(controller, sender: self)
                 } else {
-                    self.presentStatus(OKAlertController("Could not access calibration settings, danger mode was node activated!", title: "No can do!"))
+                    self.presentStatus(OKAlertController("Could not access calibration settings, danger mode was not activated!", title: "No can do!"))
                 }
                 tableView.deselectRow(at: indexPath, animated: true)
                 return
