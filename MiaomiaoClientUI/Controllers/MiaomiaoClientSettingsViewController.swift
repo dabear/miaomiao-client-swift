@@ -91,7 +91,7 @@ public class MiaomiaoClientSettingsViewController: UITableViewController, SubVie
         
         case delete
 
-        static let count = 7
+        static let count = 8
     }
 
     override public func numberOfSections(in tableView: UITableView) -> Int {
@@ -353,7 +353,7 @@ public class MiaomiaoClientSettingsViewController: UITableViewController, SubVie
                     cell.detailTextLabel?.text = SettingsTableViewCell.NoValueString
                 }
             case .edit:
-                cell = tableView.dequeueReusableCell(withIdentifier: TextButtonTableViewCell.className, for: indexPath) 
+                cell = tableView.dequeueReusableCell(withIdentifier: TextButtonTableViewCell.className, for: indexPath)
                 
                 cell.textLabel?.text = LocalizedString("Edit Calibrations", comment: "Title describing calibrationdata edit button")
             
