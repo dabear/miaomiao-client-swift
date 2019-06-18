@@ -38,13 +38,39 @@ public protocol SubViewControllerWillDisappear: class {
     func onDisappear() -> Void
 }
 
-public class AlarmSettingsTableViewController: UITableViewController, AlarmTimeInputCellDelegate, LFTimePickerDelegate, GlucoseAlarmInputCellDelegate {
+public class AlarmSettingsTableViewController: UITableViewController, AlarmTimeInputCellDelegate,  GlucoseAlarmInputCellDelegate, CustomDatePickerDelegate { // LFTimePickerDelegate,
+    
+    func CustomDatePickerDelegateDidTapDone(fromComponent: DateComponents?, toComponents: DateComponents?) {
+        print("alertsettings, picker was set to: from:\(String(describing: fromComponent)), to: \(String(describing: toComponents))")
+        
+
+        
+        //datepickerSender?.minValue = start
+        //datepickerSender?.maxValue = end
+        datepickerSender?.minComponents = fromComponent
+        datepickerSender?.maxComponents = toComponents
+        
+        if let index = datepickerSender?.tag, let schedule = glucoseSchedules?.schedules.safeIndexAt(index, default: GlucoseSchedule()) {
+            schedule.from = fromComponent
+            schedule.to = toComponents
+            schedule.enabled = datepickerSender?.toggleIsSelected.isOn
+            
+            
+        }
+    }
+    
+    func CustomDatePickerDelegateDidTapCancel() {
+        print("alertsettings: picker was cancelled")
+    }
+    
+    
+    
    
     override public func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         
         print("AlarmSettingsTableViewController will now disappear")
-         disappearDelegate?.onDisappear()
+        disappearDelegate?.onDisappear()
         
     }
     public weak var disappearDelegate : SubViewControllerWillDisappear? = nil
@@ -86,7 +112,7 @@ public class AlarmSettingsTableViewController: UITableViewController, AlarmTimeI
     
     
     private var datepickerSender : AlarmTimeInputRangeCell?
-    public func didPickTime(_ start: String, end: String, startComponents: DateComponents?, endComponents: DateComponents?) {
+    /*public func didPickTime(_ start: String, end: String, startComponents: DateComponents?, endComponents: DateComponents?) {
         NSLog("YES, TIME WAS PICKED")
         print(startComponents)
         print(endComponents)
@@ -103,7 +129,7 @@ public class AlarmSettingsTableViewController: UITableViewController, AlarmTimeI
             
             
         }
-    }
+    }*/
     
     
     
@@ -113,12 +139,13 @@ public class AlarmSettingsTableViewController: UITableViewController, AlarmTimeI
     func AlarmTimeInputRangeCellDidTouch(_ cell: AlarmTimeInputRangeCell) {
         print("dabear:: AlarmTimeInputRangeCellDidTouch called")
         //1. Create a LFTimePickerController
-        let timePicker = LFTimePickerController()
+        //let timePicker = LFTimePickerController()
         
         //2. Present the timePicker
         //self.navigationController?.pushViewController(timePicker, animated: true)
-        self.navigationController?.show(timePicker, sender: cell)
-        self.show(timePicker, sender:  cell)
+        //self.navigationController?.show(timePicker, sender: cell)
+        let timePicker = CustomDatePickerViewController()
+        show(timePicker, sender:  cell)
         
         timePicker.delegate = self
         self.datepickerSender = cell

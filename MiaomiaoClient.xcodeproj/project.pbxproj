@@ -110,6 +110,8 @@
 		27E0969122B2A89D00B3164D /* CalibrationEditTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27E0969022B2A89D00B3164D /* CalibrationEditTableViewController.swift */; };
 		27E0969422B2C4D700B3164D /* mmTextFieldViewCell2.xib in Resources */ = {isa = PBXBuildFile; fileRef = 27E0969222B2C4D700B3164D /* mmTextFieldViewCell2.xib */; };
 		27E0969522B2C4D700B3164D /* mmTextFieldViewCell2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27E0969322B2C4D700B3164D /* mmTextFieldViewCell2.swift */; };
+		27E0969822B94CAD00B3164D /* CustomDatePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27E0969722B94CAD00B3164D /* CustomDatePicker.swift */; };
+		27E0969B22B94D4400B3164D /* CustomDatePickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27E0969922B94D4400B3164D /* CustomDatePickerViewController.swift */; };
 		27E3C390222EDF560036AAC7 /* LibreError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27E3C38F222EDF560036AAC7 /* LibreError.swift */; };
 		27E3C393222EE2EC0036AAC7 /* Calibration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27E3C392222EE2EC0036AAC7 /* Calibration.swift */; };
 		27E3C398222EE9450036AAC7 /* LibreOOPDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27E3C395222EE9450036AAC7 /* LibreOOPDefaults.swift */; };
@@ -271,6 +273,8 @@
 		27E0969022B2A89D00B3164D /* CalibrationEditTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CalibrationEditTableViewController.swift; sourceTree = "<group>"; };
 		27E0969222B2C4D700B3164D /* mmTextFieldViewCell2.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = mmTextFieldViewCell2.xib; sourceTree = "<group>"; };
 		27E0969322B2C4D700B3164D /* mmTextFieldViewCell2.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = mmTextFieldViewCell2.swift; sourceTree = "<group>"; };
+		27E0969722B94CAD00B3164D /* CustomDatePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomDatePicker.swift; sourceTree = "<group>"; };
+		27E0969922B94D4400B3164D /* CustomDatePickerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomDatePickerViewController.swift; sourceTree = "<group>"; };
 		27E3C38F222EDF560036AAC7 /* LibreError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibreError.swift; sourceTree = "<group>"; };
 		27E3C392222EE2EC0036AAC7 /* Calibration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Calibration.swift; sourceTree = "<group>"; };
 		27E3C395222EE9450036AAC7 /* LibreOOPDefaults.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LibreOOPDefaults.swift; sourceTree = "<group>"; };
@@ -474,6 +478,8 @@
 				2769B5BB2264EE4A006F1935 /* LFTimePickerController.swift */,
 				2769B5BD2264FA22006F1935 /* DateComponentUITableViewCell.swift */,
 				2769B5C02267766F006F1935 /* LFTimePickerControllerOriginal.swift */,
+				27E0969722B94CAD00B3164D /* CustomDatePicker.swift */,
+				27E0969922B94D4400B3164D /* CustomDatePickerViewController.swift */,
 			);
 			path = LFTimePickerController;
 			sourceTree = "<group>";
@@ -968,10 +974,12 @@
 				4325E9D5210E6B4400969CE5 /* UIColor.swift in Sources */,
 				27E0969122B2A89D00B3164D /* CalibrationEditTableViewController.swift in Sources */,
 				27E0968622A6F64800B3164D /* SnoozeViewController.swift in Sources */,
+				27E0969B22B94D4400B3164D /* CustomDatePickerViewController.swift in Sources */,
 				27E0968422A6EFCD00B3164D /* SnoozeView.swift in Sources */,
 				43A8EC97210E680100A81379 /* ShareService+UI.swift in Sources */,
 				275C3D99229AA88200E27439 /* mmSwitchTableViewCell.swift in Sources */,
 				2769B5BE2264FA22006F1935 /* DateComponentUITableViewCell.swift in Sources */,
+				27E0969822B94CAD00B3164D /* CustomDatePicker.swift in Sources */,
 				270C265C22691253005B27F3 /* GlucoseAlarmInputCell.swift in Sources */,
 				43AB51372133177800B3D58D /* LocalizedString.swift in Sources */,
 				277DAD11226C986000422ADA /* GlucoseAlarmType.swift in Sources */,
