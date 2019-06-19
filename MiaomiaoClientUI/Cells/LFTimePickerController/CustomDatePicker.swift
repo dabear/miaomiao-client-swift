@@ -161,8 +161,18 @@ class CustomDatePicker: UIPickerView, UIPickerViewDelegate, UIPickerViewDataSour
         }
     }
     
-     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        
+    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+        switch CustomDateComponents(rawValue: component)! {
+        case .from, .to:
+            let fromRow = self.selectedRow(inComponent: CustomDateComponents.from.rawValue)
+            let toRow = self.selectedRow(inComponent: CustomDateComponents.to.rawValue)
+            
+            if toRow < fromRow {
+                self.selectRow(fromRow, inComponent: CustomDateComponents.to.rawValue, animated: false)
+            }
+        default:
+            break
+        }
     }
     
    
