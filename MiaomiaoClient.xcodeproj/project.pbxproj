@@ -1324,6 +1324,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/$(CARTHAGE_PLATFORM_PATH_$(PLATFORM_NAME))",
+					"$(PROJECT_DIR)",
 				);
 				INFOPLIST_FILE = MiaomiaoClient/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
@@ -1353,6 +1354,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/$(CARTHAGE_PLATFORM_PATH_$(PLATFORM_NAME))",
+					"$(PROJECT_DIR)",
 				);
 				GCC_OPTIMIZATION_LEVEL = 0;
 				INFOPLIST_FILE = MiaomiaoClient/Info.plist;
@@ -1427,6 +1429,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
+					"$(PROJECT_DIR)",
 				);
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				INFOPLIST_FILE = MiaomiaoClientUI/Info.plist;
@@ -1461,6 +1464,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
+					"$(PROJECT_DIR)",
 				);
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				INFOPLIST_FILE = MiaomiaoClientUI/Info.plist;

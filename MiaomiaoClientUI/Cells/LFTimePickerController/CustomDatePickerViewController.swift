@@ -8,6 +8,7 @@
 
 import UIKit
 
+
 protocol CustomDatePickerDelegate: class {
     func CustomDatePickerDelegateDidTapDone(fromComponent: DateComponents?, toComponents: DateComponents?)
     func CustomDatePickerDelegateDidTapCancel()
@@ -51,6 +52,10 @@ class CustomDatePickerViewController: UIViewController {
         self.navigationItem.prompt = "Schedule"
     
         
+        
+        
+
+        
         //self.pickerView.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
         self.pickerView.backgroundColor = .white
         self.pickerView.reloadAllComponents()
@@ -71,7 +76,21 @@ class CustomDatePickerViewController: UIViewController {
         self.navigationController?.popViewController(animated: true)
     }
     
+    func crash() -> Int {
+        print("now crashing!")
+        
+        [][1]
+        //fatalError()
+        return 1
+    }
+    
     @objc func cancelTapped() {
+        //TODO: only for debugging
+        //crash()
+        
+        
+        
+        
         print("cancel tapped")
         delegate?.CustomDatePickerDelegateDidTapCancel()
         self.navigationController?.popViewController(animated: true)
