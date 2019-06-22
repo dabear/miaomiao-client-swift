@@ -24,12 +24,6 @@
                             <action selector="switchChangedWithSender:" destination="1bgs-bY-Joo" eventType="valueChanged" id="TG5-no-G5t"/>
                         </connections>
                     </switch>
-                    <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="MSa-m2-KBS">
-                        <rect key="frame" x="22" y="0.0" width="65" height="48.5"/>
-                        <constraints>
-                            <constraint firstAttribute="width" constant="65" id="3VB-fk-wg2"/>
-                        </constraints>
-                    </imageView>
                     <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" horizontalHuggingPriority="251" horizontalCompressionResistancePriority="751" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="active from - to" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="e6a-FR-F1s">
                         <rect key="frame" x="95" y="11" width="223" height="26.5"/>
                         <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
@@ -43,16 +37,22 @@
                             <outlet property="delegate" destination="1bgs-bY-Joo" id="t1Z-hb-8lp"/>
                         </connections>
                     </textField>
+                    <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="MSa-m2-KBS">
+                        <rect key="frame" x="16" y="0.0" width="65" height="50"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="65" id="3VB-fk-wg2"/>
+                        </constraints>
+                    </imageView>
                 </subviews>
                 <constraints>
                     <constraint firstItem="e6a-FR-F1s" firstAttribute="centerY" secondItem="4Li-Xy-eDu" secondAttribute="centerY" id="7e4-0Q-Iwj"/>
-                    <constraint firstItem="MSa-m2-KBS" firstAttribute="leading" secondItem="4Li-Xy-eDu" secondAttribute="leadingMargin" constant="2" id="EYD-SC-QPB"/>
+                    <constraint firstItem="MSa-m2-KBS" firstAttribute="leading" secondItem="4Li-Xy-eDu" secondAttribute="leadingMargin" constant="-10" id="EYD-SC-QPB"/>
                     <constraint firstItem="e6a-FR-F1s" firstAttribute="top" secondItem="4Li-Xy-eDu" secondAttribute="topMargin" id="KBz-ho-Rjg"/>
                     <constraint firstItem="MSa-m2-KBS" firstAttribute="centerY" secondItem="e6a-FR-F1s" secondAttribute="centerY" id="LNS-73-Qdp"/>
                     <constraint firstItem="OM8-Q2-6Wv" firstAttribute="leading" secondItem="e6a-FR-F1s" secondAttribute="trailing" constant="8" symbolic="YES" id="Rmp-h5-KJq"/>
                     <constraint firstAttribute="trailingMargin" secondItem="OM8-Q2-6Wv" secondAttribute="trailing" constant="-2" id="Wha-1t-U8x"/>
                     <constraint firstItem="OM8-Q2-6Wv" firstAttribute="bottom" secondItem="4Li-Xy-eDu" secondAttribute="bottomMargin" id="aBZ-Lw-IW1"/>
-                    <constraint firstItem="e6a-FR-F1s" firstAttribute="leading" secondItem="MSa-m2-KBS" secondAttribute="trailing" constant="8" symbolic="YES" id="trC-nQ-P64"/>
+                    <constraint firstItem="e6a-FR-F1s" firstAttribute="leading" secondItem="MSa-m2-KBS" secondAttribute="trailing" constant="20" id="trC-nQ-P64"/>
                     <constraint firstItem="MSa-m2-KBS" firstAttribute="top" secondItem="4Li-Xy-eDu" secondAttribute="top" id="vcP-XC-hfm"/>
                 </constraints>
             </tableViewCellContentView>
