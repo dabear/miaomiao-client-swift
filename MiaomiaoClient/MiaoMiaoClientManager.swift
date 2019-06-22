@@ -391,7 +391,7 @@ public final class MiaoMiaoClientManager: CGMManager, MiaoMiaoBluetoothManagerDe
             }
             //here we assume success, data is not changed,
             //and we trust that the remote endpoint returns correct data for the sensor
-            let last16 = data.trendMeasurements(derivedAlgorithmParameterSet: calibrationdata)
+            let last16 = data.trendMeasurements(derivedAlgorithmParameterSet: params)
             callback(nil, self?.trendToLibreGlucose(last16) )
             
             
