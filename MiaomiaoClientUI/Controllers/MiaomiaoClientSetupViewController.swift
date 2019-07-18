@@ -65,6 +65,7 @@ class MiaomiaoClientSetupViewController: UINavigationController, CGMManagerSetup
     @objc private func cancel() {
         //setupDelegate?.cgmManagerSetupViewControllerDidCancel(self)
         completionDelegate?.completionNotifyingDidComplete(self)
+        
     }
 
     @objc private func save() {
