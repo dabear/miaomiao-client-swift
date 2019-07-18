@@ -13,7 +13,9 @@ import MiaomiaoClient
 
 
 
-public class MiaomiaoClientSettingsViewController: UITableViewController, SubViewControllerWillDisappear {
+public class MiaomiaoClientSettingsViewController: UITableViewController, SubViewControllerWillDisappear { //, CompletionNotifying{
+    //public weak var completionDelegate: CompletionDelegate?
+    
     public func onDisappear() {
         // this is being called only from alarm, calibration and notifications ui
         // when they disappear

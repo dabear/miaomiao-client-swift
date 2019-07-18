@@ -11,7 +11,9 @@ import LoopKitUI
 import MiaomiaoClient
 
 
-class MiaomiaoClientSetupViewController: UINavigationController, CGMManagerSetupViewController {
+class MiaomiaoClientSetupViewController: UINavigationController, CGMManagerSetupViewController, CompletionNotifying{
+    weak var completionDelegate: CompletionDelegate?
+    
     var setupDelegate: CGMManagerSetupViewControllerDelegate?
 
     lazy var cgmManager : MiaoMiaoClientManager? =  MiaoMiaoClientManager()
@@ -61,13 +63,15 @@ class MiaomiaoClientSetupViewController: UINavigationController, CGMManagerSetup
     }
 
     @objc private func cancel() {
-        setupDelegate?.cgmManagerSetupViewControllerDidCancel(self)
+        //setupDelegate?.cgmManagerSetupViewControllerDidCancel(self)
+        completionDelegate?.completionNotifyingDidComplete(self)
     }
 
     @objc private func save() {
         if let cgmManager = cgmManager {
             setupDelegate?.cgmManagerSetupViewController(self, didSetUpCGMManager: cgmManager)
         }
+        completionDelegate?.completionNotifyingDidComplete(self)
         
     }
 
