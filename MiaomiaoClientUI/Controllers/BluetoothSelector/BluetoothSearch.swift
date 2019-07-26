@@ -15,7 +15,12 @@ import UIKit
 import CoreBluetooth
 import os.log
 
-
+extension Bundle {
+    static var current: Bundle {
+        class __ { }
+        return Bundle(for: __.self)
+    }
+}
 
 struct CompatibleBluetoothDevice : Hashable {
     var identifer: String
@@ -29,6 +34,18 @@ struct CompatibleBluetoothDevice : Hashable {
         return lhs.identifer == rhs.identifer
     }
     
+    var smallImage : UIImage? {
+        let bundle = Bundle.current
+        
+        switch name.lowercased() {
+        case let x where x.starts(with: "miaomiao"):
+            return UIImage(named: "miaomiao-small", in: bundle, compatibleWith: nil)
+        default:
+            //TODO: remove when testing is complete, return nil instead
+            return UIImage(named: "miaomiao-small", in: bundle, compatibleWith: nil)
+        }
+    }
+    
 }
 
 
@@ -40,12 +57,7 @@ protocol BluetoothSearchDelegate: class {
 }
 
 final class BluetoothSearchManager: NSObject, CBCentralManagerDelegate, CBPeripheralDelegate {
-    func centralManagerDidUpdateState(_ central: CBCentralManager) {
-        print("did update state for central")
-        if central.state == .poweredOn {
-            scanForMiaoMiao()
-        }
-    }
+
     
     
   
@@ -65,6 +77,7 @@ final class BluetoothSearchManager: NSObject, CBCentralManagerDelegate, CBPeriph
     
     public func addDiscoveredDevice(_ device: CompatibleBluetoothDevice) {
         discoveredDevices.append(device)
+        discoveredDevices.removeDuplicates()
         discoverDelegate.didDiscoverCompatibleDevice(device, allCompatibleDevices: discoveredDevices)
         
     }
@@ -79,7 +92,7 @@ final class BluetoothSearchManager: NSObject, CBCentralManagerDelegate, CBPeriph
         super.init()
         centralManager = CBCentralManager(delegate: self, queue: nil, options: nil)
         //        slipBuffer.delegate = self
-        os_log("miaomiaomanager init called ", log: BluetoothSearchManager.bt_log)
+        os_log("BluetoothSearchManager init called ", log: BluetoothSearchManager.bt_log)
         
     }
     
@@ -91,7 +104,7 @@ final class BluetoothSearchManager: NSObject, CBCentralManagerDelegate, CBPeriph
             
             centralManager.scanForPeripherals(withServices: nil, options: nil)
             
-          
+        }
     }
     
     
@@ -100,6 +113,7 @@ final class BluetoothSearchManager: NSObject, CBCentralManagerDelegate, CBPeriph
         //        NotificationManager.scheduleDebugNotification(message: "Timer fired in Background", wait: 3)
         //        _ = Timer(timeInterval: 150, repeats: false, block: {timer in NotificationManager.scheduleDebugNotification(message: "Timer fired in Background", wait: 0.5)})
         centralManager.stopScan()
+        
     
       
     }
@@ -119,9 +133,9 @@ final class BluetoothSearchManager: NSObject, CBCentralManagerDelegate, CBPeriph
                 //os_log("Central Manager was powered on, scanningformiaomiao: state: %{public}@", log: MiaoMiaoBluetoothManager.bt_log, type: .default, String(describing: state))
             
                 scanForMiaoMiao() // power was switched on, while app is running -> reconnect.
-            }
-            
         }
+            
+        
     }
     
     
@@ -247,7 +261,7 @@ final class BluetoothSearchManager: NSObject, CBCentralManagerDelegate, CBPeriph
     
     deinit {
         
-        os_log("dabear:: miaomiaomanager deinit called")
+        os_log("dabear:: BluetoothSearchManager deinit called")
         
         
     }

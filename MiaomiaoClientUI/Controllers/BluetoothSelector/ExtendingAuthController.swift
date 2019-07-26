@@ -16,6 +16,23 @@ fileprivate var foo : ExtendingAuthController!
 public class ExtendingAuthController: NSObject, UITableViewDataSource, UITableViewDelegate, BluetoothSearchDelegate{
     func didDiscoverCompatibleDevice(_ device: CompatibleBluetoothDevice, allCompatibleDevices: [CompatibleBluetoothDevice]) {
         print("ExtendingAuthController was notified of new devices. alldevices:\(allCompatibleDevices.count)")
+        
+        if discoveredDevices != allCompatibleDevices {
+            discoveredDevices = allCompatibleDevices
+        }
+        
+    }
+    
+    private var discoveredDevices = [CompatibleBluetoothDevice]() {
+        didSet{
+            var section = getExtendedSection()
+            print("will reload section \(section)")
+            //new devices detected, so reload the section, thereby repopulating list of devices
+            source.tableView.reloadSections(IndexSet(integer: section), with: .automatic)
+            
+        }
+            
+        
     }
     
     
@@ -32,10 +49,15 @@ public class ExtendingAuthController: NSObject, UITableViewDataSource, UITableVi
             return source.tableView(tableView, numberOfRowsInSection: section)
         }
         
+        //first row is always present, connect to first available device
+        return 1 + discoveredDevices.count
         
-        return 5
         
-        
+    }
+    
+    public func getExtendedSection() -> Int {
+        // -1 + 1 (cancels out)
+        return source.numberOfSections(in: source.tableView)
     }
     
     public func numberOfSections(in tableView: UITableView) -> Int {
@@ -61,10 +83,31 @@ public class ExtendingAuthController: NSObject, UITableViewDataSource, UITableVi
         
     }
     
+    
+    public func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        guard isExtendedSection(section: section) else {
+            return nil // source.tableView(tableView, titleForHeaderInSection: section)
+        }
+        
+        return "Libre Bluetooth Devices"
+    }
+    
+    public func tableView(_ tableView: UITableView, titleForFooterInSection section: Int) -> String? {
+        guard isExtendedSection(section: section) else {
+            return nil // source.tableView(tableView, titleForFooterInSection: section)
+        }
+        
+        return "Devices detected: \(discoveredDevices.count)"
+    }
+    
+    
     public func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         guard isExtendedSection(section: indexPath.section) else {
             return source.tableView(tableView, didSelectRowAt: indexPath)
         }
+        
+        print("stopping search")
+        searcher.disconnectManually()
         return
         
     }
@@ -81,7 +124,24 @@ public class ExtendingAuthController: NSObject, UITableViewDataSource, UITableVi
         print("dequeueReusableCell called")
         let cell = UITableViewCell() //tableView.dequeueReusableCell(withIdentifier: "UITableViewCell", for: indexPath)
         
-        cell.textLabel?.text = "overridden cell with index: \(indexPath.section),\(indexPath.row)"
+        if indexPath.row == 0 {
+            cell.tag = 1000
+            cell.textLabel?.text = "Connect to First available device"
+        } else {
+            //cell.textLabel?.text = "Overridden cell with index: \(indexPath.section),\(indexPath.row)"
+            //-1 to compensate for the first row which is always static
+            if let device = discoveredDevices[safe: indexPath.row - 1] {
+                cell.textLabel?.text = "device: \(device.name) (\(device.identifer))"
+                cell.textLabel?.numberOfLines = 0;
+                cell.textLabel?.lineBreakMode = .byWordWrapping
+                cell.tag = 1
+            } else {
+                cell.textLabel?.text = "unknown device"
+            }
+            
+        }
+        
+        
         
         return cell
         
