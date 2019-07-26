@@ -502,7 +502,9 @@ public class MiaomiaoClientSettingsViewController: UITableViewController, SubVie
                 self.tableView.reloadRows(at: [indexPath], with: .none)
                 break
             }
+            
             let vc = AuthenticationViewController(authentication: service)
+            ExtendingAuthController.addExtendedSection(source: vc)
             vc.authenticationObserver = { [weak self] (service) in
                 self?.cgmManager?.miaomiaoService = service
                 
@@ -515,6 +517,7 @@ public class MiaomiaoClientSettingsViewController: UITableViewController, SubVie
                 }
                 
                 self?.tableView.reloadRows(at: [indexPath], with: .none)
+                //ExtendingAuthController.destroyExtension()
             }
 
             show(vc, sender: nil)

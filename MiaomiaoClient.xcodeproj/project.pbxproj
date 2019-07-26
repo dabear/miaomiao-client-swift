@@ -34,6 +34,8 @@
 		270C266D226A2F8E005B27F3 /* HKUnit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4325E9CE210E6A0A00969CE5 /* HKUnit.swift */; };
 		270C266F226A5A6E005B27F3 /* GlucoseSchedules.swift in Sources */ = {isa = PBXBuildFile; fileRef = 270C266E226A5A6E005B27F3 /* GlucoseSchedules.swift */; };
 		270C2670226A5A6E005B27F3 /* GlucoseSchedules.swift in Sources */ = {isa = PBXBuildFile; fileRef = 270C266E226A5A6E005B27F3 /* GlucoseSchedules.swift */; };
+		271EDF1F22EB103B00E1C8B3 /* ExtendingAuthController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 271EDF1E22EB103B00E1C8B3 /* ExtendingAuthController.swift */; };
+		271EDF2122EB63B100E1C8B3 /* BluetoothSearch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 271EDF2022EB63B100E1C8B3 /* BluetoothSearch.swift */; };
 		2729D677221F421C0030E1B8 /* MiaoMiao.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2729D676221F421C0030E1B8 /* MiaoMiao.swift */; };
 		2729D678221F421C0030E1B8 /* MiaoMiao.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2729D676221F421C0030E1B8 /* MiaoMiao.swift */; };
 		2729D67B221F421F0030E1B8 /* MiaoMiaoBluetoothManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2729D67A221F421F0030E1B8 /* MiaoMiaoBluetoothManager.swift */; };
@@ -212,6 +214,8 @@
 		270C26682269E6B7005B27F3 /* schedule-icon48.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "schedule-icon48.jpg"; sourceTree = "<group>"; };
 		270C266B226A24AB005B27F3 /* icons8-schedule-50.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icons8-schedule-50.png"; sourceTree = "<group>"; };
 		270C266E226A5A6E005B27F3 /* GlucoseSchedules.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlucoseSchedules.swift; sourceTree = "<group>"; };
+		271EDF1E22EB103B00E1C8B3 /* ExtendingAuthController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtendingAuthController.swift; sourceTree = "<group>"; };
+		271EDF2022EB63B100E1C8B3 /* BluetoothSearch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BluetoothSearch.swift; sourceTree = "<group>"; };
 		2729D676221F421C0030E1B8 /* MiaoMiao.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MiaoMiao.swift; sourceTree = "<group>"; };
 		2729D67A221F421F0030E1B8 /* MiaoMiaoBluetoothManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MiaoMiaoBluetoothManager.swift; sourceTree = "<group>"; };
 		2729D682221F42760030E1B8 /* BloodSugarController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BloodSugarController.swift; sourceTree = "<group>"; };
@@ -393,6 +397,15 @@
 			path = Graphics;
 			sourceTree = "<group>";
 		};
+		271EDF1D22EB100500E1C8B3 /* BluetoothSelector */ = {
+			isa = PBXGroup;
+			children = (
+				271EDF1E22EB103B00E1C8B3 /* ExtendingAuthController.swift */,
+				271EDF2022EB63B100E1C8B3 /* BluetoothSearch.swift */,
+			);
+			path = BluetoothSelector;
+			sourceTree = "<group>";
+		};
 		2729D671221F42070030E1B8 /* Bluetooth */ = {
 			isa = PBXGroup;
 			children = (
@@ -494,6 +507,7 @@
 		27E0967F22A6E1C300B3164D /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				271EDF1D22EB100500E1C8B3 /* BluetoothSelector */,
 				27E0969022B2A89D00B3164D /* CalibrationEditTableViewController.swift */,
 				274DF85122A5AEA400BFAFFE /* AlertControllers.swift */,
 				27CBEB3D225FE5CB004F7BF5 /* AlarmSettingsTableViewController.swift */,
@@ -978,8 +992,10 @@
 				27E0968F22A9AD6F00B3164D /* TimeIntervalExtensions.swift in Sources */,
 				277DAD0E226B971A00422ADA /* UserDefaults+Alarmsettings.swift in Sources */,
 				4325E9D3210E6ADA00969CE5 /* IdentifiableClass.swift in Sources */,
+				271EDF1F22EB103B00E1C8B3 /* ExtendingAuthController.swift in Sources */,
 				27E0968D22A9806200B3164D /* CGFLoat+Double.swift in Sources */,
 				27CBEB552261DF9D004F7BF5 /* AlarmTimeInputRangeCell.swift in Sources */,
+				271EDF2122EB63B100E1C8B3 /* BluetoothSearch.swift in Sources */,
 				275C3DA1229D9BBB00E27439 /* mmTextFieldViewCell.swift in Sources */,
 				274DF85222A5AEA400BFAFFE /* AlertControllers.swift in Sources */,
 				277DAD12226C9FA800422ADA /* DateExtensions.swift in Sources */,
