@@ -202,7 +202,7 @@ final class MiaoMiaoBluetoothManager: NSObject, CBCentralManagerDelegate, CBPeri
     
     // MARK: - Properties
     private var wantsToTerminate = false
-    private var lastConnectedIdentifier : String?
+    //private var lastConnectedIdentifier : String?
     
     static let bt_log = OSLog(subsystem: "com.LibreMonitor", category: "MiaoMiaoManager")
     var miaoMiao: MiaoMiao?
@@ -330,37 +330,50 @@ final class MiaoMiaoBluetoothManager: NSObject, CBCentralManagerDelegate, CBPeri
     func centralManager(_ central: CBCentralManager, didDiscover peripheral: CBPeripheral, advertisementData: [String : Any], rssi RSSI: NSNumber) {
         
         os_log("Did discover peripheral while state %{public}@ with name: %{public}@, wantstoterminate?:  %d", log: MiaoMiaoBluetoothManager.bt_log, type: .default, String(describing: state.rawValue), String(describing: peripheral.name), self.wantsToTerminate)
+        
+        /*
+         if peripheral.name == deviceName {
+         
+         self.peripheral = peripheral
+         connect()
+         return
+         }*/
+        
         if peripheral.name == deviceName {
-            if let lastConnectedIdentifier = self.lastConnectedIdentifier {
-                if peripheral.identifier.uuidString == lastConnectedIdentifier {
-                    os_log("Did connect to previously known miaomiao with identifier %{public}@", log: MiaoMiaoBluetoothManager.bt_log, type: .default, String(describing: peripheral.identifier))
+            
+            if let preselected = UserDefaults.standard.selectedBluetoothDeviceIdentifer {
+                if peripheral.identifier.uuidString == preselected {
+                    os_log("Did connect to preselected miamiao with identifier %{public}@,", log: MiaoMiaoBluetoothManager.bt_log, type: .default, String(describing: peripheral.identifier.uuidString))
                     self.peripheral = peripheral
                     connect()
+                    
                 } else {
-                    os_log("Did not connect to miamiao with identifier %{public}@, because it did not match previously connected miaomiao with identifer %{public}@", log: MiaoMiaoBluetoothManager.bt_log, type: .default, String(describing: peripheral.identifier.uuidString), lastConnectedIdentifier)
+                    os_log("Did not connect to miamiao with identifier %{public}@, because another device with identifier %{public}@ was selected", log: MiaoMiaoBluetoothManager.bt_log, type: .default, String(describing: peripheral.identifier.uuidString), preselected)
+                    
                 }
                 
-            } else {
-                os_log("Did connect to miaomiao with new identifier %{public}@", log: MiaoMiaoBluetoothManager.bt_log, type: .default, String(describing: peripheral.identifier))
-                self.peripheral = peripheral
-                connect()
+                return
             }
+            
+
+            
+            os_log("Did connect to first miaomiao with identifier %{public}@, as there was no preselection", log: MiaoMiaoBluetoothManager.bt_log, type: .default, String(describing: peripheral.identifier))
+            self.peripheral = peripheral
+            connect()
+            
+                
+           
             
         }
         
-        /*
-        if peripheral.name == deviceName {
-            
-            self.peripheral = peripheral
-            connect()
-        }*/
+        
     }
     
     func centralManager(_ central: CBCentralManager, didConnect peripheral: CBPeripheral) {
         
         os_log("Did connect peripheral while state %{public}@ with name: %{public}@", log: MiaoMiaoBluetoothManager.bt_log, type: .default, String(describing: state.rawValue), String(describing: peripheral.name))
         state = .Connected
-        self.lastConnectedIdentifier = peripheral.identifier.uuidString
+        //self.lastConnectedIdentifier = peripheral.identifier.uuidString
         // Discover all Services. This might be helpful if writing is needed some time
         peripheral.discoverServices(nil)
     }

@@ -504,7 +504,10 @@ public class MiaomiaoClientSettingsViewController: UITableViewController, SubVie
             }
             
             let vc = AuthenticationViewController(authentication: service)
-            ExtendingAuthController.addExtendedSection(source: vc)
+            // To enable bluetooth selection after cgmanager is created, remove commented code
+            // if you do, you should probably include the currently connected device in the list of devices and
+            // select that device with .selectListItem(item: X) as well
+            //ExtendingAuthController.addExtendedSection(source: vc)
             vc.authenticationObserver = { [weak self] (service) in
                 self?.cgmManager?.miaomiaoService = service
                 
