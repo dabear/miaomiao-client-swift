@@ -22,7 +22,7 @@ class MiaomiaoClientSetupViewController: UINavigationController, CGMManagerSetup
         
         let service = MiaomiaoService(keychainManager: KeychainManager())
         let authVC = AuthenticationViewController(authentication: service)
-        
+        ExtendingAuthController.addExtendedSection(source: authVC)
         
 
         super.init(rootViewController: authVC)
@@ -65,7 +65,7 @@ class MiaomiaoClientSetupViewController: UINavigationController, CGMManagerSetup
     @objc private func cancel() {
         //setupDelegate?.cgmManagerSetupViewControllerDidCancel(self)
         completionDelegate?.completionNotifyingDidComplete(self)
-        
+        ExtendingAuthController.destroyExtension()
     }
 
     @objc private func save() {
@@ -73,6 +73,7 @@ class MiaomiaoClientSetupViewController: UINavigationController, CGMManagerSetup
             setupDelegate?.cgmManagerSetupViewController(self, didSetUpCGMManager: cgmManager)
         }
         completionDelegate?.completionNotifyingDidComplete(self)
+        ExtendingAuthController.destroyExtension()
         
     }
 
