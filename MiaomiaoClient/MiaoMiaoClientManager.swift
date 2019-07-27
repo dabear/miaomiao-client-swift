@@ -451,6 +451,7 @@ public final class MiaoMiaoClientManager: CGMManager, MiaoMiaoBluetoothManagerDe
     
     public func miaoMiaoBluetoothManagerDidUpdateSensorAndMiaoMiao(sensorData: SensorData, miaoMiao: MiaoMiao) {
         
+        print("dabear:: got sensordata: \(sensorData), bytescount: \(sensorData.bytes.count), bytes: \(sensorData.bytes)")
         
         NotificationHelper.sendLowBatteryNotificationIfNeeded(device: miaoMiao)
         NotificationHelper.sendInvalidSensorNotificationIfNeeded(sensorData: sensorData)

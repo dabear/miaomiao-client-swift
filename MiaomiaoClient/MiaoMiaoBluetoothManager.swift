@@ -191,12 +191,29 @@ extension MiaoMiaoResponseState: CustomStringConvertible {
         }
     }
 }
+enum SupportedDevices : Int{
+    case MiaoMiao = 0
+    case Bubble = 1
+    
+    public var name: String {
+        switch self {
+        case .Bubble:
+            return "bubble"
+        case .MiaoMiao:
+            return "miaomiao"
+        }
+    }
+}
+
+
 
 protocol MiaoMiaoBluetoothManagerDelegate {
     func miaoMiaoBluetoothManagerPeripheralStateChanged(_ state: MiaoMiaoManagerState)
     func miaoMiaoBluetoothManagerReceivedMessage(_ messageIdentifier:UInt16, txFlags:UInt8, payloadData:Data)
     func miaoMiaoBluetoothManagerDidUpdateSensorAndMiaoMiao(sensorData: SensorData, miaoMiao: MiaoMiao) -> Void
 }
+
+
 
 final class MiaoMiaoBluetoothManager: NSObject, CBCentralManagerDelegate, CBPeripheralDelegate {
     
@@ -215,8 +232,22 @@ final class MiaoMiaoBluetoothManager: NSObject, CBCentralManagerDelegate, CBPeri
     var rxBuffer = Data()
     var sensorData: SensorData?
     
+    var currentDevice : SupportedDevices!
+    
+    func setCurrentDevice(peripheralName: String) {
+        switch peripheralName {
+        case SupportedDevices.Bubble.name:
+            currentDevice = SupportedDevices.Bubble
+        case SupportedDevices.MiaoMiao.name:
+            currentDevice = SupportedDevices.MiaoMiao
+        default:
+            print("not going to happen!")
+        }
+    }
+    
     //    fileprivate let serviceUUIDs:[CBUUID]? = [CBUUID(string: "6E400001B5A3F393E0A9E50E24DCCA9E")]
-    fileprivate let deviceName = "miaomiao"
+    //fileprivate let deviceNames = ["miaomiao", "bubble"]
+    fileprivate let deviceNames = [SupportedDevices.MiaoMiao.name, SupportedDevices.Bubble.name]
     fileprivate let serviceUUIDs:[CBUUID]? = [CBUUID(string: "6E400001-B5A3-F393-E0A9-E50E24DCCA9E")]
     
     var BLEScanDuration = 3.0
@@ -235,6 +266,8 @@ final class MiaoMiaoBluetoothManager: NSObject, CBCentralManagerDelegate, CBPeri
             delegate?.miaoMiaoBluetoothManagerPeripheralStateChanged(state)
         }
     }
+    
+    
     
     // MARK: - Methods
     
@@ -338,13 +371,18 @@ final class MiaoMiaoBluetoothManager: NSObject, CBCentralManagerDelegate, CBPeri
          connect()
          return
          }*/
+        guard let peripheralName = peripheral.name?.lowercased() else {
+            os_log("discovered peripheral had no name, returning: %{public}@", log: MiaoMiaoBluetoothManager.bt_log, type: .default, String(describing: peripheral.identifier.uuidString))
+            return
+        }
         
-        if peripheral.name == deviceName {
+        if deviceNames.contains(peripheralName){
             
             if let preselected = UserDefaults.standard.selectedBluetoothDeviceIdentifer {
                 if peripheral.identifier.uuidString == preselected {
                     os_log("Did connect to preselected miamiao with identifier %{public}@,", log: MiaoMiaoBluetoothManager.bt_log, type: .default, String(describing: peripheral.identifier.uuidString))
                     self.peripheral = peripheral
+                    setCurrentDevice(peripheralName: peripheralName)
                     connect()
                     
                 } else {
@@ -359,6 +397,7 @@ final class MiaoMiaoBluetoothManager: NSObject, CBCentralManagerDelegate, CBPeri
             
             os_log("Did connect to first miaomiao with identifier %{public}@, as there was no preselection", log: MiaoMiaoBluetoothManager.bt_log, type: .default, String(describing: peripheral.identifier))
             self.peripheral = peripheral
+            setCurrentDevice(peripheralName: peripheralName)
             connect()
             
                 
@@ -511,6 +550,12 @@ final class MiaoMiaoBluetoothManager: NSObject, CBCentralManagerDelegate, CBPeri
         } else {
             if characteristic.uuid == CBUUID(string: "6E400003-B5A3-F393-E0A9-E50E24DCCA9E"), let value = characteristic.value {
                 
+ 
+                
+                if currentDevice == SupportedDevices.Bubble {
+                    bubbleDidUpdateValueForNotifyCharacteristics(value, peripheral: peripheral)
+                    return
+                }
                 rxBuffer.append(value)
                 os_log("Appended value with length %{public}@, buffer length is: %{public}@", log: MiaoMiaoBluetoothManager.bt_log, type: .default, String(describing: value.count), String(describing: rxBuffer.count))
                 
@@ -603,7 +648,13 @@ final class MiaoMiaoBluetoothManager: NSObject, CBCentralManagerDelegate, CBPeri
     }
     
     func requestData() {
+        
         if let writeCharacteristic = writeCharacteristic {
+            if currentDevice == SupportedDevices.Bubble {
+                bubbleRequestData(writeCharacteristics: writeCharacteristic, peripheral: peripheral!)
+                return
+            }
+            
             confirmSensor()
             resetBuffer()
             timer?.invalidate()
@@ -617,6 +668,11 @@ final class MiaoMiaoBluetoothManager: NSObject, CBCentralManagerDelegate, CBPeri
     }
     
     func handleCompleteMessage() {
+        
+        if currentDevice == SupportedDevices.Bubble {
+            bubbleHandleCompleteMessage()
+            return
+        }
         guard rxBuffer.count >= 363 else {
             return
         }
@@ -661,4 +717,84 @@ final class MiaoMiaoBluetoothManager: NSObject, CBCentralManagerDelegate, CBPeri
         
     }
     
+}
+
+//bubble support
+extension MiaoMiaoBluetoothManager {
+    
+    func bubbleHandleCompleteMessage() {
+        print("dabear:: bubbleHandleCompleteMessage")
+        
+        guard rxBuffer.count >= 352 else {
+            return
+        }
+        
+        
+        let data = rxBuffer.subdata(in: 8..<352)
+        print("dabear:: bubbleHandleCompleteMessage raw data: \([UInt8](rxBuffer))")
+        sensorData = SensorData(uuid: rxBuffer.subdata(in: 0..<8), bytes: [UInt8](data), date: Date(), derivedAlgorithmParameterSet: nil)
+        
+        guard let miaoMiao = miaoMiao else {
+            return
+        }
+        
+        if let sensorData = sensorData {
+            if !(sensorData.hasValidHeaderCRC && sensorData.hasValidBodyCRC && sensorData.hasValidFooterCRC) {
+                Timer.scheduledTimer(withTimeInterval: 30, repeats: false, block: {_ in
+                    self.requestData()
+                })
+            }
+            // Inform delegate that new data is available
+            
+            delegate?.miaoMiaoBluetoothManagerDidUpdateSensorAndMiaoMiao(sensorData: sensorData, miaoMiao: miaoMiao)
+        }
+        
+    }
+    
+    func bubbleRequestData(writeCharacteristics: CBCharacteristic, peripheral: CBPeripheral) {
+        print("dabear:: bubbleRequestData")
+        resetBuffer()
+        timer?.invalidate()
+        print("-----set: ", writeCharacteristic)
+        peripheral.writeValue(Data([0x00, 0x00, 0x05]), for: writeCharacteristics, type: .withResponse)
+        
+    }
+    
+    
+    func bubbleDidUpdateValueForNotifyCharacteristics(_ value: Data, peripheral: CBPeripheral) {
+        print("dabear:: bubbleDidUpdateValueForNotifyCharacteristics")
+        if let firstByte = value.first {
+            if firstByte == 128 {
+                let hardware = value[2].description + ".0"
+                let firmware = value[1].description + ".0"
+                let battery = Int(value[4])
+                miaoMiao = MiaoMiao(hardware: hardware,
+                                    firmware: firmware,
+                                    battery: battery)
+                print("dabear:: Got bubbledevice: \(miaoMiao)")
+                if let writeCharacteristic = writeCharacteristic {
+                    print("-----set: ", writeCharacteristic)
+                    peripheral.writeValue(Data([0x02, 0x00, 0x00, 0x00, 0x00, 0x2B]), for: writeCharacteristic, type: .withResponse)
+                }
+            }
+            if firstByte == 191 {
+                delegate?.miaoMiaoBluetoothManagerReceivedMessage(0x0000, txFlags: 0x34, payloadData: rxBuffer)
+                resetBuffer()
+            }
+            
+            if firstByte == 192 {
+                rxBuffer.append(value.subdata(in: 0..<8))
+            }
+            
+            if firstByte == 130 {
+                rxBuffer.append(value.suffix(from: 4))
+            }
+            if rxBuffer.count >= 352 {
+                handleCompleteMessage()
+                print("++++++++++first: ", rxBuffer.count)
+                resetBuffer()
+            }
+        }
+        return
+    }
 }
