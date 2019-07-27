@@ -141,7 +141,7 @@ final class BluetoothSearchManager: NSObject, CBCentralManagerDelegate, CBPeriph
     
     func centralManager(_ central: CBCentralManager, didDiscover peripheral: CBPeripheral, advertisementData: [String : Any], rssi RSSI: NSNumber) {
         guard let name = peripheral.name else {
-            print("could not find name for device \(peripheral.identifier.uuidString)")
+            print("dabear:: could not find name for device \(peripheral.identifier.uuidString)")
             return
         }
         let device = CompatibleBluetoothDevice(identifer: peripheral.identifier.uuidString, name: name)
@@ -149,15 +149,21 @@ final class BluetoothSearchManager: NSObject, CBCentralManagerDelegate, CBPeriph
         if deviceNames.contains(name) {
     
             
-            print("did recognize device: \(name): \(peripheral.identifier)")
+            print("dabear:: did recognize device: \(name): \(peripheral.identifier)")
             self.addDiscoveredDevice(device)
             
             
         } else {
-            print("did not add unknown device: \(String(describing: peripheral.name)): \(peripheral.identifier)")
             
-            // TODO: for testing, remove after testing complete
-            self.addDiscoveredDevice(device)
+            
+            if UserDefaults.standard.dangerModeActivated {
+                //allow listing any device when danger mode is active
+                
+                print("dabear:: did add unknown device due to dangermode being active \(String(describing: peripheral.name)): \(peripheral.identifier)")
+                self.addDiscoveredDevice(device)
+            } else {
+                print("dabear:: did not add unknown device: \(String(describing: peripheral.name)): \(peripheral.identifier)")
+            }
         }
         
         
