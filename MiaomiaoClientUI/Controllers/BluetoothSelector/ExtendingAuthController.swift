@@ -89,7 +89,7 @@ public class ExtendingAuthController: NSObject, UITableViewDataSource, UITableVi
             return nil // source.tableView(tableView, titleForHeaderInSection: section)
         }
         
-        return "Libre Bluetooth Devices"
+        return "Libre Bluetooth Devices\nSelect if you want to connect to the first available or a specific device"
     }
     
     public func tableView(_ tableView: UITableView, titleForFooterInSection section: Int) -> String? {
@@ -115,6 +115,35 @@ public class ExtendingAuthController: NSObject, UITableViewDataSource, UITableVi
         return 44
     }
     
+    public func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        /*guard isExtendedSection(section: section) else {
+            return source.tableView(tableView, heightForHeaderInSection: section)
+        }*/
+        
+        return UITableViewAutomaticDimension
+    }
+    
+    public func tableView(_ tableView: UITableView, willDisplayFooterView view: UIView, forSection section: Int) {
+        guard isExtendedSection(section: section) else {
+            return
+        }
+        //this is exploited as a substitute as we do not have access to viewwillappear
+        //static text is selected as standard
+        selectListItem(item: 0)
+    }
+    
+    public func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
+        guard isExtendedSection(section: section) else {
+            return
+        }
+        if let header = view as? UITableViewHeaderFooterView {
+            header.textLabel?.numberOfLines = 0
+            
+            header.textLabel?.lineBreakMode = .byWordWrapping
+            
+        }
+    }
+    
     public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard isExtendedSection(section: indexPath.section) else {
             return source.tableView(source.tableView, cellForRowAt: indexPath)
@@ -122,26 +151,37 @@ public class ExtendingAuthController: NSObject, UITableViewDataSource, UITableVi
         
         
         print("dequeueReusableCell called")
-        let cell = UITableViewCell() //tableView.dequeueReusableCell(withIdentifier: "UITableViewCell", for: indexPath)
+        var cell : UITableViewCell
+        //tableView.dequeueReusableCell(withIdentifier: "UITableViewCell", for: indexPath)
         
         if indexPath.row == 0 {
+            cell = UITableViewCell()
             cell.tag = 1000
             cell.textLabel?.text = "Connect to First available device"
+            
         } else {
+            cell = UITableViewCell(style: .subtitle, reuseIdentifier: nil)
             //cell.textLabel?.text = "Overridden cell with index: \(indexPath.section),\(indexPath.row)"
             //-1 to compensate for the first row which is always static
             if let device = discoveredDevices[safe: indexPath.row - 1] {
-                cell.textLabel?.text = "device: \(device.name) (\(device.identifer))"
+                cell.textLabel?.text = "\(device.name) "
+                cell.detailTextLabel?.text = "\(device.identifer)"
                 cell.textLabel?.numberOfLines = 0;
                 cell.textLabel?.lineBreakMode = .byWordWrapping
                 cell.tag = 1
+                
+                if let image = device.smallImage {
+                    cell.imageView!.image = image
+                }
             } else {
                 cell.textLabel?.text = "unknown device"
             }
             
         }
         
-        
+        let backgroundView = UIView()
+        backgroundView.backgroundColor = UIColor.orange
+        cell.selectedBackgroundView = backgroundView
         
         return cell
         
@@ -170,6 +210,9 @@ public class ExtendingAuthController: NSObject, UITableViewDataSource, UITableVi
         foo = nil
     }
     
+    public func selectListItem(item: Int) {
+        source.tableView.selectRow(at: IndexPath(item: item, section: getExtendedSection()), animated: false, scrollPosition: .none)
+    }
     
     public weak var source : UITableViewController!
     
@@ -178,6 +221,8 @@ public class ExtendingAuthController: NSObject, UITableViewDataSource, UITableVi
         super.init()
         self.source = source
         self.searcher = BluetoothSearchManager(discoverDelegate: self)
+        
+       
         
         
     }
