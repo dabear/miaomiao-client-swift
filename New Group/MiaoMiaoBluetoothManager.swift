@@ -171,6 +171,7 @@ public enum MiaoMiaoManagerState: String {
     case Notifying = "Notifying"
 }
 
+
 public enum MiaoMiaoResponseState: UInt8 {
     case dataPacketReceived = 0x28
     case newSensor = 0x32
@@ -224,7 +225,7 @@ final class MiaoMiaoBluetoothManager: NSObject, CBCentralManagerDelegate, CBPeri
     
     static let bt_log = OSLog(subsystem: "com.LibreMonitor", category: "MiaoMiaoManager")
     var miaoMiao: MiaoMiao?
-    var miaoMiaoResponseState: MiaoMiaoResponseState?
+   
     var centralManager: CBCentralManager!
     var peripheral: CBPeripheral?
     //    var slipBuffer = SLIPBuffer()
@@ -561,8 +562,8 @@ final class MiaoMiaoBluetoothManager: NSObject, CBCentralManagerDelegate, CBPeri
                 os_log("Appended value with length %{public}@, buffer length is: %{public}@", log: MiaoMiaoBluetoothManager.bt_log, type: .default, String(describing: value.count), String(describing: rxBuffer.count))
                 
                 if let firstByte = rxBuffer.first {
-                    miaoMiaoResponseState = MiaoMiaoResponseState(rawValue: firstByte)
-                    if let miaoMiaoResponseState = miaoMiaoResponseState {
+                    
+                    if let miaoMiaoResponseState = MiaoMiaoResponseState(rawValue: firstByte) {
                         switch miaoMiaoResponseState {
                         case .dataPacketReceived: // 0x28: // data received, append to buffer and inform delegate if end reached
                             

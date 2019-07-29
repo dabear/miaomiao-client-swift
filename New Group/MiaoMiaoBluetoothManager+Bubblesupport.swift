@@ -11,6 +11,13 @@ import UIKit
 import CoreBluetooth
 import os.log
 
+public enum BubbleResponseType: UInt8 {
+    case dataPacket = 130
+    case bubbleInfo = 128
+    case noSensor = 191
+    case serialNumber = 192
+}
+
 //bubble support
 extension MiaoMiaoBluetoothManager {
     
@@ -55,8 +62,9 @@ extension MiaoMiaoBluetoothManager {
     
     func bubbleDidUpdateValueForNotifyCharacteristics(_ value: Data, peripheral: CBPeripheral) {
         print("dabear:: bubbleDidUpdateValueForNotifyCharacteristics")
-        if let firstByte = value.first {
-            if firstByte == 128 {
+        if let firstByte = value.first, let bubbleResponseState = BubbleResponseType(rawValue: firstByte) {
+            switch bubbleResponseState {
+            case .bubbleInfo:
                 let hardware = value[2].description + ".0"
                 let firmware = value[1].description + ".0"
                 let battery = Int(value[4])
@@ -68,25 +76,20 @@ extension MiaoMiaoBluetoothManager {
                     print("-----set: ", writeCharacteristic)
                     peripheral.writeValue(Data([0x02, 0x00, 0x00, 0x00, 0x00, 0x2B]), for: writeCharacteristic, type: .withResponse)
                 }
-            }
-            if firstByte == 191 {
+            case .dataPacket:
+                rxBuffer.append(value.suffix(from: 4))
+                if rxBuffer.count >= 352 {
+                    handleCompleteMessage()
+                    resetBuffer()
+                }
+            case .noSensor:
                 delegate?.miaoMiaoBluetoothManagerReceivedMessage(0x0000, txFlags: 0x34, payloadData: rxBuffer)
                 resetBuffer()
-            }
-            
-            if firstByte == 192 {
+            case .serialNumber:
                 rxBuffer.append(value.subdata(in: 2..<10))
             }
-            
-            if firstByte == 130 {
-                rxBuffer.append(value.suffix(from: 4))
-            }
-            if rxBuffer.count >= 352 {
-                handleCompleteMessage()
-                print("++++++++++first: ", rxBuffer.count)
-                resetBuffer()
-            }
+        
+        
         }
-        return
     }
 }
