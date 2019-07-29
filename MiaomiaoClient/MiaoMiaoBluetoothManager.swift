@@ -191,7 +191,8 @@ extension MiaoMiaoResponseState: CustomStringConvertible {
         }
     }
 }
-enum SupportedDevices : Int{
+
+public enum SupportedDevices : Int{
     case MiaoMiao = 0
     case Bubble = 1
     

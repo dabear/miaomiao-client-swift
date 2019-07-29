@@ -14,6 +14,7 @@ import Foundation
 import UIKit
 import CoreBluetooth
 import os.log
+import MiaomiaoClient
 
 extension Bundle {
     static var current: Bundle {
@@ -40,9 +41,10 @@ struct CompatibleBluetoothDevice : Hashable {
         switch name.lowercased() {
         case let x where x.starts(with: "miaomiao"):
             return UIImage(named: "miaomiao-small", in: bundle, compatibleWith: nil)
+        case let x where x.starts(with: "bubble"):
+            return UIImage(named: "bubble", in: bundle, compatibleWith: nil)
         default:
-            //TODO: remove when testing is complete, return nil instead
-            return UIImage(named: "miaomiao-small", in: bundle, compatibleWith: nil)
+            return nil
         }
     }
     
@@ -59,17 +61,11 @@ protocol BluetoothSearchDelegate: class {
 final class BluetoothSearchManager: NSObject, CBCentralManagerDelegate, CBPeripheralDelegate {
 
     
-    
-  
-    
     static let bt_log = OSLog(subsystem: "com.LibreMonitor", category: "BluetoothSearchManager")
-    
-    
+
     var centralManager: CBCentralManager!
-   
-   
-    
-    fileprivate let deviceNames = ["miaomiao"]
+
+    fileprivate let deviceNames = [SupportedDevices.MiaoMiao.name, SupportedDevices.Bubble.name]
     //fileprivate let serviceUUIDs:[CBUUID]? = [CBUUID(string: "6E400001-B5A3-F393-E0A9-E50E24DCCA9E")]
     
     
@@ -96,7 +92,7 @@ final class BluetoothSearchManager: NSObject, CBCentralManagerDelegate, CBPeriph
         
     }
     
-    func scanForMiaoMiao() {
+    func scanForCompatibleDevices() {
         
         //        print(centralManager.debugDescription)
         if centralManager.state == .poweredOn {
@@ -132,7 +128,7 @@ final class BluetoothSearchManager: NSObject, CBCentralManagerDelegate, CBPeriph
         case .poweredOn:
                 //os_log("Central Manager was powered on, scanningformiaomiao: state: %{public}@", log: MiaoMiaoBluetoothManager.bt_log, type: .default, String(describing: state))
             
-                scanForMiaoMiao() // power was switched on, while app is running -> reconnect.
+                scanForCompatibleDevices() // power was switched on, while app is running -> reconnect.
         }
             
         
@@ -140,7 +136,7 @@ final class BluetoothSearchManager: NSObject, CBCentralManagerDelegate, CBPeriph
     
     
     func centralManager(_ central: CBCentralManager, didDiscover peripheral: CBPeripheral, advertisementData: [String : Any], rssi RSSI: NSNumber) {
-        guard let name = peripheral.name else {
+        guard let name = peripheral.name?.lowercased() else {
             print("dabear:: could not find name for device \(peripheral.identifier.uuidString)")
             return
         }
@@ -258,9 +254,6 @@ final class BluetoothSearchManager: NSObject, CBCentralManagerDelegate, CBPeriph
     func peripheral(_ peripheral: CBPeripheral, didWriteValueFor characteristic: CBCharacteristic, error: Error?) {
         os_log("Did Write value %{public}@ for characteristic %{public}@", log: BluetoothSearchManager.bt_log, type: .default, String(characteristic.value.debugDescription), String(characteristic.debugDescription))
     }
-    
-    // Miaomiao specific commands
-    
     
     
     
