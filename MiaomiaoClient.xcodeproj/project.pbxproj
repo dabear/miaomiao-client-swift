@@ -39,8 +39,8 @@
 		271EDF2322EC6F0A00E1C8B3 /* AnnotatedSubtitleCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 271EDF2222EC6F0A00E1C8B3 /* AnnotatedSubtitleCell.swift */; };
 		271EDF2522EC739F00E1C8B3 /* UserDefaults+Bluetooth.swift in Sources */ = {isa = PBXBuildFile; fileRef = 271EDF2422EC739F00E1C8B3 /* UserDefaults+Bluetooth.swift */; };
 		271EDF2622EC755D00E1C8B3 /* UserDefaults+Bluetooth.swift in Sources */ = {isa = PBXBuildFile; fileRef = 271EDF2422EC739F00E1C8B3 /* UserDefaults+Bluetooth.swift */; };
-		271EDF2822EF929F00E1C8B3 /* bubble.png in Resources */ = {isa = PBXBuildFile; fileRef = 271EDF2722EF929E00E1C8B3 /* bubble.png */; };
 		271EDF2B22EF97FD00E1C8B3 /* MiaoMiaoBluetoothManager+Bubblesupport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 271EDF2922EF97D000E1C8B3 /* MiaoMiaoBluetoothManager+Bubblesupport.swift */; };
+		271EDF2F22EFA29C00E1C8B3 /* bubble.png in Resources */ = {isa = PBXBuildFile; fileRef = 271EDF2E22EFA29C00E1C8B3 /* bubble.png */; };
 		2729D677221F421C0030E1B8 /* MiaoMiao.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2729D676221F421C0030E1B8 /* MiaoMiao.swift */; };
 		2729D678221F421C0030E1B8 /* MiaoMiao.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2729D676221F421C0030E1B8 /* MiaoMiao.swift */; };
 		2729D67B221F421F0030E1B8 /* MiaoMiaoBluetoothManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2729D67A221F421F0030E1B8 /* MiaoMiaoBluetoothManager.swift */; };
@@ -223,8 +223,8 @@
 		271EDF2022EB63B100E1C8B3 /* BluetoothSearch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BluetoothSearch.swift; sourceTree = "<group>"; };
 		271EDF2222EC6F0A00E1C8B3 /* AnnotatedSubtitleCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnnotatedSubtitleCell.swift; sourceTree = "<group>"; };
 		271EDF2422EC739F00E1C8B3 /* UserDefaults+Bluetooth.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserDefaults+Bluetooth.swift"; sourceTree = "<group>"; };
-		271EDF2722EF929E00E1C8B3 /* bubble.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bubble.png; sourceTree = "<group>"; };
 		271EDF2922EF97D000E1C8B3 /* MiaoMiaoBluetoothManager+Bubblesupport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MiaoMiaoBluetoothManager+Bubblesupport.swift"; sourceTree = "<group>"; };
+		271EDF2E22EFA29C00E1C8B3 /* bubble.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bubble.png; sourceTree = "<group>"; };
 		2729D676221F421C0030E1B8 /* MiaoMiao.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MiaoMiao.swift; sourceTree = "<group>"; };
 		2729D67A221F421F0030E1B8 /* MiaoMiaoBluetoothManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MiaoMiaoBluetoothManager.swift; sourceTree = "<group>"; };
 		2729D682221F42760030E1B8 /* BloodSugarController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BloodSugarController.swift; sourceTree = "<group>"; };
@@ -395,7 +395,7 @@
 		270C26672269E67A005B27F3 /* Graphics */ = {
 			isa = PBXGroup;
 			children = (
-				271EDF2722EF929E00E1C8B3 /* bubble.png */,
+				271EDF2E22EFA29C00E1C8B3 /* bubble.png */,
 				27014789227B53AB0013C9E3 /* miaomiao-small.png */,
 				270C266B226A24AB005B27F3 /* icons8-schedule-50.png */,
 				270C26682269E6B7005B27F3 /* schedule-icon48.jpg */,
@@ -867,7 +867,7 @@
 			files = (
 				270C265B22691253005B27F3 /* GlucoseAlarmInputCell.xib in Resources */,
 				270C266C226A24AB005B27F3 /* icons8-schedule-50.png in Resources */,
-				271EDF2822EF929F00E1C8B3 /* bubble.png in Resources */,
+				271EDF2F22EFA29C00E1C8B3 /* bubble.png in Resources */,
 				270C26652269E611005B27F3 /* icons8-drop-down-arrow-50.png in Resources */,
 				272FAF09228CA590002D8064 /* SegmentViewCell.xib in Resources */,
 				270C26602269E51F005B27F3 /* icons8-down-arrow-50.png in Resources */,

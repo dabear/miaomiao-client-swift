@@ -207,7 +207,7 @@ public class ExtendingAuthController: NSObject, UITableViewDataSource, UITableVi
             }
         } else {
             //cell = UITableViewCell(style: .subtitle, reuseIdentifier: nil)
-            cell = AnnotatedSubtitleCell<CompatibleBluetoothDevice>()
+            cell = AnnotatedSubtitleCell<CompatibleBluetoothDevice>(style: .subtitle, reuseIdentifier: nil)
             //cell.textLabel?.text = "Overridden cell with index: \(indexPath.section),\(indexPath.row)"
             //-1 to compensate for the first row which is always static
             if let device = discoveredDevices[safe: indexPath.row - 1] {
@@ -222,7 +222,8 @@ public class ExtendingAuthController: NSObject, UITableViewDataSource, UITableVi
                     cell.imageView!.image = image
                 }
             } else {
-                cell.textLabel?.text = "unknown device"
+                //won't happen
+                cell.textLabel?.text = "Unknown device"
             }
             
         }
