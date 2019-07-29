@@ -783,7 +783,7 @@ extension MiaoMiaoBluetoothManager {
             }
             
             if firstByte == 192 {
-                rxBuffer.append(value.subdata(in: 0..<8))
+                rxBuffer.append(value.subdata(in: 2..<10))
             }
             
             if firstByte == 130 {
