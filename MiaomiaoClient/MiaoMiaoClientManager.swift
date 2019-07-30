@@ -49,10 +49,20 @@ public final class MiaoMiaoClientManager: CGMManager, MiaoMiaoBluetoothManagerDe
             return miaomiaoSmallImage
         case .MiaoMiao:
             return bubbleSmallImage
-            
+        default:
+            return defaultSmallImage
         }
         
-        return defaultSmallImage
+        
+        
+    }
+    
+    public var identifier: String {
+        guard let identifier = MiaoMiaoClientManager.proxy?.identifier else {
+            return "n/a"
+        }
+        
+        return identifier.uuidString
         
     }
     
@@ -61,12 +71,12 @@ public final class MiaoMiaoClientManager: CGMManager, MiaoMiaoBluetoothManagerDe
         
         return HKDevice(
             name: "MiaomiaoClient",
-            manufacturer: "Tomato",
+            manufacturer: manufacturer,
             model: nil, //latestSpikeCollector,
             hardwareVersion: hardwareVersion,
             firmwareVersion: firmwareVersion,
             softwareVersion: nil,
-            localIdentifier: nil,
+            localIdentifier: identifier,
             udiDeviceIdentifier: nil
         )
     }
@@ -240,6 +250,20 @@ public final class MiaoMiaoClientManager: CGMManager, MiaoMiaoBluetoothManagerDe
     
     public var hardwareVersion : String {
         return MiaoMiaoClientManager.proxy?.miaoMiao?.hardware ?? "n/a"
+    }
+    
+    public var manufacturer : String {
+        guard let currentDevice = MiaoMiaoClientManager.proxy?.currentDevice else {
+            return "n/a"
+        }
+        switch currentDevice {
+        case .Bubble:
+            return "Bubbledevteam"
+        case .MiaoMiao:
+            return "Tomato"
+        default:
+            return "n/a"
+        }
     }
     
     public var battery : String {

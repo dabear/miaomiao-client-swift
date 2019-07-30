@@ -236,6 +236,13 @@ final class MiaoMiaoBluetoothManager: NSObject, CBCentralManagerDelegate, CBPeri
     
     private(set) var currentDevice : SupportedDevices?
     
+    public var identifier : UUID? {
+        get {
+            return peripheral?.identifier
+        }
+        
+    }
+    
     private func setCurrentDevice(peripheralName: String) {
         switch peripheralName {
         case SupportedDevices.Bubble.name:
