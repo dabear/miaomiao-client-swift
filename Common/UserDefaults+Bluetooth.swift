@@ -7,27 +7,43 @@
 //
 
 import Foundation
+import MiaomiaoClient
+
 extension UserDefaults {
     
     private enum Key: String {
         case bluetoothDeviceUUID = "no.bjorninge.bluetoothDeviceUUID"
+        case bluetoothDevice = "no.bjorninge.bluetoothDevice"
         
         
-    }
-   
-    var selectedBluetoothDeviceIdentifer : String? {
-        get {
-            let val =  string(forKey: Key.bluetoothDeviceUUID.rawValue)
-            if let val = val, val == "" {
-                return nil
-            }
-            return val
-        }
-        set {
-            set(newValue ?? "", forKey: Key.bluetoothDeviceUUID.rawValue)
-        }
     }
     
+    var preSelectedDevice : CompatibleLibreBluetoothDevice? {
+        
+        get {
+            
+            if let savedPreSelectedDevice = object(forKey: Key.bluetoothDevice.rawValue) as? Data {
+                let decoder = JSONDecoder()
+                if let loadedPreselectedDevice = try? decoder.decode(CompatibleLibreBluetoothDevice.self, from: savedPreSelectedDevice) {
+                    return loadedPreselectedDevice
+                }
+            }
+            
+            return nil
+        }
+        set {
+            let encoder = JSONEncoder()
+            if let val = newValue {
+                if let encoded = try? encoder.encode(val) {
+                    set(encoded, forKey: Key.bluetoothDevice.rawValue)
+                }
+            } else {
+                set("", forKey: Key.bluetoothDevice.rawValue)
+            }
+        }
+    }
+   
+   
     
 
     

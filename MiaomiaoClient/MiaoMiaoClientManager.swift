@@ -23,8 +23,7 @@ public final class MiaoMiaoClientManager: CGMManager, MiaoMiaoBluetoothManagerDe
     public var managedDataInterval: TimeInterval?
     
     private lazy var defaultSmallImage : UIImage? = {
-        let bundle = Bundle(for: type(of: self))
-        return UIImage(named: "miaomiao-small", in: bundle, compatibleWith: nil)
+        return miaomiaoSmallImage
     }()
     
     private lazy var miaomiaoSmallImage : UIImage? = {
@@ -40,11 +39,14 @@ public final class MiaoMiaoClientManager: CGMManager, MiaoMiaoBluetoothManagerDe
     
     
     public func getSmallImage() -> UIImage? {
-        guard let currentDevice = MiaoMiaoClientManager.proxy?.currentDevice else {
-            return defaultSmallImage
+        guard let bridgeType = MiaoMiaoClientManager.proxy?.peripheralAsCompatibleDevice()?.bridgeType else {
+            //this could happen if no device is currently connected (out of range)
+            // but a preselection is still active
+            // we fallback to miaomiao as this is the most likely choice
+            return UserDefaults.standard.preSelectedDevice?.smallImage ?? defaultSmallImage
         }
         
-        switch currentDevice {
+        switch bridgeType {
         case .Bubble:
             return miaomiaoSmallImage
         case .MiaoMiao:
@@ -179,7 +181,7 @@ public final class MiaoMiaoClientManager: CGMManager, MiaoMiaoBluetoothManagerDe
     
     //public var miaomiaoService: MiaomiaoService
     
-    public static let localizedTitle = LocalizedString("Miaomiao", comment: "Title for the CGMManager option")
+    public static let localizedTitle = LocalizedString("Libre Bluetooth", comment: "Title for the CGMManager option")
     
     public let appURL: URL? = nil //URL(string: "spikeapp://")
     
@@ -253,10 +255,10 @@ public final class MiaoMiaoClientManager: CGMManager, MiaoMiaoBluetoothManagerDe
     }
     
     public var manufacturer : String {
-        guard let currentDevice = MiaoMiaoClientManager.proxy?.currentDevice else {
+        guard let bridgeType = MiaoMiaoClientManager.proxy?.peripheralAsCompatibleDevice()?.bridgeType else {
             return "n/a"
         }
-        switch currentDevice {
+        switch bridgeType {
         case .Bubble:
             return "Bubbledevteam"
         case .MiaoMiao:

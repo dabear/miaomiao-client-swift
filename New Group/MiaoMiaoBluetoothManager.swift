@@ -193,7 +193,7 @@ extension MiaoMiaoResponseState: CustomStringConvertible {
     }
 }
 
-public enum SupportedDevices : Int{
+public enum SupportedDevices : Int, CaseIterable{
     case MiaoMiao = 0
     case Bubble = 1
     
@@ -205,6 +205,81 @@ public enum SupportedDevices : Int{
             return "miaomiao"
         }
     }
+    public static func isSupported(_ peripheral: CBPeripheral ) -> Bool{
+        if let name = peripheral.name?.lowercased() {
+            return allNames.contains(name)
+        }
+        return false
+        
+    }
+    public static var allNames : [String] {
+        get {
+            return SupportedDevices.allCases.map( { $0.name})
+        }
+    }
+}
+
+extension Bundle {
+    static var current: Bundle {
+        class __ { }
+        return Bundle(for: __.self)
+    }
+}
+
+public struct CompatibleLibreBluetoothDevice : Hashable, Codable {
+    public var identifier: String
+    public var name: String
+    
+    var bridgeType : SupportedDevices?  {
+        get{
+            print("dabear: self.name.lowercased() is: \(self.name.lowercased())")
+            switch self.name.lowercased() {
+            case let x where x.starts(with: "miaomiao"):
+                return SupportedDevices.MiaoMiao
+            case let x where x.starts(with: "bubble"):
+                return SupportedDevices.Bubble
+            default:
+                return nil
+            }
+        }
+    }
+    
+    public init(identifier:String, from type: SupportedDevices){
+        self.init(identifier:identifier, name: type.name)
+    }
+    
+    public init(identifier:String, name: String) {
+        self.identifier = identifier
+        self.name = name
+    }
+    
+    
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(identifier.hashValue)
+        hasher.combine(name.hashValue)
+    }
+    
+    public static func == (lhs: CompatibleLibreBluetoothDevice, rhs: CompatibleLibreBluetoothDevice) -> Bool {
+        return lhs.identifier == rhs.identifier && lhs.name == rhs.name
+    }
+    
+    public var smallImage : UIImage? {
+        let bundle = Bundle.current
+        print("dabear:: bridgetype is \(bridgeType)")
+        
+        guard let bridgeType = bridgeType else {
+            
+            return nil
+        }
+        switch bridgeType {
+        case .Bubble:
+            return UIImage(named: "bubble", in: bundle, compatibleWith: nil)
+        case .MiaoMiao:
+            return UIImage(named: "miaomiao-small", in: bundle, compatibleWith: nil)
+        }
+        
+    }
+    
 }
 
 
@@ -215,7 +290,15 @@ protocol MiaoMiaoBluetoothManagerDelegate {
     func miaoMiaoBluetoothManagerDidUpdateSensorAndMiaoMiao(sensorData: SensorData, miaoMiao: MiaoMiao) -> Void
 }
 
-
+public extension CBPeripheral {
+    public func asCompatibleBluetoothDevice() -> CompatibleLibreBluetoothDevice? {
+        if SupportedDevices.isSupported(self), let name=self.name {
+            return CompatibleLibreBluetoothDevice(identifier: self.identifier.uuidString, name: name)
+        }
+        
+        return nil
+    }
+}
 
 final class MiaoMiaoBluetoothManager: NSObject, CBCentralManagerDelegate, CBPeripheralDelegate {
     
@@ -234,7 +317,6 @@ final class MiaoMiaoBluetoothManager: NSObject, CBCentralManagerDelegate, CBPeri
     var rxBuffer = Data()
     var sensorData: SensorData?
     
-    private(set) var currentDevice : SupportedDevices?
     
     public var identifier : UUID? {
         get {
@@ -243,22 +325,18 @@ final class MiaoMiaoBluetoothManager: NSObject, CBCentralManagerDelegate, CBPeri
         
     }
     
-    private func setCurrentDevice(peripheralName: String) {
-        switch peripheralName {
-        case SupportedDevices.Bubble.name:
-            currentDevice = SupportedDevices.Bubble
-        case SupportedDevices.MiaoMiao.name:
-            currentDevice = SupportedDevices.MiaoMiao
-        default:
-            print("not going to happen!")
-        }
+    public func peripheralAsCompatibleDevice() -> CompatibleLibreBluetoothDevice?{
+        return peripheral?.asCompatibleBluetoothDevice()
     }
+    
+    
     
     
     
     //    fileprivate let serviceUUIDs:[CBUUID]? = [CBUUID(string: "6E400001B5A3F393E0A9E50E24DCCA9E")]
     //fileprivate let deviceNames = ["miaomiao", "bubble"]
-    fileprivate let deviceNames = [SupportedDevices.MiaoMiao.name, SupportedDevices.Bubble.name]
+    //fileprivate let deviceNames = [SupportedDevices.MiaoMiao.name, SupportedDevices.Bubble.name]
+    //fileprivate var deviceNames = SupportedDevices.allNames
     fileprivate let serviceUUIDs:[CBUUID]? = [CBUUID(string: "6E400001-B5A3-F393-E0A9-E50E24DCCA9E")]
     
     var BLEScanDuration = 3.0
@@ -382,39 +460,32 @@ final class MiaoMiaoBluetoothManager: NSObject, CBCentralManagerDelegate, CBPeri
          connect()
          return
          }*/
-        guard let peripheralName = peripheral.name?.lowercased() else {
+        guard peripheral.name?.lowercased() != nil else {
             os_log("discovered peripheral had no name, returning: %{public}@", log: MiaoMiaoBluetoothManager.bt_log, type: .default, String(describing: peripheral.identifier.uuidString))
             return
         }
         
-        if deviceNames.contains(peripheralName){
+        if SupportedDevices.isSupported(peripheral){
             
-            if let preselected = UserDefaults.standard.selectedBluetoothDeviceIdentifer {
-                if peripheral.identifier.uuidString == preselected {
-                    os_log("Did connect to preselected miamiao with identifier %{public}@,", log: MiaoMiaoBluetoothManager.bt_log, type: .default, String(describing: peripheral.identifier.uuidString))
+            if let preselected = UserDefaults.standard.preSelectedDevice {
+                if peripheral.identifier.uuidString == preselected.identifier {
+                    os_log("Did connect to preselected %{public}@ with identifier %{public}@,", log: MiaoMiaoBluetoothManager.bt_log, type: .default, String(describing: peripheral.name) ,String(describing: peripheral.identifier.uuidString))
                     self.peripheral = peripheral
-                    setCurrentDevice(peripheralName: peripheralName)
+                    
                     connect()
                     
                 } else {
-                    os_log("Did not connect to miamiao with identifier %{public}@, because another device with identifier %{public}@ was selected", log: MiaoMiaoBluetoothManager.bt_log, type: .default, String(describing: peripheral.identifier.uuidString), preselected)
+                    os_log("Did not connect to %{public}@ with identifier %{public}@, because another device with identifier %{public}@ was selected", log: MiaoMiaoBluetoothManager.bt_log, type: .default, String(describing: peripheral.name), String(describing: peripheral.identifier.uuidString), preselected.identifier)
                     
                 }
                 
                 return
             }
             
-
-            
-            os_log("Did connect to first miaomiao with identifier %{public}@, as there was no preselection", log: MiaoMiaoBluetoothManager.bt_log, type: .default, String(describing: peripheral.identifier))
-            self.peripheral = peripheral
-            setCurrentDevice(peripheralName: peripheralName)
-            connect()
-            
-                
-           
-            
         }
+        
+        
+        
         
         
     }
@@ -563,10 +634,11 @@ final class MiaoMiaoBluetoothManager: NSObject, CBCentralManagerDelegate, CBPeri
                 
  
                 
-                if currentDevice == SupportedDevices.Bubble {
+                if peripheral.asCompatibleBluetoothDevice()?.bridgeType == SupportedDevices.Bubble {
                     bubbleDidUpdateValueForNotifyCharacteristics(value, peripheral: peripheral)
                     return
                 }
+                
                 rxBuffer.append(value)
                 os_log("Appended value with length %{public}@, buffer length is: %{public}@", log: MiaoMiaoBluetoothManager.bt_log, type: .default, String(describing: value.count), String(describing: rxBuffer.count))
                 
@@ -661,7 +733,7 @@ final class MiaoMiaoBluetoothManager: NSObject, CBCentralManagerDelegate, CBPeri
     func requestData() {
         
         if let writeCharacteristic = writeCharacteristic {
-            if currentDevice == SupportedDevices.Bubble {
+            if peripheral?.asCompatibleBluetoothDevice()?.bridgeType == SupportedDevices.Bubble {
                 bubbleRequestData(writeCharacteristics: writeCharacteristic, peripheral: peripheral!)
                 return
             }
@@ -680,7 +752,7 @@ final class MiaoMiaoBluetoothManager: NSObject, CBCentralManagerDelegate, CBPeri
     
     func handleCompleteMessage() {
         
-        if currentDevice == SupportedDevices.Bubble {
+        if peripheral?.asCompatibleBluetoothDevice()?.bridgeType == SupportedDevices.Bubble {
             bubbleHandleCompleteMessage()
             return
         }

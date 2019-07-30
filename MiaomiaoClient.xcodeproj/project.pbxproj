@@ -35,12 +35,13 @@
 		270C266F226A5A6E005B27F3 /* GlucoseSchedules.swift in Sources */ = {isa = PBXBuildFile; fileRef = 270C266E226A5A6E005B27F3 /* GlucoseSchedules.swift */; };
 		270C2670226A5A6E005B27F3 /* GlucoseSchedules.swift in Sources */ = {isa = PBXBuildFile; fileRef = 270C266E226A5A6E005B27F3 /* GlucoseSchedules.swift */; };
 		271EDF1F22EB103B00E1C8B3 /* ExtendingAuthController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 271EDF1E22EB103B00E1C8B3 /* ExtendingAuthController.swift */; };
-		271EDF2122EB63B100E1C8B3 /* BluetoothSearch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 271EDF2022EB63B100E1C8B3 /* BluetoothSearch.swift */; };
 		271EDF2322EC6F0A00E1C8B3 /* AnnotatedSubtitleCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 271EDF2222EC6F0A00E1C8B3 /* AnnotatedSubtitleCell.swift */; };
-		271EDF2522EC739F00E1C8B3 /* UserDefaults+Bluetooth.swift in Sources */ = {isa = PBXBuildFile; fileRef = 271EDF2422EC739F00E1C8B3 /* UserDefaults+Bluetooth.swift */; };
 		271EDF2622EC755D00E1C8B3 /* UserDefaults+Bluetooth.swift in Sources */ = {isa = PBXBuildFile; fileRef = 271EDF2422EC739F00E1C8B3 /* UserDefaults+Bluetooth.swift */; };
 		271EDF2B22EF97FD00E1C8B3 /* MiaoMiaoBluetoothManager+Bubblesupport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 271EDF2922EF97D000E1C8B3 /* MiaoMiaoBluetoothManager+Bubblesupport.swift */; };
 		271EDF2F22EFA29C00E1C8B3 /* bubble.png in Resources */ = {isa = PBXBuildFile; fileRef = 271EDF2E22EFA29C00E1C8B3 /* bubble.png */; };
+		271EDF3322F0946400E1C8B3 /* BluetoothSearch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 271EDF2022EB63B100E1C8B3 /* BluetoothSearch.swift */; };
+		271EDF3422F095C000E1C8B3 /* UserDefaults+Bluetooth.swift in Sources */ = {isa = PBXBuildFile; fileRef = 271EDF2422EC739F00E1C8B3 /* UserDefaults+Bluetooth.swift */; };
+		271EDF3522F22BEE00E1C8B3 /* bubble.png in Resources */ = {isa = PBXBuildFile; fileRef = 271EDF2E22EFA29C00E1C8B3 /* bubble.png */; };
 		2729D677221F421C0030E1B8 /* MiaoMiao.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2729D676221F421C0030E1B8 /* MiaoMiao.swift */; };
 		2729D678221F421C0030E1B8 /* MiaoMiao.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2729D676221F421C0030E1B8 /* MiaoMiao.swift */; };
 		2729D67B221F421F0030E1B8 /* MiaoMiaoBluetoothManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2729D67A221F421F0030E1B8 /* MiaoMiaoBluetoothManager.swift */; };
@@ -411,7 +412,6 @@
 			isa = PBXGroup;
 			children = (
 				271EDF1E22EB103B00E1C8B3 /* ExtendingAuthController.swift */,
-				271EDF2022EB63B100E1C8B3 /* BluetoothSearch.swift */,
 			);
 			path = BluetoothSelector;
 			sourceTree = "<group>";
@@ -419,6 +419,7 @@
 		2729D671221F42070030E1B8 /* Bluetooth */ = {
 			isa = PBXGroup;
 			children = (
+				271EDF2022EB63B100E1C8B3 /* BluetoothSearch.swift */,
 				2729D67A221F421F0030E1B8 /* MiaoMiaoBluetoothManager.swift */,
 				271EDF2922EF97D000E1C8B3 /* MiaoMiaoBluetoothManager+Bubblesupport.swift */,
 				2729D68A221F44660030E1B8 /* TemperatureAlgorithmParameters.swift */,
@@ -851,6 +852,7 @@
 			files = (
 				43AB5127213315D300B3D58D /* Localizable.strings in Resources */,
 				2701478B227B584B0013C9E3 /* miaomiao-small.png in Resources */,
+				271EDF3522F22BEE00E1C8B3 /* bubble.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -988,13 +990,14 @@
 				4325E9D5210E6B4400969CE5 /* UIColor.swift in Sources */,
 				27E0969122B2A89D00B3164D /* CalibrationEditTableViewController.swift in Sources */,
 				27E0968622A6F64800B3164D /* SnoozeViewController.swift in Sources */,
+				271EDF3322F0946400E1C8B3 /* BluetoothSearch.swift in Sources */,
 				27E0969B22B94D4400B3164D /* CustomDatePickerViewController.swift in Sources */,
 				27E0968422A6EFCD00B3164D /* SnoozeView.swift in Sources */,
 				43A8EC97210E680100A81379 /* ShareService+UI.swift in Sources */,
 				275C3D99229AA88200E27439 /* mmSwitchTableViewCell.swift in Sources */,
 				27E0969822B94CAD00B3164D /* CustomDatePicker.swift in Sources */,
+				271EDF3422F095C000E1C8B3 /* UserDefaults+Bluetooth.swift in Sources */,
 				270C265C22691253005B27F3 /* GlucoseAlarmInputCell.swift in Sources */,
-				271EDF2522EC739F00E1C8B3 /* UserDefaults+Bluetooth.swift in Sources */,
 				43AB51372133177800B3D58D /* LocalizedString.swift in Sources */,
 				277DAD11226C986000422ADA /* GlucoseAlarmType.swift in Sources */,
 				27CFAB5E224AB265006DEFE3 /* CollectionExtensions.swift in Sources */,
@@ -1012,7 +1015,6 @@
 				271EDF1F22EB103B00E1C8B3 /* ExtendingAuthController.swift in Sources */,
 				27E0968D22A9806200B3164D /* CGFLoat+Double.swift in Sources */,
 				27CBEB552261DF9D004F7BF5 /* AlarmTimeInputRangeCell.swift in Sources */,
-				271EDF2122EB63B100E1C8B3 /* BluetoothSearch.swift in Sources */,
 				275C3DA1229D9BBB00E27439 /* mmTextFieldViewCell.swift in Sources */,
 				274DF85222A5AEA400BFAFFE /* AlertControllers.swift in Sources */,
 				277DAD12226C9FA800422ADA /* DateExtensions.swift in Sources */,
