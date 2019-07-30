@@ -9,6 +9,7 @@
 import Foundation
 import LoopKit
 import LoopKitUI
+import UIKit
 import UserNotifications
 
 import os.log
@@ -20,6 +21,40 @@ public final class MiaoMiaoClientManager: CGMManager, MiaoMiaoBluetoothManagerDe
     }
     
     public var managedDataInterval: TimeInterval?
+    
+    private lazy var defaultSmallImage : UIImage? = {
+        let bundle = Bundle(for: type(of: self))
+        return UIImage(named: "miaomiao-small", in: bundle, compatibleWith: nil)
+    }()
+    
+    private lazy var miaomiaoSmallImage : UIImage? = {
+        let bundle = Bundle(for: type(of: self))
+        return UIImage(named: "miaomiao-small", in: bundle, compatibleWith: nil)
+    }()
+    
+    private lazy var bubbleSmallImage : UIImage? = {
+        let bundle = Bundle(for: type(of: self))
+        return UIImage(named: "bubble", in: bundle, compatibleWith: nil)
+    }()
+    
+    
+    
+    public func getSmallImage() -> UIImage? {
+        guard let currentDevice = MiaoMiaoClientManager.proxy?.currentDevice else {
+            return defaultSmallImage
+        }
+        
+        switch currentDevice {
+        case .Bubble:
+            return miaomiaoSmallImage
+        case .MiaoMiao:
+            return bubbleSmallImage
+            
+        }
+        
+        return defaultSmallImage
+        
+    }
     
     
     public var device: HKDevice? {

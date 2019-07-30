@@ -234,9 +234,9 @@ final class MiaoMiaoBluetoothManager: NSObject, CBCentralManagerDelegate, CBPeri
     var rxBuffer = Data()
     var sensorData: SensorData?
     
-    var currentDevice : SupportedDevices!
+    private(set) var currentDevice : SupportedDevices?
     
-    func setCurrentDevice(peripheralName: String) {
+    private func setCurrentDevice(peripheralName: String) {
         switch peripheralName {
         case SupportedDevices.Bubble.name:
             currentDevice = SupportedDevices.Bubble
@@ -246,6 +246,8 @@ final class MiaoMiaoBluetoothManager: NSObject, CBCentralManagerDelegate, CBPeri
             print("not going to happen!")
         }
     }
+    
+    
     
     //    fileprivate let serviceUUIDs:[CBUUID]? = [CBUUID(string: "6E400001B5A3F393E0A9E50E24DCCA9E")]
     //fileprivate let deviceNames = ["miaomiao", "bubble"]
