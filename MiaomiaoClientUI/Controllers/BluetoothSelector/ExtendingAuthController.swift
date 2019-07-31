@@ -8,13 +8,13 @@
 
 import Foundation
 import UIKit
-
+import MiaomiaoClient
 
 fileprivate var foo : ExtendingAuthController!
 
 // This will only work if original controller keeps a somewhat static amount of sections
 public class ExtendingAuthController: NSObject, UITableViewDataSource, UITableViewDelegate, BluetoothSearchDelegate{
-    func didDiscoverCompatibleDevice(_ device: CompatibleBluetoothDevice, allCompatibleDevices: [CompatibleBluetoothDevice]) {
+    func didDiscoverCompatibleDevice(_ device: CompatibleLibreBluetoothDevice, allCompatibleDevices: [CompatibleLibreBluetoothDevice]) {
         print("ExtendingAuthController was notified of new devices. alldevices:\(allCompatibleDevices.count)")
         
         if discoveredDevices != allCompatibleDevices {
@@ -23,30 +23,29 @@ public class ExtendingAuthController: NSObject, UITableViewDataSource, UITableVi
         
     }
     
-    private var discoveredDevices = [CompatibleBluetoothDevice]() {
+    private var discoveredDevices = [CompatibleLibreBluetoothDevice]() {
         didSet{
-            var section = getExtendedSection()
+            let section = getExtendedSection()
             print("will reload section \(section)")
             //new devices detected, so reload the section, thereby repopulating list of devices
             source.tableView.reloadSections(IndexSet(integer: section), with: .automatic)
             
             //
-            if let preselected = UserDefaults.standard.selectedBluetoothDeviceIdentifer {
+            if let preselected = UserDefaults.standard.preSelectedDevice {
                 if discoveredDevices.count == 0  {
-                    print("dabear:: discoveredDevices count is 0, selecting first row")
-                    selectRow(row: 0)
-                } else if let index = discoveredDevices.firstIndex(where: { $0.identifer == preselected}) {
-                    let row = index + 1
-                    print("dabear:: found preselected device in index \(index), selecting row \(row)")
-                    selectRow(row: row)
+                    print("dabear:: discoveredDevices count is 0,")
+                    
+                } else if let index = discoveredDevices.firstIndex(where: { $0.identifier == preselected.identifier}) {
+                    
+                    print("dabear:: found preselected device in index \(index), selecting row \(index)")
+                    selectRow(row: index)
                     
                 } else {
-                    print("dabear:: preselected device was not discovered, selecting first row")
-                    selectRow(row: 0)
+                    
                 }
             } else {
-                print("dabear:: no preselection, selecting first row")
-                selectRow(row: 0)
+                print("dabear:: no preselection")
+               
             }
             
         }
@@ -68,8 +67,8 @@ public class ExtendingAuthController: NSObject, UITableViewDataSource, UITableVi
             return source.tableView(tableView, numberOfRowsInSection: section)
         }
         
-        //first row is always present, connect to first available device
-        return 1 + discoveredDevices.count
+        
+        return discoveredDevices.count
         
         
     }
@@ -131,18 +130,18 @@ public class ExtendingAuthController: NSObject, UITableViewDataSource, UITableVi
         if let cell = tableView.cellForRow(at: indexPath) {
             if cell.tag == 1000 {
                 //static text
-                UserDefaults.standard.selectedBluetoothDeviceIdentifer = nil
+                UserDefaults.standard.preSelectedDevice = nil
             } else {
-                if let cell = (cell as? AnnotatedSubtitleCell<CompatibleBluetoothDevice>), let device = cell.annotation {
+                if let cell = (cell as? AnnotatedSubtitleCell<CompatibleLibreBluetoothDevice>), let device = cell.annotation {
                     print("Selected device: \(device)")
-                    UserDefaults.standard.selectedBluetoothDeviceIdentifer = device.identifer
+                    UserDefaults.standard.preSelectedDevice = device
                 } else {
                     print("Could not downcastcell, selected device was not retrieved")
                 }
             }
         }
         
-        print("Selected bluetooth device is now: \(String(describing: UserDefaults.standard.selectedBluetoothDeviceIdentifer))")
+        print("Selected bluetooth device is now: \(String(describing: UserDefaults.standard.preSelectedDevice))")
         
         
         
@@ -180,52 +179,44 @@ public class ExtendingAuthController: NSObject, UITableViewDataSource, UITableVi
     private func selectIfannotatedCellMatchesPreSelection(_ cell: UITableViewCell){
         //don't override users choice
         print("dabear:: selectIfannotatedCellMatchesPreSelection")
-        if let preselected = UserDefaults.standard.selectedBluetoothDeviceIdentifer,
-            let cell = (cell as? AnnotatedSubtitleCell<CompatibleBluetoothDevice>) {
-            if cell.annotation?.identifer == preselected {
+        if let preselected = UserDefaults.standard.preSelectedDevice,
+            let cell = (cell as? AnnotatedSubtitleCell<CompatibleLibreBluetoothDevice>) {
+            if cell.annotation == preselected {
                 print("dabear:: selecting preselected peripheral cell with id \(preselected)")
                 cell.isSelected = true
             }
         }
     }
     
+    
     public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard isExtendedSection(section: indexPath.section) else {
             return source.tableView(source.tableView, cellForRowAt: indexPath)
         }
         
-        var cell : UITableViewCell
+        var cell = AnnotatedSubtitleCell<CompatibleLibreBluetoothDevice>(style: .subtitle, reuseIdentifier: nil)
         //tableView.dequeueReusableCell(withIdentifier: "UITableViewCell", for: indexPath)
         
-        if indexPath.row == 0 {
-            cell = UITableViewCell()
-            cell.tag = 1000
-            cell.textLabel?.text = "Connect to First available device"
-            if discoveredDevices.count == 0 {
-                print("dabear:: discovered devices is 0, selecting first cell")
-                cell.isSelected = true
+        
+        
+        if let device = discoveredDevices[safe: indexPath.row] {
+            cell.textLabel?.text = "\(device.name) "
+            cell.detailTextLabel?.text = "\(device.identifier)"
+            cell.textLabel?.numberOfLines = 0;
+            cell.textLabel?.lineBreakMode = .byWordWrapping
+            cell.tag = 1
+            cell.annotation = device
+            selectIfannotatedCellMatchesPreSelection(cell)
+            print("rendering device image in gui \(device.smallImage) for device \(device.name)")
+            if let image = device.smallImage {
+                cell.imageView!.image = image
             }
         } else {
-            //cell = UITableViewCell(style: .subtitle, reuseIdentifier: nil)
-            cell = AnnotatedSubtitleCell<CompatibleBluetoothDevice>()
-            //cell.textLabel?.text = "Overridden cell with index: \(indexPath.section),\(indexPath.row)"
-            //-1 to compensate for the first row which is always static
-            if let device = discoveredDevices[safe: indexPath.row - 1] {
-                cell.textLabel?.text = "\(device.name) "
-                cell.detailTextLabel?.text = "\(device.identifer)"
-                cell.textLabel?.numberOfLines = 0;
-                cell.textLabel?.lineBreakMode = .byWordWrapping
-                cell.tag = 1
-                (cell as! AnnotatedSubtitleCell<CompatibleBluetoothDevice>).annotation = device
-                selectIfannotatedCellMatchesPreSelection(cell)
-                if let image = device.smallImage {
-                    cell.imageView!.image = image
-                }
-            } else {
-                cell.textLabel?.text = "unknown device"
-            }
-            
+            //won't happen
+            cell.textLabel?.text = "Unknown device"
         }
+            
+    
         
         let backgroundView = UIView()
         backgroundView.backgroundColor = UIColor.orange
@@ -268,10 +259,10 @@ public class ExtendingAuthController: NSObject, UITableViewDataSource, UITableVi
         let path = IndexPath(row: row, section: section)
         source.tableView.selectRow(at: path, animated: false, scrollPosition: .none)
         
-        if let cell = source.tableView.cellForRow(at: path) as? AnnotatedSubtitleCell<CompatibleBluetoothDevice>{
-            UserDefaults.standard.selectedBluetoothDeviceIdentifer = cell.annotation?.identifer
+        if let cell = source.tableView.cellForRow(at: path) as? AnnotatedSubtitleCell<CompatibleLibreBluetoothDevice>{
+            UserDefaults.standard.preSelectedDevice = cell.annotation
         } else {
-            UserDefaults.standard.selectedBluetoothDeviceIdentifer  = nil
+            UserDefaults.standard.preSelectedDevice  = nil
         }
     }
     

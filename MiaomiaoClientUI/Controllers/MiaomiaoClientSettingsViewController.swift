@@ -136,8 +136,11 @@ public class MiaomiaoClientSettingsViewController: UITableViewController, SubVie
         case hardware
         case firmware
         case connectionState
+        case bridgeType
+        case bridgeIdentifer
         
-        static let count = 4
+        
+        static let count = 6
     }
     
     private enum LatestCalibrationDataInfoRow: Int {
@@ -310,6 +313,13 @@ public class MiaomiaoClientSettingsViewController: UITableViewController, SubVie
                 cell.textLabel?.text = LocalizedString("Connection State", comment: "Title Bridge connection state")
                 
                 cell.detailTextLabel?.text = cgmManager?.connectionState
+            case .bridgeType:
+                cell.textLabel?.text = LocalizedString("Bridge Type", comment: "Title Bridge Type")
+                
+                cell.detailTextLabel?.text = UserDefaults.standard.preSelectedDevice?.bridgeType?.name
+            case .bridgeIdentifer:
+                cell.textLabel?.text = LocalizedString("Bridge Identifer", comment: "Title Bridge Identifier")
+                cell.detailTextLabel?.text = UserDefaults.standard.preSelectedDevice?.identifier
             }
             
             return cell

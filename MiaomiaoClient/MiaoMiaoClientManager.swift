@@ -9,6 +9,7 @@
 import Foundation
 import LoopKit
 import LoopKitUI
+import UIKit
 import UserNotifications
 
 import os.log
@@ -22,16 +23,37 @@ public final class MiaoMiaoClientManager: CGMManager, MiaoMiaoBluetoothManagerDe
     public var managedDataInterval: TimeInterval?
     
     
+    
+    
+    
+    public func getSmallImage() -> UIImage? {
+        let bundle = Bundle.current
+
+        return UserDefaults.standard.preSelectedDevice?.smallImage ??
+            UIImage(named: "libresensor", in: bundle, compatibleWith: nil)
+        
+    }
+    
+    public var identifier: String {
+        guard let identifier = MiaoMiaoClientManager.proxy?.identifier else {
+            return "n/a"
+        }
+        
+        return identifier.uuidString
+        
+    }
+    
+    
     public var device: HKDevice? {
         
         return HKDevice(
             name: "MiaomiaoClient",
-            manufacturer: "Tomato",
+            manufacturer: manufacturer,
             model: nil, //latestSpikeCollector,
             hardwareVersion: hardwareVersion,
             firmwareVersion: firmwareVersion,
             softwareVersion: nil,
-            localIdentifier: nil,
+            localIdentifier: identifier,
             udiDeviceIdentifier: nil
         )
     }
@@ -134,7 +156,7 @@ public final class MiaoMiaoClientManager: CGMManager, MiaoMiaoBluetoothManagerDe
     
     //public var miaomiaoService: MiaomiaoService
     
-    public static let localizedTitle = LocalizedString("Miaomiao", comment: "Title for the CGMManager option")
+    public static let localizedTitle = LocalizedString("Libre Bluetooth", comment: "Title for the CGMManager option")
     
     public let appURL: URL? = nil //URL(string: "spikeapp://")
     
@@ -205,6 +227,20 @@ public final class MiaoMiaoClientManager: CGMManager, MiaoMiaoBluetoothManagerDe
     
     public var hardwareVersion : String {
         return MiaoMiaoClientManager.proxy?.miaoMiao?.hardware ?? "n/a"
+    }
+    
+    public var manufacturer : String {
+        guard let bridgeType = MiaoMiaoClientManager.proxy?.peripheralAsCompatibleDevice()?.bridgeType else {
+            return "n/a"
+        }
+        switch bridgeType {
+        case .Bubble:
+            return "Bubbledevteam"
+        case .MiaoMiao:
+            return "Tomato"
+        default:
+            return "n/a"
+        }
     }
     
     public var battery : String {
@@ -281,7 +317,7 @@ public final class MiaoMiaoClientManager: CGMManager, MiaoMiaoBluetoothManagerDe
         // force trying to reconnect every time a we detect
         // a disconnected state while fetching
         switch (proxy.state) {
-        case .Unassigned:
+        case .Unassigned, .powerOff:
             break
             //proxy.scanForMiaoMiao()
         case .Scanning:
@@ -409,7 +445,8 @@ public final class MiaoMiaoClientManager: CGMManager, MiaoMiaoBluetoothManagerDe
         switch state {
         case .Connected:
             lastConnected = Date()
-        
+        case .powerOff:
+            NotificationHelper.sendBluetoothPowerOffNotification()
         default:
             break
         }
@@ -451,6 +488,7 @@ public final class MiaoMiaoClientManager: CGMManager, MiaoMiaoBluetoothManagerDe
     
     public func miaoMiaoBluetoothManagerDidUpdateSensorAndMiaoMiao(sensorData: SensorData, miaoMiao: MiaoMiao) {
         
+        print("dabear:: got sensordata: \(sensorData), bytescount: \(sensorData.bytes.count), bytes: \(sensorData.bytes)")
         
         NotificationHelper.sendLowBatteryNotificationIfNeeded(device: miaoMiao)
         NotificationHelper.sendInvalidSensorNotificationIfNeeded(sensorData: sensorData)

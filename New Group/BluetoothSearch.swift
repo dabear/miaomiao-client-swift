@@ -14,68 +14,32 @@ import Foundation
 import UIKit
 import CoreBluetooth
 import os.log
+import MiaomiaoClient
 
-extension Bundle {
-    static var current: Bundle {
-        class __ { }
-        return Bundle(for: __.self)
-    }
-}
 
-struct CompatibleBluetoothDevice : Hashable {
-    var identifer: String
-    var name: String
-    
-    func hash(into hasher: inout Hasher) {
-        hasher.combine(identifer.hashValue)
-    }
-    
-    static func == (lhs: CompatibleBluetoothDevice, rhs: CompatibleBluetoothDevice) -> Bool {
-        return lhs.identifer == rhs.identifer
-    }
-    
-    var smallImage : UIImage? {
-        let bundle = Bundle.current
-        
-        switch name.lowercased() {
-        case let x where x.starts(with: "miaomiao"):
-            return UIImage(named: "miaomiao-small", in: bundle, compatibleWith: nil)
-        default:
-            //TODO: remove when testing is complete, return nil instead
-            return UIImage(named: "miaomiao-small", in: bundle, compatibleWith: nil)
-        }
-    }
-    
-}
 
 
 
 
 
 protocol BluetoothSearchDelegate: class {
-    func didDiscoverCompatibleDevice(_ device: CompatibleBluetoothDevice, allCompatibleDevices: [CompatibleBluetoothDevice])
+    func didDiscoverCompatibleDevice(_ device: CompatibleLibreBluetoothDevice, allCompatibleDevices: [CompatibleLibreBluetoothDevice])
 }
 
 final class BluetoothSearchManager: NSObject, CBCentralManagerDelegate, CBPeripheralDelegate {
 
     
-    
-  
-    
     static let bt_log = OSLog(subsystem: "com.LibreMonitor", category: "BluetoothSearchManager")
-    
-    
+
     var centralManager: CBCentralManager!
-   
-   
-    
-    fileprivate let deviceNames = ["miaomiao"]
+
+    //fileprivate let deviceNames = SupportedDevices.allNames
     //fileprivate let serviceUUIDs:[CBUUID]? = [CBUUID(string: "6E400001-B5A3-F393-E0A9-E50E24DCCA9E")]
     
     
-    private var discoveredDevices = [CompatibleBluetoothDevice]()
+    private var discoveredDevices = [CompatibleLibreBluetoothDevice]()
     
-    public func addDiscoveredDevice(_ device: CompatibleBluetoothDevice) {
+    public func addDiscoveredDevice(_ device: CompatibleLibreBluetoothDevice) {
         discoveredDevices.append(device)
         discoveredDevices.removeDuplicates()
         discoverDelegate.didDiscoverCompatibleDevice(device, allCompatibleDevices: discoveredDevices)
@@ -96,7 +60,7 @@ final class BluetoothSearchManager: NSObject, CBCentralManagerDelegate, CBPeriph
         
     }
     
-    func scanForMiaoMiao() {
+    func scanForCompatibleDevices() {
         
         //        print(centralManager.debugDescription)
         if centralManager.state == .poweredOn {
@@ -113,6 +77,7 @@ final class BluetoothSearchManager: NSObject, CBCentralManagerDelegate, CBPeriph
         //        NotificationManager.scheduleDebugNotification(message: "Timer fired in Background", wait: 3)
         //        _ = Timer(timeInterval: 150, repeats: false, block: {timer in NotificationManager.scheduleDebugNotification(message: "Timer fired in Background", wait: 0.5)})
         centralManager.stopScan()
+        
         
     
       
@@ -132,7 +97,7 @@ final class BluetoothSearchManager: NSObject, CBCentralManagerDelegate, CBPeriph
         case .poweredOn:
                 //os_log("Central Manager was powered on, scanningformiaomiao: state: %{public}@", log: MiaoMiaoBluetoothManager.bt_log, type: .default, String(describing: state))
             
-                scanForMiaoMiao() // power was switched on, while app is running -> reconnect.
+                scanForCompatibleDevices() // power was switched on, while app is running -> reconnect.
         }
             
         
@@ -140,16 +105,19 @@ final class BluetoothSearchManager: NSObject, CBCentralManagerDelegate, CBPeriph
     
     
     func centralManager(_ central: CBCentralManager, didDiscover peripheral: CBPeripheral, advertisementData: [String : Any], rssi RSSI: NSNumber) {
-        guard let name = peripheral.name else {
+        guard let name = peripheral.name?.lowercased() else {
             print("dabear:: could not find name for device \(peripheral.identifier.uuidString)")
             return
         }
-        let device = CompatibleBluetoothDevice(identifer: peripheral.identifier.uuidString, name: name)
         
-        if deviceNames.contains(name) {
+        // We forcefully create a compatibledevice here because we want to be able to list
+        // all devices in the gui if danger mode is on
+        let device = CompatibleLibreBluetoothDevice(identifier: peripheral.identifier.uuidString, name: name)
+        
+        if SupportedDevices.isSupported(peripheral) { //deviceNames.contains(name) {
     
             
-            print("dabear:: did recognize device: \(name): \(peripheral.identifier)")
+            print("dabear:: did recognize device: \(name): \(device.identifier)")
             self.addDiscoveredDevice(device)
             
             
@@ -159,10 +127,10 @@ final class BluetoothSearchManager: NSObject, CBCentralManagerDelegate, CBPeriph
             if UserDefaults.standard.dangerModeActivated {
                 //allow listing any device when danger mode is active
                 
-                print("dabear:: did add unknown device due to dangermode being active \(String(describing: peripheral.name)): \(peripheral.identifier)")
+                print("dabear:: did add unknown device due to dangermode being active \(device.name): \(device.identifier)")
                 self.addDiscoveredDevice(device)
             } else {
-                print("dabear:: did not add unknown device: \(String(describing: peripheral.name)): \(peripheral.identifier)")
+                print("dabear:: did not add unknown device: \(device.name): \(device.identifier)")
             }
         }
         
@@ -258,9 +226,6 @@ final class BluetoothSearchManager: NSObject, CBCentralManagerDelegate, CBPeriph
     func peripheral(_ peripheral: CBPeripheral, didWriteValueFor characteristic: CBCharacteristic, error: Error?) {
         os_log("Did Write value %{public}@ for characteristic %{public}@", log: BluetoothSearchManager.bt_log, type: .default, String(characteristic.value.debugDescription), String(characteristic.debugDescription))
     }
-    
-    // Miaomiao specific commands
-    
     
     
     
