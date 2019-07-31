@@ -18,7 +18,7 @@ extension UserDefaults {
         
     }
     
-    var preSelectedDevice : CompatibleLibreBluetoothDevice? {
+    public var preSelectedDevice : CompatibleLibreBluetoothDevice? {
         
         get {
             

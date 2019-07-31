@@ -169,6 +169,7 @@ public enum MiaoMiaoManagerState: String {
     case Connecting = "Connecting"
     case Connected = "Connected"
     case Notifying = "Notifying"
+    case powerOff = "powerOff"
 }
 
 
@@ -230,7 +231,7 @@ public struct CompatibleLibreBluetoothDevice : Hashable, Codable {
     public var identifier: String
     public var name: String
     
-    var bridgeType : SupportedDevices?  {
+    public var bridgeType : SupportedDevices?  {
         get{
             print("dabear: self.name.lowercased() is: \(self.name.lowercased())")
             switch self.name.lowercased() {
@@ -434,7 +435,9 @@ final class MiaoMiaoBluetoothManager: NSObject, CBCentralManagerDelegate, CBPeri
         
         
         switch central.state {
-        case .poweredOff, .resetting, .unauthorized, .unknown, .unsupported:
+        case .poweredOff:
+            state = .powerOff
+        case .resetting, .unauthorized, .unknown, .unsupported:
             os_log("Central Manager was either .poweredOff, .resetting, .unauthorized, .unknown, .unsupported: %{public}@", log: MiaoMiaoBluetoothManager.bt_log, type: .default, String(describing: central.state))
             state = .Unassigned
         case .poweredOn:
@@ -480,6 +483,8 @@ final class MiaoMiaoBluetoothManager: NSObject, CBCentralManagerDelegate, CBPeri
                 }
                 
                 return
+            } else {
+                NotificationHelper.sendNoBridgeSelectedNotification()
             }
             
         }

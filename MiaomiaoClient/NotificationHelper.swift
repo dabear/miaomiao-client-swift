@@ -21,6 +21,8 @@ class NotificationHelper {
         case invalidSensor = "no.bjorninge.miaomiao.invalidsensor-notification"
         case lowBattery = "no.bjorninge.miaomiao.lowbattery-notification"
         case sensorExpire = "no.bjorninge.miaomiao.SensorExpire-notification"
+        case noBridgeSelected = "no.bjorninge.miaomiao.noBridgeSelected-notification"
+        case bluetoothPoweredOff = "no.bjorninge.miaomiao.bluetoothPoweredOff-notification"
     }
     
     private static var glucoseFormatterMgdl: QuantityFormatter = {
@@ -47,6 +49,66 @@ class NotificationHelper {
         
         AudioServicesPlaySystemSoundWithCompletion(kSystemSoundID_Vibrate) {
             vibrate(count: count - 1)
+        }
+    }
+    
+    public static func sendBluetoothPowerOffNotification() {
+        
+        ensureCanSendNotification { (ensured) in
+            
+            guard (ensured) else {
+                NSLog("dabear:: not sending PowerOff notification")
+                return
+            }
+            NSLog("dabear:: sending BluetoothPowerOffNotification")
+            
+            let content = UNMutableNotificationContent()
+            content.title = "Bluetooth Power Off"
+            content.body = "Please turn on Bluetooth"
+            
+            let center = UNUserNotificationCenter.current()
+            
+            
+            
+            //content.sound = UNNotificationSound.
+            let request = UNNotificationRequest(identifier: Identifiers.bluetoothPoweredOff.rawValue, content: content, trigger: nil)
+            
+            center.add(request) { (error) in
+                if let error = error {
+                    NSLog("dabear:: unable to add no poweroff-notification: \(error.localizedDescription)")
+                }
+            }
+            
+        }
+    }
+    
+    public static func sendNoBridgeSelectedNotification() {
+        
+        ensureCanSendNotification { (ensured) in
+            
+            guard (ensured) else {
+                NSLog("dabear:: not sending noBridgeSelected notification")
+                return
+            }
+            NSLog("dabear:: sending noBridgeSelected")
+            
+            let content = UNMutableNotificationContent()
+            content.title = "No Libre Bridge Selected"
+            content.body = "Delete CGMManager and start anew. Your libreoopweb credentials will be preserved"
+            
+            let center = UNUserNotificationCenter.current()
+            
+            
+            
+            //content.sound = UNNotificationSound.
+            let request = UNNotificationRequest(identifier: Identifiers.noBridgeSelected.rawValue, content: content, trigger: nil)
+            
+            center.add(request) { (error) in
+                if let error = error {
+                    NSLog("dabear:: unable to add no noBridgeSelected-notification: \(error.localizedDescription)")
+                }
+            }
+            
         }
     }
     

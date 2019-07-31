@@ -22,40 +22,15 @@ public final class MiaoMiaoClientManager: CGMManager, MiaoMiaoBluetoothManagerDe
     
     public var managedDataInterval: TimeInterval?
     
-    private lazy var defaultSmallImage : UIImage? = {
-        return miaomiaoSmallImage
-    }()
     
-    private lazy var miaomiaoSmallImage : UIImage? = {
-        let bundle = Bundle(for: type(of: self))
-        return UIImage(named: "miaomiao-small", in: bundle, compatibleWith: nil)
-    }()
-    
-    private lazy var bubbleSmallImage : UIImage? = {
-        let bundle = Bundle(for: type(of: self))
-        return UIImage(named: "bubble", in: bundle, compatibleWith: nil)
-    }()
     
     
     
     public func getSmallImage() -> UIImage? {
-        guard let bridgeType = MiaoMiaoClientManager.proxy?.peripheralAsCompatibleDevice()?.bridgeType else {
-            //this could happen if no device is currently connected (out of range)
-            // but a preselection is still active
-            // we fallback to miaomiao as this is the most likely choice
-            return UserDefaults.standard.preSelectedDevice?.smallImage ?? defaultSmallImage
-        }
-        
-        switch bridgeType {
-        case .Bubble:
-            return miaomiaoSmallImage
-        case .MiaoMiao:
-            return bubbleSmallImage
-        default:
-            return defaultSmallImage
-        }
-        
-        
+        let bundle = Bundle.current
+
+        return UserDefaults.standard.preSelectedDevice?.smallImage ??
+            UIImage(named: "libresensor", in: bundle, compatibleWith: nil)
         
     }
     
@@ -342,7 +317,7 @@ public final class MiaoMiaoClientManager: CGMManager, MiaoMiaoBluetoothManagerDe
         // force trying to reconnect every time a we detect
         // a disconnected state while fetching
         switch (proxy.state) {
-        case .Unassigned:
+        case .Unassigned, .powerOff:
             break
             //proxy.scanForMiaoMiao()
         case .Scanning:
@@ -470,7 +445,8 @@ public final class MiaoMiaoClientManager: CGMManager, MiaoMiaoBluetoothManagerDe
         switch state {
         case .Connected:
             lastConnected = Date()
-        
+        case .powerOff:
+            NotificationHelper.sendBluetoothPowerOffNotification()
         default:
             break
         }

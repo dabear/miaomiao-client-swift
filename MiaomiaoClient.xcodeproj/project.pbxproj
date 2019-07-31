@@ -42,6 +42,8 @@
 		271EDF3322F0946400E1C8B3 /* BluetoothSearch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 271EDF2022EB63B100E1C8B3 /* BluetoothSearch.swift */; };
 		271EDF3422F095C000E1C8B3 /* UserDefaults+Bluetooth.swift in Sources */ = {isa = PBXBuildFile; fileRef = 271EDF2422EC739F00E1C8B3 /* UserDefaults+Bluetooth.swift */; };
 		271EDF3522F22BEE00E1C8B3 /* bubble.png in Resources */ = {isa = PBXBuildFile; fileRef = 271EDF2E22EFA29C00E1C8B3 /* bubble.png */; };
+		271EDF3A22F23A0800E1C8B3 /* libresensor.png in Resources */ = {isa = PBXBuildFile; fileRef = 271EDF3922F23A0800E1C8B3 /* libresensor.png */; };
+		271EDF3B22F23A0800E1C8B3 /* libresensor.png in Resources */ = {isa = PBXBuildFile; fileRef = 271EDF3922F23A0800E1C8B3 /* libresensor.png */; };
 		2729D677221F421C0030E1B8 /* MiaoMiao.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2729D676221F421C0030E1B8 /* MiaoMiao.swift */; };
 		2729D678221F421C0030E1B8 /* MiaoMiao.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2729D676221F421C0030E1B8 /* MiaoMiao.swift */; };
 		2729D67B221F421F0030E1B8 /* MiaoMiaoBluetoothManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2729D67A221F421F0030E1B8 /* MiaoMiaoBluetoothManager.swift */; };
@@ -226,6 +228,7 @@
 		271EDF2422EC739F00E1C8B3 /* UserDefaults+Bluetooth.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserDefaults+Bluetooth.swift"; sourceTree = "<group>"; };
 		271EDF2922EF97D000E1C8B3 /* MiaoMiaoBluetoothManager+Bubblesupport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MiaoMiaoBluetoothManager+Bubblesupport.swift"; sourceTree = "<group>"; };
 		271EDF2E22EFA29C00E1C8B3 /* bubble.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bubble.png; sourceTree = "<group>"; };
+		271EDF3922F23A0800E1C8B3 /* libresensor.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = libresensor.png; sourceTree = "<group>"; };
 		2729D676221F421C0030E1B8 /* MiaoMiao.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MiaoMiao.swift; sourceTree = "<group>"; };
 		2729D67A221F421F0030E1B8 /* MiaoMiaoBluetoothManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MiaoMiaoBluetoothManager.swift; sourceTree = "<group>"; };
 		2729D682221F42760030E1B8 /* BloodSugarController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BloodSugarController.swift; sourceTree = "<group>"; };
@@ -396,6 +399,7 @@
 		270C26672269E67A005B27F3 /* Graphics */ = {
 			isa = PBXGroup;
 			children = (
+				271EDF3922F23A0800E1C8B3 /* libresensor.png */,
 				271EDF2E22EFA29C00E1C8B3 /* bubble.png */,
 				27014789227B53AB0013C9E3 /* miaomiao-small.png */,
 				270C266B226A24AB005B27F3 /* icons8-schedule-50.png */,
@@ -852,6 +856,7 @@
 			files = (
 				43AB5127213315D300B3D58D /* Localizable.strings in Resources */,
 				2701478B227B584B0013C9E3 /* miaomiao-small.png in Resources */,
+				271EDF3A22F23A0800E1C8B3 /* libresensor.png in Resources */,
 				271EDF3522F22BEE00E1C8B3 /* bubble.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -877,6 +882,7 @@
 				275C3D9F229D9AD500E27439 /* mmTextFieldViewCell.xib in Resources */,
 				27CBEB5C2261E1E6004F7BF5 /* AlarmTimeInputRangeCell.xib in Resources */,
 				43AB511B21330D1400B3D58D /* Localizable.strings in Resources */,
+				271EDF3B22F23A0800E1C8B3 /* libresensor.png in Resources */,
 				270C26662269E611005B27F3 /* icons8-slide-up-50.png in Resources */,
 				27E0968122A6E9AB00B3164D /* SnoozeView.xib in Resources */,
 				275C3D9A229AA88500E27439 /* mmSwitchTableViewCell.xib in Resources */,
