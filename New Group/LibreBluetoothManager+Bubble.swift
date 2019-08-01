@@ -54,7 +54,7 @@ extension LibreBluetoothManager {
         print("dabear:: bubbleRequestData")
         resetBuffer()
         timer?.invalidate()
-        print("-----set: ", writeCharacteristic)
+        print("-----set: ", writeCharacteristics)
         peripheral.writeValue(Data([0x00, 0x00, 0x05]), for: writeCharacteristics, type: .withResponse)
         
     }
