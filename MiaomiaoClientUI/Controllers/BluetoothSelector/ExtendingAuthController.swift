@@ -107,7 +107,7 @@ public class ExtendingAuthController: NSObject, UITableViewDataSource, UITableVi
             return nil // source.tableView(tableView, titleForHeaderInSection: section)
         }
         
-        return "Libre Bluetooth Devices\nSelect if you want to connect to the first available or a specific device"
+        return "Libre Bluetooth Devices\nSelec which LIbre Bridge device you want to connect to"
     }
     
     public func tableView(_ tableView: UITableView, titleForFooterInSection section: Int) -> String? {
