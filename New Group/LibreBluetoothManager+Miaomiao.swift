@@ -11,7 +11,28 @@ import UIKit
 import CoreBluetooth
 import os.log
 
-//bubble support
+public enum MiaoMiaoResponseState: UInt8 {
+    case dataPacketReceived = 0x28
+    case newSensor = 0x32
+    case noSensor = 0x34
+    case frequencyChangedResponse = 0xD1
+}
+extension MiaoMiaoResponseState: CustomStringConvertible {
+    public var description: String {
+        switch self {
+        case .dataPacketReceived:
+            return "Data packet received"
+        case .newSensor:
+            return "New sensor detected"
+        case .noSensor:
+            return "No sensor found"
+        case .frequencyChangedResponse:
+            return "Reading intervall changed"
+        }
+    }
+}
+
+//miaomiao support
 extension LibreBluetoothManager {
     func miaomiaoHandleCompleteMessage() {
         
