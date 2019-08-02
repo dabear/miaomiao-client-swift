@@ -8,7 +8,7 @@
 
 import Foundation
 
-public struct MiaoMiao: CustomStringConvertible {
+public struct BluetoothBridgeMetaData: CustomStringConvertible {
     // hardware number
     let hardware: String
     // software number

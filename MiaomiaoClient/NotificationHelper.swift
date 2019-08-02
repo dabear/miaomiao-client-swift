@@ -407,7 +407,7 @@ class NotificationHelper {
     
     
     private static var lastBatteryWarning : Date?
-    public static func sendLowBatteryNotificationIfNeeded(device: MiaoMiao) {
+    public static func sendLowBatteryNotificationIfNeeded(device: BluetoothBridgeMetaData) {
         
         guard UserDefaults.standard.mmAlertLowBatteryWarning else {
             NSLog("mmAlertLowBatteryWarning toggle was not enabled, not sending low notification")

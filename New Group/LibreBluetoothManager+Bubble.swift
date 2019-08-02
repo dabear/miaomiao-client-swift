@@ -19,7 +19,7 @@ public enum BubbleResponseType: UInt8 {
 }
 
 //bubble support
-extension MiaoMiaoBluetoothManager {
+extension LibreBluetoothManager {
     
     func bubbleHandleCompleteMessage() {
         print("dabear:: bubbleHandleCompleteMessage")
@@ -33,7 +33,7 @@ extension MiaoMiaoBluetoothManager {
         print("dabear:: bubbleHandleCompleteMessage raw data: \([UInt8](rxBuffer))")
         sensorData = SensorData(uuid: rxBuffer.subdata(in: 0..<8), bytes: [UInt8](data), date: Date(), derivedAlgorithmParameterSet: nil)
         
-        guard let miaoMiao = miaoMiao else {
+        guard let metadata = metadata else {
             return
         }
         
@@ -44,8 +44,8 @@ extension MiaoMiaoBluetoothManager {
                 })
             }
             // Inform delegate that new data is available
+            delegate?.libreBluetoothManagerDidUpdate(sensorData: sensorData, and: metadata)
             
-            delegate?.miaoMiaoBluetoothManagerDidUpdateSensorAndMiaoMiao(sensorData: sensorData, miaoMiao: miaoMiao)
         }
         
     }
@@ -54,7 +54,7 @@ extension MiaoMiaoBluetoothManager {
         print("dabear:: bubbleRequestData")
         resetBuffer()
         timer?.invalidate()
-        print("-----set: ", writeCharacteristic)
+        print("-----set: ", writeCharacteristics)
         peripheral.writeValue(Data([0x00, 0x00, 0x05]), for: writeCharacteristics, type: .withResponse)
         
     }
@@ -68,10 +68,10 @@ extension MiaoMiaoBluetoothManager {
                 let hardware = value[2].description + ".0"
                 let firmware = value[1].description + ".0"
                 let battery = Int(value[4])
-                miaoMiao = MiaoMiao(hardware: hardware,
+                metadata = BluetoothBridgeMetaData(hardware: hardware,
                                     firmware: firmware,
                                     battery: battery)
-                print("dabear:: Got bubbledevice: \(miaoMiao)")
+                print("dabear:: Got bubbledevice: \(metadata)")
                 if let writeCharacteristic = writeCharacteristic {
                     print("-----set: ", writeCharacteristic)
                     peripheral.writeValue(Data([0x02, 0x00, 0x00, 0x00, 0x00, 0x2B]), for: writeCharacteristic, type: .withResponse)
@@ -83,7 +83,7 @@ extension MiaoMiaoBluetoothManager {
                     resetBuffer()
                 }
             case .noSensor:
-                delegate?.miaoMiaoBluetoothManagerReceivedMessage(0x0000, txFlags: 0x34, payloadData: rxBuffer)
+                delegate?.libreBluetoothManagerReceivedMessage(0x0000, txFlags: 0x34, payloadData: rxBuffer)
                 resetBuffer()
             case .serialNumber:
                 rxBuffer.append(value.subdata(in: 2..<10))

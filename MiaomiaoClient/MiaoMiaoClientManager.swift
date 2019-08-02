@@ -15,7 +15,7 @@ import UserNotifications
 import os.log
 import HealthKit
 
-public final class MiaoMiaoClientManager: CGMManager, MiaoMiaoBluetoothManagerDelegate {
+public final class MiaoMiaoClientManager: CGMManager, LibreBluetoothManagerDelegate {
     public var sensorState: SensorDisplayable? {
         return latestBackfill
     }
@@ -222,11 +222,11 @@ public final class MiaoMiaoClientManager: CGMManager, MiaoMiaoBluetoothManagerDe
     }
     
     public var firmwareVersion : String {
-        return MiaoMiaoClientManager.proxy?.miaoMiao?.firmware ?? "n/a"
+        return MiaoMiaoClientManager.proxy?.metadata?.firmware ?? "n/a"
     }
     
     public var hardwareVersion : String {
-        return MiaoMiaoClientManager.proxy?.miaoMiao?.hardware ?? "n/a"
+        return MiaoMiaoClientManager.proxy?.metadata?.hardware ?? "n/a"
     }
     
     public var manufacturer : String {
@@ -244,7 +244,7 @@ public final class MiaoMiaoClientManager: CGMManager, MiaoMiaoBluetoothManagerDe
     }
     
     public var battery : String {
-        if let bat = MiaoMiaoClientManager.proxy?.miaoMiao?.battery {
+        if let bat = MiaoMiaoClientManager.proxy?.metadata?.battery {
             return "\(bat)%"
         }
         return "n/a"
@@ -296,10 +296,10 @@ public final class MiaoMiaoClientManager: CGMManager, MiaoMiaoBluetoothManagerDe
     }
     
     
-    private static var sharedProxy: MiaoMiaoBluetoothManager?
-    private class var proxy : MiaoMiaoBluetoothManager? {
+    private static var sharedProxy: LibreBluetoothManager?
+    private class var proxy : LibreBluetoothManager? {
         guard let sharedProxy = self.sharedProxy else {
-            let sharedProxy = MiaoMiaoBluetoothManager()
+            let sharedProxy = LibreBluetoothManager()
             self.sharedProxy = sharedProxy
             return sharedProxy
         }
@@ -441,7 +441,7 @@ public final class MiaoMiaoClientManager: CGMManager, MiaoMiaoBluetoothManagerDe
     
    
     
-    public func miaoMiaoBluetoothManagerPeripheralStateChanged(_ state: MiaoMiaoManagerState) {
+    public func libreBluetoothManagerPeripheralStateChanged(_ state: BluetoothmanagerState) {
         switch state {
         case .Connected:
             lastConnected = Date()
@@ -453,7 +453,7 @@ public final class MiaoMiaoClientManager: CGMManager, MiaoMiaoBluetoothManagerDe
         return
     }
     
-    public func miaoMiaoBluetoothManagerReceivedMessage(_ messageIdentifier: UInt16, txFlags: UInt8, payloadData: Data) {
+    public func libreBluetoothManagerReceivedMessage(_ messageIdentifier: UInt16, txFlags: UInt8, payloadData: Data) {
         guard let packet = MiaoMiaoResponseState.init(rawValue: txFlags) else {
             // Incomplete package?
             // this would only happen if delegate is called manually with an unknown txFlags value
@@ -486,11 +486,11 @@ public final class MiaoMiaoClientManager: CGMManager, MiaoMiaoBluetoothManagerDe
         
     }
     
-    public func miaoMiaoBluetoothManagerDidUpdateSensorAndMiaoMiao(sensorData: SensorData, miaoMiao: MiaoMiao) {
+    public func libreBluetoothManagerDidUpdate(sensorData: SensorData, and Device: BluetoothBridgeMetaData) {
         
         print("dabear:: got sensordata: \(sensorData), bytescount: \(sensorData.bytes.count), bytes: \(sensorData.bytes)")
         
-        NotificationHelper.sendLowBatteryNotificationIfNeeded(device: miaoMiao)
+        NotificationHelper.sendLowBatteryNotificationIfNeeded(device: Device)
         NotificationHelper.sendInvalidSensorNotificationIfNeeded(sensorData: sensorData)
         NotificationHelper.sendSensorExpireAlertIfNeeded(sensorData: sensorData)
         
