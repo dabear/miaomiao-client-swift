@@ -165,6 +165,7 @@ public enum BluetoothmanagerState: String {
     case Unassigned = "Unassigned"
     case Scanning = "Scanning"
     case Disconnected = "Disconnected"
+    case DelayedReconnect = "Will soon reconnect"
     case DisconnectingDueToButtonPress = "Disconnecting due to button press"
     case Connecting = "Connecting"
     case Connected = "Connected"
@@ -372,8 +373,12 @@ final class LibreBluetoothManager: NSObject, CBCentralManagerDelegate, CBPeriphe
         //        }
     }
     
-    func connect() {
+    func connect(force forceConnect: Bool = false) {
         os_log("Connect while state %{public}@", log: LibreBluetoothManager.bt_log, type: .default, String(describing: state.rawValue))
+        if state == .DisconnectingDueToButtonPress && !forceConnect {
+            os_log("Connect aborted, user has actively disconnected and a reconnect was not forced ", log: LibreBluetoothManager.bt_log, type: .default)
+            return
+        }
         if let peripheral = peripheral {
             peripheral.delegate = self
             centralManager.stopScan()
@@ -456,7 +461,7 @@ final class LibreBluetoothManager: NSObject, CBCentralManagerDelegate, CBPeriphe
                     os_log("Did connect to preselected %{public}@ with identifier %{public}@,", log: LibreBluetoothManager.bt_log, type: .default, String(describing: peripheral.name) ,String(describing: peripheral.identifier.uuidString))
                     self.peripheral = peripheral
                     
-                    connect()
+                    connect(force: true)
                     
                 } else {
                     os_log("Did not connect to %{public}@ with identifier %{public}@, because another device with identifier %{public}@ was selected", log: LibreBluetoothManager.bt_log, type: .default, String(describing: peripheral.name), String(describing: peripheral.identifier.uuidString), preselected.identifier)
@@ -492,12 +497,20 @@ final class LibreBluetoothManager: NSObject, CBCentralManagerDelegate, CBPeriphe
             os_log("Did fail to connect peripheral error: %{public}@", log: LibreBluetoothManager.bt_log, type: .error ,  "\(error.localizedDescription)")
         }
         state = .Disconnected
+        
+        self.delayedReconnect()
+        
+    }
+    
+    private func delayedReconnect(_ seconds: Int = 30) {
+        state = .DelayedReconnect
+        os_log("Will reconnect peripheral in  %{public}@ seconds", log: LibreBluetoothManager.bt_log, type: .default, String(describing: seconds))
+        resetBuffer()
         // attempt to avoid IOS killing app because of cpu usage.
         // postpone connecting for 30 seconds
-        DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(30)) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(seconds)) {
             self.connect()
         }
-        
     }
     
     func centralManager(_ central: CBCentralManager, didDisconnectPeripheral peripheral: CBPeripheral, error: Error?) {
@@ -516,7 +529,7 @@ final class LibreBluetoothManager: NSObject, CBCentralManagerDelegate, CBPeriphe
         
         default:
             state = .Disconnected
-            connect()
+            self.delayedReconnect()
             //    scanForMiaoMiao()
         }
         // Keep this code in case you want it some later time: it is used for reconnection only in background mode

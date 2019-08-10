@@ -13,7 +13,7 @@ import os.log
 
 public enum BubbleResponseType: UInt8 {
     case dataPacket = 130
-    case bubbleInfo = 128
+    case bubbleInfo = 128 // = wakeUp + device info
     case noSensor = 191
     case serialNumber = 192
 }
@@ -38,7 +38,7 @@ extension LibreBluetoothManager {
         }
         
         if let sensorData = sensorData {
-            if !(sensorData.hasValidHeaderCRC && sensorData.hasValidBodyCRC && sensorData.hasValidFooterCRC) {
+            if !sensorData.hasValidCRCs {
                 Timer.scheduledTimer(withTimeInterval: 30, repeats: false, block: {_ in
                     self.requestData()
                 })
@@ -53,7 +53,7 @@ extension LibreBluetoothManager {
     func bubbleRequestData(writeCharacteristics: CBCharacteristic, peripheral: CBPeripheral) {
         print("dabear:: bubbleRequestData")
         resetBuffer()
-        timer?.invalidate()
+        //timer?.invalidate()
         print("-----set: ", writeCharacteristics)
         peripheral.writeValue(Data([0x00, 0x00, 0x05]), for: writeCharacteristics, type: .withResponse)
         
