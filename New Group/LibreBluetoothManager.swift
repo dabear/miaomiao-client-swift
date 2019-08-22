@@ -502,15 +502,17 @@ final class LibreBluetoothManager: NSObject, CBCentralManagerDelegate, CBPeriphe
         
     }
     
-    private func delayedReconnect(_ seconds: Int = 30) {
+    private func delayedReconnect(_ seconds: UInt32 = 5) {
         state = .DelayedReconnect
         os_log("Will reconnect peripheral in  %{public}@ seconds", log: LibreBluetoothManager.bt_log, type: .default, String(describing: seconds))
         resetBuffer()
         // attempt to avoid IOS killing app because of cpu usage.
         // postpone connecting for 30 seconds
-        DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(seconds)) {
-            self.connect()
+        DispatchQueue.global().async {[weak self] in
+            sleep(seconds)
+            self?.connect()
         }
+        
     }
     
     func centralManager(_ central: CBCentralManager, didDisconnectPeripheral peripheral: CBPeripheral, error: Error?) {
