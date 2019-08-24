@@ -88,7 +88,7 @@ public final class MiaoMiaoClientManager: CGMManager, LibreBluetoothManagerDeleg
             return
         }
         NSLog("dabear:: fetchNewDataIfNeeded called but we don't continue")
-        self.autoconnect()
+        //self.autoconnect()
         completion(.noData)
         /*
         self.getLastSensorValues { (error, glucose) in
@@ -278,7 +278,7 @@ public final class MiaoMiaoClientManager: CGMManager, LibreBluetoothManagerDeleg
         didSet {
             
             //this is to workaround a bug where multiple managers might exist
-            os_log("dabear:: MiaoMiaoClientManager instanceCount changed to %s", type: .default, String(describing: instanceCount))
+            os_log("dabear:: MiaoMiaoClientManager instanceCount changed to %{public}@", type: .default, String(describing: instanceCount))
             if instanceCount < 1 {
                 os_log("dabear:: instancecount is 0, deiniting service", type: .default)
                 MiaoMiaoClientManager.sharedProxy = nil
@@ -307,12 +307,19 @@ public final class MiaoMiaoClientManager: CGMManager, LibreBluetoothManagerDeleg
     }
     
    
-    
-    func autoconnect(){
+    @available(*, deprecated, message: "Don't use, reconnect will happen automatically")
+    func autoconnect() {
         guard let proxy = MiaoMiaoClientManager.proxy else {
             os_log("dabear: could not do autoconnect, proxy was nil")
             return
         }
+        
+        //
+        // the internal state will make sure that reconnecttion always happens
+        // consider this function as deprecated
+        //
+        return
+        
         
         // force trying to reconnect every time a we detect
         // a disconnected state while fetching
@@ -326,6 +333,8 @@ public final class MiaoMiaoClientManager: CGMManager, LibreBluetoothManagerDeleg
             break
         case .Disconnected, .DisconnectingDueToButtonPress:
             proxy.connect()
+        case .DelayedReconnect:
+            break
         }
     }
     private func trendToLibreGlucose(_ measurements: [Measurement]) -> [LibreGlucose]?{

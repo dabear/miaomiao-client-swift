@@ -55,7 +55,7 @@ extension LibreBluetoothManager {
         
         // Check if sensor data is valid and, if this is not the case, request data again after thirty second
         if let sensorData = sensorData {
-            if !(sensorData.hasValidHeaderCRC && sensorData.hasValidBodyCRC && sensorData.hasValidFooterCRC) {
+            if !sensorData.hasValidCRCs {
                 Timer.scheduledTimer(withTimeInterval: 30, repeats: false, block: {_ in
                     self.requestData()
                 })
@@ -69,85 +69,69 @@ extension LibreBluetoothManager {
     func miaomiaoRequestData(writeCharacteristics: CBCharacteristic, peripheral: CBPeripheral) {
         miaomiaoConfirmSensor()
         resetBuffer()
-        timer?.invalidate()
+        
         peripheral.writeValue(Data.init(bytes: [0xF0]), for: writeCharacteristics, type: .withResponse)
+    }
+    
+    private func tryCreateResponseState(_ rawValue: UInt8?) ->  MiaoMiaoResponseState?{
+        guard let rawValue = rawValue else {
+            return nil
+        }
+        return MiaoMiaoResponseState(rawValue: rawValue)
     }
     
     func miaomiaoDidUpdateValueForNotifyCharacteristics(_ value: Data, peripheral: CBPeripheral) {
         
-        rxBuffer.append(value)
-        os_log("Appended value with length %{public}@, buffer length is: %{public}@", log: LibreBluetoothManager.bt_log, type: .default, String(describing: value.count), String(describing: rxBuffer.count))
+       
         
-        if let firstByte = rxBuffer.first {
+        os_log("rxBuffer.first is: %{public}@, value.first is: %{public}@, responsestate is: %{public}@", log: LibreBluetoothManager.bt_log, type: .default, String(describing: rxBuffer.first), String(describing: value.first), String(describing: tryCreateResponseState(rxBuffer.first ?? value.first)))
+        
+        // When spreading a message over multiple telegrams, the miaomiao protocol
+        // does not repeat that initial byte
+        // firstbyte is therefore written to rxbuffer on first received telegram
+        // this becomes sort of a state to track which message is actually received.
+        // Therefore it also becomes important that once a message is fully received, the buffer is invalidated
+        //
+        guard let firstByte = (rxBuffer.first ?? value.first), let miaoMiaoResponseState = MiaoMiaoResponseState(rawValue: firstByte) else {
+            print("miaomiaoDidUpdateValueForNotifyCharacteristics did not undestand what to do (internal error")
+            return
+        }
+        
+        switch miaoMiaoResponseState {
+        case .dataPacketReceived: // 0x28: // data received, append to buffer and inform delegate if end reached
             
-            if let miaoMiaoResponseState = MiaoMiaoResponseState(rawValue: firstByte) {
-                switch miaoMiaoResponseState {
-                case .dataPacketReceived: // 0x28: // data received, append to buffer and inform delegate if end reached
-                    
-                    // Set timer to check if data is still uncomplete after a certain time frame
-                    // Any old buffer is invalidated and a new buffer created with every reception of data
-                    timer?.invalidate()
-                    timer = Timer.scheduledTimer(withTimeInterval: 8, repeats: false) { _ in
-                        os_log("********** MiaoMiaoManagertimer fired **********", log: LibreBluetoothManager.bt_log, type: .default)
-                        if self.rxBuffer.count >= 364 {
-                            // buffer large enough and can be used
-                            os_log("Buffer incomplete but large enough, inform delegate.", log: LibreBluetoothManager.bt_log, type: .default)
-                            self.delegate?.libreBluetoothManagerReceivedMessage(0x0000, txFlags: 0x29, payloadData: self.rxBuffer)
-                            self.handleCompleteMessage()
-                            
-                            self.rxBuffer = Data()  // reset buffer, once completed and delegate is informed
-                        } else {
-                            // buffer not large enough and has to be reset
-                            os_log("Buffer incomplete and not large enough, reset buffer and request new data, again", log: LibreBluetoothManager.bt_log, type: .default)
-                            self.requestData()
-                        }
-                    }
-                    
-                    if rxBuffer.count >= 363 && rxBuffer.last! == 0x29 {
-                        os_log("Buffer complete, inform delegate.", log: LibreBluetoothManager.bt_log, type: .default)
-                        delegate?.libreBluetoothManagerReceivedMessage(0x0000, txFlags: 0x28, payloadData: rxBuffer)
-                        handleCompleteMessage()
-                        rxBuffer = Data()  // reset buffer, once completed and delegate is informed
-                        timer?.invalidate()
-                    } else {
-                        // buffer not yet complete, inform delegate with txFlags 0x27 to display intermediate data
-                        //dabear-edit: don't notify on incomplete readouts
-                        //delegate?.miaoMiaoManagerReceivedMessage(0x0000, txFlags: 0x27, payloadData: rxBuffer)
-                    }
-                    
-                    // if data is not complete after 10 seconds: use anyways, if long enough, do not use if not long enough and reset buffer in both cases.
-                    
-                case .newSensor: // 0x32: // A new sensor has been detected -> acknowledge to use sensor and reset buffer
-                    delegate?.libreBluetoothManagerReceivedMessage(0x0000, txFlags: 0x32, payloadData: rxBuffer)
-                    if let writeCharacteristic = writeCharacteristic {
-                        peripheral.writeValue(Data.init(bytes: [0xD3, 0x01]), for: writeCharacteristic, type: .withResponse)
-                    }
-                    rxBuffer = Data()
-                case .noSensor: // 0x34: // No sensor has been detected -> reset buffer (and wait for new data to arrive)
-                    delegate?.libreBluetoothManagerReceivedMessage(0x0000, txFlags: 0x34, payloadData: rxBuffer)
-                    rxBuffer = Data()
-                case .frequencyChangedResponse: // 0xD1: // Success of fail for setting time intervall
-                    delegate?.libreBluetoothManagerReceivedMessage(0x0000, txFlags: 0xD1, payloadData: rxBuffer)
-                    if rxBuffer.count >= 2 {
-                        if rxBuffer[2] == 0x01 {
-                            os_log("Success setting time interval.", log: LibreBluetoothManager.bt_log, type: .default)
-                        } else if rxBuffer[2] == 0x00 {
-                            os_log("Failure setting time interval.", log: LibreBluetoothManager.bt_log, type: .default)
-                        } else {
-                            os_log("Unkown response for setting time interval.", log: LibreBluetoothManager.bt_log, type: .default)
-                        }
-                    }
-                    rxBuffer = Data()
-                    //                    default: // any other data (e.g. partial response ...)
-                    //                        delegate?.miaoMiaoManagerReceivedMessage(0x0000, txFlags: 0x99, payloadData: rxBuffer)
-                    //                        rxBuffer = Data() // reset buffer, since no valid response
+            rxBuffer.append(value)
+            os_log("Appended value with length %{public}@, buffer length is: %{public}@", log: LibreBluetoothManager.bt_log, type: .default, String(describing: value.count), String(describing: rxBuffer.count))
+            
+            if rxBuffer.count >= 363, let last = rxBuffer.last, last == 0x29 {
+                os_log("Buffer complete, inform delegate.", log: LibreBluetoothManager.bt_log, type: .default)
+                delegate?.libreBluetoothManagerReceivedMessage(0x0000, txFlags: 0x28, payloadData: rxBuffer)
+                handleCompleteMessage()
+                resetBuffer()
+            }
+            
+        case .newSensor: // 0x32: // A new sensor has been detected -> acknowledge to use sensor and reset buffer
+            delegate?.libreBluetoothManagerReceivedMessage(0x0000, txFlags: 0x32, payloadData: rxBuffer)
+            miaomiaoConfirmSensor()
+            resetBuffer()
+        case .noSensor: // 0x34: // No sensor has been detected -> reset buffer (and wait for new data to arrive)
+            delegate?.libreBluetoothManagerReceivedMessage(0x0000, txFlags: 0x34, payloadData: rxBuffer)
+            resetBuffer()
+        case .frequencyChangedResponse: // 0xD1: // Success of fail for setting time intervall
+            delegate?.libreBluetoothManagerReceivedMessage(0x0000, txFlags: 0xD1, payloadData: rxBuffer)
+            if value.count >= 2 {
+                if value[2] == 0x01 {
+                    os_log("Success setting time interval.", log: LibreBluetoothManager.bt_log, type: .default)
+                } else if value[2] == 0x00 {
+                    os_log("Failure setting time interval.", log: LibreBluetoothManager.bt_log, type: .default)
+                } else {
+                    os_log("Unkown response for setting time interval.", log: LibreBluetoothManager.bt_log, type: .default)
                 }
             }
-        } else {
-            // any other data (e.g. partial response ...)
-            delegate?.libreBluetoothManagerReceivedMessage(0x0000, txFlags: 0x99, payloadData: rxBuffer)
-            rxBuffer = Data() // reset buffer, since no valid response
+            resetBuffer()
         }
+        
+        
     
     }
     
