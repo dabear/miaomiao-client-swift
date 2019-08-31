@@ -73,10 +73,16 @@ final class BluetoothSearchManager: NSObject, CBCentralManagerDelegate, CBPeriph
     
     
     func disconnectManually() {
-       print("did disconnect manually")
+        
+        
+            print("did disconnect manually")
         //        NotificationManager.scheduleDebugNotification(message: "Timer fired in Background", wait: 3)
         //        _ = Timer(timeInterval: 150, repeats: false, block: {timer in NotificationManager.scheduleDebugNotification(message: "Timer fired in Background", wait: 0.5)})
-        centralManager.stopScan()
+            
+            if centralManager.isScanning {
+                centralManager.stopScan()
+            }
+        
         
         
     

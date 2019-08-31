@@ -84,7 +84,7 @@ extension LibreBluetoothManager {
         
        
         
-        os_log("rxBuffer.first is: %{public}@, value.first is: %{public}@, responsestate is: %{public}@", log: LibreBluetoothManager.bt_log, type: .default, String(describing: rxBuffer.first), String(describing: value.first), String(describing: tryCreateResponseState(rxBuffer.first ?? value.first)))
+        os_log("rxBuffer.first is: %{public}@, value.first is: %{public}@, responsestate is: %{public}@", log: LibreBluetoothManager.bt_log, type: .default, String(describing: rxBuffer.first), String(describing: rxBuffer.first), String(describing: tryCreateResponseState(rxBuffer.first ?? value.first)))
         
         // When spreading a message over multiple telegrams, the miaomiao protocol
         // does not repeat that initial byte
