@@ -67,24 +67,22 @@ extension LibreBluetoothManager {
     }
     
     func miaomiaoRequestData(writeCharacteristics: CBCharacteristic, peripheral: CBPeripheral) {
-        miaomiaoConfirmSensor()
+        miaomiaoConfirmSensor(peripheral: peripheral)
         resetBuffer()
+        
+        print("dabear: miaomiaoRequestData")
         
         peripheral.writeValue(Data.init(bytes: [0xF0]), for: writeCharacteristics, type: .withResponse)
     }
     
-    private func tryCreateResponseState(_ rawValue: UInt8?) ->  MiaoMiaoResponseState?{
-        guard let rawValue = rawValue else {
-            return nil
-        }
-        return MiaoMiaoResponseState(rawValue: rawValue)
-    }
     
     func miaomiaoDidUpdateValueForNotifyCharacteristics(_ value: Data, peripheral: CBPeripheral) {
         
-       
+        rxBuffer.append(value)
         
-        os_log("rxBuffer.first is: %{public}@, value.first is: %{public}@, responsestate is: %{public}@", log: LibreBluetoothManager.bt_log, type: .default, String(describing: rxBuffer.first), String(describing: value.first), String(describing: tryCreateResponseState(rxBuffer.first ?? value.first)))
+        os_log("Appended value with length %{public}@, buffer length is: %{public}@", log: LibreBluetoothManager.bt_log, type: .default, String(describing: value.count), String(describing: rxBuffer.count))
+        
+        os_log("rxBuffer.first is: %{public}@, value.first is: %{public}@", log: LibreBluetoothManager.bt_log, type: .default, String(describing: rxBuffer.first), String(describing: value.first))
         
         // When spreading a message over multiple telegrams, the miaomiao protocol
         // does not repeat that initial byte
@@ -92,7 +90,8 @@ extension LibreBluetoothManager {
         // this becomes sort of a state to track which message is actually received.
         // Therefore it also becomes important that once a message is fully received, the buffer is invalidated
         //
-        guard let firstByte = (rxBuffer.first ?? value.first), let miaoMiaoResponseState = MiaoMiaoResponseState(rawValue: firstByte) else {
+        guard let firstByte = rxBuffer.first, let miaoMiaoResponseState = MiaoMiaoResponseState(rawValue: firstByte) else {
+            resetBuffer()
             print("miaomiaoDidUpdateValueForNotifyCharacteristics did not undestand what to do (internal error")
             return
         }
@@ -100,8 +99,8 @@ extension LibreBluetoothManager {
         switch miaoMiaoResponseState {
         case .dataPacketReceived: // 0x28: // data received, append to buffer and inform delegate if end reached
             
-            rxBuffer.append(value)
-            os_log("Appended value with length %{public}@, buffer length is: %{public}@", log: LibreBluetoothManager.bt_log, type: .default, String(describing: value.count), String(describing: rxBuffer.count))
+            
+            
             
             if rxBuffer.count >= 363, let last = rxBuffer.last, last == 0x29 {
                 os_log("Buffer complete, inform delegate.", log: LibreBluetoothManager.bt_log, type: .default)
@@ -112,7 +111,7 @@ extension LibreBluetoothManager {
             
         case .newSensor: // 0x32: // A new sensor has been detected -> acknowledge to use sensor and reset buffer
             delegate?.libreBluetoothManagerReceivedMessage(0x0000, txFlags: 0x32, payloadData: rxBuffer)
-            miaomiaoConfirmSensor()
+            miaomiaoConfirmSensor(peripheral: peripheral)
             resetBuffer()
         case .noSensor: // 0x34: // No sensor has been detected -> reset buffer (and wait for new data to arrive)
             delegate?.libreBluetoothManagerReceivedMessage(0x0000, txFlags: 0x34, payloadData: rxBuffer)
@@ -136,9 +135,13 @@ extension LibreBluetoothManager {
     }
     
     // Confirm (to replace) the sensor. Iif a new sensor is detected and shall be used, send this command (0xD301)
-    func miaomiaoConfirmSensor() {
+    func miaomiaoConfirmSensor(peripheral: CBPeripheral) {
+        print("confirming new sensor")
         if let writeCharacteristic = writeCharacteristic {
-            peripheral?.writeValue(Data.init(bytes: [0xD3, 0x00]), for: writeCharacteristic, type: .withResponse)
+            print("confirmed new sensor")
+            peripheral.writeValue(Data.init(bytes: [0xD3, 0x01]), for: writeCharacteristic, type: .withResponse)
+        } else {
+            print("could not confirm new sensor")
         }
     }
 
