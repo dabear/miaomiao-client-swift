@@ -82,7 +82,9 @@ extension LibreBluetoothManager {
         
         os_log("Appended value with length %{public}@, buffer length is: %{public}@", log: LibreBluetoothManager.bt_log, type: .default, String(describing: value.count), String(describing: rxBuffer.count))
         
+
         os_log("rxBuffer.first is: %{public}@, value.first is: %{public}@", log: LibreBluetoothManager.bt_log, type: .default, String(describing: rxBuffer.first), String(describing: value.first))
+
         
         // When spreading a message over multiple telegrams, the miaomiao protocol
         // does not repeat that initial byte

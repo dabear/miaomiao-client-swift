@@ -190,7 +190,7 @@ public final class MiaoMiaoClientManager: CGMManager, LibreBluetoothManagerDeleg
     }
     
     public var connectionState : String {
-        return MiaoMiaoClientManager.proxy?.state.rawValue ?? "n/a"
+        return MiaoMiaoClientManager.proxy?.connectionStateString ?? "n/a"
         
     }
     
@@ -320,6 +320,7 @@ public final class MiaoMiaoClientManager: CGMManager, LibreBluetoothManagerDeleg
         //
         return
         
+        /*
         
         // force trying to reconnect every time a we detect
         // a disconnected state while fetching
@@ -332,10 +333,11 @@ public final class MiaoMiaoClientManager: CGMManager, LibreBluetoothManagerDeleg
         case .Connected, .Connecting, .Notifying:
             break
         case .Disconnected, .DisconnectingDueToButtonPress:
-            proxy.connect()
+            proxy.connect() //remember to check managerque if you re-enable this
         case .DelayedReconnect:
             break
         }
+         */
     }
     private func trendToLibreGlucose(_ measurements: [Measurement]) -> [LibreGlucose]?{
         var origarr = [LibreGlucose]()
