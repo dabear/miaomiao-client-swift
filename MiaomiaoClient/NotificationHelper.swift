@@ -176,11 +176,11 @@ class NotificationHelper {
             return
         }
         
-        // TODO: handle alarm
+        
         
         ensureCanSendNotification { (ensured) in
             
-            guard (ensured) else {
+            guard ensured else {
                 NSLog("dabear:: not sending sending glucose notification")
                 return
             }

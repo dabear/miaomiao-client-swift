@@ -199,7 +199,7 @@ public struct SensorData {
     /// - parameter slope:  slope in (mg/dl)/ raw
     ///
     /// - returns: Array of Measurements
-    func historyMeasurements(_ offset: Double = 0.0, slope: Double = 0.1) -> [Measurement] {
+    func historyMeasurements(_ offset: Double = 0.0, slope: Double = 0.1, derivedAlgorithmParameterSet: DerivedAlgorithmParameters?) -> [Measurement] {
                 
         var measurements = [Measurement]()
         // History data is stored in body from byte 100 to byte 100+192-1=291 in units of 6 bytes. Index on data such that most recent block is first.
@@ -215,7 +215,7 @@ public struct SensorData {
 //            let measurementDate = dateOfMostRecentHistoryValue().addingTimeInterval(Double(-900 * blockIndex)) // 900 = 60 * 15
 //            let measurement = Measurement(bytes: measurementBytes, slope: slope, offset: offset, date: measurementDate)
             let (date, counter) = dateOfMostRecentHistoryValue()
-            let measurement = Measurement(bytes: measurementBytes, slope: slope, offset: offset, counter: counter - blockIndex * 15, date: date.addingTimeInterval(Double(-900 * blockIndex)), derivedAlgorithmParameterSet: nil) // 900 = 60 * 15
+            let measurement = Measurement(bytes: measurementBytes, slope: slope, offset: offset, counter: counter - blockIndex * 15, date: date.addingTimeInterval(Double(-900 * blockIndex)), derivedAlgorithmParameterSet: derivedAlgorithmParameterSet) // 900 = 60 * 15
             
             measurements.append(measurement)
         }

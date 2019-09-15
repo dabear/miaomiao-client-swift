@@ -21,10 +21,7 @@ public final class MiaoMiaoClientManager: CGMManager, LibreBluetoothManagerDeleg
     }
     
     public var managedDataInterval: TimeInterval?
-    
-    
-    
-    
+
     
     public func getSmallImage() -> UIImage? {
         let bundle = Bundle.current
@@ -34,22 +31,11 @@ public final class MiaoMiaoClientManager: CGMManager, LibreBluetoothManagerDeleg
         
     }
     
-   
     
     public var device: HKDevice? {
         return proxy?.OnQueue_device
-        /*return HKDevice(
-            name: "MiaomiaoClient",
-            manufacturer: MiaoMiaoClientManager.proxy?.OnQueue_manufacturer,
-            model: nil, //latestSpikeCollector,
-            hardwareVersion: hardwareVersion,
-            firmwareVersion: firmwareVersion,
-            softwareVersion: nil,
-            localIdentifier: identifier,
-            udiDeviceIdentifier: nil
-        )*/
+        
     }
-    
     
     
     public var debugDescription: String {
@@ -69,11 +55,7 @@ public final class MiaoMiaoClientManager: CGMManager, LibreBluetoothManagerDeleg
             ].joined(separator: "\n")
     }
     
-    
-    
-    
-
-    
+ 
     public var miaomiaoService : MiaomiaoService
     
     public func fetchNewDataIfNeeded(_ completion: @escaping (CGMResult) -> Void) {
@@ -118,16 +100,13 @@ public final class MiaoMiaoClientManager: CGMManager, LibreBluetoothManagerDeleg
     
     public let keychain = KeychainManager()
     
-    //public var miaomiaoService: MiaomiaoService
+    
     
     public static let localizedTitle = LocalizedString("Libre Bluetooth", comment: "Title for the CGMManager option")
     
     public let appURL: URL? = nil //URL(string: "spikeapp://")
-    
     weak public var cgmManagerDelegate: CGMManagerDelegate?
-    
     public let providesBLEHeartbeat = true
-    
     public let shouldSyncToRemoteService = true
 
     
@@ -157,7 +136,7 @@ public final class MiaoMiaoClientManager: CGMManager, LibreBluetoothManagerDeleg
         
         proxy?.disconnectManually()
         proxy?.delegate = nil
-        //MiaoMiaoClientManager.proxy = nil
+        
     }
     
     deinit {
@@ -169,56 +148,17 @@ public final class MiaoMiaoClientManager: CGMManager, LibreBluetoothManagerDeleg
     }
 
     
-   
-    
-    
     private lazy var proxy : LibreBluetoothManager? = LibreBluetoothManager()
     
    
-   
-    private func trendToLibreGlucose(_ measurements: [Measurement]) -> [LibreGlucose]?{
-        var origarr = [LibreGlucose]()
+    private func readingToGlucose(_ data: SensorData, calibration: DerivedAlgorithmParameters) -> [LibreGlucose]{
         
-        //whether or not to return all the 16 latest trends or just every fifth element
-        let returnAllTrends = true
+        let last16 = data.trendMeasurements(derivedAlgorithmParameterSet: calibration)
+        let history = data.historyMeasurements(derivedAlgorithmParameterSet: calibration)
         
-        
-        
-        for trend in measurements {
-            let glucose = LibreGlucose(unsmoothedGlucose: trend.temperatureAlgorithmGlucose, glucoseDouble: 0.0, trend: UInt8(GlucoseTrend.flat.rawValue), timestamp: trend.date, collector: "MiaoMiao")
-            origarr.append(glucose)
-        }
-        //NSLog("dabear:: glucose samples before smoothing: \(String(describing: origarr))")
-        var arr : [LibreGlucose]
-        arr = CalculateSmothedData5Points(origtrends: origarr)
-        
-        
-        
-        for i in 0 ..< arr.count {
-            var trend = arr[i]
-            //we know that the array "always" (almost) will contain 16 entries
-            //the last five entries will get a trend arrow of flat, because it's not computable when we don't have
-            //more entries in the array to base it on
-            let arrow = TrendArrowCalculation.GetGlucoseDirection(current: trend, last: arr[safe: i+5])
-            arr[i].trend = UInt8(arrow.rawValue)
-            NSLog("Date: \(trend.timestamp), before: \(trend.unsmoothedGlucose), after: \(trend.glucose), arrow: \(trend.trend)")
-        }
-        
-        
-        
-        
-        if returnAllTrends {
-            return arr
-        }
-        
-        var filtered = [LibreGlucose]()
-        for elm in arr.enumerated() where elm.offset % 5 == 0 {
-            filtered.append(elm.element)
-        }
-        
-        //NSLog("dabear:: glucose samples after smoothing: \(String(describing: arr))")
-        return filtered
+        return LibreGlucose.fromTrendMeasurements(last16) + LibreGlucose.fromHistoryMeasurements(history)
     }
+    
     
     public func handleGoodReading(data: SensorData?,_ callback: @escaping (LibreError?, [LibreGlucose]?) -> Void) {
         //only care about the once per minute readings here, historical data will not be considered
@@ -238,8 +178,8 @@ public final class MiaoMiaoClientManager: CGMManager, LibreBluetoothManagerDeleg
             
             if calibrationdata.isValidForFooterWithReverseCRCs == data.footerCrc.byteSwapped {
                 NSLog("dabear:: calibrationdata correct for this sensor, returning last values")
-                let last16 = data.trendMeasurements(derivedAlgorithmParameterSet: calibrationdata)
-                callback(nil, trendToLibreGlucose(last16) )
+                
+                callback(nil, readingToGlucose(data, calibration: calibrationdata))
                 return
                 
             } else {
@@ -275,8 +215,8 @@ public final class MiaoMiaoClientManager: CGMManager, LibreBluetoothManagerDeleg
             }
             //here we assume success, data is not changed,
             //and we trust that the remote endpoint returns correct data for the sensor
-            let last16 = data.trendMeasurements(derivedAlgorithmParameterSet: params)
-            callback(nil, self?.trendToLibreGlucose(last16) )
+           
+            callback(nil, self?.readingToGlucose(data, calibration: params))
             
             
         }
@@ -344,57 +284,56 @@ public final class MiaoMiaoClientManager: CGMManager, LibreBluetoothManagerDeleg
         NotificationHelper.sendInvalidSensorNotificationIfNeeded(sensorData: sensorData)
         NotificationHelper.sendSensorExpireAlertIfNeeded(sensorData: sensorData)
         
-        if sensorData.hasValidCRCs {
-            
-            if sensorData.state == .ready ||  sensorData.state == .starting {
-                NSLog("dabear:: got sensordata with valid crcs, sensor was ready")
-                self.lastValidSensorData = sensorData
-                
-                self.handleGoodReading(data: sensorData) { (error, glucose) in
-                    if let error = error {
-                        NSLog("dabear:: handleGoodReading returned with error: \(error)")
-                        
-                        self.cgmManagerDelegate?.cgmManager(self, didUpdateWith: .error(error))
-                        return
-                    }
-                    
-                    guard let glucose = glucose else {
-                        NSLog("dabear:: handleGoodReading returned with no data")
-                        self.cgmManagerDelegate?.cgmManager(self, didUpdateWith: .noData)
-                        
-                        return
-                    }
-                    
-                    let startDate = self.latestBackfill?.startDate
-                    let newGlucose = glucose.filterDateRange(startDate, nil).filter({ $0.isStateValid }).map {
-                        return NewGlucoseSample(date: $0.startDate, quantity: $0.quantity, isDisplayOnly: false, syncIdentifier: "\(Int($0.startDate.timeIntervalSince1970))", device: self.proxy?.device)
-                    }
-                    
-                    self.latestBackfill = glucose.first
-                    
-                    if newGlucose.count > 0 {
-                        NSLog("dabear:: handleGoodReading returned with \(newGlucose.count) new glucose samples")
-                        self.cgmManagerDelegate?.cgmManager(self, didUpdateWith: .newData(newGlucose))
-                        
-                    } else {
-                        NSLog("dabear:: handleGoodReading returned with no new data")
-                        self.cgmManagerDelegate?.cgmManager(self, didUpdateWith: .noData)
-                        
-                    }
-                    
-                }
-                
-            } else {
-                os_log("dabear:: got sensordata with valid crcs, but sensor is either expired or failed")
-                self.cgmManagerDelegate?.cgmManager(self, didUpdateWith: .error(LibreError.expiredSensor))
-            }
-            
-            
-        } else {
+        guard sensorData.hasValidCRCs else {
             self.cgmManagerDelegate?.cgmManager(self, didUpdateWith: .error(LibreError.checksumValidationError))
             os_log("dit not get sensordata with valid crcs")
+            return
         }
-        return
+        
+        guard sensorData.state == .ready ||  sensorData.state == .starting else {
+            os_log("dabear:: got sensordata with valid crcs, but sensor is either expired or failed")
+            self.cgmManagerDelegate?.cgmManager(self, didUpdateWith: .error(LibreError.expiredSensor))
+            return
+        }
+        
+        NSLog("dabear:: got sensordata with valid crcs, sensor was ready")
+        self.lastValidSensorData = sensorData
+        
+        self.handleGoodReading(data: sensorData) { (error, glucose) in
+            if let error = error {
+                NSLog("dabear:: handleGoodReading returned with error: \(error)")
+                
+                self.cgmManagerDelegate?.cgmManager(self, didUpdateWith: .error(error))
+                return
+            }
+            
+            guard let glucose = glucose else {
+                NSLog("dabear:: handleGoodReading returned with no data")
+                self.cgmManagerDelegate?.cgmManager(self, didUpdateWith: .noData)
+                
+                return
+            }
+            
+            let startDate = self.latestBackfill?.startDate
+            let newGlucose = glucose.filterDateRange(startDate, nil).filter({ $0.isStateValid }).map {
+                return NewGlucoseSample(date: $0.startDate, quantity: $0.quantity, isDisplayOnly: false, syncIdentifier: "\(Int($0.startDate.timeIntervalSince1970))", device: self.proxy?.device)
+            }
+            
+           
+            self.latestBackfill = glucose.max{ $0.startDate < $1.startDate}
+            
+            if newGlucose.count > 0 {
+                NSLog("dabear:: handleGoodReading returned with \(newGlucose.count) new glucose samples")
+                self.cgmManagerDelegate?.cgmManager(self, didUpdateWith: .newData(newGlucose))
+                
+            } else {
+                NSLog("dabear:: handleGoodReading returned with no new data")
+                self.cgmManagerDelegate?.cgmManager(self, didUpdateWith: .noData)
+                
+            }
+            
+        }
+        
     }
     
     
