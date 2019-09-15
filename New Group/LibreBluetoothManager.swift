@@ -318,11 +318,10 @@ final class LibreBluetoothManager: NSObject, CBCentralManagerDelegate, CBPeriphe
     private let managerQueue = DispatchQueue(label: "no.bjorninge.bluetoothManagerQueue", qos: .utility)
     
     
-    //    fileprivate let serviceUUIDs:[CBUUID]? = [CBUUID(string: "6E400001B5A3F393E0A9E50E24DCCA9E")]
-    //fileprivate let deviceNames = ["miaomiao", "bubble"]
-    //fileprivate let deviceNames = [SupportedDevices.MiaoMiao.name, SupportedDevices.Bubble.name]
-    //fileprivate var deviceNames = SupportedDevices.allNames
     fileprivate let serviceUUIDs:[CBUUID]? = [CBUUID(string: "6E400001-B5A3-F393-E0A9-E50E24DCCA9E")]
+    fileprivate let writeCharachteristicUUID = CBUUID(string: "6E400002-B5A3-F393-E0A9-E50E24DCCA9E")
+    fileprivate let notifyCharacteristicUUID = CBUUID(string: "6E400003-B5A3-F393-E0A9-E50E24DCCA9E")
+    
     
     var BLEScanDuration = 3.0
     weak var timer: Timer?
@@ -602,7 +601,7 @@ final class LibreBluetoothManager: NSObject, CBCentralManagerDelegate, CBPeriphe
         if let services = peripheral.services {
             
             for service in services {
-                peripheral.discoverCharacteristics(nil, for: service)
+                peripheral.discoverCharacteristics([writeCharachteristicUUID, notifyCharacteristicUUID], for: service)
                 
                 os_log("Did discover service: %{public}@", log: LibreBluetoothManager.bt_log, type: .default, String(describing: service.debugDescription))
             }
@@ -643,11 +642,11 @@ final class LibreBluetoothManager: NSObject, CBCentralManagerDelegate, CBPeriphe
                 //                }
                 
                 // Choose the notifiying characteristic and Register to be notified whenever the MiaoMiao transmits
-                if (characteristic.properties.intersection(.notify)) == .notify && characteristic.uuid == CBUUID(string: "6E400003-B5A3-F393-E0A9-E50E24DCCA9E") {
+                if (characteristic.properties.intersection(.notify)) == .notify && characteristic.uuid == notifyCharacteristicUUID {
                     peripheral.setNotifyValue(true, for: characteristic)
                     os_log("Set notify value for this characteristic", log: LibreBluetoothManager.bt_log, type: .default)
                 }
-                if (characteristic.uuid == CBUUID(string: "6E400002-B5A3-F393-E0A9-E50E24DCCA9E")) {
+                if (characteristic.uuid == writeCharachteristicUUID) {
                     writeCharacteristic = characteristic
                 }
             }
