@@ -41,14 +41,14 @@ public enum SupportedDevices : Int, CaseIterable{
     }
     public static func isSupported(_ peripheral: CBPeripheral ) -> Bool{
         if let name = peripheral.name?.lowercased() {
-            return allNames.contains(name)
+            return allNames.contains{ $0.starts(with: name) }
         }
         return false
         
     }
     public static var allNames : [String] {
         get {
-            return SupportedDevices.allCases.map( { $0.name})
+            return SupportedDevices.allCases.map{$0.name}
         }
     }
 }
