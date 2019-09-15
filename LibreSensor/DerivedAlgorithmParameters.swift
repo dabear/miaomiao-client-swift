@@ -14,14 +14,14 @@ public struct DerivedAlgorithmParameters: Codable, CustomStringConvertible {
     public var offset_slope: Double
     public var offset_offset: Double
     public var isValidForFooterWithReverseCRCs: Int
-    public var extraSlope : Double = 1
+    public var extraSlope: Double = 1
     public var extraOffset: Double = 0
-    
+
     public var description: String {
         return "DerivedAlgorithmParameters:: slopeslope: \(slope_slope), slopeoffset: \(slope_offset), offsetoffset: \(offset_offset), offsetSlope: \(offset_slope), extraSlope: \(extraSlope), extraOffset: \(extraOffset), isValidForFooterWithReverseCRCs: \(isValidForFooterWithReverseCRCs)"
     }
-    
-    public init(slope_slope: Double, slope_offset:Double, offset_slope: Double, offset_offset: Double, isValidForFooterWithReverseCRCs: Int, extraSlope: Double, extraOffset: Double) {
+
+    public init(slope_slope: Double, slope_offset: Double, offset_slope: Double, offset_offset: Double, isValidForFooterWithReverseCRCs: Int, extraSlope: Double, extraOffset: Double) {
         self.slope_slope = slope_slope
         self.slope_offset = slope_offset
         self.offset_slope = offset_slope
@@ -32,14 +32,9 @@ public struct DerivedAlgorithmParameters: Codable, CustomStringConvertible {
     }
 }
 
-
-
-
-
-
-public class DerivedAlgorithmRunner{
+public class DerivedAlgorithmRunner {
     private var params: DerivedAlgorithmParameters
-    init(_ params:DerivedAlgorithmParameters) {
+    init(_ params: DerivedAlgorithmParameters) {
         self.params = params
     }
     /* Result:
@@ -55,99 +50,95 @@ public class DerivedAlgorithmRunner{
      offset_offset: -20.913043478260875
      
      */
-    
-    
+
     // These three functions should be implemented by the client
     // wanting to do offline calculations
     // of glucose
-    private func slopefunc(raw_temp: Int) -> Double{
-        
+    private func slopefunc(raw_temp: Int) -> Double {
+
         return self.params.slope_slope * Double(raw_temp) + self.params.offset_slope
         // rawglucose 7124: 0.1130434605
         //0.00001562292 * 7124 + 0.0017457784869033700
-        
+
         // rawglucose 5816: 0.0926086812
         //0.00001562292 * 5816 + 0.0017457784869033700
-        
-        
+
     }
-    
-    private func offsetfunc(raw_temp: Int) -> Double{
+
+    private func offsetfunc(raw_temp: Int) -> Double {
         return self.params.slope_offset  * Double(raw_temp) + self.params.offset_offset
         //rawglucose 7124: -21.1304349
         //-0.00023267185 * 7124 + -19.4728806406
         // rawglucose 5816: -20.8261001202
         //-0.00023267185 * 5816 + -19.4728806406
     }
-    
-    
-    public func GetGlucoseValue(from_raw_glucose raw_glucose: Int, raw_temp: Int) -> Double{
+
+    public func GetGlucoseValue(from_raw_glucose raw_glucose: Int, raw_temp: Int) -> Double {
         return self.slopefunc(raw_temp: raw_temp) * Double(raw_glucose) + self.offsetfunc(raw_temp: raw_temp)
     }
-    
-    private func serializeAlgorithmParameters(_ params: DerivedAlgorithmParameters) -> String{
+
+    private func serializeAlgorithmParameters(_ params: DerivedAlgorithmParameters) -> String {
         let encoder = JSONEncoder()
         encoder.outputFormatting = .prettyPrinted
-        
+
         var ret = ""
-        
+
         do {
             let jsonData = try encoder.encode(params)
-            
+
             if let jsonString = String(data: jsonData, encoding: .utf8) {
                 ret = jsonString
             }
         } catch {
             print("Could not serialize parameters: \(error.localizedDescription)")
         }
-        
+
         return ret
     }
-    
-    public func SaveAlgorithmParameters(){
+
+    public func SaveAlgorithmParameters() {
         let fm = FileManager.default
-        
-        
+
         guard let dir = fm.urls(for: .documentDirectory, in: .userDomainMask).first else {
             print ("cannot construct url dir for writing parameters")
             return
         }
-        
+
         let fileUrl = dir.appendingPathComponent("LibreParamsForCurrentSensor").appendingPathExtension("txt")
-        
+
         print("Saving algorithm parameters to  \(fileUrl.path)")
-        
-        do{
+
+        do {
             try serializeAlgorithmParameters(params).write(to: fileUrl, atomically: true, encoding: String.Encoding.utf8)
-        }  catch let error as NSError {
+        } catch let error as NSError {
             print("Error: fileUrl failed to write to \(fileUrl.path): \n\(error)" )
             return
-            
+
         }
     }
-    public static func CreateInstanceFromParamsFile() -> DerivedAlgorithmRunner?{
+    public static func CreateInstanceFromParamsFile() -> DerivedAlgorithmRunner? {
         let fm = FileManager.default
-        
+
         guard let dir = fm.urls(for: .documentDirectory, in: .userDomainMask).first else {
             print ("cannot construct url dir for writing parameters")
             return nil
         }
-        
+
         let fileUrl = dir.appendingPathComponent("LibreParamsForCurrentSensor").appendingPathExtension("txt")
         let text: String
-        do{
+        do {
             text = try String(contentsOf: fileUrl, encoding: .utf8)
         } catch {
             print("")
             return nil
         }
-        
+
         if let jsonData = text.data(using: .utf8) {
             let decoder = JSONDecoder()
-            
+
             do {
                 let params = try decoder.decode(DerivedAlgorithmParameters.self, from: jsonData)
-                
+
                 return DerivedAlgorithmRunner(params)
             } catch {
                 print("Could not create instance: \(error.localizedDescription)")
@@ -157,6 +148,5 @@ public class DerivedAlgorithmRunner{
         }
         return nil
     }
-    
-}
 
+}

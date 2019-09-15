@@ -10,20 +10,18 @@ import LoopKit
 import LoopKitUI
 import MiaomiaoClient
 
-
-class MiaomiaoClientSetupViewController: UINavigationController, CGMManagerSetupViewController, CompletionNotifying{
+class MiaomiaoClientSetupViewController: UINavigationController, CGMManagerSetupViewController, CompletionNotifying {
     weak var completionDelegate: CompletionDelegate?
-    
+
     var setupDelegate: CGMManagerSetupViewControllerDelegate?
 
-    lazy var cgmManager : MiaoMiaoClientManager? =  MiaoMiaoClientManager()
+    lazy var cgmManager: MiaoMiaoClientManager? =  MiaoMiaoClientManager()
 
     init() {
-        
+
         let service = MiaomiaoService(keychainManager: KeychainManager())
         let authVC = AuthenticationViewController(authentication: service)
         ExtendingAuthController.addExtendedSection(source: authVC)
-        
 
         super.init(rootViewController: authVC)
 
@@ -31,13 +29,13 @@ class MiaomiaoClientSetupViewController: UINavigationController, CGMManagerSetup
             //self?.cgmManager?.miaomiaoService = service
             NSLog("miaomiaoservice was setup")
             let keychain = KeychainManager()
-            do{
+            do {
                 NSLog("dabear:: miaomiaoservice setAutoCalibrateWebAccessToken called")
                 try keychain.setAutoCalibrateWebAccessToken(accessToken: service.accessToken, url: service.url)
             } catch {
                 NSLog("dabear:: miaomiaoservice could not permanently save setAutoCalibrateWebAccessToken")
             }
-            
+
             return
         }
         /*
@@ -52,7 +50,7 @@ class MiaomiaoClientSetupViewController: UINavigationController, CGMManagerSetup
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
     }
-    
+
     deinit {
         NSLog("dabear MiaomiaoClientSetupViewController() deinit was called")
         //cgmManager = nil
@@ -74,7 +72,7 @@ class MiaomiaoClientSetupViewController: UINavigationController, CGMManagerSetup
         }
         completionDelegate?.completionNotifyingDidComplete(self)
         ExtendingAuthController.destroyExtension()
-        
+
     }
 
 }

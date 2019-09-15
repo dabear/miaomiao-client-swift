@@ -9,19 +9,19 @@
 import Foundation
 
 struct SensorSerialNumber: CustomStringConvertible {
-    
+
     let uid: Data
 
-    fileprivate let lookupTable = ["0","1","2","3","4","5","6","7","8","9","A","C","D","E","F","G","H","J","K","L","M","N","P","Q","R","T","U","V","W","X","Y","Z"]
-    
+    fileprivate let lookupTable = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "A", "C", "D", "E", "F", "G", "H", "J", "K", "L", "M", "N", "P", "Q", "R", "T", "U", "V", "W", "X", "Y", "Z"]
+
     init?(withUID uid: Data) {
         guard uid.count == 8 else {return nil}
         self.uid = uid
     }
 
     // MARK: - computed properties
-    
-    var serialNumber: String  {
+
+    var serialNumber: String {
 
         // The serial number of the sensor can be derived from its uid.
         //
@@ -68,9 +68,9 @@ struct SensorSerialNumber: CustomStringConvertible {
         //
         //
         //   3.) Prepend "0" at the beginning an thus receive "0M00009DHCR"
-        
+
         guard uid.count == 8 else {return "invalid uid"}
-        
+
         let bytes = Array(uid.reversed().suffix(6))  // 5E 90 25 00 00 A0 07 E0" -> E0 07 A0 00 00 25 90 5E -> A0 00 00 25 90 5E
 
         //  A0 00 00 25 90 5E -> "M00009DHCR"
@@ -92,14 +92,14 @@ struct SensorSerialNumber: CustomStringConvertible {
         })
         return serialNumber
     }
-    
+
     var uidString: String {
         return Data(self.uid).hexEncodedString()
     }
-    
+
     var prettyUidString: String {
         let stringArray = self.uid.map({String(format: "%02X", $0)})
-        return stringArray.dropFirst().reduce(stringArray.first!,  {$0 + ":" + $1} )
+        return stringArray.dropFirst().reduce(stringArray.first!, {$0 + ":" + $1})
     }
 
     // MARK: - CustomStringConvertible Protocoll

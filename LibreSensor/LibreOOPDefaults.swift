@@ -62,10 +62,10 @@ struct LibreOOPDefaults {
         0x14, 0x07, 0x96, 0x80, 0x5a, 0x00, 0xed, 0xa6, // 0x29
         0x0e, 0x6e, 0x1a, 0xc8, 0x04, 0xdd, 0x58, 0x6d  // 0x2A End of footer
     ]
-    public static var TestPatchAlwaysReturning63:[UInt8] {
+    public static var TestPatchAlwaysReturning63: [UInt8] {
         return _testPatchAlwaysReturning63.map { $0 }
     }
-    
+
     public static var defaultState: String {
         get {
             return Data(_defaultState).base64EncodedString()

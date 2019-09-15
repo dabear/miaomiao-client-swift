@@ -104,7 +104,7 @@ struct OOPCurrentValue: Codable {
     let historyValues: [OOPHistoryValue]
     let serialNumber: String?
     let timestamp: Int
-    
+
     enum CodingKeys: String, CodingKey {
         case currentTrend = "currenTrend"  // TODO: rename currenTrend to currentTrend
         case currentBg
@@ -119,7 +119,7 @@ struct OOPHistoryValue: Codable {
     let bg: Double
     let quality: Int
     let time: Int
-    
+
     enum Codingkeys: String, CodingKey {
         case bg
         case quality
@@ -132,7 +132,7 @@ struct LibreOOPResponse: Codable {
     let command: String?
     let message: String?
     let result: LibreReadingResult?
-    
+
     enum CodingKeys: String, CodingKey {
         case error = "Error"
         case command = "Command"
@@ -146,7 +146,7 @@ struct LibreReadingResult: Codable {
     let status: String
     let result: String?
     var newState: String?
-    
+
     enum CodingKeys: String, CodingKey {
         case createdOn = "CreatedOn"
         case modifiedOn = "ModifiedOn"
@@ -162,11 +162,11 @@ extension LibreReadingResult {
             return Date.dateFromISOString(string: self.createdOn)
         }
     }
-    
+
     init(created: String, b64Contents: String, uuid: String="") {
-        
+
         self.init(createdOn: created, modifiedOn: created, uuid: uuid, b64Contents: b64Contents, status: "init", result: "", newState: "")
-        
+
     }
 }
 // MARK: Encode/decode helpers
@@ -174,7 +174,7 @@ struct CalibrationResponse: Codable {
     let error: Bool
     let command: String
     let result: CalibrationResult?
-    
+
     enum CodingKeys: String, CodingKey {
         case error = "Error"
         case command = "Command"
@@ -186,7 +186,7 @@ struct CalibrationResult: Codable {
     let createdOn, modifiedOn, uuid: String
     let metadata: CalibrationMetadata
     let requestids: [String]
-    
+
     enum CodingKeys: String, CodingKey {
         case createdOn = "CreatedOn"
         case modifiedOn = "ModifiedOn"
@@ -196,7 +196,7 @@ struct CalibrationResult: Codable {
 
 struct CalibrationMetadata: Codable {
     let glucoseLowerBound, glucoseUpperBound, rawTemp1, rawTemp2: Int
-    
+
     enum CodingKeys: String, CodingKey {
         case glucoseLowerBound = "GLUCOSE_LOWER_BOUND"
         case glucoseUpperBound = "GLUCOSE_UPPER_BOUND"
@@ -207,14 +207,14 @@ struct CalibrationMetadata: Codable {
 
 class JSONNull: Codable {
     public init() {}
-    
+
     public required init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
         if !container.decodeNil() {
             throw DecodingError.typeMismatch(JSONNull.self, DecodingError.Context(codingPath: decoder.codingPath, debugDescription: "Wrong type for JSONNull"))
         }
     }
-    
+
     public func encode(to encoder: Encoder) throws {
         var container = encoder.singleValueContainer()
         try container.encodeNil()
@@ -225,7 +225,7 @@ struct GetCalibrationStatus: Codable {
     let error: Bool
     let command: String
     let result: GetCalibrationStatusResult?
-    
+
     enum CodingKeys: String, CodingKey {
         case error = "Error"
         case command = "Command"
@@ -233,12 +233,12 @@ struct GetCalibrationStatus: Codable {
     }
 }
 
-struct GetCalibrationStatusResult: Codable, CustomStringConvertible{
+struct GetCalibrationStatusResult: Codable, CustomStringConvertible {
     let status: String
     let slopeSlope, slopeOffset, offsetOffset, offsetSlope: Double?
     let uuid: String
     let isValidForFooterWithReverseCRCs: Double?
-    
+
     enum CodingKeys: String, CodingKey {
         case status
         case slopeSlope = "slope_slope"

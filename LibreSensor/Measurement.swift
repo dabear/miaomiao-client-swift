@@ -8,7 +8,6 @@
 
 import Foundation
 
-
 /// Structure for one glucose measurement including value, date and raw data bytes
 struct Measurement {
     /// The date for this measurement
@@ -50,7 +49,6 @@ struct Measurement {
     ///
     let temperatureAlgorithmParameterSet: DerivedAlgorithmParameters?
 
-
     ///
     /// - parameter bytes:  raw data bytes as read from the sensor
     /// - parameter slope:  slope to calculate glucose from raw value in (mg/dl)/raw
@@ -68,7 +66,7 @@ struct Measurement {
         self.glucose = offset + slope * Double(rawGlucose)
         self.date = date
         self.counter = counter
-        
+
 //        self.oopSlope = slope_slope * Double(rawTemperature) + offset_slope
 //        self.oopOffset = slope_offset * Double(rawTemperature) + offset_offset
 //        self.oopGlucose = oopSlope * Double(rawGlucose) + oopOffset
@@ -88,10 +86,10 @@ struct Measurement {
             self.oopOffset = 0
             self.temperatureAlgorithmGlucose = 0
         }
-        
+
         print(self.description)
     }
-    
+
 //
 //
 //    private func slopefunc(raw_temp: Int) -> Double{
@@ -117,7 +115,6 @@ struct Measurement {
 //        return self.slopefunc(raw_temp: raw_temp) * Double(raw_glucose) + self.offsetfunc(raw_temp: raw_temp)
 //    }
 
-    
 //    func temp1() -> Double {
 //        let anInt = (Int(self.bytes[4] & 0x3F) << 8) + Int(self.bytes[5])
 //        return 0.5 * (-273.16 + sqrt(abs(273.16*273.16 + 4.0 * Double(anInt))))
@@ -150,13 +147,13 @@ struct Measurement {
 //        return  abs(Double(anInt)*0.0027689+9.53)
 //    }
 //    Temp = 22.22 * log(311301/NTC)
-    
+
     var description: String {
         var aString = String("Glucose: \(glucose) (mg/dl), date:  \(date), slope: \(slope), offset: \(offset), rawGlucose: \(rawGlucose), rawTemperature: \(rawTemperature), bytes: \(bytes) \n")
         aString.append("OOP: slope_slope: \(String(describing: temperatureAlgorithmParameterSet?.slope_slope)), slope_offset: \(String(describing: temperatureAlgorithmParameterSet?.slope_offset)), offset_slope: \(String(describing: temperatureAlgorithmParameterSet?.offset_slope)), offset_offset: \(String(describing: temperatureAlgorithmParameterSet?.offset_offset))\n")
         aString.append("OOP: slope: \(oopSlope), \noffset: \(oopOffset)")
         aString.append("oopGlucose: \(temperatureAlgorithmGlucose) (mg/dl)" )
-        
+
         return aString
 //        return String("Glucose: \(glucose) (mg/dl), date:  \(date), slope: \(slope), offset: \(offset), rawGlucose: \(rawGlucose), rawTemperature: \(rawTemperature), bytes: \(bytes)  /n oop: slope_slope = " )
     }

@@ -25,8 +25,8 @@ enum SensorState {
     case shutdown
     case failure
     case unknown
-    
-    init(){
+
+    init() {
         self = .unknown
     }
     init(stateByte: UInt8) {
@@ -47,7 +47,7 @@ enum SensorState {
             self = .unknown
         }
     }
-    
+
     var description: String {
         switch self {
         case .notYetStarted:

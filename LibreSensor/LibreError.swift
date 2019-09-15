@@ -16,12 +16,12 @@ public enum LibreError: Error {
     case expiredSensor
     case invalidAutoCalibrationCredentials
     case encryptedSensor
-    
-    public var errorDescription: String{
+
+    public var errorDescription: String {
         switch self {
         case .noSensorData:
             return "No sensor data present"
-        
+
         case .noCalibrationData:
             return "No calibration data present"
         case .invalidCalibrationData:
@@ -34,7 +34,7 @@ public enum LibreError: Error {
             return "Invalid Auto Calibration Credentials"
         case .encryptedSensor:
             return "Encrypted and unsupported libre sensor detected."
-        
+
         }
     }
 }

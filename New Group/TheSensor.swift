@@ -8,8 +8,6 @@
 
 import Foundation
 
-
-
 /// Structure for data from Freestyle Libre sensor
 /// To be initialized with the bytes as read via nfc. Provides all derived data.
 

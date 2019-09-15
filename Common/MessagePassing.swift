@@ -15,23 +15,23 @@ public func bundleSeedID() -> String? {
         kSecAttrService as String: "" as AnyObject,
         kSecReturnAttributes as String: kCFBooleanTrue
     ]
-    
-    var result : AnyObject?
+
+    var result: AnyObject?
     var status = withUnsafeMutablePointer(to: &result) {
         SecItemCopyMatching(queryLoad as CFDictionary, UnsafeMutablePointer($0))
     }
-    
+
     if status == errSecItemNotFound {
         status = withUnsafeMutablePointer(to: &result) {
             SecItemAdd(queryLoad as CFDictionary, UnsafeMutablePointer($0))
         }
     }
-    
+
     if status == noErr {
         if let resultDict = result as? [String: Any], let accessGroup = resultDict[kSecAttrAccessGroup as String] as? String {
             let components = accessGroup.components(separatedBy: ".")
             return components.first
-        }else {
+        } else {
             return nil
         }
     } else {

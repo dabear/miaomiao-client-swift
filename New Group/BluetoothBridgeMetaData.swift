@@ -17,14 +17,14 @@ public struct BluetoothBridgeMetaData: CustomStringConvertible {
     let battery: Int
     // battery level String
     let batteryString: String
-    
+
     init(hardware: String, firmware: String, battery: Int) {
         self.hardware = hardware
         self.firmware = firmware
         self.battery = battery
         self.batteryString = "\(battery) %"
     }
-    
+
     public var description: String {
         return "Hardware: \(hardware), firmware: \(firmware), battery: \(batteryString)"
     }

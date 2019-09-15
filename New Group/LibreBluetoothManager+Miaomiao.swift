@@ -156,7 +156,6 @@
 //          a) 0xD101 Success
 //          b) 0xD100 Fail
 
-
 import Foundation
 import UIKit
 import CoreBluetooth
@@ -186,24 +185,21 @@ extension MiaoMiaoResponseState: CustomStringConvertible {
 //miaomiao support
 extension LibreBluetoothManager {
     func miaomiaoHandleCompleteMessage() {
-        
+
         guard rxBuffer.count >= 363 else {
             return
         }
-        
+
         metadata = BluetoothBridgeMetaData(hardware: String(describing: rxBuffer[16...17].hexEncodedString()),
                                            firmware: String(describing: rxBuffer[14...15].hexEncodedString()),
                                            battery: Int(rxBuffer[13]))
-        
-        
+
         sensorData = SensorData(uuid: Data(rxBuffer.subdata(in: 5..<13)), bytes: [UInt8](rxBuffer.subdata(in: 18..<362)), date: Date(), derivedAlgorithmParameterSet: nil)
-        
+
         guard let metadata = metadata else {
             return
         }
-        
-        
-        
+
         // Check if sensor data is valid and, if this is not the case, request data again after thirty second
         if let sensorData = sensorData {
             if !sensorData.hasValidCRCs {
@@ -211,32 +207,29 @@ extension LibreBluetoothManager {
                     self.requestData()
                 })
             }
-            
+
             // Inform delegate that new data is available
             delegate?.libreBluetoothManagerDidUpdate(sensorData: sensorData, and: metadata)
         }
     }
-    
+
     func miaomiaoRequestData(writeCharacteristics: CBCharacteristic, peripheral: CBPeripheral) {
         miaomiaoConfirmSensor(peripheral: peripheral)
         resetBuffer()
-        
+
         print("dabear: miaomiaoRequestData")
-        
+
         peripheral.writeValue(Data.init(bytes: [0xF0]), for: writeCharacteristics, type: .withResponse)
     }
-    
-    
+
     func miaomiaoDidUpdateValueForNotifyCharacteristics(_ value: Data, peripheral: CBPeripheral) {
-        
+
         rxBuffer.append(value)
-        
+
         os_log("Appended value with length %{public}@, buffer length is: %{public}@", log: LibreBluetoothManager.bt_log, type: .default, String(describing: value.count), String(describing: rxBuffer.count))
-        
 
         os_log("rxBuffer.first is: %{public}@, value.first is: %{public}@", log: LibreBluetoothManager.bt_log, type: .default, String(describing: rxBuffer.first), String(describing: value.first))
 
-        
         // When spreading a message over multiple telegrams, the miaomiao protocol
         // does not repeat that initial byte
         // firstbyte is therefore written to rxbuffer on first received telegram
@@ -248,20 +241,17 @@ extension LibreBluetoothManager {
             print("miaomiaoDidUpdateValueForNotifyCharacteristics did not undestand what to do (internal error")
             return
         }
-        
+
         switch miaoMiaoResponseState {
         case .dataPacketReceived: // 0x28: // data received, append to buffer and inform delegate if end reached
-            
-            
-            
-            
+
             if rxBuffer.count >= 363, let last = rxBuffer.last, last == 0x29 {
                 os_log("Buffer complete, inform delegate.", log: LibreBluetoothManager.bt_log, type: .default)
                 delegate?.libreBluetoothManagerReceivedMessage(0x0000, txFlags: 0x28, payloadData: rxBuffer)
                 handleCompleteMessage()
                 resetBuffer()
             }
-            
+
         case .newSensor: // 0x32: // A new sensor has been detected -> acknowledge to use sensor and reset buffer
             delegate?.libreBluetoothManagerReceivedMessage(0x0000, txFlags: 0x32, payloadData: rxBuffer)
             miaomiaoConfirmSensor(peripheral: peripheral)
@@ -282,11 +272,9 @@ extension LibreBluetoothManager {
             }
             resetBuffer()
         }
-        
-        
-    
+
     }
-    
+
     // Confirm (to replace) the sensor. Iif a new sensor is detected and shall be used, send this command (0xD301)
     func miaomiaoConfirmSensor(peripheral: CBPeripheral) {
         print("confirming new sensor")

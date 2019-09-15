@@ -9,7 +9,3 @@
 import Foundation
 import HealthKit
 import LoopKit
-
-
-
-

@@ -10,10 +10,10 @@ import Foundation
 import HealthKit
 
 extension UserDefaults {
-    
+
     private enum Key: String {
         case glucoseSchedules = "no.bjorninge.glucoseschedules"
-        
+
         case mmAlwaysDisplayGlucose = "no.bjorninge.mmAlwaysDisplayGlucose"
         case mmNotifyEveryXTimes = "no.bjorninge.mmNotifyEveryXTimes"
         case mmGlucoseAlarmsVibrate = "no.bjorninge.mmGlucoseAlarmsVibrate"
@@ -37,15 +37,14 @@ extension UserDefaults {
      case unit
      */
     public func optionalBool(forKey defaultName: String) -> Bool? {
-        
+
         if let value = value(forKey: defaultName) {
             return value as? Bool
         }
         return nil
     }
-    
-    
-    var mmAlwaysDisplayGlucose : Bool {
+
+    var mmAlwaysDisplayGlucose: Bool {
         get {
             return optionalBool(forKey: Key.mmAlwaysDisplayGlucose.rawValue) ?? true
         }
@@ -53,17 +52,17 @@ extension UserDefaults {
             set(newValue, forKey: Key.mmAlwaysDisplayGlucose.rawValue)
         }
     }
-    var mmNotifyEveryXTimes : Int {
+    var mmNotifyEveryXTimes: Int {
         get {
-            
+
             return integer(forKey: Key.mmNotifyEveryXTimes.rawValue)
         }
         set {
             set(newValue, forKey: Key.mmNotifyEveryXTimes.rawValue)
         }
     }
-    
-    var mmAlertLowBatteryWarning : Bool {
+
+    var mmAlertLowBatteryWarning: Bool {
         get {
             return optionalBool(forKey: Key.mmAlertLowBatteryWarning.rawValue) ?? true
         }
@@ -71,7 +70,7 @@ extension UserDefaults {
             set(newValue, forKey: Key.mmAlertLowBatteryWarning.rawValue)
         }
     }
-    var mmAlertInvalidSensorDetected : Bool {
+    var mmAlertInvalidSensorDetected: Bool {
         get {
             return optionalBool(forKey: Key.mmAlertInvalidSensorDetected.rawValue) ?? true
         }
@@ -79,8 +78,8 @@ extension UserDefaults {
             set(newValue, forKey: Key.mmAlertInvalidSensorDetected.rawValue)
         }
     }
-    
-    var mmAlertNewSensorDetected : Bool {
+
+    var mmAlertNewSensorDetected: Bool {
         get {
             return optionalBool(forKey: Key.mmAlertNewSensorDetected.rawValue) ?? true
         }
@@ -88,8 +87,8 @@ extension UserDefaults {
             set(newValue, forKey: Key.mmAlertNewSensorDetected.rawValue)
         }
     }
-    
-    var mmAlertNoSensorDetected : Bool {
+
+    var mmAlertNoSensorDetected: Bool {
         get {
             return optionalBool(forKey: Key.mmAlertNoSensorDetected.rawValue) ?? true
         }
@@ -97,8 +96,8 @@ extension UserDefaults {
             set(newValue, forKey: Key.mmAlertNoSensorDetected.rawValue)
         }
     }
-    
-    var mmAlertWillSoonExpire : Bool {
+
+    var mmAlertWillSoonExpire: Bool {
         get {
             return optionalBool(forKey: Key.mmAlertSensorSoonExpire.rawValue) ?? true
         }
@@ -106,8 +105,8 @@ extension UserDefaults {
             set(newValue, forKey: Key.mmAlertSensorSoonExpire.rawValue)
         }
     }
-    
-    var mmGlucoseAlarmsVibrate : Bool {
+
+    var mmGlucoseAlarmsVibrate: Bool {
         get {
             return optionalBool(forKey: Key.mmGlucoseAlarmsVibrate.rawValue) ?? true
         }
@@ -115,12 +114,12 @@ extension UserDefaults {
             set(newValue, forKey: Key.mmGlucoseAlarmsVibrate.rawValue)
         }
     }
-    
-    var allNotificationToggles : [Bool] {
-        return [mmAlwaysDisplayGlucose,mmAlertLowBatteryWarning, mmAlertInvalidSensorDetected, mmAlertNewSensorDetected, mmAlertNoSensorDetected, mmAlertWillSoonExpire, mmGlucoseAlarmsVibrate]
+
+    var allNotificationToggles: [Bool] {
+        return [mmAlwaysDisplayGlucose, mmAlertLowBatteryWarning, mmAlertInvalidSensorDetected, mmAlertNewSensorDetected, mmAlertNoSensorDetected, mmAlertWillSoonExpire, mmGlucoseAlarmsVibrate]
     }
-    
-    var dangerModeActivated : Bool {
+
+    var dangerModeActivated: Bool {
         get {
             return optionalBool(forKey: Key.mmDangerMode.rawValue) ?? false
         }
@@ -128,9 +127,9 @@ extension UserDefaults {
             set(newValue, forKey: Key.mmDangerMode.rawValue)
         }
     }
-    
+
     //intentionally only supports mgdl and mmol
-    var mmGlucoseUnit : HKUnit? {
+    var mmGlucoseUnit: HKUnit? {
         get {
             if let textUnit = string(forKey: Key.mmGlucoseUnit.rawValue) {
                 if textUnit == "mmol" {
@@ -139,23 +138,22 @@ extension UserDefaults {
                     return HKUnit.milligramsPerDeciliter
                 }
             }
-            
+
             return nil
-            
+
         }
         set {
-            
+
             if newValue == HKUnit.milligramsPerDeciliter {
                 set("mgdl", forKey: Key.mmGlucoseUnit.rawValue)
-            } else if newValue == HKUnit.millimolesPerLiter{
+            } else if newValue == HKUnit.millimolesPerLiter {
                 set("mmol", forKey: Key.mmGlucoseUnit.rawValue)
             }
-            
+
         }
     }
-    
-    
-    var enabledSchedules : [GlucoseSchedule]?{
+
+    var enabledSchedules: [GlucoseSchedule]? {
         return glucoseSchedules?.schedules.compactMap({ (schedule) -> GlucoseSchedule? in
             if schedule.enabled ?? false {
                 return schedule
@@ -180,7 +178,7 @@ extension UserDefaults {
                     return loadedGlucoseSchedules
                 }
             }
-            
+
             return GlucoseScheduleList()
         }
         set {
@@ -188,8 +186,7 @@ extension UserDefaults {
             if let val = newValue, let encoded = try? encoder.encode(val) {
                 set(encoded, forKey: Key.glucoseSchedules.rawValue)
             }
-            
-           
+
         }
     }
 }
