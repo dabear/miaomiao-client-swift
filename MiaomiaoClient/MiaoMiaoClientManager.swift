@@ -34,28 +34,20 @@ public final class MiaoMiaoClientManager: CGMManager, LibreBluetoothManagerDeleg
         
     }
     
-    public var identifier: String {
-        guard let identifier = MiaoMiaoClientManager.proxy?.OnQueue_identifer else {
-            return "n/a"
-        }
-        
-        return identifier.uuidString
-        
-    }
-    
+   
     
     public var device: HKDevice? {
-        
-        return HKDevice(
+        return MiaoMiaoClientManager.proxy?.OnQueue_device
+        /*return HKDevice(
             name: "MiaomiaoClient",
-            manufacturer: manufacturer,
+            manufacturer: MiaoMiaoClientManager.proxy?.OnQueue_manufacturer,
             model: nil, //latestSpikeCollector,
             hardwareVersion: hardwareVersion,
             firmwareVersion: firmwareVersion,
             softwareVersion: nil,
             localIdentifier: identifier,
             udiDeviceIdentifier: nil
-        )
+        )*/
     }
     
     
@@ -164,75 +156,7 @@ public final class MiaoMiaoClientManager: CGMManager, LibreBluetoothManagerDeleg
         
     }
     
-    //cannot be called from managerQueue
-    public var connectionState : String {
-        return MiaoMiaoClientManager.proxy?.connectionStateString ?? "n/a"
-        
-    }
-    //cannot be called from managerQueue
-    public var sensorSerialNumber: String {
-        return MiaoMiaoClientManager.proxy?.OnQueue_sensorData?.serialNumber ?? "n/a"
-    }
     
-    //cannot be called from managerQueue
-    public var sensorAge: String {
-        guard let data =  MiaoMiaoClientManager.proxy?.OnQueue_sensorData else {
-            return "n/a"
-        }
-     
-        let sensorStart = Calendar.current.date(byAdding: .minute, value: -data.minutesSinceStart, to: data.date)!
-        
-        return  sensorStart.timeIntervalSinceNow.stringDaysFromTimeInterval() +  " day(s)"
-        
-    }
-    
-    public var sensorFooterChecksums: String {
-        if let crc = MiaoMiaoClientManager.proxy?.OnQueue_sensorData?.footerCrc.byteSwapped {
-        //if let crc = MiaoMiaoClientManager.proxy?.sensorData?.footerCrc.byteSwapped {
-            return  "\(crc)"
-        }
-        return  "n/a"
-    }
-    
-    //cannot be called from managerQueue
-    public var sensorStateDescription : String {
-        
-        return MiaoMiaoClientManager.proxy?.OnQueue_sensorData?.state.description ?? "n/a"
-    }
-    //cannot be called from managerQueue
-    public var firmwareVersion : String {
-        
-        return MiaoMiaoClientManager.proxy?.OnQueue_metadata?.firmware ?? "n/a"
-    }
-    
-    //cannot be called from managerQueue
-    public var hardwareVersion : String {
-        
-        return MiaoMiaoClientManager.proxy?.OnQueue_metadata?.hardware ?? "n/a"
-        
-    }
-    
-    public var manufacturer : String {
-        guard let bridgeType = MiaoMiaoClientManager.proxy?.peripheralAsCompatibleDevice()?.bridgeType else {
-            return "n/a"
-        }
-        switch bridgeType {
-        case .Bubble:
-            return "Bubbledevteam"
-        case .MiaoMiao:
-            return "Tomato"
-        default:
-            return "n/a"
-        }
-    }
-    
-    //cannot be called from managerQueue
-    public var battery : String {
-        if let bat = MiaoMiaoClientManager.proxy?.OnQueue_metadata?.battery {
-            return "\(bat)%"
-        }
-        return "n/a"
-    }
     
     public var calibrationData : DerivedAlgorithmParameters? {
         return keychain.getLibreCalibrationData()
@@ -516,4 +440,71 @@ public final class MiaoMiaoClientManager: CGMManager, LibreBluetoothManagerDeleg
     
     
     
+}
+
+/*
+ These are formatted versions of properties existing in the bluetoothmanager proxy
+ The bluetooth manager has all these properties living on a special utility queue,
+ so we call them on the same queue, but return them on the main queue
+ */
+extension MiaoMiaoClientManager {
+    //cannot be called from managerQueue
+    public var identifier: String {
+        return  MiaoMiaoClientManager.proxy?.OnQueue_identifer?.uuidString ?? "n/a"
+        
+    }
+    
+    
+    //cannot be called from managerQueue
+    public var connectionState : String {
+        return MiaoMiaoClientManager.proxy?.connectionStateString ?? "n/a"
+        
+    }
+    //cannot be called from managerQueue
+    public var sensorSerialNumber: String {
+        return MiaoMiaoClientManager.proxy?.OnQueue_sensorData?.serialNumber ?? "n/a"
+    }
+    
+    //cannot be called from managerQueue
+    public var sensorAge: String {
+        return MiaoMiaoClientManager.proxy?.OnQueue_sensorData?.humanReadableSensorAge ?? "n/a"
+        
+    }
+    
+    //cannot be called from managerQueue
+    public var sensorFooterChecksums: String {
+        if let crc = MiaoMiaoClientManager.proxy?.OnQueue_sensorData?.footerCrc.byteSwapped {
+            //if let crc = MiaoMiaoClientManager.proxy?.sensorData?.footerCrc.byteSwapped {
+            return  "\(crc)"
+        }
+        return  "n/a"
+    }
+    
+    //cannot be called from managerQueue
+    public var sensorStateDescription : String {
+        
+        return MiaoMiaoClientManager.proxy?.OnQueue_sensorData?.state.description ?? "n/a"
+    }
+    //cannot be called from managerQueue
+    public var firmwareVersion : String {
+        
+        return MiaoMiaoClientManager.proxy?.OnQueue_metadata?.firmware ?? "n/a"
+    }
+    
+    //cannot be called from managerQueue
+    public var hardwareVersion : String {
+        
+        return MiaoMiaoClientManager.proxy?.OnQueue_metadata?.hardware ?? "n/a"
+        
+    }
+    
+    
+    
+    //cannot be called from managerQueue
+    public var battery : String {
+        if let bat = MiaoMiaoClientManager.proxy?.OnQueue_metadata?.battery {
+            return "\(bat)%"
+        }
+        return "n/a"
+    }
 }
