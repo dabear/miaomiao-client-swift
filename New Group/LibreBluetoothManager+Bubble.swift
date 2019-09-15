@@ -43,8 +43,12 @@ extension LibreBluetoothManager {
                     self.requestData()
                 })
             }
+            //TODO: fix queue ANOTHER WAY
             // Inform delegate that new data is available
-            delegate?.libreBluetoothManagerDidUpdate(sensorData: sensorData, and: metadata)
+            
+            self.delegate?.libreBluetoothManagerDidUpdate(sensorData: sensorData, and: metadata)
+            
+            
             
         }
         
@@ -83,7 +87,9 @@ extension LibreBluetoothManager {
                     resetBuffer()
                 }
             case .noSensor:
-                delegate?.libreBluetoothManagerReceivedMessage(0x0000, txFlags: 0x34, payloadData: rxBuffer)
+                DispatchQueue.main.async {
+                    self.delegate?.libreBluetoothManagerReceivedMessage(0x0000, txFlags: 0x34, payloadData: self.rxBuffer)
+                }
                 resetBuffer()
             case .serialNumber:
                 rxBuffer.append(value.subdata(in: 2..<10))

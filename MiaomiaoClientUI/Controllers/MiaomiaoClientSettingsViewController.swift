@@ -594,7 +594,9 @@ public class MiaomiaoClientSettingsViewController: UITableViewController, SubVie
                     calibrateSensor(accessToken: accessToken, site: url.absoluteString, sensordata: data) { [weak self] (calibrationparams)  in
                         guard let params = calibrationparams else {
                             NSLog("dabear:: could not calibrate sensor, check libreoopweb permissions and internet connection")
-                            self?.presentStatus(OKAlertController(LibreError.noCalibrationData.errorDescription, title: "Error"))
+                           
+                            self?.presentOKStatusOnMain(LibreError.noCalibrationData.errorDescription, title: "Error")
+                        
                             
                             return
                         }
@@ -603,11 +605,11 @@ public class MiaomiaoClientSettingsViewController: UITableViewController, SubVie
                             try self?.cgmManager?.keychain.setLibreCalibrationData(params)
                         } catch {
                             NSLog("dabear:: could not save calibrationdata")
-                            self?.presentStatus(OKAlertController(LibreError.invalidCalibrationData.errorDescription, title: "Error"))
+                            self?.presentOKStatusOnMain(LibreError.invalidCalibrationData.errorDescription, title: "Error")
                             return
                         }
                         
-                        self?.presentStatus(OKAlertController("Calibration success!", title: "Success"))
+                        self?.presentOKStatusOnMain("Calibration success!", title: "Success")
                        
                         
                         
@@ -675,6 +677,13 @@ public class MiaomiaoClientSettingsViewController: UITableViewController, SubVie
     func presentStatus(_ controller: UIAlertController) {
         self.present(controller, animated: true) {
             NSLog("calibrationstatus shown")
+        }
+    }
+    
+    func presentOKStatusOnMain(_ message:String, title:String) {
+        DispatchQueue.main.async { [weak self] in
+            let controller = OKAlertController(message, title: title)
+            self?.presentStatus(controller)
         }
     }
 }

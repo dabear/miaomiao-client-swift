@@ -35,7 +35,7 @@ public final class MiaoMiaoClientManager: CGMManager, LibreBluetoothManagerDeleg
     }
     
     public var identifier: String {
-        guard let identifier = MiaoMiaoClientManager.proxy?.identifier else {
+        guard let identifier = MiaoMiaoClientManager.proxy?.OnQueue_identifer else {
             return "n/a"
         }
         
@@ -57,6 +57,8 @@ public final class MiaoMiaoClientManager: CGMManager, LibreBluetoothManagerDeleg
             udiDeviceIdentifier: nil
         )
     }
+    
+    
     
     public var debugDescription: String {
         
@@ -88,36 +90,9 @@ public final class MiaoMiaoClientManager: CGMManager, LibreBluetoothManagerDeleg
             return
         }
         NSLog("dabear:: fetchNewDataIfNeeded called but we don't continue")
-        //self.autoconnect()
+        
         completion(.noData)
-        /*
-        self.getLastSensorValues { (error, glucose) in
-            if let error = error {
-                NSLog("dabear:: getLastSensorValues returned with error")
-                completion(.error(error))
-                return
-            }
-            
-            guard let glucose = glucose else {
-                NSLog("dabear:: getLastSensorValues returned with no data")
-                completion(.noData)
-                return
-            }
-            
-            let startDate = self.latestBackfill?.startDate
-            let newGlucose = glucose.filterDateRange(startDate, nil).filter({ $0.isStateValid }).map {
-                return NewGlucoseSample(date: $0.startDate, quantity: $0.quantity, isDisplayOnly: false, syncIdentifier: "\(Int($0.startDate.timeIntervalSince1970))", device: self.device)
-            }
-            
-            self.latestBackfill = glucose.first
-            
-            if newGlucose.count > 0 {
-                completion(.newData(newGlucose))
-            } else {
-                completion(.noData)
-            }
-            
-        } */
+       
     }
     
     
@@ -189,17 +164,19 @@ public final class MiaoMiaoClientManager: CGMManager, LibreBluetoothManagerDeleg
         
     }
     
+    //cannot be called from managerQueue
     public var connectionState : String {
         return MiaoMiaoClientManager.proxy?.connectionStateString ?? "n/a"
         
     }
-    
+    //cannot be called from managerQueue
     public var sensorSerialNumber: String {
-        return MiaoMiaoClientManager.proxy?.sensorData?.serialNumber ?? "n/a"
+        return MiaoMiaoClientManager.proxy?.OnQueue_sensorData?.serialNumber ?? "n/a"
     }
     
+    //cannot be called from managerQueue
     public var sensorAge: String {
-        guard let data =  MiaoMiaoClientManager.proxy?.sensorData else {
+        guard let data =  MiaoMiaoClientManager.proxy?.OnQueue_sensorData else {
             return "n/a"
         }
      
@@ -210,23 +187,29 @@ public final class MiaoMiaoClientManager: CGMManager, LibreBluetoothManagerDeleg
     }
     
     public var sensorFooterChecksums: String {
-        if let crc = MiaoMiaoClientManager.proxy?.sensorData?.footerCrc.byteSwapped {
+        if let crc = MiaoMiaoClientManager.proxy?.OnQueue_sensorData?.footerCrc.byteSwapped {
+        //if let crc = MiaoMiaoClientManager.proxy?.sensorData?.footerCrc.byteSwapped {
             return  "\(crc)"
         }
         return  "n/a"
     }
     
-    
+    //cannot be called from managerQueue
     public var sensorStateDescription : String {
-        return MiaoMiaoClientManager.proxy?.sensorData?.state.description ?? "n/a"
+        
+        return MiaoMiaoClientManager.proxy?.OnQueue_sensorData?.state.description ?? "n/a"
     }
-    
+    //cannot be called from managerQueue
     public var firmwareVersion : String {
-        return MiaoMiaoClientManager.proxy?.metadata?.firmware ?? "n/a"
+        
+        return MiaoMiaoClientManager.proxy?.OnQueue_metadata?.firmware ?? "n/a"
     }
     
+    //cannot be called from managerQueue
     public var hardwareVersion : String {
-        return MiaoMiaoClientManager.proxy?.metadata?.hardware ?? "n/a"
+        
+        return MiaoMiaoClientManager.proxy?.OnQueue_metadata?.hardware ?? "n/a"
+        
     }
     
     public var manufacturer : String {
@@ -243,8 +226,9 @@ public final class MiaoMiaoClientManager: CGMManager, LibreBluetoothManagerDeleg
         }
     }
     
+    //cannot be called from managerQueue
     public var battery : String {
-        if let bat = MiaoMiaoClientManager.proxy?.metadata?.battery {
+        if let bat = MiaoMiaoClientManager.proxy?.OnQueue_metadata?.battery {
             return "\(bat)%"
         }
         return "n/a"
@@ -307,38 +291,7 @@ public final class MiaoMiaoClientManager: CGMManager, LibreBluetoothManagerDeleg
     }
     
    
-    @available(*, deprecated, message: "Don't use, reconnect will happen automatically")
-    func autoconnect() {
-        guard let proxy = MiaoMiaoClientManager.proxy else {
-            os_log("dabear: could not do autoconnect, proxy was nil")
-            return
-        }
-        
-        //
-        // the internal state will make sure that reconnecttion always happens
-        // consider this function as deprecated
-        //
-        return
-        
-        /*
-        
-        // force trying to reconnect every time a we detect
-        // a disconnected state while fetching
-        switch (proxy.state) {
-        case .Unassigned, .powerOff:
-            break
-            //proxy.scanForMiaoMiao()
-        case .Scanning:
-            break
-        case .Connected, .Connecting, .Notifying:
-            break
-        case .Disconnected, .DisconnectingDueToButtonPress:
-            proxy.connect() //remember to check managerque if you re-enable this
-        case .DelayedReconnect:
-            break
-        }
-         */
-    }
+   
     private func trendToLibreGlucose(_ measurements: [Measurement]) -> [LibreGlucose]?{
         var origarr = [LibreGlucose]()
         
@@ -451,7 +404,7 @@ public final class MiaoMiaoClientManager: CGMManager, LibreBluetoothManagerDeleg
     
     
    
-    
+    //will be called on utility queue
     public func libreBluetoothManagerPeripheralStateChanged(_ state: BluetoothmanagerState) {
         switch state {
         case .Connected:
@@ -464,6 +417,7 @@ public final class MiaoMiaoClientManager: CGMManager, LibreBluetoothManagerDeleg
         return
     }
     
+    //will be called on utility queue
     public func libreBluetoothManagerReceivedMessage(_ messageIdentifier: UInt16, txFlags: UInt8, payloadData: Data) {
         guard let packet = MiaoMiaoResponseState.init(rawValue: txFlags) else {
             // Incomplete package?
@@ -497,6 +451,7 @@ public final class MiaoMiaoClientManager: CGMManager, LibreBluetoothManagerDeleg
         
     }
     
+    //will be called on utility queue
     public func libreBluetoothManagerDidUpdate(sensorData: SensorData, and Device: BluetoothBridgeMetaData) {
         
         print("dabear:: got sensordata: \(sensorData), bytescount: \(sensorData.bytes.count), bytes: \(sensorData.bytes)")
@@ -528,7 +483,7 @@ public final class MiaoMiaoClientManager: CGMManager, LibreBluetoothManagerDeleg
                     
                     let startDate = self.latestBackfill?.startDate
                     let newGlucose = glucose.filterDateRange(startDate, nil).filter({ $0.isStateValid }).map {
-                        return NewGlucoseSample(date: $0.startDate, quantity: $0.quantity, isDisplayOnly: false, syncIdentifier: "\(Int($0.startDate.timeIntervalSince1970))", device: self.device)
+                        return NewGlucoseSample(date: $0.startDate, quantity: $0.quantity, isDisplayOnly: false, syncIdentifier: "\(Int($0.startDate.timeIntervalSince1970))", device: MiaoMiaoClientManager.proxy?.device)
                     }
                     
                     self.latestBackfill = glucose.first

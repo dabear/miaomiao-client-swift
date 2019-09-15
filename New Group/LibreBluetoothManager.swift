@@ -160,6 +160,7 @@ import Foundation
 import UIKit
 import CoreBluetooth
 import os.log
+import HealthKit
 
 public enum BluetoothmanagerState: String {
     case Unassigned = "Unassigned"
@@ -308,6 +309,7 @@ final class LibreBluetoothManager: NSObject, CBCentralManagerDelegate, CBPeriphe
         
     }
     
+   
     public func peripheralAsCompatibleDevice() -> CompatibleLibreBluetoothDevice?{
         return peripheral?.asCompatibleBluetoothDevice()
     }
@@ -339,14 +341,21 @@ final class LibreBluetoothManager: NSObject, CBCentralManagerDelegate, CBPeriphe
         }
     }
     
-    public var connectionStateString: String {
+    private func syncOnQueue<T>( _ closure :@escaping @autoclosure ()-> T) -> T{
+        var ret : T? = nil
+            
+        managerQueue.sync { [closure] in
+            ret = closure()
+        }
+        
+        return ret!
+    }
+    
+    public var connectionStateString: String? {
         dispatchPrecondition(condition: .notOnQueue(managerQueue))
         
-        var aState : String = ""
-        managerQueue.sync {
-            aState = self.state.rawValue
-        }
-        return aState
+        return syncOnQueue( self.state.rawValue )
+        
     }
     
     
@@ -412,8 +421,7 @@ final class LibreBluetoothManager: NSObject, CBCentralManagerDelegate, CBPeriphe
     func disconnectManually() {
         dispatchPrecondition(condition: .notOnQueue(managerQueue))
         os_log("Disconnect manually while state %{public}@", log: LibreBluetoothManager.bt_log, type: .default, String(describing: state.rawValue))
-        //        NotificationManager.scheduleDebugNotification(message: "Timer fired in Background", wait: 3)
-        //        _ = Timer(timeInterval: 150, repeats: false, block: {timer in NotificationManager.scheduleDebugNotification(message: "Timer fired in Background", wait: 0.5)})
+    
         managerQueue.sync {
             
             switch state {
@@ -433,9 +441,7 @@ final class LibreBluetoothManager: NSObject, CBCentralManagerDelegate, CBPeriphe
                 centralManager.cancelPeripheralConnection(peripheral)
             }
         }
-        //        if state == .Connected || peripheral?.state == .Connecting {
-        //            centralManager.cancelPeripheralConnection(peripheral!)
-        //        }
+       
     }
     
     
@@ -747,3 +753,66 @@ final class LibreBluetoothManager: NSObject, CBCentralManagerDelegate, CBPeriphe
     
 }
 
+extension LibreBluetoothManager {
+    public var manufacturer : String {
+        guard let bridgeType = self.peripheralAsCompatibleDevice()?.bridgeType else {
+            return "n/a"
+        }
+        switch bridgeType {
+        case .Bubble:
+            return "Bubbledevteam"
+        case .MiaoMiao:
+            return "Tomato"
+        default:
+            return "n/a"
+        }
+    }
+    
+    var device: HKDevice? {
+        
+        return HKDevice(
+            name: "MiaomiaoClient",
+            manufacturer: manufacturer,
+            model: nil, //latestSpikeCollector,
+            hardwareVersion: self.metadata?.hardware ,
+            firmwareVersion: self.metadata?.firmware,
+            softwareVersion: nil,
+            localIdentifier: identifier?.uuidString,
+            udiDeviceIdentifier: nil
+        )
+    }
+}
+
+
+//these are extensions to return properties (for inspection on the main ui) that exist on the queue only
+extension LibreBluetoothManager {
+   
+    
+    var OnQueue_metadata : BluetoothBridgeMetaData? {
+        return syncOnQueue( self.metadata)
+    }
+    
+    var OnQueue_sensorData : SensorData? {
+        return syncOnQueue( self.sensorData)
+    }
+    
+    var OnQueue_state : BluetoothmanagerState {
+        return syncOnQueue( self.state)
+    }
+    
+    var OnQueue_identifer: UUID? {
+        return syncOnQueue(self.identifier)
+    }
+    
+    var OnQueue_manufacturer: String {
+        return syncOnQueue(self.manufacturer)
+    }
+    
+    var OnQueue_device: HKDevice? {
+        return syncOnQueue(self.device)
+    }
+    
+    
+    
+    
+}
