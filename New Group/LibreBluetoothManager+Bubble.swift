@@ -87,9 +87,9 @@ extension LibreBluetoothManager {
                     resetBuffer()
                 }
             case .noSensor:
-                DispatchQueue.main.async {
+                
                     self.delegate?.libreBluetoothManagerReceivedMessage(0x0000, txFlags: 0x34, payloadData: self.rxBuffer)
-                }
+                
                 resetBuffer()
             case .serialNumber:
                 rxBuffer.append(value.subdata(in: 2..<10))
