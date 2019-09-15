@@ -45,6 +45,9 @@
 		271EDF3A22F23A0800E1C8B3 /* libresensor.png in Resources */ = {isa = PBXBuildFile; fileRef = 271EDF3922F23A0800E1C8B3 /* libresensor.png */; };
 		271EDF3B22F23A0800E1C8B3 /* libresensor.png in Resources */ = {isa = PBXBuildFile; fileRef = 271EDF3922F23A0800E1C8B3 /* libresensor.png */; };
 		271EDF3D22F3658D00E1C8B3 /* LibreBluetoothManager+Miaomiao.swift in Sources */ = {isa = PBXBuildFile; fileRef = 271EDF3C22F3658D00E1C8B3 /* LibreBluetoothManager+Miaomiao.swift */; };
+		2724930E232F03E500AFE86A /* test_lint.h in Headers */ = {isa = PBXBuildFile; fileRef = 2724930C232F03E500AFE86A /* test_lint.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		27249311232F03E500AFE86A /* test_lint.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2724930A232F03E400AFE86A /* test_lint.framework */; };
+		27249312232F03E500AFE86A /* test_lint.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 2724930A232F03E400AFE86A /* test_lint.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		2729D677221F421C0030E1B8 /* BluetoothBridgeMetaData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2729D676221F421C0030E1B8 /* BluetoothBridgeMetaData.swift */; };
 		2729D678221F421C0030E1B8 /* BluetoothBridgeMetaData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2729D676221F421C0030E1B8 /* BluetoothBridgeMetaData.swift */; };
 		2729D67B221F421F0030E1B8 /* LibreBluetoothManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2729D67A221F421F0030E1B8 /* LibreBluetoothManager.swift */; };
@@ -52,7 +55,6 @@
 		2729D687221F43150030E1B8 /* SensorData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2729D686221F43150030E1B8 /* SensorData.swift */; };
 		2729D689221F43150030E1B8 /* SensorData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2729D686221F43150030E1B8 /* SensorData.swift */; };
 		2729D690221F44670030E1B8 /* TemperatureAlgorithmParameters.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2729D68A221F44660030E1B8 /* TemperatureAlgorithmParameters.swift */; };
-		2729D692221F44670030E1B8 /* TemperatureAlgorithmParameters.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2729D68A221F44660030E1B8 /* TemperatureAlgorithmParameters.swift */; };
 		2729D693221F44670030E1B8 /* Measurement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2729D68B221F44660030E1B8 /* Measurement.swift */; };
 		2729D695221F44670030E1B8 /* Measurement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2729D68B221F44660030E1B8 /* Measurement.swift */; };
 		2729D699221F44670030E1B8 /* CRC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2729D68D221F44670030E1B8 /* CRC.swift */; };
@@ -144,6 +146,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		2724930F232F03E500AFE86A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 432B0E7F1CDFC3C50045347B /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 27249309232F03E400AFE86A;
+			remoteInfo = "test-lint";
+		};
 		275B74932225BF90009CD5EB /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 432B0E7F1CDFC3C50045347B /* Project object */;
@@ -196,6 +205,7 @@
 			dstSubfolderSpec = 10;
 			files = (
 				275B74922225BF90009CD5EB /* MiaomiaoClient.framework in Embed Frameworks */,
+				27249312232F03E500AFE86A /* test_lint.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -231,6 +241,9 @@
 		271EDF2E22EFA29C00E1C8B3 /* bubble.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bubble.png; sourceTree = "<group>"; };
 		271EDF3922F23A0800E1C8B3 /* libresensor.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = libresensor.png; sourceTree = "<group>"; };
 		271EDF3C22F3658D00E1C8B3 /* LibreBluetoothManager+Miaomiao.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "LibreBluetoothManager+Miaomiao.swift"; sourceTree = "<group>"; };
+		2724930A232F03E400AFE86A /* test_lint.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = test_lint.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		2724930C232F03E500AFE86A /* test_lint.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = test_lint.h; sourceTree = "<group>"; };
+		2724930D232F03E500AFE86A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		2729D676221F421C0030E1B8 /* BluetoothBridgeMetaData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BluetoothBridgeMetaData.swift; sourceTree = "<group>"; };
 		2729D67A221F421F0030E1B8 /* LibreBluetoothManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibreBluetoothManager.swift; sourceTree = "<group>"; };
 		2729D682221F42760030E1B8 /* BloodSugarController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BloodSugarController.swift; sourceTree = "<group>"; };
@@ -333,6 +346,13 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		27249307232F03E400AFE86A /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		279540492165502600D657E5 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -346,6 +366,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				275B74912225BF90009CD5EB /* MiaomiaoClient.framework in Frameworks */,
+				27249311232F03E500AFE86A /* test_lint.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -422,6 +443,15 @@
 			path = BluetoothSelector;
 			sourceTree = "<group>";
 		};
+		2724930B232F03E500AFE86A /* test-lint */ = {
+			isa = PBXGroup;
+			children = (
+				2724930C232F03E500AFE86A /* test_lint.h */,
+				2724930D232F03E500AFE86A /* Info.plist */,
+			);
+			path = "test-lint";
+			sourceTree = "<group>";
+		};
 		2729D671221F42070030E1B8 /* Bluetooth */ = {
 			isa = PBXGroup;
 			children = (
@@ -429,7 +459,6 @@
 				2729D67A221F421F0030E1B8 /* LibreBluetoothManager.swift */,
 				271EDF2922EF97D000E1C8B3 /* LibreBluetoothManager+Bubble.swift */,
 				271EDF3C22F3658D00E1C8B3 /* LibreBluetoothManager+Miaomiao.swift */,
-				2729D68A221F44660030E1B8 /* TemperatureAlgorithmParameters.swift */,
 				2729D676221F421C0030E1B8 /* BluetoothBridgeMetaData.swift */,
 			);
 			name = Bluetooth;
@@ -439,6 +468,7 @@
 		2729D6A62220C1030030E1B8 /* LibreSensor */ = {
 			isa = PBXGroup;
 			children = (
+				2729D68A221F44660030E1B8 /* TemperatureAlgorithmParameters.swift */,
 				27E3C39E222EE9A80036AAC7 /* LibreOOPWebExtensions.swift */,
 				27E3C396222EE9450036AAC7 /* LibreOOPClient.swift */,
 				27E3C395222EE9450036AAC7 /* LibreOOPDefaults.swift */,
@@ -569,6 +599,7 @@
 				43A8EC83210E664300A81379 /* MiaomiaoClientUI */,
 				2795404D2165502600D657E5 /* clitester */,
 				27C335DF21667C7A00CF0868 /* singleviewtesterapp2 */,
+				2724930B232F03E500AFE86A /* test-lint */,
 				432B0E891CDFC3C50045347B /* Products */,
 				43A8EC7A210E661300A81379 /* Frameworks */,
 			);
@@ -582,6 +613,7 @@
 				43A8EC82210E664300A81379 /* MiaomiaoClientUI.framework */,
 				2795404C2165502600D657E5 /* clitester */,
 				27C335DE21667C7A00CF0868 /* singleviewtesterapp2.app */,
+				2724930A232F03E400AFE86A /* test_lint.framework */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -658,6 +690,14 @@
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
+		27249305232F03E400AFE86A /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2724930E232F03E500AFE86A /* test_lint.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		432B0E851CDFC3C50045347B /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
@@ -675,6 +715,25 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
+		27249309232F03E400AFE86A /* test-lint */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 27249313232F03E500AFE86A /* Build configuration list for PBXNativeTarget "test-lint" */;
+			buildPhases = (
+				27249305232F03E400AFE86A /* Headers */,
+				27249306232F03E400AFE86A /* Sources */,
+				27249307232F03E400AFE86A /* Frameworks */,
+				27249308232F03E400AFE86A /* Resources */,
+				27249316232F040800AFE86A /* ShellScript */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "test-lint";
+			productName = "test-lint";
+			productReference = 2724930A232F03E400AFE86A /* test_lint.framework */;
+			productType = "com.apple.product-type.framework";
+		};
 		2795404B2165502600D657E5 /* clitester */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 279540502165502600D657E5 /* Build configuration list for PBXNativeTarget "clitester" */;
@@ -706,6 +765,7 @@
 			);
 			dependencies = (
 				275B74942225BF90009CD5EB /* PBXTargetDependency */,
+				27249310232F03E500AFE86A /* PBXTargetDependency */,
 			);
 			name = singleviewtesterapp2;
 			productName = singleviewtesterapp2;
@@ -779,6 +839,11 @@
 				LastUpgradeCheck = 0940;
 				ORGANIZATIONNAME = "Mark Wilson";
 				TargetAttributes = {
+					27249309232F03E400AFE86A = {
+						CreatedOnToolsVersion = 10.2.1;
+						DevelopmentTeam = L28K36YETG;
+						ProvisioningStyle = Automatic;
+					};
 					2795404B2165502600D657E5 = {
 						CreatedOnToolsVersion = 9.4.1;
 						DevelopmentTeam = L28K36YETG;
@@ -838,11 +903,19 @@
 				43A8EC75210E653B00A81379 /* Cartfile */,
 				2795404B2165502600D657E5 /* clitester */,
 				27C335DD21667C7A00CF0868 /* singleviewtesterapp2 */,
+				27249309232F03E400AFE86A /* test-lint */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		27249308232F03E400AFE86A /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		27C335DC21667C7A00CF0868 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -897,6 +970,23 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		27249316232F040800AFE86A /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "if which swiftlint >/dev/null; then\nswiftlint\nelse\necho \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n";
+		};
 		43A8EC79210E654300A81379 /* Build Carthage Dependencies */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -914,6 +1004,13 @@
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		27249306232F03E400AFE86A /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		279540482165502600D657E5 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -927,7 +1024,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				275B74952225C137009CD5EB /* LibreBluetoothManager.swift in Sources */,
-				2729D692221F44670030E1B8 /* TemperatureAlgorithmParameters.swift in Sources */,
 				2729D69B221F44670030E1B8 /* CRC.swift in Sources */,
 				2729D6AA22248BDD0030E1B8 /* MiaoMiaoClientManager.swift in Sources */,
 				2729D689221F43150030E1B8 /* SensorData.swift in Sources */,
@@ -1039,6 +1135,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		27249310232F03E500AFE86A /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 27249309232F03E400AFE86A /* test-lint */;
+			targetProxy = 2724930F232F03E500AFE86A /* PBXContainerItemProxy */;
+		};
 		275B74942225BF90009CD5EB /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 432B0E871CDFC3C50045347B /* MiaomiaoClient */;
@@ -1125,6 +1226,68 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		27249314232F03E500AFE86A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = L28K36YETG;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				INFOPLIST_FILE = "test-lint/Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 12.2;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = "no.bjorninge.SwiftLibreOOPWeb2.test-lint";
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		27249315232F03E500AFE86A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = L28K36YETG;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				INFOPLIST_FILE = "test-lint/Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 12.2;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = "no.bjorninge.SwiftLibreOOPWeb2.test-lint";
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
 		279540512165502600D657E5 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -1527,6 +1690,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		27249313232F03E500AFE86A /* Build configuration list for PBXNativeTarget "test-lint" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				27249314232F03E500AFE86A /* Debug */,
+				27249315232F03E500AFE86A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		279540502165502600D657E5 /* Build configuration list for PBXNativeTarget "clitester" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

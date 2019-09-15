@@ -119,8 +119,10 @@ public struct CompatibleLibreBluetoothDevice : Hashable, Codable {
 
 
 protocol LibreBluetoothManagerDelegate {
+    // Can happen on any queue
     func libreBluetoothManagerPeripheralStateChanged(_ state: BluetoothmanagerState)
     func libreBluetoothManagerReceivedMessage(_ messageIdentifier:UInt16, txFlags:UInt8, payloadData:Data)
+    // Will always happen on managerQueue
     func libreBluetoothManagerDidUpdate(sensorData: SensorData, and Device: BluetoothBridgeMetaData) -> Void
 }
 
