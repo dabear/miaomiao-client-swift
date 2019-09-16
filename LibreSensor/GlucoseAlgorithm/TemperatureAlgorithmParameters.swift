@@ -38,3 +38,4 @@ struct TemperatureAlgorithmParameters: Codable, CustomStringConvertible {
         return "Parameters created on \(date.description) \nSlope_slope:   \(slope_slope) \nOffset_slope:  \(offset_slope) \nSlope_offset:  \(slope_offset) \nOffset_offset: \(offset_offset) \nAdditional slope:  \(additionalSlope) \nAdditional offset: \(additionalOffset) \nfor sensor with footer crc \(isValidForFooterWithReverseCRCs)"
     }
 }
+

@@ -31,7 +31,9 @@ public struct DerivedAlgorithmParameters: Codable, CustomStringConvertible {
         self.extraOffset = extraOffset
     }
 }
+ 
 
+ /*
 public class DerivedAlgorithmRunner {
     private var params: DerivedAlgorithmParameters
     init(_ params: DerivedAlgorithmParameters) {
@@ -150,3 +152,4 @@ public class DerivedAlgorithmRunner {
     }
 
 }
+*/
