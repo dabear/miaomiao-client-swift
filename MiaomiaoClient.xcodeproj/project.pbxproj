@@ -54,7 +54,6 @@
 		2729D685221F42760030E1B8 /* BloodSugarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2729D682221F42760030E1B8 /* BloodSugarController.swift */; };
 		2729D687221F43150030E1B8 /* SensorData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2729D686221F43150030E1B8 /* SensorData.swift */; };
 		2729D689221F43150030E1B8 /* SensorData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2729D686221F43150030E1B8 /* SensorData.swift */; };
-		2729D690221F44670030E1B8 /* TemperatureAlgorithmParameters.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2729D68A221F44660030E1B8 /* TemperatureAlgorithmParameters.swift */; };
 		2729D693221F44670030E1B8 /* Measurement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2729D68B221F44660030E1B8 /* Measurement.swift */; };
 		2729D695221F44670030E1B8 /* Measurement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2729D68B221F44660030E1B8 /* Measurement.swift */; };
 		2729D699221F44670030E1B8 /* CRC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2729D68D221F44670030E1B8 /* CRC.swift */; };
@@ -247,7 +246,6 @@
 		2729D67A221F421F0030E1B8 /* LibreBluetoothManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibreBluetoothManager.swift; sourceTree = "<group>"; };
 		2729D682221F42760030E1B8 /* BloodSugarController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BloodSugarController.swift; sourceTree = "<group>"; };
 		2729D686221F43150030E1B8 /* SensorData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SensorData.swift; sourceTree = "<group>"; };
-		2729D68A221F44660030E1B8 /* TemperatureAlgorithmParameters.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TemperatureAlgorithmParameters.swift; sourceTree = "<group>"; };
 		2729D68B221F44660030E1B8 /* Measurement.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Measurement.swift; sourceTree = "<group>"; };
 		2729D68D221F44670030E1B8 /* CRC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CRC.swift; sourceTree = "<group>"; };
 		2729D68E221F44670030E1B8 /* SensorSerialNumber.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SensorSerialNumber.swift; sourceTree = "<group>"; };
@@ -544,7 +542,6 @@
 		27D043FA2330091600623B49 /* GlucoseAlgorithm */ = {
 			isa = PBXGroup;
 			children = (
-				2729D68A221F44660030E1B8 /* TemperatureAlgorithmParameters.swift */,
 				27E3C3A1222EEDCD0036AAC7 /* DerivedAlgorithmParameters.swift */,
 				27CFAB5722497744006DEFE3 /* GlucoseSmoothing.swift */,
 				27CFAB5A224AA8D1006DEFE3 /* TrendArrowCalculations.swift */,
@@ -1071,7 +1068,6 @@
 				27CFAB5C224AA93E006DEFE3 /* TrendArrowCalculations.swift in Sources */,
 				2729D69F221F44670030E1B8 /* SensorState.swift in Sources */,
 				27D0DA6B2231CBB7007BBB2C /* DateExtensions.swift in Sources */,
-				2729D690221F44670030E1B8 /* TemperatureAlgorithmParameters.swift in Sources */,
 				271EDF2622EC755D00E1C8B3 /* UserDefaults+Bluetooth.swift in Sources */,
 				27E3C398222EE9450036AAC7 /* LibreOOPDefaults.swift in Sources */,
 				277DAD0D226B970300422ADA /* UserDefaults+Alarmsettings.swift in Sources */,

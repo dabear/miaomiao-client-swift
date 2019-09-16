@@ -79,7 +79,7 @@ public struct SensorData {
         return  sensorStart.timeIntervalSinceNow.stringDaysFromTimeInterval() +  " day(s)"
     }
 
-    init?(uuid: Data, bytes: [UInt8], date: Date = Date(), derivedAlgorithmParameterSet: TemperatureAlgorithmParameters? = nil) {
+    init?(uuid: Data, bytes: [UInt8], date: Date = Date()) {
         guard bytes.count == numberOfBytes else {
             return nil
         }

@@ -30,7 +30,7 @@ extension LibreBluetoothManager {
 
         let data = rxBuffer.subdata(in: 8..<352)
         print("dabear:: bubbleHandleCompleteMessage raw data: \([UInt8](rxBuffer))")
-        sensorData = SensorData(uuid: rxBuffer.subdata(in: 0..<8), bytes: [UInt8](data), date: Date(), derivedAlgorithmParameterSet: nil)
+        sensorData = SensorData(uuid: rxBuffer.subdata(in: 0..<8), bytes: [UInt8](data), date: Date())
 
         guard let metadata = metadata else {
             return

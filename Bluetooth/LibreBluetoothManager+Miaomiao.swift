@@ -194,7 +194,7 @@ extension LibreBluetoothManager {
                                            firmware: String(describing: rxBuffer[14...15].hexEncodedString()),
                                            battery: Int(rxBuffer[13]))
 
-        sensorData = SensorData(uuid: Data(rxBuffer.subdata(in: 5..<13)), bytes: [UInt8](rxBuffer.subdata(in: 18..<362)), date: Date(), derivedAlgorithmParameterSet: nil)
+        sensorData = SensorData(uuid: Data(rxBuffer.subdata(in: 5..<13)), bytes: [UInt8](rxBuffer.subdata(in: 18..<362)), date: Date())
 
         guard let metadata = metadata else {
             return
