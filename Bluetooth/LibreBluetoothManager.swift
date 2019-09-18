@@ -375,7 +375,7 @@ final class LibreBluetoothManager: NSObject, CBCentralManagerDelegate, CBPeriphe
 
     }
 
-    private func delayedReconnect(_ seconds: Double = 5) {
+    private func delayedReconnect(_ seconds: Double = 7) {
         state = .DelayedReconnect
         os_log("Will reconnect peripheral in  %{public}@ seconds", log: LibreBluetoothManager.bt_log, type: .default, String(describing: seconds))
         resetBuffer()
