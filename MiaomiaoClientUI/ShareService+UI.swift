@@ -10,8 +10,7 @@ import MiaomiaoClient
 
 public enum LibreOOPWebAzzure: String {
     case LibreOOPWebAzzure="https://libreoopweb.azurewebsites.net"
-    
-    
+
 }
 
 extension MiaomiaoService: ServiceAuthenticationUI {
@@ -29,7 +28,7 @@ extension MiaomiaoService: ServiceAuthenticationUI {
                 options: [
                     (title: LocalizedString("LibreOOPWeb", comment: "LibreOOPWeb server option"),
                      value: LibreOOPWebAzzure.LibreOOPWebAzzure.rawValue)
-                    
+
                 ]
             )
         ]

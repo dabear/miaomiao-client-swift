@@ -30,9 +30,7 @@ class ViewController: UIViewController {
         //self.glucoseController = BloodSugarController()
         //var service = MiaomiaoService()
         //var client = MiaoMiaoProxy()
-        
-        
-        
+
     }
 
     override func didReceiveMemoryWarning() {
@@ -40,6 +38,4 @@ class ViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
 
-
 }
-

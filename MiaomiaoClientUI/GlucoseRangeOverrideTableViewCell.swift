@@ -8,11 +8,9 @@
 
 import UIKit
 
-
 protocol GlucoseRangeOverrideTableViewCellDelegate: class {
     func glucoseRangeOverrideTableViewCellDidUpdateValue(_ cell: GlucoseRangeOverrideTableViewCell)
 }
-
 
 class GlucoseRangeOverrideTableViewCell: UITableViewCell, UITextFieldDelegate {
 

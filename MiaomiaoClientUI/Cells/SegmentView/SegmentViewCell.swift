@@ -18,11 +18,10 @@ extension UISegmentedControl {
 }
 
 class SegmentViewCell: UITableViewCell {
-    
+
     @IBOutlet weak var segment: UISegmentedControl!
-    
+
     @IBOutlet weak var label: UILabel!
-    
 
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -34,5 +33,5 @@ class SegmentViewCell: UITableViewCell {
 
         // Configure the view for the selected state
     }
-    
+
 }

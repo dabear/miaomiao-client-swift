@@ -8,58 +8,42 @@
 
 import Foundation
 
-
 import UIKit
-
 
 protocol mmSwitchTableViewCellDelegate: class {
     //func AlarmTimeInputCellDidUpdateValue(_ cell: AlarmTimeInputRangeCell)
     func mmSwitchTableViewCellDidTouch(_ cell: mmSwitchTableViewCell)
     func mmSwitchTableViewCellWasDisabled(_ cell: mmSwitchTableViewCell)
-    
+
 }
 
-
-
 class mmSwitchTableViewCell: UITableViewCell, UITextFieldDelegate {
-    
-    
-    
-    
-    weak var delegate: mmSwitchTableViewCellDelegate?
-    
-    // MARK: Outlets
-    
-    @IBOutlet weak var iconImageView: UIImageView!
-    
-    @IBOutlet weak var titleLabel: UILabel!
-    
 
-    
-   
-    
-    
+    weak var delegate: mmSwitchTableViewCellDelegate?
+
+    // MARK: Outlets
+
+    @IBOutlet weak var iconImageView: UIImageView!
+
+    @IBOutlet weak var titleLabel: UILabel!
+
     @IBOutlet weak var toggleIsSelected: UISwitch!
-    
-    @IBAction func switchChanged(sender : UISwitch) {
+
+    @IBAction func switchChanged(sender: UISwitch) {
         print("switch changed")
-        
+
         //delegate?.AlarmTimeInputRangeCellDidTouch(self)
     }
-    
+
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
-        super.init(style:style, reuseIdentifier: reuseIdentifier)
-        
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
+
     }
-    
+
     required init?(coder aDecoder: NSCoder) {
         NSLog("dabear:: required init")
         super.init(coder: aDecoder)
-        
-       
-        
-        
+
     }
-    
-    
+
 }

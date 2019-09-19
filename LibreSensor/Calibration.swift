@@ -13,7 +13,6 @@ private let LibreCalibrationLabel =  "https://LibreCalibrationLabel.doesnot.exis
 private let LibreCalibrationUrl = URL(string: LibreCalibrationLabel)!
 private let LibreUsername = "LibreUsername"
 
-
 extension KeychainManager {
     public func setLibreCalibrationData(_ calibrationData: DerivedAlgorithmParameters) throws {
         let credentials: InternetCredentials?
@@ -21,7 +20,7 @@ extension KeychainManager {
         NSLog("dabear: Setting calibrationdata to \(String(describing: calibrationData))")
         try replaceInternetCredentials(credentials, forLabel: LibreCalibrationLabel)
     }
-    
+
     public func getLibreCalibrationData() -> DerivedAlgorithmParameters? {
         do { // Silence all errors and return nil
             let credentials = try getInternetCredentials(label: LibreCalibrationLabel)
@@ -34,12 +33,12 @@ extension KeychainManager {
     }
 }
 
-public func calibrateSensor(accessToken: String, site:String, sensordata: SensorData,  callback: @escaping (DerivedAlgorithmParameters?) -> Void) {
-    
+public func calibrateSensor(accessToken: String, site: String, sensordata: SensorData, callback: @escaping (DerivedAlgorithmParameters?) -> Void) {
+
     let libreOOPClient = LibreOOPClient(accessToken: accessToken, site: site)
     libreOOPClient.uploadCalibration(reading: sensordata.bytes, {calibrationResult, success, errormessage in
         guard success, let calibrationResult = calibrationResult else {
-            
+
             NSLog("remote: upload calibration failed! \(errormessage)")
             callback(nil)
             return
@@ -65,16 +64,14 @@ public func calibrateSensor(accessToken: String, site:String, sensordata: Sensor
     })
 }
 
-
-
 private func serializeAlgorithmParameters(_ params: DerivedAlgorithmParameters) -> String {
     let encoder = JSONEncoder()
     encoder.outputFormatting = .prettyPrinted
-    
+
     var aString = ""
     do {
         let jsonData = try encoder.encode(params)
-        
+
         if let jsonString = String(data: jsonData, encoding: .utf8) {
             aString = jsonString
         }
@@ -85,13 +82,13 @@ private func serializeAlgorithmParameters(_ params: DerivedAlgorithmParameters) 
 }
 
 private func deserializeAlgorithmParameters(text: String) -> DerivedAlgorithmParameters? {
-    
+
     if let jsonData = text.data(using: .utf8) {
         let decoder = JSONDecoder()
-        
+
         do {
             return try decoder.decode(DerivedAlgorithmParameters.self, from: jsonData)
-            
+
         } catch {
             print("Could not create instance: \(error.localizedDescription)")
         }

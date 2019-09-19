@@ -13,8 +13,6 @@ extension MiaoMiaoClientManager: CGMManagerUI {
     public static func setupViewController() -> (UIViewController & CGMManagerSetupViewController & CompletionNotifying)? {
         return MiaomiaoClientSetupViewController()
     }
-    
-   
 
     public func settingsViewController(for glucoseUnit: HKUnit) -> (UIViewController & CompletionNotifying & CompletionNotifying) {
         let settings =  MiaomiaoClientSettingsViewController(cgmManager: self, glucoseUnit: glucoseUnit, allowsDeletion: true)
@@ -23,7 +21,7 @@ extension MiaoMiaoClientManager: CGMManagerUI {
     }
 
     public var smallImage: UIImage? {
-       
+
         return self.getSmallImage()
     }
 }

@@ -8,11 +8,9 @@
 
 import UIKit
 
-
 protocol GlucoseAlarmInputCellDelegate: class {
     func glucoseAlarmInputCellDidUpdateValue(_ cell: GlucoseAlarmInputCell, value: Double)
 }
-
 
 class GlucoseAlarmInputCell: UITableViewCell, UITextFieldDelegate {
 
@@ -23,9 +21,8 @@ class GlucoseAlarmInputCell: UITableViewCell, UITextFieldDelegate {
             minValueTextField.text = valueNumberFormatter.string(from: NSNumber(value: minValue))
         }
     }
-    
-    public var tag2 : String? = nil
-   
+
+    public var tag2: String?
 
     lazy var valueNumberFormatter: NumberFormatter = {
         let formatter = NumberFormatter()
@@ -34,14 +31,13 @@ class GlucoseAlarmInputCell: UITableViewCell, UITextFieldDelegate {
 
         return formatter
     }()
-    
-    var alarmType : GlucoseAlarmType?  {
+
+    var alarmType: GlucoseAlarmType? {
         didSet {
             titleLabel.text = alarmType?.rawValue ?? "invalid"
-            
+
         }
     }
-
 
     var unitString: String? {
         get {
@@ -62,8 +58,6 @@ class GlucoseAlarmInputCell: UITableViewCell, UITextFieldDelegate {
 
     @IBOutlet weak var minValueTextField: UITextField!
 
-    
-
     // MARK: - UITextFieldDelegate
 
     func textFieldDidBeginEditing(_ textField: UITextField) {
@@ -75,11 +69,11 @@ class GlucoseAlarmInputCell: UITableViewCell, UITextFieldDelegate {
 
     func textFieldDidEndEditing(_ textField: UITextField) {
         let value = valueNumberFormatter.number(from: textField.text ?? "")?.doubleValue ?? 0
-        
+
         switch textField {
         case minValueTextField:
             minValue = value
-        
+
         default:
             break
         }

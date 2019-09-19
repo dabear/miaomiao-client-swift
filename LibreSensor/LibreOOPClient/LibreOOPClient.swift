@@ -43,7 +43,7 @@ class LibreOOPClient {
                 completion("network error".data(using: .utf8)!, "network error", false)
                 return
             }
-            
+
             if let response = String(data: data, encoding: String.Encoding.utf8) {
                 completion(data, response, true)
             }
@@ -56,7 +56,7 @@ class LibreOOPClient {
     public func getStatusIntervalled(uuid: String, intervalSeconds: UInt32=10, maxTries: Int8=8, _ completion:@escaping ((  _ success: Bool, _ message: String, _ oopCurrentValue: OOPCurrentValue?, _ newState: String) -> Void)) {
 
         let sem = DispatchSemaphore(value: 0)
-        var oopCurrentValue: OOPCurrentValue? = nil
+        var oopCurrentValue: OOPCurrentValue?
         var succeeded = false
         var error = ""
         var newState2 = ""
@@ -127,10 +127,10 @@ class LibreOOPClient {
         }
         return nil
     }
-    
+
     public func verifyToken( _ completion:@escaping (( _ success: Bool) -> Void)) {
-        
-        postToServer({ (data, response, success) in
+
+        postToServer({ (_, response, _) in
             completion(response == "valid")
         }, postURL: verifyTokenEndpoint, postparams: ["accessToken": self.accessToken])
     }
@@ -228,7 +228,7 @@ class LibreOOPClient {
     public func uploadDependantReadings(readings: [LibreReadingResult]) -> [(success: Bool, String, OOPCurrentValue?, String)]? {
         var ret = [(Bool, String, OOPCurrentValue?, String)]()
 
-        var prevReading: LibreReadingResult? = nil
+        var prevReading: LibreReadingResult?
 
         for (_, var reading) in readings.enumerated() {
 
@@ -269,14 +269,14 @@ class LibreOOPClient {
     public func uploadCalibration(reading: [UInt8], _ completion:@escaping (( _ resp: CalibrationResult?, _ success: Bool, _ errorMessage: String) -> Void)) {
         return uploadCalibration(reading: LibreOOPClient.readingToString(reading), completion)
     }
-    
+
     public func uploadCalibration(reading: String, _ completion:@escaping (( _ resp: CalibrationResult?, _ success: Bool, _ errorMessage: String) -> Void)) {
         let postParams = ["accesstoken": self.accessToken, "b64contents": reading]
-    
+
         postToServer({ (data, _, success)  in
-            
+
             if(!success) {
-                
+
                 completion(nil, false, "network error!?")
                 return
             }
@@ -288,31 +288,29 @@ class LibreOOPClient {
                     completion(nil, false, "error")
                 }
                 if let result = response.result {
-                    
+
                     completion(result, true, "")
                     return
                 }
-                
+
                 completion(nil, false, "unknown error decoding")
                 return
-                
+
             } catch let error as NSError {
                 completion(nil, false, error.localizedDescription)
                 return
             }
-            
+
         }, postURL: calibrationEndpoint, postparams: postParams)
     }
-     
-    
+
     public func getCalibrationStatusIntervalled(uuid: String, intervalSeconds: UInt32=10, maxTries: Int8=8, _ completion:@escaping ((  _ success: Bool, _ errormessage: String, _ runner: DerivedAlgorithmParameters?) -> Void)) {
-        
+
         let sem = DispatchSemaphore(value: 0)
-        var algoparams : DerivedAlgorithmParameters? = nil
+        var algoparams: DerivedAlgorithmParameters?
         var succeeded = false
         var error = ""
-        
-        
+
         DispatchQueue.global().async {
             for i in 1...maxTries {
                 NSLog("Attempt \(i): Waiting \(intervalSeconds) seconds before calling getCalibrationStatus")
@@ -321,38 +319,32 @@ class LibreOOPClient {
                 if (succeeded) {
                     error = ""
                     break
-                    
+
                 }
                 self.getCalibrationStatus(uuid: uuid, { (success, errormessage, params) in
                     print("inside handler for getCalibrationStatus in interval, success: \(success), message: \(errormessage), params:\(String(describing: params))")
                     if (success) {
                         succeeded = true
                         algoparams = params
-                        
+
                     } else {
                         error = errormessage
                     }
                     sem.signal()
                 })
-                
+
                 sem.wait()
-                
-        
+
                 if (succeeded) {
                     error = ""
                     break
                 }
             }
-            
+
             completion(succeeded, error, algoparams)
         }
     }
-    
-    
-    
-    
-    
-    
+
     private func getCalibrationStatus(uuid: String, _ completion:@escaping ((  _ success: Bool, _ message: String, _ response: DerivedAlgorithmParameters?) -> Void)) {
         postToServer({ (data, response, success) in
             NSLog("getCalibrationStatus here:" + response + ", data: \(data)")
@@ -364,40 +356,37 @@ class LibreOOPClient {
             let decoder = JSONDecoder()
             do {
                 let response = try decoder.decode(GetCalibrationStatus.self, from: data)
-                
+
                 NSLog("getCalibrationStatus result received")
-                
+
                 if response.error {
-                    
+
                     completion(false, "getCalibrationStatus failes due to error", nil)
                     return
                 }
-                
+
                 if let result = response.result, result.status == "complete" {
                     print("calibration  ready")
-                    var params : DerivedAlgorithmParameters? = nil
-                    
-                    params = DerivedAlgorithmParameters(slope_slope: result.slopeSlope ?? 0, slope_offset: result.slopeOffset ?? 0, offset_slope: result.offsetSlope ?? 0, offset_offset: result.offsetOffset ?? 0, isValidForFooterWithReverseCRCs: Int(result.isValidForFooterWithReverseCRCs!), extraSlope:1.0, extraOffset:0.0)
-                    
-                    
+                    var params : DerivedAlgorithmParameters?
+
+                    params = DerivedAlgorithmParameters(slope_slope: result.slopeSlope ?? 0, slope_offset: result.slopeOffset ?? 0, offset_slope: result.offsetSlope ?? 0, offset_offset: result.offsetOffset ?? 0, isValidForFooterWithReverseCRCs: Int(result.isValidForFooterWithReverseCRCs!), extraSlope: 1.0, extraOffset: 0.0)
+
                     completion(true, "complete", params )
                     return
                 }
-                
-                
+
                 print("calibration  is not ready, status is not ready")
-                
+
                 completion(false, "result not ready", nil)
-                
+
             } catch (let error as NSError) {
                 print("got error trying to decode GetCalibrationStatus")
                 completion(false, error.localizedDescription, nil)
                 return
             }
-            
+
         }, postURL: calibrationStatusEndpoint, postparams: ["accesstoken": self.accessToken, "uuid": uuid])
     }
-
 
     public static func getLibreReadingsFromFolderContents(subfolder: String) -> [String: String]? {
         let fm = FileManager.default

@@ -8,30 +8,24 @@
 
 import Foundation
 
-
 import UIKit
 
 protocol mmTextFieldViewCellCellDelegate: class {
     func mmTextFieldViewCellDidUpdateValue(_ cell: mmTextFieldViewCell, value: String?)
 }
 
-fileprivate var maxLengths = [UITextField: Int]()
+private var maxLengths = [UITextField: Int]()
 
 class mmTextFieldViewCell: UITableViewCell, UITextFieldDelegate {
-    
-    
-    
-    weak var delegate: mmTextFieldViewCellCellDelegate?
-    
-    
-    // MARK: Outlets
-    
-    @IBOutlet weak var iconImageView: UIImageView!
-    
-    @IBOutlet weak var titleLabel: UILabel!
-    
 
-    
+    weak var delegate: mmTextFieldViewCellCellDelegate?
+
+    // MARK: Outlets
+
+    @IBOutlet weak var iconImageView: UIImageView!
+
+    @IBOutlet weak var titleLabel: UILabel!
+
     @IBAction func didStartEditing(_ sender: Any) {
         print("did start editing textfield cell")
         textInput!.becomeFirstResponder()
@@ -42,46 +36,38 @@ class mmTextFieldViewCell: UITableViewCell, UITextFieldDelegate {
         textInput!.resignFirstResponder()
         delegate?.mmTextFieldViewCellDidUpdateValue(self, value: textInput?.text)
     }
-    
-    public var isEnabled : Bool {
+
+    public var isEnabled: Bool {
         get {
             return titleLabel!.isEnabled && textInput!.isEnabled
         }
         set {
             titleLabel!.isEnabled = newValue
             textInput!.isEnabled = newValue
-            
+
         }
     }
-    
+
     @IBOutlet weak var textInput: AllowedCharsTextField?
-    
-    
-    
+
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
-        super.init(style:style, reuseIdentifier: reuseIdentifier)
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
         print("here1")
     }
-    
+
     required init?(coder aDecoder: NSCoder) {
         NSLog("dabear:: required init")
         super.init(coder: aDecoder)
         print("here2")
         textInput?.keyboardType = .numberPad
-       
-        
-        
-    }
-    
-    
-    
-    
-}
 
+    }
+
+}
 
 // 2
 extension AllowedCharsTextField {
-    
+
     // 3
     @IBInspectable var maxLength: Int {
         get {
@@ -101,7 +87,7 @@ extension AllowedCharsTextField {
             )
         }
     }
-    
+
     @objc func limitLength(textField: UITextField) {
         // 6
         NSLog("maxlength for uitextfield is: \(maxLength)")
@@ -110,24 +96,22 @@ extension AllowedCharsTextField {
             return
         }
         NSLog("limitlength continue")
-        
+
         let selection = selectedTextRange
-       
+
         text = String(prospectiveText.prefix(maxLength))
-        
+
         selectedTextRange = selection
     }
-    
+
 }
-
-
 
 // 1
 class AllowedCharsTextField: UITextField, UITextFieldDelegate {
-    
+
     // 2
     @IBInspectable var allowedChars: String = ""
-    
+
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         // 3
@@ -135,7 +119,7 @@ class AllowedCharsTextField: UITextField, UITextFieldDelegate {
         // 4
         autocorrectionType = .no
     }
-    
+
     // 5
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         // 6
@@ -145,25 +129,24 @@ class AllowedCharsTextField: UITextField, UITextFieldDelegate {
         guard allowedChars.count > 0 else {
             return true
         }
-        
+
         // 7
         let currentText = (textField.text ?? "") as NSString
         let prospectiveText = currentText.replacingCharacters(in: range, with: string)
-        
-        return  prospectiveText.containsOnlyCharactersIn(matchCharacters: allowedChars)
-        
-    }
-    
-}
 
+        return  prospectiveText.containsOnlyCharactersIn(matchCharacters: allowedChars)
+
+    }
+
+}
 
 // 8
 extension String {
-    
+
     // Returns true if the string contains only characters found in matchCharacters.
     func containsOnlyCharactersIn(matchCharacters: String) -> Bool {
         let disallowedCharacterSet = NSCharacterSet(charactersIn: matchCharacters).inverted
         return self.rangeOfCharacter(from: disallowedCharacterSet) == nil
     }
-    
+
 }

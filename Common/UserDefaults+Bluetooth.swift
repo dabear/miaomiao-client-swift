@@ -10,25 +10,24 @@ import Foundation
 import MiaomiaoClient
 
 extension UserDefaults {
-    
+
     private enum Key: String {
         case bluetoothDeviceUUID = "no.bjorninge.bluetoothDeviceUUID"
         case bluetoothDevice = "no.bjorninge.bluetoothDevice"
-        
-        
+
     }
-    
-    public var preSelectedDevice : CompatibleLibreBluetoothDevice? {
-        
+
+    public var preSelectedDevice: CompatibleLibreBluetoothDevice? {
+
         get {
-            
+
             if let savedPreSelectedDevice = object(forKey: Key.bluetoothDevice.rawValue) as? Data {
                 let decoder = JSONDecoder()
                 if let loadedPreselectedDevice = try? decoder.decode(CompatibleLibreBluetoothDevice.self, from: savedPreSelectedDevice) {
                     return loadedPreselectedDevice
                 }
             }
-            
+
             return nil
         }
         set {
@@ -42,9 +41,5 @@ extension UserDefaults {
             }
         }
     }
-   
-   
-    
 
-    
 }

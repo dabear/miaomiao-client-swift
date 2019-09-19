@@ -15,11 +15,11 @@ extension Collection {
 }
 
 extension Array {
-    
+
     mutating public func safeIndexAt(_ index: Int, default defaultValue: @autoclosure () -> Element) -> Element? {
         guard index >= 0, index < endIndex else {
-            
-            var val : Element? = nil
+
+            var val: Element?
             while !indices.contains(index) {
                 val = defaultValue()
                 if let val = val {
@@ -28,28 +28,25 @@ extension Array {
                     //unsafe to continue as this might be a never ending loop
                     break
                 }
-                
+
             }
-            
-            
-            
+
             return val
         }
-        
+
         return self[index]
     }
 }
 
-
 extension Array where Element: Hashable {
     func removingDuplicates() -> [Element] {
         var addedDict = [Element: Bool]()
-        
+
         return filter {
             addedDict.updateValue(true, forKey: $0) == nil
         }
     }
-    
+
     mutating func removeDuplicates() {
         self = self.removingDuplicates()
     }

@@ -13,11 +13,11 @@ extension HKUnit {
     static let milligramsPerDeciliter: HKUnit = {
         return HKUnit.gramUnit(with: .milli).unitDivided(by: HKUnit.literUnit(with: .deci))
     }()
-    
+
     static let millimolesPerLiter: HKUnit = {
         return HKUnit.moleUnit(with: .milli, molarMass: HKUnitMolarMassBloodGlucose).unitDivided(by: HKUnit.liter())
     }()
-    
+
     var localizedShortUnitString: String {
         if self == HKUnit.millimolesPerLiter {
             return NSLocalizedString("mmol/L", comment: "The short unit display string for millimoles of glucose per liter")
@@ -32,4 +32,3 @@ extension HKUnit {
         }
     }
 }
-

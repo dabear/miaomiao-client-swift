@@ -8,18 +8,18 @@
 
 import Foundation
 import UIKit
-func * (lhs:CGFloat, rhs:Double) -> Double {
+func * (lhs: CGFloat, rhs: Double) -> Double {
     return Double(lhs) * rhs
 }
 
-func * (lhs:CGFloat, rhs:Double) -> CGFloat {
+func * (lhs: CGFloat, rhs: Double) -> CGFloat {
     return lhs * CGFloat(rhs)
 }
 
-func * (lhs:Double, rhs:CGFloat) -> Double {
+func * (lhs: Double, rhs: CGFloat) -> Double {
     return lhs * Double(rhs)
 }
 
-func * (lhs:Double, rhs:CGFloat) -> CGFloat {
+func * (lhs: Double, rhs: CGFloat) -> CGFloat {
     return CGFloat(lhs) * rhs
 }
