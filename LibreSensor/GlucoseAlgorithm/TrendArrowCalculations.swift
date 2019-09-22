@@ -28,13 +28,13 @@ class TrendArrowCalculation {
     }
 
     static func GetGlucoseDirection(current: LibreGlucose?, last: LibreGlucose?) -> GlucoseTrend {
-        NSLog("GetGlucoseDirection:: current:\(current), last: \(last)")
+        //NSLog("GetGlucoseDirection:: current:\(current), last: \(last)")
         guard let current = current, let last = last else {
             return GlucoseTrend.flat
         }
 
         let  s = calculateSlopeByMinute(current: current, last: last)
-        NSLog("Got trendarrow value of \(s))")
+        //NSLog("Got trendarrow value of \(s))")
 
         switch s {
         case _ where s <= (-3.5):
