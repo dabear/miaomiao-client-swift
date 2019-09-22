@@ -215,7 +215,7 @@ extension LibreBluetoothManager {
 
     func miaomiaoRequestData(writeCharacteristics: CBCharacteristic, peripheral: CBPeripheral) {
         miaomiaoConfirmSensor(peripheral: peripheral)
-        resetBuffer()
+        rxBuffer.resetAllBytes()
 
         print("dabear: miaomiaoRequestData")
 
@@ -237,7 +237,7 @@ extension LibreBluetoothManager {
         // Therefore it also becomes important that once a message is fully received, the buffer is invalidated
         //
         guard let firstByte = rxBuffer.first, let miaoMiaoResponseState = MiaoMiaoResponseState(rawValue: firstByte) else {
-            resetBuffer()
+            rxBuffer.resetAllBytes()
             print("miaomiaoDidUpdateValueForNotifyCharacteristics did not undestand what to do (internal error")
             return
         }
@@ -249,16 +249,16 @@ extension LibreBluetoothManager {
                 os_log("Buffer complete, inform delegate.", log: LibreBluetoothManager.bt_log, type: .default)
                 delegate?.libreBluetoothManagerReceivedMessage(0x0000, txFlags: 0x28, payloadData: rxBuffer)
                 handleCompleteMessage()
-                resetBuffer()
+                rxBuffer.resetAllBytes()
             }
 
         case .newSensor: // 0x32: // A new sensor has been detected -> acknowledge to use sensor and reset buffer
             delegate?.libreBluetoothManagerReceivedMessage(0x0000, txFlags: 0x32, payloadData: rxBuffer)
             miaomiaoConfirmSensor(peripheral: peripheral)
-            resetBuffer()
+            rxBuffer.resetAllBytes()
         case .noSensor: // 0x34: // No sensor has been detected -> reset buffer (and wait for new data to arrive)
             delegate?.libreBluetoothManagerReceivedMessage(0x0000, txFlags: 0x34, payloadData: rxBuffer)
-            resetBuffer()
+            rxBuffer.resetAllBytes()
         case .frequencyChangedResponse: // 0xD1: // Success of fail for setting time intervall
             delegate?.libreBluetoothManagerReceivedMessage(0x0000, txFlags: 0xD1, payloadData: rxBuffer)
             if value.count >= 2 {
@@ -270,7 +270,7 @@ extension LibreBluetoothManager {
                     os_log("Unkown response for setting time interval.", log: LibreBluetoothManager.bt_log, type: .default)
                 }
             }
-            resetBuffer()
+            rxBuffer.resetAllBytes()
         }
 
     }

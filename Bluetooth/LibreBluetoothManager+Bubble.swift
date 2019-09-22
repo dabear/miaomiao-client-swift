@@ -53,7 +53,7 @@ extension LibreBluetoothManager {
 
     func bubbleRequestData(writeCharacteristics: CBCharacteristic, peripheral: CBPeripheral) {
         print("dabear:: bubbleRequestData")
-        resetBuffer()
+        rxBuffer.resetAllBytes()
         //timer?.invalidate()
         print("-----set: ", writeCharacteristics)
         peripheral.writeValue(Data([0x00, 0x00, 0x05]), for: writeCharacteristics, type: .withResponse)
@@ -80,13 +80,13 @@ extension LibreBluetoothManager {
                 rxBuffer.append(value.suffix(from: 4))
                 if rxBuffer.count >= 352 {
                     handleCompleteMessage()
-                    resetBuffer()
+                    rxBuffer.resetAllBytes()
                 }
             case .noSensor:
 
                     self.delegate?.libreBluetoothManagerReceivedMessage(0x0000, txFlags: 0x34, payloadData: self.rxBuffer)
 
-                resetBuffer()
+                rxBuffer.resetAllBytes()
             case .serialNumber:
                 rxBuffer.append(value.subdata(in: 2..<10))
             }

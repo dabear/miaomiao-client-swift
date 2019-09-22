@@ -381,7 +381,7 @@ final class LibreBluetoothManager: NSObject, CBCentralManagerDelegate, CBPeriphe
     private func delayedReconnect(_ seconds: Double = 7) {
         state = .DelayedReconnect
         os_log("Will reconnect peripheral in  %{public}@ seconds", log: LibreBluetoothManager.bt_log, type: .default, String(describing: seconds))
-        resetBuffer()
+        rxBuffer.resetAllBytes()
         // attempt to avoid IOS killing app because of cpu usage.
         // postpone connecting for x seconds
         DispatchQueue.global(qos: .utility).async { [weak self] in
@@ -493,7 +493,7 @@ final class LibreBluetoothManager: NSObject, CBCentralManagerDelegate, CBPeriphe
         if let error = error {
             os_log("Peripheral did update notification state for characteristic: %{public}@ with error", log: LibreBluetoothManager.bt_log, type: .error, "\(error.localizedDescription)")
         } else {
-            resetBuffer()
+            rxBuffer.resetAllBytes()
             requestData()
         }
         state = .Notifying
@@ -548,9 +548,7 @@ final class LibreBluetoothManager: NSObject, CBCentralManagerDelegate, CBPeriphe
         }
     }
 
-    func resetBuffer() {
-        rxBuffer = Data()
-    }
+   
 
     func handleCompleteMessage() {
 

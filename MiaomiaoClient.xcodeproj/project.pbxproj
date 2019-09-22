@@ -66,6 +66,7 @@
 		2729D6A5221F44C80030E1B8 /* Data.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2729D6A2221F44C70030E1B8 /* Data.swift */; };
 		2729D6A822248BDD0030E1B8 /* MiaoMiaoClientManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2729D6A722248BDD0030E1B8 /* MiaoMiaoClientManager.swift */; };
 		2729D6AA22248BDD0030E1B8 /* MiaoMiaoClientManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2729D6A722248BDD0030E1B8 /* MiaoMiaoClientManager.swift */; };
+		272BF9C32338044600AD38AA /* DataExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 272BF9C22338044600AD38AA /* DataExtensions.swift */; };
 		272DFE6F223E909600FBE2CB /* LoopKitUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 272DFE6D223E909500FBE2CB /* LoopKitUI.framework */; };
 		272DFE71223E909E00FBE2CB /* LoopKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 272DFE70223E909E00FBE2CB /* LoopKit.framework */; };
 		272DFE72223E909E00FBE2CB /* LoopKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 272DFE70223E909E00FBE2CB /* LoopKit.framework */; };
@@ -252,6 +253,7 @@
 		2729D68F221F44670030E1B8 /* SensorState.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SensorState.swift; sourceTree = "<group>"; };
 		2729D6A2221F44C70030E1B8 /* Data.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Data.swift; sourceTree = "<group>"; };
 		2729D6A722248BDD0030E1B8 /* MiaoMiaoClientManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MiaoMiaoClientManager.swift; sourceTree = "<group>"; };
+		272BF9C22338044600AD38AA /* DataExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataExtensions.swift; sourceTree = "<group>"; };
 		272DFE6D223E909500FBE2CB /* LoopKitUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = LoopKitUI.framework; path = ../../Build/iOS/LoopKitUI.framework; sourceTree = "<group>"; };
 		272DFE70223E909E00FBE2CB /* LoopKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = LoopKit.framework; path = ../../Build/iOS/LoopKit.framework; sourceTree = "<group>"; };
 		272FAF06228CA590002D8064 /* SegmentViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SegmentViewCell.swift; sourceTree = "<group>"; };
@@ -700,6 +702,7 @@
 				277DAD13226CACF300422ADA /* MessagePassing.swift */,
 				27E0968E22A9AD6F00B3164D /* TimeIntervalExtensions.swift */,
 				271EDF2422EC739F00E1C8B3 /* UserDefaults+Bluetooth.swift */,
+				272BF9C22338044600AD38AA /* DataExtensions.swift */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -1086,6 +1089,7 @@
 				43A8EC99210E682A00A81379 /* MiaomiaoService.swift in Sources */,
 				271EDF3D22F3658D00E1C8B3 /* LibreBluetoothManager+Miaomiao.swift in Sources */,
 				275C3DA3229FCED400E27439 /* NotificationHelper.swift in Sources */,
+				272BF9C32338044600AD38AA /* DataExtensions.swift in Sources */,
 				2729D699221F44670030E1B8 /* CRC.swift in Sources */,
 				2729D6A3221F44C80030E1B8 /* Data.swift in Sources */,
 				2729D687221F43150030E1B8 /* SensorData.swift in Sources */,
