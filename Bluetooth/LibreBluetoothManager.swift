@@ -506,7 +506,7 @@ final class LibreBluetoothManager: NSObject, CBCentralManagerDelegate, CBPeriphe
         if let error = error {
             os_log("Characteristic update error: %{public}@", log: LibreBluetoothManager.bt_log, type: .error, "\(error.localizedDescription)")
         } else {
-            if characteristic.uuid == CBUUID(string: "6E400003-B5A3-F393-E0A9-E50E24DCCA9E"), let value = characteristic.value {
+            if characteristic.uuid == notifyCharacteristicUUID, let value = characteristic.value {
 
                 guard let bridge = peripheral.asCompatibleBluetoothDevice()?.bridgeType else {
                     return
