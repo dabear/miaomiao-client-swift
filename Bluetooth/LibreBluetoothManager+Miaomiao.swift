@@ -208,8 +208,11 @@ extension LibreBluetoothManager {
                 })
             }
 
-            // Inform delegate that new data is available
-            delegate?.libreBluetoothManagerDidUpdate(sensorData: sensorData, and: metadata)
+            dispatchToDelegate {
+                // Inform delegate that new data is available
+                self.delegate?.libreBluetoothManagerDidUpdate(sensorData: sensorData, and: metadata)
+            }
+
         }
     }
 
@@ -247,20 +250,28 @@ extension LibreBluetoothManager {
 
             if rxBuffer.count >= 363, let last = rxBuffer.last, last == 0x29 {
                 os_log("Buffer complete, inform delegate.", log: LibreBluetoothManager.bt_log, type: .default)
-                delegate?.libreBluetoothManagerReceivedMessage(0x0000, txFlags: 0x28, payloadData: rxBuffer)
+                dispatchToDelegate {
+                    self.delegate?.libreBluetoothManagerReceivedMessage(0x0000, txFlags: 0x28, payloadData: self.rxBuffer)
+                }
                 handleCompleteMessage()
                 rxBuffer.resetAllBytes()
             }
 
         case .newSensor: // 0x32: // A new sensor has been detected -> acknowledge to use sensor and reset buffer
-            delegate?.libreBluetoothManagerReceivedMessage(0x0000, txFlags: 0x32, payloadData: rxBuffer)
+            dispatchToDelegate {
+                self.delegate?.libreBluetoothManagerReceivedMessage(0x0000, txFlags: 0x32, payloadData: self.rxBuffer)
+            }
             miaomiaoConfirmSensor(peripheral: peripheral)
             rxBuffer.resetAllBytes()
         case .noSensor: // 0x34: // No sensor has been detected -> reset buffer (and wait for new data to arrive)
-            delegate?.libreBluetoothManagerReceivedMessage(0x0000, txFlags: 0x34, payloadData: rxBuffer)
+            dispatchToDelegate {
+                self.delegate?.libreBluetoothManagerReceivedMessage(0x0000, txFlags: 0x34, payloadData: self.rxBuffer)
+            }
             rxBuffer.resetAllBytes()
         case .frequencyChangedResponse: // 0xD1: // Success of fail for setting time intervall
-            delegate?.libreBluetoothManagerReceivedMessage(0x0000, txFlags: 0xD1, payloadData: rxBuffer)
+            dispatchToDelegate {
+                self.delegate?.libreBluetoothManagerReceivedMessage(0x0000, txFlags: 0xD1, payloadData: self.rxBuffer)
+            }
             if value.count >= 2 {
                 if value[2] == 0x01 {
                     os_log("Success setting time interval.", log: LibreBluetoothManager.bt_log, type: .default)

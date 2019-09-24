@@ -162,6 +162,7 @@ final class LibreBluetoothManager: NSObject, CBCentralManagerDelegate, CBPeriphe
     }
 
     private let managerQueue = DispatchQueue(label: "no.bjorninge.bluetoothManagerQueue", qos: .utility)
+    private let delegateQueue = DispatchQueue(label: "no.bjorninge.delegateQueue", qos: .utility)
 
     fileprivate let serviceUUIDs: [CBUUID]? = [CBUUID(string: "6E400001-B5A3-F393-E0A9-E50E24DCCA9E")]
     fileprivate let writeCharachteristicUUID = CBUUID(string: "6E400002-B5A3-F393-E0A9-E50E24DCCA9E")
@@ -172,19 +173,36 @@ final class LibreBluetoothManager: NSObject, CBCentralManagerDelegate, CBPeriphe
 
     var delegate: LibreBluetoothManagerDelegate? {
         didSet {
-            // Help delegate initialize by sending current state directly after delegate assignment
-            delegate?.libreBluetoothManagerPeripheralStateChanged(state)
+            self.delegateQueue.async { [weak self] in
+                // Help delegate initialize by sending current state directly after delegate assignment
+                if let state=self?.state {
+                    self?.delegate?.libreBluetoothManagerPeripheralStateChanged(state)
+                }
+
+            }
         }
     }
 
     private var state: BluetoothmanagerState = .Unassigned {
         didSet {
-            // Help delegate initialize by sending current state directly after delegate assignment
-            delegate?.libreBluetoothManagerPeripheralStateChanged(state)
+
+            self.delegateQueue.async { [weak self] in
+                // Help delegate initialize by sending current state directly after delegate assignment
+                if let state=self?.state {
+                    self?.delegate?.libreBluetoothManagerPeripheralStateChanged(state)
+                }
+
+            }
         }
     }
 
-    private func syncOnQueue<T>( _ closure :@escaping @autoclosure () -> T) -> T {
+    public func dispatchToDelegate( _ closure :@escaping  () -> Void ) {
+        delegateQueue.async {
+            closure()
+        }
+    }
+
+    private func syncOnManagerQueue<T>( _ closure :@escaping @autoclosure () -> T) -> T {
         var ret: T?
 
         managerQueue.sync { [closure] in
@@ -197,7 +215,7 @@ final class LibreBluetoothManager: NSObject, CBCentralManagerDelegate, CBPeriphe
     public var connectionStateString: String? {
         dispatchPrecondition(condition: .notOnQueue(managerQueue))
 
-        return syncOnQueue( self.state.rawValue )
+        return syncOnManagerQueue( self.state.rawValue )
 
     }
 
@@ -607,27 +625,27 @@ extension LibreBluetoothManager {
 extension LibreBluetoothManager {
 
     var OnQueue_metadata: BluetoothBridgeMetaData? {
-        return syncOnQueue( self.metadata)
+        return syncOnManagerQueue( self.metadata)
     }
 
     var OnQueue_sensorData: SensorData? {
-        return syncOnQueue( self.sensorData)
+        return syncOnManagerQueue( self.sensorData)
     }
 
     var OnQueue_state: BluetoothmanagerState {
-        return syncOnQueue( self.state)
+        return syncOnManagerQueue( self.state)
     }
 
     var OnQueue_identifer: UUID? {
-        return syncOnQueue(self.identifier)
+        return syncOnManagerQueue(self.identifier)
     }
 
     var OnQueue_manufacturer: String {
-        return syncOnQueue(self.manufacturer)
+        return syncOnManagerQueue(self.manufacturer)
     }
 
     var OnQueue_device: HKDevice? {
-        return syncOnQueue(self.device)
+        return syncOnManagerQueue(self.device)
     }
 
 }
