@@ -290,7 +290,9 @@ public final class MiaoMiaoClientManager: CGMManager, LibreBluetoothManagerDeleg
 
             let startDate = self.latestBackfill?.startDate
             let newGlucose = glucose.filterDateRange(startDate, nil).filter({ $0.isStateValid }).map {
-                return NewGlucoseSample(date: $0.startDate, quantity: $0.quantity, isDisplayOnly: false, syncIdentifier: "\(Int($0.startDate.timeIntervalSince1970))", device: self.proxy?.device)
+
+
+                return NewGlucoseSample(date: $0.startDate, quantity: $0.quantity, isDisplayOnly: false, syncIdentifier: "\(Int($0.startDate.timeIntervalSince1970))\($0.unsmoothedGlucose)", device: self.proxy?.device)
             }
 
             self.latestBackfill = glucose.max { $0.startDate < $1.startDate}
