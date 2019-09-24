@@ -203,8 +203,8 @@ extension LibreBluetoothManager {
         // Check if sensor data is valid and, if this is not the case, request data again after thirty second
         if let sensorData = sensorData {
             if !sensorData.hasValidCRCs {
-                Timer.scheduledTimer(withTimeInterval: 30, repeats: false, block: {_ in
-                    self.requestData()
+                Timer.scheduledTimer(withTimeInterval: 30, repeats: false, block: { [weak self ]_ in
+                    self?.requestData()
                 })
             }
 

@@ -38,8 +38,8 @@ extension LibreBluetoothManager {
 
         if let sensorData = sensorData {
             if !sensorData.hasValidCRCs {
-                Timer.scheduledTimer(withTimeInterval: 30, repeats: false, block: {_ in
-                    self.requestData()
+                Timer.scheduledTimer(withTimeInterval: 30, repeats: false, block: {[weak self]_ in
+                    self?.requestData()
                 })
             }
             //TODO: fix queue ANOTHER WAY
