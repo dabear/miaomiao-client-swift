@@ -78,7 +78,7 @@ extension LibreGlucose {
             //more entries in the array to base it on
             let arrow = TrendArrowCalculation.GetGlucoseDirection(current: trend, last: arr[safe: i+5])
             arr[i].trend = UInt8(arrow.rawValue)
-            NSLog("Date: \(trend.timestamp), before: \(trend.unsmoothedGlucose), after: \(trend.glucose), arrow: \(trend.trend)")
+            //NSLog("Date: \(trend.timestamp), before: \(trend.unsmoothedGlucose), after: \(trend.glucose), arrow: \(trend.trend)")
         }
 
         if returnAllTrends {

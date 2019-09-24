@@ -45,6 +45,7 @@ extension LibreBluetoothManager {
             //TODO: fix queue ANOTHER WAY
             // Inform delegate that new data is available
             dispatchToDelegate {
+                
                 self.delegate?.libreBluetoothManagerDidUpdate(sensorData: sensorData, and: metadata)
             }
 
