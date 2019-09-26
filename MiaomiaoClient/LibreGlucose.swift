@@ -50,9 +50,9 @@ extension LibreGlucose {
         var arr = [LibreGlucose]()
 
         for historical in measurements {
-            guard historical.temperatureAlgorithmGlucose > 1 else {
+            /*guard historical.temperatureAlgorithmGlucose > 1 else {
                 continue
-            }
+            }*/
 
             let glucose = LibreGlucose(unsmoothedGlucose: historical.temperatureAlgorithmGlucose, glucoseDouble: historical.temperatureAlgorithmGlucose, trend: UInt8(GlucoseTrend.flat.rawValue), timestamp: historical.date, collector: "MiaoMiao")
             arr.append(glucose)
