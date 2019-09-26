@@ -273,7 +273,12 @@ public final class MiaoMiaoClientManager: CGMManager, LibreBluetoothManagerDeleg
         NSLog("dabear:: got sensordata with valid crcs, sensor was ready")
         self.lastValidSensorData = sensorData
 
-        self.handleGoodReading(data: sensorData) { (error, glucose) in
+        self.handleGoodReading(data: sensorData) { [weak self] (error, glucose) in
+            guard let self = self else {
+                NSLog("dabear:: handleGoodReading could not lock on self, aborting")
+                return
+
+            }
             if let error = error {
                 NSLog("dabear:: handleGoodReading returned with error: \(error)")
 

@@ -174,10 +174,12 @@ final class LibreBluetoothManager: NSObject, CBCentralManagerDelegate, CBPeriphe
     var delegate: LibreBluetoothManagerDelegate? {
         didSet {
             self.delegateQueue.async { [weak self] in
-                // Help delegate initialize by sending current state directly after delegate assignment
-                if let state=self?.state {
-                    self?.delegate?.libreBluetoothManagerPeripheralStateChanged(state)
+                guard let self=self else {
+                    return
                 }
+                // Help delegate initialize by sending current state directly after delegate assignment
+                self.delegate?.libreBluetoothManagerPeripheralStateChanged(self.state)
+
 
             }
         }
@@ -187,11 +189,11 @@ final class LibreBluetoothManager: NSObject, CBCentralManagerDelegate, CBPeriphe
         didSet {
 
             self.delegateQueue.async { [weak self] in
-                // Help delegate initialize by sending current state directly after delegate assignment
-                if let state=self?.state {
-                    self?.delegate?.libreBluetoothManagerPeripheralStateChanged(state)
+                guard let self=self else {
+                    return
                 }
-
+                // Help delegate initialize by sending current state directly after delegate assignment
+                self.delegate?.libreBluetoothManagerPeripheralStateChanged(self.state)
             }
         }
     }

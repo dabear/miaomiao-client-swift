@@ -23,6 +23,7 @@ class NotificationHelper {
         case sensorExpire = "no.bjorninge.miaomiao.SensorExpire-notification"
         case noBridgeSelected = "no.bjorninge.miaomiao.noBridgeSelected-notification"
         case bluetoothPoweredOff = "no.bjorninge.miaomiao.bluetoothPoweredOff-notification"
+        case invalidChecksum = "no.bjorninge.miaomiao.invalidChecksum-notification"
     }
 
     private static var glucoseFormatterMgdl: QuantityFormatter = {
@@ -129,6 +130,44 @@ class NotificationHelper {
             NSLog("dabear:: sending notification was allowed")
             completion(true)
         }
+    }
+
+    public static func sendInvalidChecksumIfDeveloper(_ sensorData: SensorData) {
+
+
+        guard UserDefaults.standard.dangerModeActivated else {
+            return
+        }
+
+        if !sensorData.hasValidCRCs {
+            ensureCanSendNotification { (ensured) in
+                guard ensured else {
+                    NSLog("dabear:: not sending InvalidChecksum notification due to permission problem")
+                    return
+
+                }
+
+                let center = UNUserNotificationCenter.current()
+
+                let content = UNMutableNotificationContent()
+                content.title = "Invalid libre checksum"
+                content.body = "Libre sensor was incorrectly read, CRCs were not valid"
+
+                //content.sound = UNNotificationSound.
+                let request = UNNotificationRequest(identifier: Identifiers.invalidChecksum.rawValue, content: content, trigger: nil)
+
+                center.add(request) { (error) in
+                    if let error = error {
+                        NSLog("dabear:: InvalidChecksum-notification: \(error.localizedDescription)")
+                    }
+                }
+
+
+            }
+        }
+
+        
+
     }
 
     private static var glucoseNotifyCalledCount = 0

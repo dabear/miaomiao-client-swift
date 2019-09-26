@@ -203,12 +203,16 @@ extension LibreBluetoothManager {
         // Check if sensor data is valid and, if this is not the case, request data again after thirty second
         if let sensorData = sensorData {
             if !sensorData.hasValidCRCs {
+                NotificationHelper.sendInvalidChecksumIfDeveloper(sensorData)
                 Timer.scheduledTimer(withTimeInterval: 30, repeats: false, block: { [weak self ]_ in
                     self?.requestData()
                 })
             }
 
-            dispatchToDelegate {
+            dispatchToDelegate { [weak self] in
+                guard let self = self else{
+                    return
+                }
                 // Inform delegate that new data is available
                 self.delegate?.libreBluetoothManagerDidUpdate(sensorData: sensorData, and: metadata)
             }
@@ -250,7 +254,10 @@ extension LibreBluetoothManager {
 
             if rxBuffer.count >= 363, let last = rxBuffer.last, last == 0x29 {
                 os_log("Buffer complete, inform delegate.", log: LibreBluetoothManager.bt_log, type: .default)
-                dispatchToDelegate {
+                dispatchToDelegate { [weak self] in
+                    guard let self = self else{
+                        return
+                    }
                     self.delegate?.libreBluetoothManagerReceivedMessage(0x0000, txFlags: 0x28, payloadData: self.rxBuffer)
                 }
                 handleCompleteMessage()
@@ -258,18 +265,27 @@ extension LibreBluetoothManager {
             }
 
         case .newSensor: // 0x32: // A new sensor has been detected -> acknowledge to use sensor and reset buffer
-            dispatchToDelegate {
+            dispatchToDelegate { [weak self] in
+                guard let self = self else{
+                    return
+                }
                 self.delegate?.libreBluetoothManagerReceivedMessage(0x0000, txFlags: 0x32, payloadData: self.rxBuffer)
             }
             miaomiaoConfirmSensor(peripheral: peripheral)
             rxBuffer.resetAllBytes()
         case .noSensor: // 0x34: // No sensor has been detected -> reset buffer (and wait for new data to arrive)
-            dispatchToDelegate {
+            dispatchToDelegate { [weak self] in
+                guard let self = self else{
+                    return
+                }
                 self.delegate?.libreBluetoothManagerReceivedMessage(0x0000, txFlags: 0x34, payloadData: self.rxBuffer)
             }
             rxBuffer.resetAllBytes()
         case .frequencyChangedResponse: // 0xD1: // Success of fail for setting time intervall
-            dispatchToDelegate {
+            dispatchToDelegate { [weak self] in
+                guard let self = self else{
+                    return
+                }
                 self.delegate?.libreBluetoothManagerReceivedMessage(0x0000, txFlags: 0xD1, payloadData: self.rxBuffer)
             }
             if value.count >= 2 {
