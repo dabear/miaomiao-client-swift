@@ -200,7 +200,7 @@ extension LibreBluetoothManager {
             return
         }
 
-        sensorData = sensorTestData()
+        //sensorData = sensorTestData()
         // Check if sensor data is valid and, if this is not the case, request data again after thirty second
         if let sensorData = sensorData {
             if !sensorData.hasValidCRCs {
