@@ -198,26 +198,32 @@ final class LibreBluetoothManager: NSObject, CBCentralManagerDelegate, CBPeriphe
         }
     }
 
-    public func dispatchToDelegate( _ closure :@escaping  () -> Void ) {
-        delegateQueue.async {
-            closure()
+    public func dispatchToDelegate( _ closure :@escaping  (_ aself:LibreBluetoothManager) -> Void ) {
+        delegateQueue.async { [weak self] in
+            if let self=self {
+                closure(self)
+            }
         }
     }
 
-    private func syncOnManagerQueue<T>( _ closure :@escaping @autoclosure () -> T) -> T {
+    private func syncOnManagerQueue<T>( _ closure :@escaping  (_ aself:LibreBluetoothManager?) -> T?) -> T? {
         var ret: T?
 
-        managerQueue.sync { [closure] in
-            ret = closure()
+        managerQueue.sync { [weak self,closure] in
+            ret = closure(self)
         }
 
-        return ret!
+        return ret
     }
 
     public var connectionStateString: String? {
         dispatchPrecondition(condition: .notOnQueue(managerQueue))
 
-        return syncOnManagerQueue( self.state.rawValue )
+        return syncOnManagerQueue({ (manager)  in
+            return manager?.state.rawValue
+        })
+
+        //self.state.rawValue )
 
     }
 
@@ -246,19 +252,9 @@ final class LibreBluetoothManager: NSObject, CBCentralManagerDelegate, CBPeriphe
             os_log("Before scan for MiaoMiao while central manager state %{public}@", log: LibreBluetoothManager.bt_log, type: .default, String(describing: centralManager.state.rawValue))
 
             centralManager.scanForPeripherals(withServices: nil, options: nil)
-
             state = .Scanning
-
-            //            print(centralManager.debugDescription)
         }
-        //        // Set timer to check connection and reconnect if necessary
-        //        timer = Timer.scheduledTimer(withTimeInterval: 20, repeats: false) {_ in
-        //            os_log("********** Reconnection timer fired in background **********", log: MiaoMiaoManager.bt_log, type: .default)
-        //            if self.state != .Notifying {
-        //                self.scanForMiaoMiao()
-        //                //                NotificationManager.scheduleDebugNotification(message: "Reconnection timer fired in background", wait: 0.5)
-        //            }
-        //        }
+
     }
 
     private func connect(force forceConnect: Bool = false) {
@@ -627,27 +623,46 @@ extension LibreBluetoothManager {
 extension LibreBluetoothManager {
 
     var OnQueue_metadata: BluetoothBridgeMetaData? {
-        return syncOnManagerQueue( self.metadata)
+        return syncOnManagerQueue { (manager)  in
+            return manager?.metadata
+        }
+        //return syncOnManagerQueue( self.metadata)
     }
 
     var OnQueue_sensorData: SensorData? {
-        return syncOnManagerQueue( self.sensorData)
+        return syncOnManagerQueue { (manager)  in
+            return manager?.sensorData
+        }
+        //return syncOnManagerQueue( self.sensorData)
     }
 
-    var OnQueue_state: BluetoothmanagerState {
-        return syncOnManagerQueue( self.state)
+    var OnQueue_state: BluetoothmanagerState? {
+        return syncOnManagerQueue { (manager)  in
+            return manager?.state
+        }
+        //return syncOnManagerQueue( self.state)
     }
 
     var OnQueue_identifer: UUID? {
-        return syncOnManagerQueue(self.identifier)
+        return syncOnManagerQueue { (manager)  in
+            return manager?.identifier
+        }
+        //return syncOnManagerQueue(self.identifier)
     }
 
-    var OnQueue_manufacturer: String {
-        return syncOnManagerQueue(self.manufacturer)
+    var OnQueue_manufacturer: String? {
+        return syncOnManagerQueue { (manager)  in
+            return manager?.manufacturer
+        }
+
+        //return syncOnManagerQueue(self.manufacturer)
     }
 
     var OnQueue_device: HKDevice? {
-        return syncOnManagerQueue(self.device)
+        return syncOnManagerQueue { (manager)  in
+            return manager?.device
+        }
+        //return syncOnManagerQueue(self.device)
     }
 
 }

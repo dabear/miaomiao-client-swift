@@ -39,17 +39,14 @@ extension LibreBluetoothManager {
         if let sensorData = sensorData {
             if !sensorData.hasValidCRCs {
                 NotificationHelper.sendInvalidChecksumIfDeveloper(sensorData)
-                Timer.scheduledTimer(withTimeInterval: 30, repeats: false, block: {[weak self]_ in
+                //scheduling timer does not seem to work well in background mode any way
+                /*Timer.scheduledTimer(withTimeInterval: 30, repeats: false, block: {[weak self]_ in
                     self?.requestData()
-                })
+                })*/
             }
-            //TODO: fix queue ANOTHER WAY
-            // Inform delegate that new data is available
-            dispatchToDelegate { [weak self] in
-                guard let self = self else {
-                    return
-                }
-                self.delegate?.libreBluetoothManagerDidUpdate(sensorData: sensorData, and: metadata)
+
+            dispatchToDelegate { (manager) in
+                manager.delegate?.libreBluetoothManagerDidUpdate(sensorData: sensorData, and: metadata)
             }
 
 
@@ -90,11 +87,8 @@ extension LibreBluetoothManager {
                     rxBuffer.resetAllBytes()
                 }
             case .noSensor:
-                dispatchToDelegate { [weak self] in
-                    guard let self = self else{
-                        return
-                    }
-                    self.delegate?.libreBluetoothManagerReceivedMessage(0x0000, txFlags: 0x34, payloadData: self.rxBuffer)
+                dispatchToDelegate { (manager) in
+                    manager.delegate?.libreBluetoothManagerReceivedMessage(0x0000, txFlags: 0x34, payloadData: manager.rxBuffer)
                 }
 
                 rxBuffer.resetAllBytes()
