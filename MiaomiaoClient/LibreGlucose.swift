@@ -50,6 +50,11 @@ extension LibreGlucose {
         var arr = [LibreGlucose]()
 
         for historical in measurements {
+            guard historical.temperatureAlgorithmGlucose > 0 else {
+                print("dabear:: historical glucose not available, skipping: \(historical.temperatureAlgorithmGlucose)")
+                continue
+            }
+
             let glucose = LibreGlucose(unsmoothedGlucose: historical.temperatureAlgorithmGlucose, glucoseDouble: historical.temperatureAlgorithmGlucose, trend: UInt8(GlucoseTrend.flat.rawValue), timestamp: historical.date, collector: "MiaoMiao")
             arr.append(glucose)
         }
@@ -78,7 +83,7 @@ extension LibreGlucose {
             //more entries in the array to base it on
             let arrow = TrendArrowCalculation.GetGlucoseDirection(current: trend, last: arr[safe: i+5])
             arr[i].trend = UInt8(arrow.rawValue)
-            NSLog("Date: \(trend.timestamp), before: \(trend.unsmoothedGlucose), after: \(trend.glucose), arrow: \(trend.trend)")
+            //NSLog("Date: \(trend.timestamp), before: \(trend.unsmoothedGlucose), after: \(trend.glucose), arrow: \(trend.trend)")
         }
 
         if returnAllTrends {
