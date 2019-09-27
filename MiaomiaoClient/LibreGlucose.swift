@@ -50,7 +50,7 @@ extension LibreGlucose {
         var arr = [LibreGlucose]()
 
         for historical in measurements {
-            guard historical.temperatureAlgorithmGlucose > 1 else {
+            guard historical.temperatureAlgorithmGlucose > 0 else {
                 print("dabear:: historical glucose not available, skipping: \(historical.temperatureAlgorithmGlucose)")
                 continue
             }
