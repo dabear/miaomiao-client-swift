@@ -258,6 +258,8 @@ public final class MiaoMiaoClientManager: CGMManager, LibreBluetoothManagerDeleg
         NotificationHelper.sendInvalidSensorNotificationIfNeeded(sensorData: sensorData)
         NotificationHelper.sendSensorExpireAlertIfNeeded(sensorData: sensorData)
 
+        NotificationHelper.sendInvalidChecksumIfDeveloper(sensorData)
+
         guard sensorData.hasValidCRCs else {
             self.cgmManagerDelegate?.cgmManager(self, didUpdateWith: .error(LibreError.checksumValidationError))
             os_log("dit not get sensordata with valid crcs")

@@ -61,7 +61,10 @@ class LibreOOPClient {
         var error = ""
         var newState2 = ""
 
-        DispatchQueue.global().async {
+        DispatchQueue.global().async { [weak self] in
+            guard let self = self else {
+                return
+            }
             for i in 1...maxTries {
                 NSLog("Attempt \(i): Waiting \(intervalSeconds) seconds before calling getstatus")
                 sleep(intervalSeconds)
@@ -71,11 +74,11 @@ class LibreOOPClient {
                     break
 
                 }
-                self.getStatus(uuid: uuid, { (success, errormsg, response, newState) in
+                self.getStatus(uuid: uuid, { [weak self] (success, errormsg, response, newState) in
                     if (success) {
                         succeeded = true
                         newState2 = newState ?? ""
-                        oopCurrentValue = self.getOOPCurrentValue(from: response)
+                        oopCurrentValue = self?.getOOPCurrentValue(from: response)
                     } else {
                         error = errormsg
                     }
@@ -236,10 +239,15 @@ class LibreOOPClient {
             let awaiter = DispatchSemaphore( value: 0 )
 
             let tempState = prevReading?.newState ?? LibreOOPDefaults.defaultState
-            self.uploadReading(reading: reading.b64Contents, oldState: tempState, sensorStartTimestamp: LibreOOPDefaults.sensorStartTimestamp, sensorScanTimestamp: LibreOOPDefaults.sensorScanTimestamp, currentUtcOffset: LibreOOPDefaults.currentUtcOffset) { (response, success, errormessage) in
+            self.uploadReading(reading: reading.b64Contents, oldState: tempState, sensorStartTimestamp: LibreOOPDefaults.sensorStartTimestamp, sensorScanTimestamp: LibreOOPDefaults.sensorScanTimestamp, currentUtcOffset: LibreOOPDefaults.currentUtcOffset) { [weak self] (response, success, errormessage) in
                 if(!success) {
                     NSLog("remote: upload reading failed! \(errormessage)")
                     ret.append((success, errormessage, nil, ""))
+                    awaiter.signal()
+                    return
+                }
+
+                guard let self = self else {
                     awaiter.signal()
                     return
                 }
@@ -311,7 +319,10 @@ class LibreOOPClient {
         var succeeded = false
         var error = ""
 
-        DispatchQueue.global().async {
+        DispatchQueue.global().async { [weak self] in
+            guard let self = self else {
+                return
+            }
             for i in 1...maxTries {
                 NSLog("Attempt \(i): Waiting \(intervalSeconds) seconds before calling getCalibrationStatus")
                 sleep(intervalSeconds)

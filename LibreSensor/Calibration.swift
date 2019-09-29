@@ -51,6 +51,7 @@ public func calibrateSensor(accessToken: String, site: String, sensordata: Senso
                 callback(nil)
                 return
             }
+            //checks that the calibrationdata received actually is for the current sensor
             if let parameters = parameters,
                 sensordata.footerCrc == UInt16(parameters.isValidForFooterWithReverseCRCs).byteSwapped {
                 callback(parameters)
