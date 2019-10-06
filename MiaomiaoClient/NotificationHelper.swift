@@ -138,7 +138,8 @@ class NotificationHelper {
         guard UserDefaults.standard.dangerModeActivated else {
             return
         }
-        guard sensorData.hasValidCRCs else {
+        
+        if sensorData.hasValidCRCs {
             return
         }
 
