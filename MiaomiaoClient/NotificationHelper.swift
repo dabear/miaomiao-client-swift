@@ -138,7 +138,7 @@ class NotificationHelper {
         guard UserDefaults.standard.dangerModeActivated else {
             return
         }
-        
+
         if sensorData.hasValidCRCs {
             return
         }
@@ -420,7 +420,7 @@ class NotificationHelper {
             return
         }
 
-        guard device.battery <= 30 else {
+        guard device.battery <= 20 else {
             NSLog("device battery is \(device.batteryString), not sending low notification")
             return
         }
