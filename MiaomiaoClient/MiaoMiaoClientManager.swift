@@ -298,10 +298,10 @@ public final class MiaoMiaoClientManager: CGMManager, LibreBluetoothManagerDeleg
             // add one second to startdate to make this an exclusive (non overlapping) match
             let startDate = self.latestBackfill?.startDate.addingTimeInterval(1)
             let device = self.proxy?.device
-            let newGlucose = glucose.filterDateRange(startDate, nil).filter({ $0.isStateValid }).map {
+            let newGlucose = glucose.filterDateRange(startDate, nil).filter({ $0.isStateValid }).map { (glucose) -> NewGlucoseSample in
 
-
-                return NewGlucoseSample(date: $0.startDate, quantity: $0.quantity, isDisplayOnly: false, syncIdentifier: "\(Int($0.startDate.timeIntervalSince1970))\($0.unsmoothedGlucose)", device: device)
+                let syncId = "\(Int(glucose.startDate.timeIntervalSince1970))\(glucose.unsmoothedGlucose)"
+                return NewGlucoseSample(date: glucose.startDate, quantity: glucose.quantity, isDisplayOnly: false, syncIdentifier: syncId, device: device)
             }
 
             self.latestBackfill = glucose.max { $0.startDate < $1.startDate}
