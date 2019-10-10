@@ -198,26 +198,32 @@ final class LibreBluetoothManager: NSObject, CBCentralManagerDelegate, CBPeriphe
         }
     }
 
-    public func dispatchToDelegate( _ closure :@escaping  () -> Void ) {
-        delegateQueue.async {
-            closure()
+    public func dispatchToDelegate( _ closure :@escaping  (_ aself:LibreBluetoothManager) -> Void ) {
+        delegateQueue.async { [weak self] in
+            if let self=self {
+                closure(self)
+            }
         }
     }
 
-    private func syncOnManagerQueue<T>( _ closure :@escaping @autoclosure () -> T) -> T {
+    private func syncOnManagerQueue<T>( _ closure :@escaping  (_ aself:LibreBluetoothManager?) -> T?) -> T? {
         var ret: T?
 
-        managerQueue.sync { [closure] in
-            ret = closure()
+        managerQueue.sync { [weak self,closure] in
+            ret = closure(self)
         }
 
-        return ret!
+        return ret
     }
 
     public var connectionStateString: String? {
         dispatchPrecondition(condition: .notOnQueue(managerQueue))
 
-        return syncOnManagerQueue( self.state.rawValue )
+        return syncOnManagerQueue({ (manager)  in
+            return manager?.state.rawValue
+        })
+
+        //self.state.rawValue )
 
     }
 
@@ -246,19 +252,9 @@ final class LibreBluetoothManager: NSObject, CBCentralManagerDelegate, CBPeriphe
             os_log("Before scan for MiaoMiao while central manager state %{public}@", log: LibreBluetoothManager.bt_log, type: .default, String(describing: centralManager.state.rawValue))
 
             centralManager.scanForPeripherals(withServices: nil, options: nil)
-
             state = .Scanning
-
-            //            print(centralManager.debugDescription)
         }
-        //        // Set timer to check connection and reconnect if necessary
-        //        timer = Timer.scheduledTimer(withTimeInterval: 20, repeats: false) {_ in
-        //            os_log("********** Reconnection timer fired in background **********", log: MiaoMiaoManager.bt_log, type: .default)
-        //            if self.state != .Notifying {
-        //                self.scanForMiaoMiao()
-        //                //                NotificationManager.scheduleDebugNotification(message: "Reconnection timer fired in background", wait: 0.5)
-        //            }
-        //        }
+
     }
 
     private func connect(force forceConnect: Bool = false) {
@@ -349,26 +345,26 @@ final class LibreBluetoothManager: NSObject, CBCentralManagerDelegate, CBPeriphe
             return
         }
 
-        if SupportedDevices.isSupported(peripheral) {
 
-            if let preselected = UserDefaults.standard.preSelectedDevice {
-                if peripheral.identifier.uuidString == preselected.identifier {
-                    os_log("Did connect to preselected %{public}@ with identifier %{public}@,", log: LibreBluetoothManager.bt_log, type: .default, String(describing: peripheral.name), String(describing: peripheral.identifier.uuidString))
-                    self.peripheral = peripheral
 
-                    self.connect(force: true)
+        if let preselected = UserDefaults.standard.preSelectedDevice {
+            if peripheral.identifier.uuidString == preselected.identifier {
+                os_log("Did connect to preselected %{public}@ with identifier %{public}@,", log: LibreBluetoothManager.bt_log, type: .default, String(describing: peripheral.name), String(describing: peripheral.identifier.uuidString))
+                self.peripheral = peripheral
 
-                } else {
-                    os_log("Did not connect to %{public}@ with identifier %{public}@, because another device with identifier %{public}@ was selected", log: LibreBluetoothManager.bt_log, type: .default, String(describing: peripheral.name), String(describing: peripheral.identifier.uuidString), preselected.identifier)
+                self.connect(force: true)
 
-                }
-
-                return
             } else {
-                NotificationHelper.sendNoBridgeSelectedNotification()
+                os_log("Did not connect to %{public}@ with identifier %{public}@, because another device with identifier %{public}@ was selected", log: LibreBluetoothManager.bt_log, type: .default, String(describing: peripheral.name), String(describing: peripheral.identifier.uuidString), preselected.identifier)
+
             }
 
+            return
+        } else {
+            NotificationHelper.sendNoBridgeSelectedNotification()
         }
+
+
 
     }
 
@@ -432,13 +428,7 @@ final class LibreBluetoothManager: NSObject, CBCentralManagerDelegate, CBPeriphe
             self.delayedReconnect()
             //    scanForMiaoMiao()
         }
-        // Keep this code in case you want it some later time: it is used for reconnection only in background mode
-        //        state = .Disconnected
-        //        // Start scanning, if disconnection occurred in background mode
-        //        if UIApplication.sharedApplication().applicationState == .Background ||
-        //            UIApplication.sharedApplication().applicationState == .Inactive {
-        //            scanForMiaoMiao()
-        //        }
+
     }
 
     // MARK: - CBPeripheralDelegate
@@ -623,31 +613,45 @@ extension LibreBluetoothManager {
     }
 }
 
+
+
 //these are extensions to return properties (for inspection on the main ui) that exist on the queue only
 extension LibreBluetoothManager {
 
     var OnQueue_metadata: BluetoothBridgeMetaData? {
-        return syncOnManagerQueue( self.metadata)
+        return syncOnManagerQueue { (manager)  in
+            return manager?.metadata
+        }
     }
 
     var OnQueue_sensorData: SensorData? {
-        return syncOnManagerQueue( self.sensorData)
+        return syncOnManagerQueue { (manager)  in
+            return manager?.sensorData
+        }
     }
 
-    var OnQueue_state: BluetoothmanagerState {
-        return syncOnManagerQueue( self.state)
+    var OnQueue_state: BluetoothmanagerState? {
+        return syncOnManagerQueue { (manager)  in
+            return manager?.state
+        }
     }
 
     var OnQueue_identifer: UUID? {
-        return syncOnManagerQueue(self.identifier)
+        return syncOnManagerQueue { (manager)  in
+            return manager?.identifier
+        }
     }
 
-    var OnQueue_manufacturer: String {
-        return syncOnManagerQueue(self.manufacturer)
+    var OnQueue_manufacturer: String? {
+        return syncOnManagerQueue { (manager)  in
+            return manager?.manufacturer
+        }
     }
 
     var OnQueue_device: HKDevice? {
-        return syncOnManagerQueue(self.device)
+        return syncOnManagerQueue { (manager)  in
+            return manager?.device
+        }
     }
 
 }

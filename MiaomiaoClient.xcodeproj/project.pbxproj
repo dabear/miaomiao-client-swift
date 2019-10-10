@@ -62,8 +62,6 @@
 		2729D69E221F44670030E1B8 /* SensorSerialNumber.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2729D68E221F44670030E1B8 /* SensorSerialNumber.swift */; };
 		2729D69F221F44670030E1B8 /* SensorState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2729D68F221F44670030E1B8 /* SensorState.swift */; };
 		2729D6A1221F44670030E1B8 /* SensorState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2729D68F221F44670030E1B8 /* SensorState.swift */; };
-		2729D6A3221F44C80030E1B8 /* Data.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2729D6A2221F44C70030E1B8 /* Data.swift */; };
-		2729D6A5221F44C80030E1B8 /* Data.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2729D6A2221F44C70030E1B8 /* Data.swift */; };
 		2729D6A822248BDD0030E1B8 /* MiaoMiaoClientManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2729D6A722248BDD0030E1B8 /* MiaoMiaoClientManager.swift */; };
 		2729D6AA22248BDD0030E1B8 /* MiaoMiaoClientManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2729D6A722248BDD0030E1B8 /* MiaoMiaoClientManager.swift */; };
 		272BF9C32338044600AD38AA /* DataExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 272BF9C22338044600AD38AA /* DataExtensions.swift */; };
@@ -252,7 +250,6 @@
 		2729D68D221F44670030E1B8 /* CRC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CRC.swift; sourceTree = "<group>"; };
 		2729D68E221F44670030E1B8 /* SensorSerialNumber.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SensorSerialNumber.swift; sourceTree = "<group>"; };
 		2729D68F221F44670030E1B8 /* SensorState.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SensorState.swift; sourceTree = "<group>"; };
-		2729D6A2221F44C70030E1B8 /* Data.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Data.swift; sourceTree = "<group>"; };
 		2729D6A722248BDD0030E1B8 /* MiaoMiaoClientManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MiaoMiaoClientManager.swift; sourceTree = "<group>"; };
 		272BF9C22338044600AD38AA /* DataExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataExtensions.swift; sourceTree = "<group>"; };
 		272BF9C8233D3F5A00AD38AA /* MiaomiaoTestMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MiaomiaoTestMessage.swift; sourceTree = "<group>"; };
@@ -559,7 +556,6 @@
 			children = (
 				2729D68F221F44670030E1B8 /* SensorState.swift */,
 				2729D686221F43150030E1B8 /* SensorData.swift */,
-				2729D6A2221F44C70030E1B8 /* Data.swift */,
 				2729D68E221F44670030E1B8 /* SensorSerialNumber.swift */,
 				2729D68D221F44670030E1B8 /* CRC.swift */,
 				2729D68B221F44660030E1B8 /* Measurement.swift */,
@@ -1053,7 +1049,6 @@
 				27C335E321667C7B00CF0868 /* ViewController.swift in Sources */,
 				2729D678221F421C0030E1B8 /* BluetoothBridgeMetaData.swift in Sources */,
 				2729D69E221F44670030E1B8 /* SensorSerialNumber.swift in Sources */,
-				2729D6A5221F44C80030E1B8 /* Data.swift in Sources */,
 				2729D695221F44670030E1B8 /* Measurement.swift in Sources */,
 				2729D6A1221F44670030E1B8 /* SensorState.swift in Sources */,
 				2729D685221F42760030E1B8 /* BloodSugarController.swift in Sources */,
@@ -1095,7 +1090,6 @@
 				275C3DA3229FCED400E27439 /* NotificationHelper.swift in Sources */,
 				272BF9C32338044600AD38AA /* DataExtensions.swift in Sources */,
 				2729D699221F44670030E1B8 /* CRC.swift in Sources */,
-				2729D6A3221F44C80030E1B8 /* Data.swift in Sources */,
 				2729D687221F43150030E1B8 /* SensorData.swift in Sources */,
 				277DAD14226CACF300422ADA /* MessagePassing.swift in Sources */,
 				271EDF2B22EF97FD00E1C8B3 /* LibreBluetoothManager+Bubble.swift in Sources */,

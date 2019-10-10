@@ -32,29 +32,16 @@ extension LibreBluetoothManager {
         print("dabear:: bubbleHandleCompleteMessage raw data: \([UInt8](rxBuffer))")
         sensorData = SensorData(uuid: rxBuffer.subdata(in: 0..<8), bytes: [UInt8](data), date: Date())
 
-        guard let metadata = metadata else {
-            return
+
+
+
+        dispatchToDelegate { (manager) in
+            guard let metadata = manager.metadata, let sensorData = manager.sensorData else {
+                return
+            }
+            manager.delegate?.libreBluetoothManagerDidUpdate(sensorData: sensorData, and: metadata)
         }
 
-        if let sensorData = sensorData {
-            if !sensorData.hasValidCRCs {
-                NotificationHelper.sendInvalidChecksumIfDeveloper(sensorData)
-                Timer.scheduledTimer(withTimeInterval: 30, repeats: false, block: {[weak self]_ in
-                    self?.requestData()
-                })
-            }
-            //TODO: fix queue ANOTHER WAY
-            // Inform delegate that new data is available
-            dispatchToDelegate { [weak self] in
-                guard let self = self else {
-                    return
-                }
-                self.delegate?.libreBluetoothManagerDidUpdate(sensorData: sensorData, and: metadata)
-            }
-
-
-
-        }
 
     }
 
@@ -69,39 +56,38 @@ extension LibreBluetoothManager {
 
     func bubbleDidUpdateValueForNotifyCharacteristics(_ value: Data, peripheral: CBPeripheral) {
         print("dabear:: bubbleDidUpdateValueForNotifyCharacteristics")
-        if let firstByte = value.first, let bubbleResponseState = BubbleResponseType(rawValue: firstByte) {
-            switch bubbleResponseState {
-            case .bubbleInfo:
-                let hardware = value[2].description + ".0"
-                let firmware = value[1].description + ".0"
-                let battery = Int(value[4])
-                metadata = BluetoothBridgeMetaData(hardware: hardware,
-                                    firmware: firmware,
-                                    battery: battery)
-                print("dabear:: Got bubbledevice: \(metadata)")
-                if let writeCharacteristic = writeCharacteristic {
-                    print("-----set: ", writeCharacteristic)
-                    peripheral.writeValue(Data([0x02, 0x00, 0x00, 0x00, 0x00, 0x2B]), for: writeCharacteristic, type: .withResponse)
-                }
-            case .dataPacket:
-                rxBuffer.append(value.suffix(from: 4))
-                if rxBuffer.count >= 352 {
-                    handleCompleteMessage()
-                    rxBuffer.resetAllBytes()
-                }
-            case .noSensor:
-                dispatchToDelegate { [weak self] in
-                    guard let self = self else{
-                        return
-                    }
-                    self.delegate?.libreBluetoothManagerReceivedMessage(0x0000, txFlags: 0x34, payloadData: self.rxBuffer)
-                }
-
+        guard let firstByte = value.first, let bubbleResponseState = BubbleResponseType(rawValue: firstByte) else {
+            return
+        }
+        switch bubbleResponseState {
+        case .bubbleInfo:
+            let hardware = value[2].description + ".0"
+            let firmware = value[1].description + ".0"
+            let battery = Int(value[4])
+            metadata = BluetoothBridgeMetaData(hardware: hardware,
+                                firmware: firmware,
+                                battery: battery)
+            print("dabear:: Got bubbledevice: \(metadata)")
+            if let writeCharacteristic = writeCharacteristic {
+                print("-----set: ", writeCharacteristic)
+                peripheral.writeValue(Data([0x02, 0x00, 0x00, 0x00, 0x00, 0x2B]), for: writeCharacteristic, type: .withResponse)
+            }
+        case .dataPacket:
+            rxBuffer.append(value.suffix(from: 4))
+            if rxBuffer.count >= 352 {
+                handleCompleteMessage()
                 rxBuffer.resetAllBytes()
-            case .serialNumber:
-                rxBuffer.append(value.subdata(in: 2..<10))
+            }
+        case .noSensor:
+            dispatchToDelegate { (manager) in
+                manager.delegate?.libreBluetoothManagerReceivedMessage(0x0000, txFlags: 0x34, payloadData: manager.rxBuffer)
             }
 
+            rxBuffer.resetAllBytes()
+        case .serialNumber:
+            rxBuffer.append(value.subdata(in: 2..<10))
         }
+
+
     }
 }

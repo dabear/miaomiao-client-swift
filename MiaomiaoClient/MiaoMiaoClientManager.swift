@@ -258,6 +258,8 @@ public final class MiaoMiaoClientManager: CGMManager, LibreBluetoothManagerDeleg
         NotificationHelper.sendInvalidSensorNotificationIfNeeded(sensorData: sensorData)
         NotificationHelper.sendSensorExpireAlertIfNeeded(sensorData: sensorData)
 
+        NotificationHelper.sendInvalidChecksumIfDeveloper(sensorData)
+
         guard sensorData.hasValidCRCs else {
             self.cgmManagerDelegate?.cgmManager(self, didUpdateWith: .error(LibreError.checksumValidationError))
             os_log("dit not get sensordata with valid crcs")
@@ -293,11 +295,13 @@ public final class MiaoMiaoClientManager: CGMManager, LibreBluetoothManagerDeleg
                 return
             }
 
-            let startDate = self.latestBackfill?.startDate
-            let newGlucose = glucose.filterDateRange(startDate, nil).filter({ $0.isStateValid }).map {
+            // add one second to startdate to make this an exclusive (non overlapping) match
+            let startDate = self.latestBackfill?.startDate.addingTimeInterval(1)
+            let device = self.proxy?.device
+            let newGlucose = glucose.filterDateRange(startDate, nil).filter({ $0.isStateValid }).map { (glucose) -> NewGlucoseSample in
 
-
-                return NewGlucoseSample(date: $0.startDate, quantity: $0.quantity, isDisplayOnly: false, syncIdentifier: "\(Int($0.startDate.timeIntervalSince1970))\($0.unsmoothedGlucose)", device: self.proxy?.device)
+                let syncId = "\(Int(glucose.startDate.timeIntervalSince1970))\(glucose.unsmoothedGlucose)"
+                return NewGlucoseSample(date: glucose.startDate, quantity: glucose.quantity, isDisplayOnly: false, syncIdentifier: syncId, device: device)
             }
 
             self.latestBackfill = glucose.max { $0.startDate < $1.startDate}
