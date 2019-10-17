@@ -85,7 +85,7 @@ final class Crc {
 /// Struct BytesSequence, taken from https://github.com/krzyzanowskim/CryptoSwift
 struct BytesSequence: Sequence {
     let chunkSize: Int
-    let data: Array<UInt8>
+    let data: [UInt8]
 
     func makeIterator() -> AnyIterator<ArraySlice<UInt8>> {
 

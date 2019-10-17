@@ -11,10 +11,10 @@ import Foundation
 import UIKit
 
 protocol mmTextFieldViewCellCellDelegate2: class {
-    func mmTextFieldViewCellDidUpdateValue(_ cell: mmTextFieldViewCell2, value: String?)
+    func mmTextFieldViewCellDidUpdateValue(_ cell: MMTextFieldViewCell2, value: String?)
 }
 
-class mmTextFieldViewCell2: UITableViewCell, UITextFieldDelegate {
+class MMTextFieldViewCell2: UITableViewCell, UITextFieldDelegate {
 
     weak var delegate: mmTextFieldViewCellCellDelegate2?
 

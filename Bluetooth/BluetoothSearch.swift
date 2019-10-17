@@ -8,8 +8,7 @@
 
 import Foundation
 
-//
-import Foundation
+
 import UIKit
 import CoreBluetooth
 import os.log
@@ -169,7 +168,7 @@ final class BluetoothSearchManager: NSObject, CBCentralManagerDelegate, CBPeriph
                     peripheral.setNotifyValue(true, for: characteristic)
                     os_log("Set notify value for this characteristic", log: BluetoothSearchManager.bt_log, type: .default)
                 }
-                if (characteristic.uuid == CBUUID(string: "6E400002-B5A3-F393-E0A9-E50E24DCCA9E")) {
+                if characteristic.uuid == CBUUID(string: "6E400002-B5A3-F393-E0A9-E50E24DCCA9E") {
                     //writeCharacteristic = characteristic
                 }
             }

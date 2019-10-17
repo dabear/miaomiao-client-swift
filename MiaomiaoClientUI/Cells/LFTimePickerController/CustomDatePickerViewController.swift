@@ -75,9 +75,7 @@ class CustomDatePickerViewController: UIViewController {
     }
 
     @objc func cancelTapped() {
-        //TODO: only for debugging
-        //crash()
-
+ 
         print("cancel tapped")
         delegate?.CustomDatePickerDelegateDidTapCancel()
         self.navigationController?.popViewController(animated: true)

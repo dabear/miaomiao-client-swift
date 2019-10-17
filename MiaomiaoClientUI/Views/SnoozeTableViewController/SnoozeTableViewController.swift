@@ -101,9 +101,9 @@ public class SnoozeTableViewController: UITableViewController, UIPickerViewDataS
         tableView.register(TextButtonTableViewCell.self, forCellReuseIdentifier: TextButtonTableViewCell.className)
         tableView.register(SegmentViewCell.nib(), forCellReuseIdentifier: SegmentViewCell.className)
 
-        tableView.register(mmSwitchTableViewCell.nib(), forCellReuseIdentifier: mmSwitchTableViewCell.className)
+        tableView.register(MMSwitchTableViewCell.nib(), forCellReuseIdentifier: MMSwitchTableViewCell.className)
 
-        tableView.register(mmTextFieldViewCell.nib(), forCellReuseIdentifier: mmTextFieldViewCell.className)
+        tableView.register(MMTextFieldViewCell.nib(), forCellReuseIdentifier: MMTextFieldViewCell.className)
         self.tableView.rowHeight = 44
         tableView.contentInset = UIEdgeInsets.zero
         self.automaticallyAdjustsScrollViewInsets = false
@@ -168,7 +168,7 @@ public class SnoozeTableViewController: UITableViewController, UIPickerViewDataS
             var snoozeDescription  = ""
             var celltext = ""
 
-            switch( GlucoseScheduleList.getActiveAlarms()) {
+            switch GlucoseScheduleList.getActiveAlarms() {
             case .high:
                 celltext = "High Glucose Alarm active"
             case .low:

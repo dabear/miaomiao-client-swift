@@ -36,8 +36,7 @@ class LibreOOPClient {
         request.setBodyContent(contentMap: postparams)
         request.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
 
-        let task = URLSession.shared.dataTask(with: request as URLRequest) {
-            data, response, _ in
+        let task = URLSession.shared.dataTask(with: request as URLRequest) { (data, response, _) in
 
             guard let data = data else {
                 completion("network error".data(using: .utf8)!, "network error", false)
@@ -69,13 +68,13 @@ class LibreOOPClient {
                 NSLog("Attempt \(i): Waiting \(intervalSeconds) seconds before calling getstatus")
                 sleep(intervalSeconds)
                 NSLog("Finished waiting \(intervalSeconds) seconds before calling getstatus")
-                if (succeeded) {
+                if succeeded {
                     error = ""
                     break
 
                 }
                 self.getStatus(uuid: uuid, { [weak self] (success, errormsg, response, newState) in
-                    if (success) {
+                    if success {
                         succeeded = true
                         newState2 = newState ?? ""
                         oopCurrentValue = self?.getOOPCurrentValue(from: response)
@@ -103,7 +102,7 @@ class LibreOOPClient {
                     }
                 }*/
 
-                if (succeeded) {
+                if succeeded {
                     error = ""
                     break
                 }
@@ -141,7 +140,7 @@ class LibreOOPClient {
     private func getStatus(uuid: String, _ completion:@escaping ((  _ success: Bool, _ message: String, _ response: String?, _ newState: String? ) -> Void)) {
         postToServer({ (data, response, success) in
             NSLog("getstatus here:" + response)
-            if(!success) {
+            if !success {
                 NSLog("Get status failed")
                 completion(false, response, response, nil)
                 return
@@ -168,7 +167,7 @@ class LibreOOPClient {
                     return
                 }
 
-            } catch (let error as NSError) {
+            } catch let error as NSError {
 
                 completion(false, error.localizedDescription, nil, nil)
                 return
@@ -203,7 +202,7 @@ class LibreOOPClient {
 
         postToServer({ (data, _, success)  in
 
-            if(!success) {
+            if !success {
 
                 completion(nil, false, "network error!?")
                 return
@@ -240,7 +239,7 @@ class LibreOOPClient {
 
             let tempState = prevReading?.newState ?? LibreOOPDefaults.defaultState
             self.uploadReading(reading: reading.b64Contents, oldState: tempState, sensorStartTimestamp: LibreOOPDefaults.sensorStartTimestamp, sensorScanTimestamp: LibreOOPDefaults.sensorScanTimestamp, currentUtcOffset: LibreOOPDefaults.currentUtcOffset) { [weak self] (response, success, errormessage) in
-                if(!success) {
+                if !success {
                     NSLog("remote: upload reading failed! \(errormessage)")
                     ret.append((success, errormessage, nil, ""))
                     awaiter.signal()
@@ -283,7 +282,7 @@ class LibreOOPClient {
 
         postToServer({ (data, _, success)  in
 
-            if(!success) {
+            if !success {
 
                 completion(nil, false, "network error!?")
                 return
@@ -327,14 +326,14 @@ class LibreOOPClient {
                 NSLog("Attempt \(i): Waiting \(intervalSeconds) seconds before calling getCalibrationStatus")
                 sleep(intervalSeconds)
                 NSLog("Finished waiting \(intervalSeconds) seconds before calling getCalibrationStatus")
-                if (succeeded) {
+                if succeeded {
                     error = ""
                     break
 
                 }
                 self.getCalibrationStatus(uuid: uuid, { (success, errormessage, params) in
                     print("inside handler for getCalibrationStatus in interval, success: \(success), message: \(errormessage), params:\(String(describing: params))")
-                    if (success) {
+                    if success {
                         succeeded = true
                         algoparams = params
 
@@ -346,7 +345,7 @@ class LibreOOPClient {
 
                 sem.wait()
 
-                if (succeeded) {
+                if succeeded {
                     error = ""
                     break
                 }
@@ -359,7 +358,7 @@ class LibreOOPClient {
     private func getCalibrationStatus(uuid: String, _ completion:@escaping ((  _ success: Bool, _ message: String, _ response: DerivedAlgorithmParameters?) -> Void)) {
         postToServer({ (data, response, success) in
             NSLog("getCalibrationStatus here:" + response + ", data: \(data)")
-            if(!success) {
+            if !success {
                 NSLog("getCalibrationStatus failed")
                 completion(false, response, nil)
                 return
@@ -390,7 +389,7 @@ class LibreOOPClient {
 
                 completion(false, "result not ready", nil)
 
-            } catch (let error as NSError) {
+            } catch  let error as NSError {
                 print("got error trying to decode GetCalibrationStatus")
                 completion(false, error.localizedDescription, nil)
                 return

@@ -32,16 +32,12 @@ extension LibreBluetoothManager {
         print("dabear:: bubbleHandleCompleteMessage raw data: \([UInt8](rxBuffer))")
         sensorData = SensorData(uuid: rxBuffer.subdata(in: 0..<8), bytes: [UInt8](data), date: Date())
 
-
-
-
         dispatchToDelegate { (manager) in
             guard let metadata = manager.metadata, let sensorData = manager.sensorData else {
                 return
             }
             manager.delegate?.libreBluetoothManagerDidUpdate(sensorData: sensorData, and: metadata)
         }
-
 
     }
 
@@ -87,7 +83,6 @@ extension LibreBluetoothManager {
         case .serialNumber:
             rxBuffer.append(value.subdata(in: 2..<10))
         }
-
 
     }
 }

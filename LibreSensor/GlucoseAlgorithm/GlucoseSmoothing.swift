@@ -19,7 +19,7 @@ func CalculateSmothedData5Points(origtrends: [LibreGlucose]) -> [LibreGlucose] {
 
     var trends = origtrends
     //this is an adoptation, doesn't follow the original directly
-    if(trends.count < 5) {
+    if trends.count < 5 {
         for i in 0 ..< trends.count {
             trends[i].glucoseDouble = trends[i].unsmoothedGlucose
         }

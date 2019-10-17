@@ -67,9 +67,7 @@ struct LibreOOPDefaults {
     }
 
     public static var defaultState: String {
-        get {
-            return Data(_defaultState).base64EncodedString()
-        }
+        return Data(_defaultState).base64EncodedString()
     }
     public static var sensorStartTimestamp = 0x0e181349
     public static var sensorScanTimestamp = 0x0e1c4794

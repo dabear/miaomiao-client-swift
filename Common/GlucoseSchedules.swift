@@ -36,9 +36,9 @@ enum GlucoseSchedulesValidationStatus {
 class GlucoseScheduleList: Codable, CustomStringConvertible {
 
     var description: String {
-        get {
-            return "(schedules: \(schedules) )"
-        }
+
+        return "(schedules: \(schedules) )"
+
     }
 
     public var schedules: [GlucoseSchedule] = [GlucoseSchedule]()
@@ -52,16 +52,15 @@ class GlucoseScheduleList: Codable, CustomStringConvertible {
     public static let minimumSchedulesCount = 2
 
     public var activeSchedules: [GlucoseSchedule] {
-        get {
 
-            return enabledSchedules.compactMap {
-                if let activeTime = $0.getScheduleActiveToFrom() {
-                    let now = Date()
-                    return activeTime.contains(now) ? $0 : nil
-                }
-                return nil
+        return enabledSchedules.compactMap {
+            if let activeTime = $0.getScheduleActiveToFrom() {
+                let now = Date()
+                return activeTime.contains(now) ? $0 : nil
             }
+            return nil
         }
+
     }
 
     public func validateGlucoseSchedules() -> GlucoseSchedulesValidationStatus {
@@ -252,8 +251,8 @@ class GlucoseSchedule: Codable, CustomStringConvertible {
     }
 
     var description: String {
-        get {
-            return "(from: \(from), to: \(to), low: \(lowAlarm), high: \(highAlarm), enabled: \(enabled))"
-        }
+
+        return "(from: \(from), to: \(to), low: \(lowAlarm), high: \(highAlarm), enabled: \(enabled))"
+
     }
 }

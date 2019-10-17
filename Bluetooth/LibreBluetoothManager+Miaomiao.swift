@@ -196,8 +196,6 @@ extension LibreBluetoothManager {
 
         sensorData = SensorData(uuid: Data(rxBuffer.subdata(in: 5..<13)), bytes: [UInt8](rxBuffer.subdata(in: 18..<362)), date: Date())
 
-
-
         dispatchToDelegate { (manager) in
             guard let metadata = manager.metadata, let sensorData = manager.sensorData else {
                 return
@@ -206,7 +204,6 @@ extension LibreBluetoothManager {
             // Inform delegate that new data is available
             manager.delegate?.libreBluetoothManagerDidUpdate(sensorData: sensorData, and: metadata)
         }
-
 
     }
 

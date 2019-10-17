@@ -9,7 +9,6 @@
 import Foundation
 import HealthKit
 
-
 extension UserDefaults {
 
     private enum Key: String {

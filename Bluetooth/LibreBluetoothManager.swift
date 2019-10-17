@@ -47,16 +47,14 @@ public enum SupportedDevices: Int, CaseIterable {
 
     }
     public static var allNames: [String] {
-        get {
             return SupportedDevices.allCases.map {$0.name}
-        }
     }
 }
 
 extension Bundle {
     static var current: Bundle {
-        class __ { }
-        return Bundle(for: __.self)
+        class Helper { }
+        return Bundle(for: Helper.self)
     }
 }
 
@@ -65,16 +63,15 @@ public struct CompatibleLibreBluetoothDevice: Hashable, Codable {
     public var name: String
 
     public var bridgeType: SupportedDevices? {
-        get {
 
-            switch self.name.lowercased() {
-            case let x where x.starts(with: "miaomiao"):
-                return SupportedDevices.MiaoMiao
-            case let x where x.starts(with: "bubble"):
-                return SupportedDevices.Bubble
-            default:
-                return nil
-            }
+        switch self.name.lowercased() {
+        case let x where x.starts(with: "miaomiao"):
+            return SupportedDevices.MiaoMiao
+        case let x where x.starts(with: "bubble"):
+            return SupportedDevices.Bubble
+        default:
+            return nil
+
         }
     }
 
@@ -115,7 +112,7 @@ public struct CompatibleLibreBluetoothDevice: Hashable, Codable {
 
 }
 
-protocol LibreBluetoothManagerDelegate {
+protocol LibreBluetoothManagerDelegate : class {
     // Can happen on any queue
     func libreBluetoothManagerPeripheralStateChanged(_ state: BluetoothmanagerState)
     func libreBluetoothManagerReceivedMessage(_ messageIdentifier: UInt16, txFlags: UInt8, payloadData: Data)
@@ -151,9 +148,7 @@ final class LibreBluetoothManager: NSObject, CBCentralManagerDelegate, CBPeriphe
     var sensorData: SensorData?
 
     public var identifier: UUID? {
-        get {
             return peripheral?.identifier
-        }
 
     }
 
@@ -180,7 +175,6 @@ final class LibreBluetoothManager: NSObject, CBCentralManagerDelegate, CBPeriphe
                 // Help delegate initialize by sending current state directly after delegate assignment
                 self.delegate?.libreBluetoothManagerPeripheralStateChanged(self.state)
 
-
             }
         }
     }
@@ -198,7 +192,7 @@ final class LibreBluetoothManager: NSObject, CBCentralManagerDelegate, CBPeriphe
         }
     }
 
-    public func dispatchToDelegate( _ closure :@escaping  (_ aself:LibreBluetoothManager) -> Void ) {
+    public func dispatchToDelegate( _ closure :@escaping  (_ aself: LibreBluetoothManager) -> Void ) {
         delegateQueue.async { [weak self] in
             if let self=self {
                 closure(self)
@@ -206,10 +200,10 @@ final class LibreBluetoothManager: NSObject, CBCentralManagerDelegate, CBPeriphe
         }
     }
 
-    private func syncOnManagerQueue<T>( _ closure :@escaping  (_ aself:LibreBluetoothManager?) -> T?) -> T? {
+    private func syncOnManagerQueue<T>( _ closure :@escaping  (_ aself: LibreBluetoothManager?) -> T?) -> T? {
         var ret: T?
 
-        managerQueue.sync { [weak self,closure] in
+        managerQueue.sync { [weak self, closure] in
             ret = closure(self)
         }
 
@@ -345,8 +339,6 @@ final class LibreBluetoothManager: NSObject, CBCentralManagerDelegate, CBPeriphe
             return
         }
 
-
-
         if let preselected = UserDefaults.standard.preSelectedDevice {
             if peripheral.identifier.uuidString == preselected.identifier {
                 os_log("Did connect to preselected %{public}@ with identifier %{public}@,", log: LibreBluetoothManager.bt_log, type: .default, String(describing: peripheral.name), String(describing: peripheral.identifier.uuidString))
@@ -363,8 +355,6 @@ final class LibreBluetoothManager: NSObject, CBCentralManagerDelegate, CBPeriphe
         } else {
             NotificationHelper.sendNoBridgeSelectedNotification()
         }
-
-
 
     }
 
@@ -483,11 +473,11 @@ final class LibreBluetoothManager: NSObject, CBCentralManagerDelegate, CBPeriphe
                 //                }
 
                 // Choose the notifiying characteristic and Register to be notified whenever the MiaoMiao transmits
-                if (characteristic.properties.intersection(.notify)) == .notify && characteristic.uuid == notifyCharacteristicUUID {
+                if characteristic.properties.intersection(.notify) == .notify && characteristic.uuid == notifyCharacteristicUUID {
                     peripheral.setNotifyValue(true, for: characteristic)
                     os_log("Set notify value for this characteristic", log: LibreBluetoothManager.bt_log, type: .default)
                 }
-                if (characteristic.uuid == writeCharachteristicUUID) {
+                if characteristic.uuid == writeCharachteristicUUID {
                     writeCharacteristic = characteristic
                 }
             }
@@ -499,7 +489,7 @@ final class LibreBluetoothManager: NSObject, CBCentralManagerDelegate, CBPeriphe
     func peripheral(_ peripheral: CBPeripheral, didUpdateNotificationStateFor characteristic: CBCharacteristic, error: Error?) {
         dispatchPrecondition(condition: .onQueue(managerQueue))
         os_log("Did update notification state for characteristic: %{public}@", log: LibreBluetoothManager.bt_log, type: .default, String(describing: characteristic.debugDescription))
-        
+
         if let error = error {
             os_log("Peripheral did update notification state for characteristic: %{public}@ with error", log: LibreBluetoothManager.bt_log, type: .error, "\(error.localizedDescription)")
         } else {
@@ -558,8 +548,6 @@ final class LibreBluetoothManager: NSObject, CBCentralManagerDelegate, CBPeriphe
         }
     }
 
-   
-
     func handleCompleteMessage() {
 
         guard let bridge = peripheral?.asCompatibleBluetoothDevice()?.bridgeType else {
@@ -612,8 +600,6 @@ extension LibreBluetoothManager {
         )
     }
 }
-
-
 
 //these are extensions to return properties (for inspection on the main ui) that exist on the queue only
 extension LibreBluetoothManager {

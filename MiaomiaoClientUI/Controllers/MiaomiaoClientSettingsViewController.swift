@@ -10,7 +10,7 @@ import HealthKit
 import LoopKit
 import LoopKitUI
 import MiaomiaoClient
-
+// swiftlint:disable:next type_body_length
 public class MiaomiaoClientSettingsViewController: UITableViewController, SubViewControllerWillDisappear { //, CompletionNotifying{
     //public weak var completionDelegate: CompletionDelegate?
 
@@ -221,7 +221,7 @@ public class MiaomiaoClientSettingsViewController: UITableViewController, SubVie
 
         }
     }
-
+    // swiftlint:disable:next cyclomatic_complexity function_body_length
     public override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         switch Section(rawValue: indexPath.section)! {
         case .authentication:

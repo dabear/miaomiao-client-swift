@@ -11,12 +11,12 @@ import Foundation
 import UIKit
 
 protocol mmTextFieldViewCellCellDelegate: class {
-    func mmTextFieldViewCellDidUpdateValue(_ cell: mmTextFieldViewCell, value: String?)
+    func mmTextFieldViewCellDidUpdateValue(_ cell: MMTextFieldViewCell, value: String?)
 }
 
 private var maxLengths = [UITextField: Int]()
 
-class mmTextFieldViewCell: UITableViewCell, UITextFieldDelegate {
+class MMTextFieldViewCell: UITableViewCell, UITextFieldDelegate {
 
     weak var delegate: mmTextFieldViewCellCellDelegate?
 

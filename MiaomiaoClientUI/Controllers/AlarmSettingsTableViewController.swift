@@ -212,9 +212,9 @@ public class AlarmSettingsTableViewController: UITableViewController, AlarmTimeI
 
     private enum ScheduleRowTypes: String {
 
-        case timerange = "timerange"
-        case lowglucose = "lowglucose"
-        case highglucose = "highglucose"
+        case timerange
+        case lowglucose
+        case highglucose
     }
 
     public override func numberOfSections(in tableView: UITableView) -> Int {
@@ -244,7 +244,7 @@ public class AlarmSettingsTableViewController: UITableViewController, AlarmTimeI
 
     public override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 
-        switch (indexPath.section) {
+        switch indexPath.section {
 
         case let x where x < glucoseSchedulesCount:
 

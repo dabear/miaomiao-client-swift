@@ -23,16 +23,14 @@ class CustomDatePicker: UIPickerView, UIPickerViewDelegate, UIPickerViewDataSour
     private lazy var endComponentTimes = defaultTimeArray()
 
     var lastSelectedComponentLeft: DateComponents? {
-        get {
-            let row = self.selectedRow(inComponent: CustomDateComponents.from.rawValue)
-            return startComponentTimes[safe: row]
-        }
+
+        let row = self.selectedRow(inComponent: CustomDateComponents.from.rawValue)
+        return startComponentTimes[safe: row]
     }
     var lastSelectedComponentRight: DateComponents? {
-        get {
-            let row = self.selectedRow(inComponent: CustomDateComponents.to.rawValue)
-            return endComponentTimes[safe: row]
-        }
+        let row = self.selectedRow(inComponent: CustomDateComponents.to.rawValue)
+        return endComponentTimes[safe: row]
+
     }
 
     private var startTimes = [String]()

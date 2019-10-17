@@ -12,12 +12,12 @@ import UIKit
 
 protocol mmSwitchTableViewCellDelegate: class {
     //func AlarmTimeInputCellDidUpdateValue(_ cell: AlarmTimeInputRangeCell)
-    func mmSwitchTableViewCellDidTouch(_ cell: mmSwitchTableViewCell)
-    func mmSwitchTableViewCellWasDisabled(_ cell: mmSwitchTableViewCell)
+    func mmSwitchTableViewCellDidTouch(_ cell: MMSwitchTableViewCell)
+    func mmSwitchTableViewCellWasDisabled(_ cell: MMSwitchTableViewCell)
 
 }
 
-class mmSwitchTableViewCell: UITableViewCell, UITextFieldDelegate {
+class MMSwitchTableViewCell: UITableViewCell, UITextFieldDelegate {
 
     weak var delegate: mmSwitchTableViewCellDelegate?
 

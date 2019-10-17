@@ -57,7 +57,7 @@ class NotificationHelper {
 
         ensureCanSendNotification { (ensured) in
 
-            guard (ensured) else {
+            guard ensured else {
                 NSLog("dabear:: not sending PowerOff notification")
                 return
             }
@@ -85,7 +85,7 @@ class NotificationHelper {
 
         ensureCanSendNotification { (ensured) in
 
-            guard (ensured) else {
+            guard ensured else {
                 NSLog("dabear:: not sending noBridgeSelected notification")
                 return
             }
@@ -111,8 +111,8 @@ class NotificationHelper {
 
     private static func ensureCanSendNotification(_ completion: @escaping (_ canSend: Bool) -> Void ) {
         UNUserNotificationCenter.current().getNotificationSettings { (settings) in
-            if #available(iOSApplicationExtension 12.0, *) {
-                guard (settings.authorizationStatus == .authorized || settings.authorizationStatus == .provisional) else {
+            if #available (iOSApplicationExtension 12.0, *) {
+                guard settings.authorizationStatus == .authorized || settings.authorizationStatus == .provisional else {
                     NSLog("dabear:: ensureCanSendNotification failed, authorization denied")
                     completion(false)
                     return
@@ -120,7 +120,7 @@ class NotificationHelper {
                 }
             } else {
                 // Fallback on earlier versions
-                guard (settings.authorizationStatus == .authorized ) else {
+                guard settings.authorizationStatus == .authorized  else {
                     NSLog("dabear:: ensureCanSendNotification failed, authorization denied")
                     completion(false)
                     return
@@ -134,7 +134,6 @@ class NotificationHelper {
 
     public static func sendInvalidChecksumIfDeveloper(_ sensorData: SensorData) {
 
-
         guard UserDefaults.standard.dangerModeActivated else {
             return
         }
@@ -142,7 +141,6 @@ class NotificationHelper {
         if sensorData.hasValidCRCs {
             return
         }
-
 
         ensureCanSendNotification { (ensured) in
             guard ensured else {
@@ -166,11 +164,7 @@ class NotificationHelper {
                 }
             }
 
-
         }
-
-
-        
 
     }
 
@@ -309,7 +303,7 @@ class NotificationHelper {
 
         ensureCanSendNotification { (ensured) in
 
-            guard (ensured) else {
+            guard ensured else {
                 NSLog("dabear:: not sending noSensorDetected notification")
                 return
             }
@@ -345,7 +339,7 @@ class NotificationHelper {
     private static func sendSensorChangeNotification() {
         ensureCanSendNotification { (ensured) in
 
-            guard (ensured) else {
+            guard ensured else {
                 NSLog("dabear:: not sending sensorChangeNotification notification")
                 return
             }
@@ -382,7 +376,7 @@ class NotificationHelper {
 
         ensureCanSendNotification { (ensured) in
 
-            guard (ensured) else {
+            guard ensured else {
                 NSLog("dabear:: not sending InvalidSensorNotification notification")
                 return
             }
@@ -446,7 +440,7 @@ class NotificationHelper {
     private static func sendLowBatteryNotification(batteryPercentage: String) {
         ensureCanSendNotification { (ensured) in
 
-            guard (ensured) else {
+            guard ensured else {
                 NSLog("dabear:: not sending LowBattery notification")
                 return
             }
@@ -504,7 +498,7 @@ class NotificationHelper {
 
         ensureCanSendNotification { (ensured) in
 
-            guard (ensured) else {
+            guard ensured else {
                 NSLog("dabear:: not sending SensorExpireAlert notification")
                 return
             }

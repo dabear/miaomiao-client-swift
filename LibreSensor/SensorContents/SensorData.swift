@@ -123,7 +123,7 @@ public struct SensorData {
         for blockIndex in 0...15 {
             var index = 4 + (nextTrendBlock - 1 - blockIndex) * 6 // runs backwards
             if index < 4 {
-                index = index + 96 // if end of ring buffer is reached shift to beginning of ring buffer
+                index +=  96 // if end of ring buffer is reached shift to beginning of ring buffer
             }
             let range = index..<index+6
             let measurementBytes = Array(body[range])
@@ -202,7 +202,7 @@ public struct SensorData {
 
             var index = 100 + (nextHistoryBlock - 1 - blockIndex) * 6 // runs backwards
             if index < 100 {
-                index = index + 192 // if end of ring buffer is reached shift to beginning of ring buffer
+                index += 192 // if end of ring buffer is reached shift to beginning of ring buffer
             }
 
             let range = index..<index+6

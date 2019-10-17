@@ -231,14 +231,11 @@ public final class MiaoMiaoClientManager: CGMManager, LibreBluetoothManagerDeleg
         case .newSensor:
             NSLog("dabear:: new libresensor detected")
             NotificationHelper.sendSensorChangeNotificationIfNeeded(hasChanged: true)
-            break
         case .noSensor:
             NSLog("dabear:: no libresensor detected")
             NotificationHelper.sendSensorNotDetectedNotificationIfNeeded(noSensor: true)
-            break
         case .frequencyChangedResponse:
             NSLog("dabear:: miaomiao readout interval has changed!")
-            break
 
         default:
             //we don't care about the rest!
