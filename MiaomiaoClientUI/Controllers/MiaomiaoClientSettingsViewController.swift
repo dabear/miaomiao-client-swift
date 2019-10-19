@@ -42,6 +42,7 @@ public class MiaomiaoClientSettingsViewController: UITableViewController, SubVie
         super.init(style: .grouped)
     }
 
+    @available(*, unavailable)
     required public init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
