@@ -5,9 +5,9 @@
 //  Created by Bjørn Inge Berg on 07/05/2019.
 //  Copyright © 2019 Mark Wilson. All rights reserved.
 //
-import UIKit
-import LoopKitUI
 import LoopKit
+import LoopKitUI
+import UIKit
 
 import HealthKit
 
@@ -21,7 +21,6 @@ public class SnoozeTableViewController: UITableViewController, UIPickerViewDataS
     }
 
     public func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-
         return formatter.string(from: pickerTimes[row]!)!
     }
 
@@ -35,30 +34,26 @@ public class SnoozeTableViewController: UITableViewController, UIPickerViewDataS
     }()
 
     func pickerTimesArray() -> [TimeInterval?] {
-
         var arr  = [TimeInterval?]()
 
-        let mins10 = 0.16667
-        let mins20 = mins10*2
-        let mins30 = mins10*3
-        let mins40 = mins10*4
+        let mins10 = 0.166_67
+        let mins20 = mins10 * 2
+        let mins30 = mins10 * 3
+        let mins40 = mins10 * 4
 
         for hr in 0..<2 {
-            for min in [0.0, mins20, mins20*2] {
-                arr.append(TimeInterval(hours: Double(hr)+min))
+            for min in [0.0, mins20, mins20 * 2] {
+                arr.append(TimeInterval(hours: Double(hr) + min))
             }
-
         }
         for hr in 2..<4 {
             for min in [0.0, mins30] {
-                arr.append(TimeInterval(hours: Double(hr)+min))
+                arr.append(TimeInterval(hours: Double(hr) + min))
             }
-
         }
 
         for hr in 4...8 {
             arr.append(TimeInterval(hours: Double(hr)))
-
         }
 
         return arr
@@ -75,12 +70,11 @@ public class SnoozeTableViewController: UITableViewController, UIPickerViewDataS
     public weak var pickerView: UIPickerView!
 
     public init() {
-
         super.init(style: .plain)
-
     }
 
     private var pickerSelectedRow: Int?
+    
     public func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         print("pickerSelectedRow: \(row)")
         pickerSelectedRow = row
@@ -91,7 +85,7 @@ public class SnoozeTableViewController: UITableViewController, UIPickerViewDataS
         fatalError("init(coder:) has not been implemented")
     }
 
-    public override func viewDidLoad() {
+    override public func viewDidLoad() {
         super.viewDidLoad()
 
         tableView.register(AlarmTimeInputRangeCell.nib(), forCellReuseIdentifier: AlarmTimeInputRangeCell.className)
@@ -120,19 +114,16 @@ public class SnoozeTableViewController: UITableViewController, UIPickerViewDataS
         static let count = SnoozeRow.allCases.count
     }
 
-    public override func numberOfSections(in tableView: UITableView) -> Int {
+    override public func numberOfSections(in tableView: UITableView) -> Int {
         //dynamic number of schedules + sync row
         return 1
-
     }
 
-    public override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    override public func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return SnoozeRow.count
-
     }
 
-    public override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-
+    override public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         switch SnoozeRow(rawValue: indexPath.row)! {
         case .snoozeButton:
             let cell = UITableViewCell(style: UITableViewCellStyle.default, reuseIdentifier: "DefaultCell")
@@ -164,7 +155,7 @@ public class SnoozeTableViewController: UITableViewController, UIPickerViewDataS
             let cell = UITableViewCell(style: UITableViewCellStyle.default, reuseIdentifier: "DefaultCell")
 
             cell.textLabel?.textAlignment = .center
-            cell.textLabel!.numberOfLines=0
+            cell.textLabel!.numberOfLines = 0
 
             var snoozeDescription  = ""
             var celltext = ""
@@ -180,38 +171,33 @@ public class SnoozeTableViewController: UITableViewController, UIPickerViewDataS
 
             if let until = GlucoseScheduleList.snoozedUntil {
                 snoozeDescription = "snoozing until \(until.description(with: .current))"
-
             } else {
                 snoozeDescription = "not snoozing"
             }
 
             cell.textLabel?.text = [celltext, snoozeDescription].joined(separator: ", ")
             return cell
-
         }
-
     }
 
-    public override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+    override public func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         return nil
-
     }
 
-    public override func tableView(_ tableView: UITableView, titleForFooterInSection section: Int) -> String? {
+    override public func tableView(_ tableView: UITableView, titleForFooterInSection section: Int) -> String? {
         return nil
-
     }
 
-    public override func tableView(_ tableView: UITableView, shouldHighlightRowAt indexPath: IndexPath) -> Bool {
+    override public func tableView(_ tableView: UITableView, shouldHighlightRowAt indexPath: IndexPath) -> Bool {
         return true
     }
-    public override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+    override public func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         return CGFloat.leastNormalMagnitude
     }
-    public override func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+    override public func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
         return CGFloat.leastNormalMagnitude
     }
-    public override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+    override public func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         switch SnoozeRow(rawValue: indexPath.row)! {
         case .snoozePicker:
 
@@ -224,24 +210,21 @@ public class SnoozeTableViewController: UITableViewController, UIPickerViewDataS
 
         default:
             return tableView.rowHeight
-
         }
     }
 
-    public override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+    override public func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         self.tableView.reloadData()
-
     }
 
-    public override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    override public func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         switch SnoozeRow(rawValue: indexPath.row)! {
-
         case .snoozeButton:
             print ("snoozebutton clicked")
             let pickerRow = pickerView.selectedRow(inComponent: 0)
             let interval = pickerTimes[pickerRow]!
             let snoozeFor = formatter.string(from: interval)!
-            let untilDate = Date()+interval
+            let untilDate = Date() + interval
             print("will snooze for \(snoozeFor) until \(untilDate.description(with: .current))")
 
             //reset if date is in the past

@@ -5,11 +5,11 @@
 //  Copyright © 2018 LoopKit Authors. All rights reserved.
 //
 
-import UIKit
 import HealthKit
 import LoopKit
 import LoopKitUI
 import MiaomiaoClient
+import UIKit
 // swiftlint:disable:next type_body_length
 public class MiaomiaoClientSettingsViewController: UITableViewController, SubViewControllerWillDisappear { //, CompletionNotifying{
     //public weak var completionDelegate: CompletionDelegate?
@@ -43,7 +43,7 @@ public class MiaomiaoClientSettingsViewController: UITableViewController, SubVie
     }
 
     @available(*, unavailable)
-    required public init?(coder aDecoder: NSCoder) {
+    public required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 
@@ -59,9 +59,7 @@ public class MiaomiaoClientSettingsViewController: UITableViewController, SubVie
 
         default:
             return UITableViewAutomaticDimension
-
         }
-
     }
     override public func viewDidLoad() {
         super.viewDidLoad()
@@ -81,7 +79,8 @@ public class MiaomiaoClientSettingsViewController: UITableViewController, SubVie
         self.navigationItem.setRightBarButton(button, animated: false)
     }
 
-    @objc func doneTapped(_ sender: Any) {
+    @objc
+    func doneTapped(_ sender: Any) {
         complete()
     }
 
@@ -116,6 +115,7 @@ public class MiaomiaoClientSettingsViewController: UITableViewController, SubVie
         case date
         case trend
         case footerChecksum
+
         static let count = 4
     }
 
@@ -128,7 +128,6 @@ public class MiaomiaoClientSettingsViewController: UITableViewController, SubVie
     }
 
     private enum LatestBridgeInfoRow: Int {
-
         case battery
         case hardware
         case firmware
@@ -158,6 +157,7 @@ public class MiaomiaoClientSettingsViewController: UITableViewController, SubVie
         case alarms
         case glucoseNotifications
         case dangermode
+
         static let count = 3
     }
 
@@ -201,14 +201,12 @@ public class MiaomiaoClientSettingsViewController: UITableViewController, SubVie
     private func dangerModeActivation(_ isOk: Bool, controller: UIAlertController) {
         if isOk, let textfield = (controller.textFields?[safe: 0]), let text = textfield.text {
             if let bundleSeed = bundleSeedID() {
-
                 let controller: UIAlertController
                 if text.trimmingCharacters(in: .whitespaces).lowercased() == bundleSeed.lowercased() {
                     UserDefaults.standard.dangerModeActivated = true
                     controller = OKAlertController("Danger mode activated! You can now edit calibrations!", title: "Danger mode successful")
                 } else {
                     controller = ErrorAlertController("Danger mode could not be activated, check that your team identifier matches", title: "Danger mode unsuccessful")
-
                 }
                 let dangerCellIndex = IndexPath(row: AdvancedSettingsRow.dangermode.rawValue, section: Section.advanced.rawValue)
 
@@ -217,13 +215,11 @@ public class MiaomiaoClientSettingsViewController: UITableViewController, SubVie
                 self.tableView.reloadRows(at: [dangerCellIndex, editCellIndex], with: .none)
 
                 self.presentStatus(controller)
-
             }
-
         }
     }
     // swiftlint:disable:next cyclomatic_complexity function_body_length
-    public override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    override public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         switch Section(rawValue: indexPath.section)! {
         case .authentication:
             let cell = tableView.dequeueIdentifiableCell(cell: SettingsTableViewCell.self, for: indexPath)
@@ -231,7 +227,7 @@ public class MiaomiaoClientSettingsViewController: UITableViewController, SubVie
             cell.textLabel?.text = LocalizedString("Calibration Settings", comment: "Title of cell to set credentials")
             let tokenLength = cgmManager?.miaomiaoService.accessToken?.count ?? 0
 
-            cell.detailTextLabel?.text =  tokenLength > 0 ? "token set" : "token not set"
+            cell.detailTextLabel?.text = tokenLength > 0 ? "token set" : "token not set"
             cell.accessoryType = .disclosureIndicator
 
             return cell
@@ -270,7 +266,7 @@ public class MiaomiaoClientSettingsViewController: UITableViewController, SubVie
 
             return cell
         case .delete:
-            let cell =  tableView.dequeueIdentifiableCell(cell: TextButtonTableViewCell.self, for: indexPath)
+            let cell = tableView.dequeueIdentifiableCell(cell: TextButtonTableViewCell.self, for: indexPath)
 
             cell.textLabel?.text = LocalizedString("Delete CGM", comment: "Title text for the button to remove a CGM from Loop")
             cell.textLabel?.textAlignment = .center
@@ -278,7 +274,7 @@ public class MiaomiaoClientSettingsViewController: UITableViewController, SubVie
             cell.isEnabled = true
             return cell
         case .latestBridgeInfo:
-            let cell =  tableView.dequeueIdentifiableCell(cell: SettingsTableViewCell.self, for: indexPath)
+            let cell = tableView.dequeueIdentifiableCell(cell: SettingsTableViewCell.self, for: indexPath)
 
             switch LatestBridgeInfoRow(rawValue: indexPath.row)! {
             case .battery:
@@ -323,11 +319,10 @@ public class MiaomiaoClientSettingsViewController: UITableViewController, SubVie
              extraOffset
              */
             switch LatestCalibrationDataInfoRow(rawValue: indexPath.row)! {
-
             case .slopeslope:
                 cell.textLabel?.text = LocalizedString("Slope_slope", comment: "Title describing calibrationdata slopeslope")
 
-                if let data=data {
+                if let data = data {
                     cell.detailTextLabel?.text = "\(data.slope_slope.scientificStyle)"
                 } else {
                     cell.detailTextLabel?.text = SettingsTableViewCell.NoValueString
@@ -335,7 +330,7 @@ public class MiaomiaoClientSettingsViewController: UITableViewController, SubVie
             case .slopeoffset:
                 cell.textLabel?.text = LocalizedString("Slope_offset", comment: "Title describing calibrationdata slopeoffset")
 
-                if let data=data {
+                if let data = data {
                     cell.detailTextLabel?.text = "\(data.slope_offset.scientificStyle)"
                 } else {
                     cell.detailTextLabel?.text = SettingsTableViewCell.NoValueString
@@ -343,7 +338,7 @@ public class MiaomiaoClientSettingsViewController: UITableViewController, SubVie
             case .offsetslope:
                 cell.textLabel?.text = LocalizedString("Offset_slope", comment: "Title describing calibrationdata offsetslope")
 
-                if let data=data {
+                if let data = data {
                     cell.detailTextLabel?.text = "\(data.offset_slope.scientificStyle)"
                 } else {
                     cell.detailTextLabel?.text = SettingsTableViewCell.NoValueString
@@ -351,7 +346,7 @@ public class MiaomiaoClientSettingsViewController: UITableViewController, SubVie
             case .offsetoffset:
                 cell.textLabel?.text = LocalizedString("Offset_offset", comment: "Title describing calibrationdata offsetoffset")
 
-                if let data=data {
+                if let data = data {
                     cell.detailTextLabel?.text = "\(data.offset_offset.fourDecimals)"
                 } else {
                     cell.detailTextLabel?.text = SettingsTableViewCell.NoValueString
@@ -360,7 +355,7 @@ public class MiaomiaoClientSettingsViewController: UITableViewController, SubVie
             case .isValidForFooterWithCRCs:
                 cell.textLabel?.text = LocalizedString("Valid For Footer", comment: "Title describing calibrationdata validity")
 
-                if let data=data {
+                if let data = data {
                     cell.detailTextLabel?.text = isDemoMode ? "demo123"  : "\(data.isValidForFooterWithReverseCRCs)"
                 } else {
                     cell.detailTextLabel?.text = SettingsTableViewCell.NoValueString
@@ -372,17 +367,15 @@ public class MiaomiaoClientSettingsViewController: UITableViewController, SubVie
 
                 cell.textLabel?.textColor = UIColor.blue
                 if UserDefaults.standard.dangerModeActivated {
-
                     cell.detailTextLabel?.text = "Available"
                     cell.accessoryType = .disclosureIndicator
                 } else {
-
                     cell.detailTextLabel?.text = "Unavailable"
                 }
             case .extraSlope:
                 cell.textLabel?.text = LocalizedString("Extra_slope", comment: "Title describing calibrationdata extra slope")
 
-                if let data=data {
+                if let data = data {
                     cell.detailTextLabel?.text = "\(data.extraSlope)"
                 } else {
                     cell.detailTextLabel?.text = SettingsTableViewCell.NoValueString
@@ -390,7 +383,7 @@ public class MiaomiaoClientSettingsViewController: UITableViewController, SubVie
             case .extraOffset:
                 cell.textLabel?.text = LocalizedString("Extra_offset", comment: "Title describing calibrationdata extra offset")
 
-                if let data=data {
+                if let data = data {
                     cell.detailTextLabel?.text = "\(data.extraOffset)"
                 } else {
                     cell.detailTextLabel?.text = SettingsTableViewCell.NoValueString
@@ -414,7 +407,6 @@ public class MiaomiaoClientSettingsViewController: UITableViewController, SubVie
                 cell.textLabel?.text = LocalizedString("Sensor Serial", comment: "Title describing sensor serial")
 
                 cell.detailTextLabel?.text = isDemoMode ? "0M007DEMO1" :cgmManager?.sensorSerialNumber
-
             }
             return cell
         case .advanced:
@@ -432,7 +424,7 @@ public class MiaomiaoClientSettingsViewController: UITableViewController, SubVie
                 cell.textLabel?.text = LocalizedString("Notifications", comment: "Title describing  Notifications Setup")
 
                 let allToggles = UserDefaults.standard.allNotificationToggles
-                let positives = allToggles.filter({ $0}).count
+                let positives = allToggles.filter({ $0 }).count
 
                 cell.detailTextLabel?.text = "enabled: \(positives) / \(allToggles.count)"
                 cell.accessoryType = .disclosureIndicator
@@ -444,7 +436,6 @@ public class MiaomiaoClientSettingsViewController: UITableViewController, SubVie
                 } else {
                     cell.detailTextLabel?.text = "Deactivated"
                 }
-
             }
 
             return cell
@@ -464,7 +455,7 @@ public class MiaomiaoClientSettingsViewController: UITableViewController, SubVie
         }
     }
 
-    public override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+    override public func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         switch Section(rawValue: section)! {
         case .authentication, .snooze:
             return nil
@@ -481,11 +472,10 @@ public class MiaomiaoClientSettingsViewController: UITableViewController, SubVie
 
         case .advanced:
             return LocalizedString("Advanced", comment: "Advanced Section")
-
         }
     }
 
-    public override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    override public func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         switch Section(rawValue: indexPath.section)! {
         case .authentication:
             guard let service = cgmManager?.miaomiaoService else {
@@ -499,7 +489,7 @@ public class MiaomiaoClientSettingsViewController: UITableViewController, SubVie
             // if you do, you should probably include the currently connected device in the list of devices and
             // select that device with .selectListItem(item: X) as well
             //ExtendingAuthController.addExtendedSection(source: vc)
-            vc.authenticationObserver = { [weak self] (service) in
+            vc.authenticationObserver = { [weak self] service in
                 self?.cgmManager?.miaomiaoService = service
 
                 let keychain = KeychainManager()
@@ -525,7 +515,6 @@ public class MiaomiaoClientSettingsViewController: UITableViewController, SubVie
                     cgmManager.cgmManagerDelegate?.cgmManagerWantsDeletion(cgmManager)
 
                     self.cgmManager = nil
-
                 }
 
                 self.complete()
@@ -553,10 +542,8 @@ public class MiaomiaoClientSettingsViewController: UITableViewController, SubVie
             }
 
             let confirmVC = UIAlertController(calibrateHandler: {
-
                 if let cgmManager = self.cgmManager {
-
-                    guard let (accessToken, url) =  cgmManager.keychain.getAutoCalibrateWebCredentials() else {
+                    guard let (accessToken, url) = cgmManager.keychain.getAutoCalibrateWebCredentials() else {
                         NSLog("dabear:: could not calibrate, accesstoken or url was nil")
                         self.presentStatus(OKAlertController(LibreError.invalidAutoCalibrationCredentials.errorDescription, title: "Error"))
 
@@ -570,7 +557,7 @@ public class MiaomiaoClientSettingsViewController: UITableViewController, SubVie
                         return
                     }
 
-                    calibrateSensor(accessToken: accessToken, site: url.absoluteString, sensordata: data) { [weak self] (calibrationparams)  in
+                    calibrateSensor(accessToken: accessToken, site: url.absoluteString, sensordata: data) { [weak self] calibrationparams  in
                         guard let params = calibrationparams else {
                             NSLog("dabear:: could not calibrate sensor, check libreoopweb permissions and internet connection")
 
@@ -588,16 +575,12 @@ public class MiaomiaoClientSettingsViewController: UITableViewController, SubVie
                         }
 
                         self?.presentOKStatusOnMain("Calibration success!", title: "Success")
-
                     }
-
                 }
-
             })
 
             present(confirmVC, animated: true) {
                 tableView.deselectRow(at: indexPath, animated: true)
-
             }
 
         case .sensorInfo:
@@ -620,14 +603,12 @@ public class MiaomiaoClientSettingsViewController: UITableViewController, SubVie
                     let dangerCellIndex = IndexPath(row: AdvancedSettingsRow.dangermode.rawValue, section: Section.advanced.rawValue)
                     let editCellIndex = IndexPath(row: LatestCalibrationDataInfoRow.edit.rawValue, section: Section.latestCalibrationData.rawValue)
                     self.tableView.reloadRows(at: [dangerCellIndex, editCellIndex], with: .none)
-
                 } else {
                     let team = bundleSeedID() ?? "Unknown???!"
                     let msg = "To activate dangermode, please input your team identifier. It is important that you take an active choice here, so don't copy/paste but type it in correctly. Your team identifer is: \(team)"
 
-                    let controller = InputAlertController(msg, title: "Activate danger mode", inputPlaceholder: "Enter your team identifer") { [weak self] (isOk, controller) in
+                    let controller = InputAlertController(msg, title: "Activate danger mode", inputPlaceholder: "Enter your team identifer") { [weak self] isOk, controller in
                         self?.dangerModeActivation(isOk, controller: controller)
-
                     }
                     self.presentStatus(controller)
                 }
@@ -656,7 +637,6 @@ public class MiaomiaoClientSettingsViewController: UITableViewController, SubVie
 }
 
 private extension UIAlertController {
-
     convenience init(cgmDeletionHandler handler: @escaping () -> Void) {
         self.init(
             title: nil,
@@ -667,9 +647,9 @@ private extension UIAlertController {
         addAction(UIAlertAction(
             title: LocalizedString("Delete CGM", comment: "Button title to delete CGM"),
             style: .destructive,
-            handler: { (_) in
+            handler: { _ in
                 handler()
-        }
+            }
         ))
 
         let cancel = LocalizedString("Cancel", comment: "The title of the cancel action in an action sheet")
@@ -685,9 +665,9 @@ private extension UIAlertController {
         addAction(UIAlertAction(
             title: LocalizedString("Recalibrate", comment: "Button title to recalibrate"),
             style: .destructive,
-            handler: { (_) in
+            handler: { _ in
                 handler()
-        }
+            }
         ))
 
         let cancel = LocalizedString("Cancel", comment: "The title of the cancel action in an action sheet")

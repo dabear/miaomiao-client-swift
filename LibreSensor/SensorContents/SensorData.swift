@@ -11,7 +11,6 @@ import Foundation
 /// Structure for data from Freestyle Libre sensor
 /// To be initialized with the bytes as read via nfc. Provides all derived data.
 public struct SensorData {
-
     /// Parameters for the temperature compensation algorithm
     //let temperatureAlgorithmParameterSet: TemperatureAlgorithmParameters?
 
@@ -66,14 +65,12 @@ public struct SensorData {
     var isLikelyLibre1: Bool {
         if bytes.count > 23 {
             let subset = bytes[9...23]
-            return !subset.contains(where: { $0 > 0})
+            return !subset.contains(where: { $0 > 0 })
         }
         return false
-
     }
 
     var humanReadableSensorAge: String {
-
         let sensorStart = Calendar.current.date(byAdding: .minute, value: -self.minutesSinceStart, to: self.date)!
 
         return  sensorStart.timeIntervalSinceNow.stringDaysFromTimeInterval() +  " day(s)"
@@ -88,12 +85,12 @@ public struct SensorData {
         // it was produced within the last minute
         self.date = date.rounded(on: 1, .minute)
 
-        let headerRange =   0..<24   //  24 bytes, i.e.  3 blocks a 8 bytes
-        let bodyRange   =  24..<320  // 296 bytes, i.e. 37 blocks a 8 bytes
+        let headerRange = 0..<24   //  24 bytes, i.e.  3 blocks a 8 bytes
+        let bodyRange = 24..<320  // 296 bytes, i.e. 37 blocks a 8 bytes
         let footerRange = 320..<344  //  24 bytes, i.e.  3 blocks a 8 bytes
 
         self.header = Array(bytes[headerRange])
-        self.body   = Array(bytes[bodyRange])
+        self.body = Array(bytes[bodyRange])
         self.footer = Array(bytes[footerRange])
 
         self.nextTrendBlock = Int(body[2])
@@ -123,9 +120,9 @@ public struct SensorData {
         for blockIndex in 0...15 {
             var index = 4 + (nextTrendBlock - 1 - blockIndex) * 6 // runs backwards
             if index < 4 {
-                index +=  96 // if end of ring buffer is reached shift to beginning of ring buffer
+                index += 96 // if end of ring buffer is reached shift to beginning of ring buffer
             }
-            let range = index..<index+6
+            let range = index..<index + 6
             let measurementBytes = Array(body[range])
             let measurementDate = date.addingTimeInterval(Double(-60 * blockIndex))
             let measurement = Measurement(bytes: measurementBytes, slope: slope, offset: offset, date: measurementDate, derivedAlgorithmParameterSet: derivedAlgorithmParameterSet)
@@ -195,17 +192,15 @@ public struct SensorData {
     ///
     /// - returns: Array of Measurements
     func historyMeasurements(_ offset: Double = 0.0, slope: Double = 0.1, derivedAlgorithmParameterSet: DerivedAlgorithmParameters?) -> [Measurement] {
-
         var measurements = [Measurement]()
         // History data is stored in body from byte 100 to byte 100+192-1=291 in units of 6 bytes. Index on data such that most recent block is first.
         for blockIndex in 0..<32 {
-
             var index = 100 + (nextHistoryBlock - 1 - blockIndex) * 6 // runs backwards
             if index < 100 {
                 index += 192 // if end of ring buffer is reached shift to beginning of ring buffer
             }
 
-            let range = index..<index+6
+            let range = index..<index + 6
             let measurementBytes = Array(body[range])
 //            let measurementDate = dateOfMostRecentHistoryValue().addingTimeInterval(Double(-900 * blockIndex)) // 900 = 60 * 15
 //            let measurement = Measurement(bytes: measurementBytes, slope: slope, offset: offset, date: measurementDate)
@@ -228,5 +223,4 @@ public struct SensorData {
     func bytesWithCorrectCRC() -> [UInt8] {
         return Crc.bytesWithCorrectCRC(header) + Crc.bytesWithCorrectCRC(body) + Crc.bytesWithCorrectCRC(footer)
     }
-
 }

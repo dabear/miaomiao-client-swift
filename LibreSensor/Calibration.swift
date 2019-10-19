@@ -34,11 +34,9 @@ extension KeychainManager {
 }
 
 public func calibrateSensor(accessToken: String, site: String, sensordata: SensorData, callback: @escaping (DerivedAlgorithmParameters?) -> Void) {
-
     let libreOOPClient = LibreOOPClient(accessToken: accessToken, site: site)
     libreOOPClient.uploadCalibration(reading: sensordata.bytes, {calibrationResult, success, errormessage in
         guard success, let calibrationResult = calibrationResult else {
-
             NSLog("remote: upload calibration failed! \(errormessage)")
             callback(nil)
             return
@@ -60,7 +58,6 @@ public func calibrateSensor(accessToken: String, site: String, sensordata: Senso
             NSLog("sensor parameters or crc incorrect, returning nil")
             callback(nil)
             return
-
         })
     })
 }
@@ -83,13 +80,11 @@ private func serializeAlgorithmParameters(_ params: DerivedAlgorithmParameters) 
 }
 
 private func deserializeAlgorithmParameters(text: String) -> DerivedAlgorithmParameters? {
-
     if let jsonData = text.data(using: .utf8) {
         let decoder = JSONDecoder()
 
         do {
             return try decoder.decode(DerivedAlgorithmParameters.self, from: jsonData)
-
         } catch {
             print("Could not create instance: \(error.localizedDescription)")
         }

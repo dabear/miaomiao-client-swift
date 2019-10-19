@@ -78,9 +78,7 @@ extension LibreReadingResult {
     }
 
     init(created: String, b64Contents: String, uuid: String="") {
-
         self.init(createdOn: created, modifiedOn: created, uuid: uuid, b64Contents: b64Contents, status: "init", result: "", newState: "")
-
     }
 }
 // MARK: Encode/decode helpers
@@ -162,6 +160,7 @@ struct GetCalibrationStatusResult: Codable, CustomStringConvertible {
         case uuid
         case isValidForFooterWithReverseCRCs  = "isValidForFooterWithReverseCRCs"
     }
+
     var description: String {
         return "calibrationparams:: slopeslope: \(String(describing: slopeSlope)), slopeoffset: \(String(describing: slopeOffset)), offsetoffset: \(String(describing: offsetOffset)), offsetSlope: \(String(describing: offsetSlope)), isValidForFooterWithReverseCRCs: \(String(describing: isValidForFooterWithReverseCRCs))"
     }

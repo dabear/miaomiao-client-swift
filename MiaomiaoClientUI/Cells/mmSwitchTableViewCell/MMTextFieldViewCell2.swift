@@ -15,7 +15,6 @@ protocol mmTextFieldViewCellCellDelegate2: class {
 }
 
 class MMTextFieldViewCell2: UITableViewCell, UITextFieldDelegate {
-
     weak var delegate: mmTextFieldViewCellCellDelegate2?
 
     // MARK: Outlets
@@ -42,7 +41,6 @@ class MMTextFieldViewCell2: UITableViewCell, UITextFieldDelegate {
         set {
             titleLabel!.isEnabled = newValue
             textInput!.isEnabled = newValue
-
         }
     }
 
@@ -58,7 +56,5 @@ class MMTextFieldViewCell2: UITableViewCell, UITextFieldDelegate {
         super.init(coder: aDecoder)
         print("here2")
         textInput?.keyboardType = .numberPad
-
     }
-
 }

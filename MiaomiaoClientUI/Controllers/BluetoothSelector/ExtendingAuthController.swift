@@ -7,8 +7,8 @@
 //
 
 import Foundation
-import UIKit
 import MiaomiaoClient
+import UIKit
 
 private var foo: ExtendingAuthController!
 
@@ -20,7 +20,6 @@ public class ExtendingAuthController: NSObject, UITableViewDataSource, UITableVi
         if discoveredDevices != allCompatibleDevices {
             discoveredDevices = allCompatibleDevices
         }
-
     }
 
     private var discoveredDevices = [CompatibleLibreBluetoothDevice]() {
@@ -34,31 +33,23 @@ public class ExtendingAuthController: NSObject, UITableViewDataSource, UITableVi
             if let preselected = UserDefaults.standard.preSelectedDevice {
                 if discoveredDevices.isEmpty {
                     print("dabear:: discoveredDevices count is 0,")
-
-                } else if let index = discoveredDevices.firstIndex(where: { $0.identifier == preselected.identifier}) {
-
+                } else if let index = discoveredDevices.firstIndex(where: { $0.identifier == preselected.identifier }) {
                     print("dabear:: found preselected device in index \(index), selecting row \(index)")
                     selectRow(row: index)
-
                 } else {
-
                 }
             } else {
                 print("dabear:: no preselection")
-
             }
-
         }
-
     }
 
     private func isExtendedSection(section: Int) -> Bool {
         // section is zero-index, compensate
-        return section > (source.numberOfSections(in: source!.tableView)-1)
+        return section > (source.numberOfSections(in: source!.tableView) - 1)
     }
 
     public func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-
         print("ExtendingAuthController numberOfRowsInSection: \(section)")
 
         guard isExtendedSection(section: section) else {
@@ -66,7 +57,6 @@ public class ExtendingAuthController: NSObject, UITableViewDataSource, UITableVi
         }
 
         return discoveredDevices.count
-
     }
 
     public func getExtendedSection() -> Int {
@@ -75,23 +65,19 @@ public class ExtendingAuthController: NSObject, UITableViewDataSource, UITableVi
     }
 
     public func numberOfSections(in tableView: UITableView) -> Int {
-
         print("original numberOfSections was retrieved, multiplying")
         let res = source.numberOfSections(in: tableView) + 1
 
         print("numberOfSections result is: \(res)")
         return res
-
     }
 
     public func tableView(_ tableView: UITableView, shouldHighlightRowAt indexPath: IndexPath) -> Bool {
         guard isExtendedSection(section: indexPath.section) else {
             return source.tableView(tableView, shouldHighlightRowAt: indexPath)
-
         }
 
         return true
-
     }
 
     public func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
@@ -116,7 +102,7 @@ public class ExtendingAuthController: NSObject, UITableViewDataSource, UITableVi
         }
 
         if let cell = tableView.cellForRow(at: indexPath) {
-            if cell.tag == 1000 {
+            if cell.tag == 1_000 {
                 //static text
                 UserDefaults.standard.preSelectedDevice = nil
             } else {
@@ -132,7 +118,6 @@ public class ExtendingAuthController: NSObject, UITableViewDataSource, UITableVi
         print("Selected bluetooth device is now: \(String(describing: UserDefaults.standard.preSelectedDevice))")
 
         return
-
     }
     public func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
         return 44
@@ -154,7 +139,6 @@ public class ExtendingAuthController: NSObject, UITableViewDataSource, UITableVi
             header.textLabel?.numberOfLines = 0
 
             header.textLabel?.lineBreakMode = .byWordWrapping
-
         }
     }
 
@@ -200,7 +184,6 @@ public class ExtendingAuthController: NSObject, UITableViewDataSource, UITableVi
         cell.selectedBackgroundView = backgroundView
 
         return cell
-
     }
 
     public static func addExtendedSection(source: UITableViewController) {
@@ -211,13 +194,11 @@ public class ExtendingAuthController: NSObject, UITableViewDataSource, UITableVi
         source.tableView.delegate = foo
 
         source.tableView.reloadData()
-
     }
     public static func destroyExtension() {
         foo.destroyExtension()
     }
     public func destroyExtension() {
-
         print("stopping search")
         searcher.disconnectManually()
 
@@ -234,18 +215,17 @@ public class ExtendingAuthController: NSObject, UITableViewDataSource, UITableVi
         if let cell = source.tableView.cellForRow(at: path) as? AnnotatedSubtitleCell<CompatibleLibreBluetoothDevice> {
             UserDefaults.standard.preSelectedDevice = cell.annotation
         } else {
-            UserDefaults.standard.preSelectedDevice  = nil
+            UserDefaults.standard.preSelectedDevice = nil
         }
     }
 
     public weak var source: UITableViewController!
 
     private var searcher: BluetoothSearchManager!
+
     public init(_ source: UITableViewController) {
         super.init()
         self.source = source
         self.searcher = BluetoothSearchManager(discoverDelegate: self)
-
     }
-
 }

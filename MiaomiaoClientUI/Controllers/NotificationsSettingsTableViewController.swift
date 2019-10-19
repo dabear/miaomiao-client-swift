@@ -5,14 +5,13 @@
 //  Created by Bjørn Inge Berg on 07/05/2019.
 //  Copyright © 2019 Mark Wilson. All rights reserved.
 //
-import UIKit
-import LoopKitUI
 import LoopKit
+import LoopKitUI
+import UIKit
 
 import HealthKit
 
 public class NotificationsSettingsTableViewController: UITableViewController, mmTextFieldViewCellCellDelegate {
-
     override public func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         print("NotificationsSettingsTableViewController will now disappear")
@@ -24,7 +23,6 @@ public class NotificationsSettingsTableViewController: UITableViewController, mm
     private var glucoseUnit: HKUnit
 
     public init(glucoseUnit: HKUnit) {
-
         if let savedGlucoseUnit = UserDefaults.standard.mmGlucoseUnit {
             self.glucoseUnit = savedGlucoseUnit
         } else {
@@ -34,16 +32,15 @@ public class NotificationsSettingsTableViewController: UITableViewController, mm
 
         // todo: save/persist glucoseUnit in init
         // to make it accessible for the non-ui part of this plugin
-        self.glucseSegmentsStrings =  self.glucoseSegments.map({ $0.localizedShortUnitString })
+        self.glucseSegmentsStrings = self.glucoseSegments.map({ $0.localizedShortUnitString })
 
         super.init(style: .grouped)
-
     }
     @available(*, unavailable)
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    public override func viewDidLoad() {
+    override public func viewDidLoad() {
         super.viewDidLoad()
 
         tableView.register(AlarmTimeInputRangeCell.nib(), forCellReuseIdentifier: AlarmTimeInputRangeCell.className)
@@ -74,74 +71,79 @@ public class NotificationsSettingsTableViewController: UITableViewController, mm
         case expireSoonAlarm
         case unit
         case glucoseVibrate
+
         static let count = NotificationsSettingsRow.allCases.count
     }
 
-    public override func numberOfSections(in tableView: UITableView) -> Int {
+    override public func numberOfSections(in tableView: UITableView) -> Int {
         //dynamic number of schedules + sync row
         return 1
-
     }
 
-    public override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    override public func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return NotificationsSettingsRow.count
-
     }
+
     private weak var notificationEveryXTimesCell: MMTextFieldViewCell?
-    @objc private func notificationAlwaysChanged(_ sender: UISwitch) {
+
+    @objc
+    private func notificationAlwaysChanged(_ sender: UISwitch) {
         print("notificationalways changed to \(sender.isOn)")
         UserDefaults.standard.mmAlwaysDisplayGlucose = sender.isOn
         notificationEveryXTimesCell?.isEnabled = !sender.isOn
     }
 
-    @objc private func notificationLowBatteryChanged(_ sender: UISwitch) {
+    @objc
+    private func notificationLowBatteryChanged(_ sender: UISwitch) {
         print("notificationLowBatteryChanged changed to \(sender.isOn)")
         UserDefaults.standard.mmAlertLowBatteryWarning = sender.isOn
     }
-    @objc private func alarmsSchedulesActivatedChanged(_ sender: UISwitch) {
+    @objc
+    private func alarmsSchedulesActivatedChanged(_ sender: UISwitch) {
         print("alarmsSchedulesActivatedChanged changed to \(sender.isOn)")
         //UserDefaults.standard. = sender.isOn
     }
 
-    @objc private func sensorChangeEventChanged(_ sender: UISwitch) {
+    @objc
+    private func sensorChangeEventChanged(_ sender: UISwitch) {
         print("sensorChangeEventChanged changed to \(sender.isOn)")
         UserDefaults.standard.mmAlertNewSensorDetected = sender.isOn
     }
 
-    @objc private func notificationlertWillSoonExpireChanged(_ sender: UISwitch) {
+    @objc
+    private func notificationlertWillSoonExpireChanged(_ sender: UISwitch) {
         print("mmAlertWillSoonExpire changed to \(sender.isOn)")
         UserDefaults.standard.mmAlertWillSoonExpire = sender.isOn
     }
 
-    @objc private func noSensorDetectedEventChanged(_ sender: UISwitch) {
+    @objc
+    private func noSensorDetectedEventChanged(_ sender: UISwitch) {
         print("noSensorDetectedEventChanged changed to \(sender.isOn)")
         UserDefaults.standard.mmAlertNoSensorDetected = sender.isOn
     }
 
-    @objc private func unitSegmentValueChanged(_ sender: UISegmentedControl) {
-
+    @objc
+    private func unitSegmentValueChanged(_ sender: UISegmentedControl) {
         if let newUnit = glucoseSegments[safe: sender.selectedSegmentIndex] {
             print("unitSegmentValueChanged   changed to \(newUnit.localizedShortUnitString)")
             UserDefaults.standard.mmGlucoseUnit = newUnit
         }
-
     }
 
-    @objc private func notificationGlucoseAlarmsVibrate(_ sender: UISwitch) {
+    @objc
+    private func notificationGlucoseAlarmsVibrate(_ sender: UISwitch) {
         print("mmGlucoseAlarmsVibrate changed to \(sender.isOn)")
         UserDefaults.standard.mmGlucoseAlarmsVibrate = sender.isOn
     }
 
     func mmTextFieldViewCellDidUpdateValue(_ cell: MMTextFieldViewCell, value: String?) {
-
         if let value = value, let intVal = Int(value) {
             print("textfield was updated: \(intVal)")
             UserDefaults.standard.mmNotifyEveryXTimes = intVal
         }
     }
 
-    public override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-
+    override public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         switch NotificationsSettingsRow(rawValue: indexPath.row)! {
         case .always:
             let switchCell = tableView.dequeueIdentifiableCell(cell: MMSwitchTableViewCell.self, for: indexPath)
@@ -169,7 +171,7 @@ public class NotificationsSettingsTableViewController: UITableViewController, mm
             let cell = tableView.dequeueIdentifiableCell(cell: SegmentViewCell.self, for: indexPath)
             cell.label.text = "Unit Override"
             cell.segment.replaceSegments(segments: glucseSegmentsStrings)
-            if let selectIndex = glucseSegmentsStrings.firstIndex(where: { (item) -> Bool in
+            if let selectIndex = glucseSegmentsStrings.firstIndex(where: { item -> Bool in
                 item == glucoseUnit.localizedShortUnitString
             }) {
                 cell.segment.selectedSegmentIndex = selectIndex
@@ -250,21 +252,19 @@ public class NotificationsSettingsTableViewController: UITableViewController, mm
         }
     }
 
-    public override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+    override public func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         return LocalizedString("Notification settings", comment: "The title text for the Notification settings")
-
     }
 
-    public override func tableView(_ tableView: UITableView, titleForFooterInSection section: Int) -> String? {
+    override public func tableView(_ tableView: UITableView, titleForFooterInSection section: Int) -> String? {
         return nil
-
     }
 
-    public override func tableView(_ tableView: UITableView, shouldHighlightRowAt indexPath: IndexPath) -> Bool {
+    override public func tableView(_ tableView: UITableView, shouldHighlightRowAt indexPath: IndexPath) -> Bool {
         return true
     }
 
-    public override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    override public func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         switch NotificationsSettingsRow(rawValue: indexPath.row)! {
         case .always:
             print("selected always row")

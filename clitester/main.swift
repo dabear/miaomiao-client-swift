@@ -28,4 +28,5 @@ os_log("dabear: macmaindidload", type: .default)
 //This semaphore wait is neccessary when running as a mac os cli program. Consider removing this in a GUI app
 //it kinda works like python's input() or raw_input() in a cli program, except it doesn't accept input, ofcourse..
 let sema = DispatchSemaphore( value: 0 )
+
 sema.wait()

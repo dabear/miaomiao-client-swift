@@ -7,8 +7,8 @@
 //
 
 import Foundation
-import LoopKit
 import HealthKit
+import LoopKit
 
 public struct LibreGlucose {
     public let unsmoothedGlucose: Double
@@ -81,7 +81,7 @@ extension LibreGlucose {
             //we know that the array "always" (almost) will contain 16 entries
             //the last five entries will get a trend arrow of flat, because it's not computable when we don't have
             //more entries in the array to base it on
-            let arrow = TrendArrowCalculation.GetGlucoseDirection(current: trend, last: arr[safe: i+5])
+            let arrow = TrendArrowCalculation.GetGlucoseDirection(current: trend, last: arr[safe: i + 5])
             arr[i].trend = UInt8(arrow.rawValue)
             //NSLog("Date: \(trend.timestamp), before: \(trend.unsmoothedGlucose), after: \(trend.glucose), arrow: \(trend.trend)")
         }
@@ -98,5 +98,4 @@ extension LibreGlucose {
         //NSLog("dabear:: glucose samples after smoothing: \(String(describing: arr))")
         return filtered
     }
-
 }

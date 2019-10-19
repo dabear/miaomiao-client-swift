@@ -6,8 +6,8 @@
 //  Copyright © 2019 Mark Wilson. All rights reserved.
 //
 
-import UIKit
 import LoopKitUI
+import UIKit
 
 protocol NibLoadable: IdentifiableClass {
     static func nib() -> UINib

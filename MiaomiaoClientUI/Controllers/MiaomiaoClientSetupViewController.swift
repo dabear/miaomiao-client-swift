@@ -5,10 +5,10 @@
 //  Copyright © 2018 LoopKit Authors. All rights reserved.
 //
 
-import UIKit
 import LoopKit
 import LoopKitUI
 import MiaomiaoClient
+import UIKit
 
 class MiaomiaoClientSetupViewController: UINavigationController, CGMManagerSetupViewController, CompletionNotifying {
     weak var completionDelegate: CompletionDelegate?
@@ -18,14 +18,13 @@ class MiaomiaoClientSetupViewController: UINavigationController, CGMManagerSetup
     lazy var cgmManager: MiaoMiaoClientManager? =  MiaoMiaoClientManager()
 
     init() {
-
         let service = MiaomiaoService(keychainManager: KeychainManager())
         let authVC = AuthenticationViewController(authentication: service)
         ExtendingAuthController.addExtendedSection(source: authVC)
 
         super.init(rootViewController: authVC)
 
-        authVC.authenticationObserver = {  (service) in
+        authVC.authenticationObserver = {  service in
             //self?.cgmManager?.miaomiaoService = service
             NSLog("miaomiaoservice was setup")
             let keychain = KeychainManager()
@@ -61,19 +60,19 @@ class MiaomiaoClientSetupViewController: UINavigationController, CGMManagerSetup
         fatalError("init(coder:) has not been implemented")
     }
 
-    @objc private func cancel() {
+    @objc
+    private func cancel() {
         //setupDelegate?.cgmManagerSetupViewControllerDidCancel(self)
         completionDelegate?.completionNotifyingDidComplete(self)
         ExtendingAuthController.destroyExtension()
     }
 
-    @objc private func save() {
+    @objc
+    private func save() {
         if let cgmManager = cgmManager {
             setupDelegate?.cgmManagerSetupViewController(self, didSetUpCGMManager: cgmManager)
         }
         completionDelegate?.completionNotifyingDidComplete(self)
         ExtendingAuthController.destroyExtension()
-
     }
-
 }

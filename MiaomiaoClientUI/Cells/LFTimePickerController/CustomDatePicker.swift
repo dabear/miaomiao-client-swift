@@ -18,19 +18,16 @@ enum CustomDateComponents: Int, CaseIterable {
 }
 
 class CustomDatePicker: UIPickerView, UIPickerViewDelegate, UIPickerViewDataSource {
-
     private lazy var startComponentTimes = defaultTimeArray()
     private lazy var endComponentTimes = defaultTimeArray()
 
     var lastSelectedComponentLeft: DateComponents? {
-
         let row = self.selectedRow(inComponent: CustomDateComponents.from.rawValue)
         return startComponentTimes[safe: row]
     }
     var lastSelectedComponentRight: DateComponents? {
         let row = self.selectedRow(inComponent: CustomDateComponents.to.rawValue)
         return endComponentTimes[safe: row]
-
     }
 
     private var startTimes = [String]()
@@ -48,9 +45,7 @@ class CustomDatePicker: UIPickerView, UIPickerViewDelegate, UIPickerViewDataSour
         let y: CGFloat = (self.frame.size.height / 2) - (fontSize / 2)
 
         for i in 0...self.numberOfComponents {
-
             if let label = labels[i] {
-
                 if self.subviews.contains(label) {
                     label.removeFromSuperview()
                 }
@@ -67,18 +62,15 @@ class CustomDatePicker: UIPickerView, UIPickerViewDelegate, UIPickerViewDataSour
     }
 
     func defaultTimeArray() -> [DateComponents] {
-
         var arr  = [DateComponents]()
 
         for hr in 0...23 {
             for min in 0 ..< 2 {
-
                 var components = DateComponents()
                 components.hour = hr
                 components.minute = min == 1 ? 30 : 0
                 arr.append(components)
             }
-
         }
         var components = DateComponents()
         components.hour = 0
@@ -108,22 +100,17 @@ class CustomDatePicker: UIPickerView, UIPickerViewDelegate, UIPickerViewDataSour
 
     func populateLeftSide() {
         for component in startComponentTimes {
-
             startTimes.append(component.ToTimeString(wantsAMPM: CustomDatePicker.wants12hourClock))
-
         }
     }
 
     func populateRightSide() {
         for component in endComponentTimes {
-
             endTimes.append(component.ToTimeString(wantsAMPM: CustomDatePicker.wants12hourClock))
-
         }
     }
 
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-
         switch CustomDateComponents(rawValue: component)! {
         case .from:
             return startTimes.count
@@ -139,7 +126,6 @@ class CustomDatePicker: UIPickerView, UIPickerViewDelegate, UIPickerViewDataSour
     }
 
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-
         switch CustomDateComponents(rawValue: component)! {
         case .from:
             return startTimes[safe: row] ?? "unknown"
@@ -147,7 +133,6 @@ class CustomDatePicker: UIPickerView, UIPickerViewDelegate, UIPickerViewDataSour
             return endTimes[safe: row] ?? "unknown"
         case .desc:
             return ""
-
         }
     }
 
@@ -164,5 +149,4 @@ class CustomDatePicker: UIPickerView, UIPickerViewDelegate, UIPickerViewDataSour
             break
         }
     }
-
 }

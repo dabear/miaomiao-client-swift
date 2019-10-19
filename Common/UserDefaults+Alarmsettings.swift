@@ -10,7 +10,6 @@ import Foundation
 import HealthKit
 
 extension UserDefaults {
-
     private enum Key: String {
         case glucoseSchedules = "no.bjorninge.glucoseschedules"
 
@@ -37,7 +36,6 @@ extension UserDefaults {
      case unit
      */
     public func optionalBool(forKey defaultName: String) -> Bool? {
-
         if let value = value(forKey: defaultName) {
             return value as? Bool
         }
@@ -54,7 +52,6 @@ extension UserDefaults {
     }
     var mmNotifyEveryXTimes: Int {
         get {
-
             return integer(forKey: Key.mmNotifyEveryXTimes.rawValue)
         }
         set {
@@ -140,21 +137,18 @@ extension UserDefaults {
             }
 
             return nil
-
         }
         set {
-
             if newValue == HKUnit.milligramsPerDeciliter {
                 set("mgdl", forKey: Key.mmGlucoseUnit.rawValue)
             } else if newValue == HKUnit.millimolesPerLiter {
                 set("mmol", forKey: Key.mmGlucoseUnit.rawValue)
             }
-
         }
     }
 
     var enabledSchedules: [GlucoseSchedule]? {
-        return glucoseSchedules?.schedules.compactMap({ (schedule) -> GlucoseSchedule? in
+        return glucoseSchedules?.schedules.compactMap({ schedule -> GlucoseSchedule? in
             if schedule.enabled ?? false {
                 return schedule
             }
@@ -171,7 +165,6 @@ extension UserDefaults {
     }
     var glucoseSchedules: GlucoseScheduleList? {
         get {
-
             if let savedGlucoseSchedules = object(forKey: Key.glucoseSchedules.rawValue) as? Data {
                 let decoder = JSONDecoder()
                 if let loadedGlucoseSchedules = try? decoder.decode(GlucoseScheduleList.self, from: savedGlucoseSchedules) {
@@ -186,7 +179,6 @@ extension UserDefaults {
             if let val = newValue, let encoded = try? encoder.encode(val) {
                 set(encoded, forKey: Key.glucoseSchedules.rawValue)
             }
-
         }
     }
 }

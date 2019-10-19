@@ -18,7 +18,6 @@ extension UISegmentedControl {
 }
 
 class SegmentViewCell: UITableViewCell {
-
     @IBOutlet weak var segment: UISegmentedControl!
 
     @IBOutlet weak var label: UILabel!
@@ -33,5 +32,4 @@ class SegmentViewCell: UITableViewCell {
 
         // Configure the view for the selected state
     }
-
 }

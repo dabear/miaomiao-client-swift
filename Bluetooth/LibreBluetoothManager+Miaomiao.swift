@@ -156,10 +156,10 @@
 //          a) 0xD101 Success
 //          b) 0xD100 Fail
 
-import Foundation
-import UIKit
 import CoreBluetooth
+import Foundation
 import os.log
+import UIKit
 
 public enum MiaoMiaoResponseState: UInt8 {
     case dataPacketReceived = 0x28
@@ -185,7 +185,6 @@ extension MiaoMiaoResponseState: CustomStringConvertible {
 //miaomiao support
 extension LibreBluetoothManager {
     func miaomiaoHandleCompleteMessage() {
-
         guard rxBuffer.count >= 363 else {
             return
         }
@@ -196,7 +195,7 @@ extension LibreBluetoothManager {
 
         sensorData = SensorData(uuid: Data(rxBuffer.subdata(in: 5..<13)), bytes: [UInt8](rxBuffer.subdata(in: 18..<362)), date: Date())
 
-        dispatchToDelegate { (manager) in
+        dispatchToDelegate { manager in
             guard let metadata = manager.metadata, let sensorData = manager.sensorData else {
                 return
             }
@@ -204,7 +203,6 @@ extension LibreBluetoothManager {
             // Inform delegate that new data is available
             manager.delegate?.libreBluetoothManagerDidUpdate(sensorData: sensorData, and: metadata)
         }
-
     }
 
     func miaomiaoRequestData(writeCharacteristics: CBCharacteristic, peripheral: CBPeripheral) {
@@ -213,11 +211,10 @@ extension LibreBluetoothManager {
 
         print("dabear: miaomiaoRequestData")
 
-        peripheral.writeValue(Data.init(bytes: [0xF0]), for: writeCharacteristics, type: .withResponse)
+        peripheral.writeValue(Data(bytes: [0xF0]), for: writeCharacteristics, type: .withResponse)
     }
 
     func miaomiaoDidUpdateValueForNotifyCharacteristics(_ value: Data, peripheral: CBPeripheral) {
-
         rxBuffer.append(value)
 
         os_log("Appended value with length %{public}@, buffer length is: %{public}@", log: LibreBluetoothManager.bt_log, type: .default, String(describing: value.count), String(describing: rxBuffer.count))
@@ -241,7 +238,7 @@ extension LibreBluetoothManager {
 
             if rxBuffer.count >= 363, let last = rxBuffer.last, last == 0x29 {
                 os_log("Buffer complete, inform delegate.", log: LibreBluetoothManager.bt_log, type: .default)
-                dispatchToDelegate { (manager) in
+                dispatchToDelegate { manager in
                     manager.delegate?.libreBluetoothManagerReceivedMessage(0x0000, txFlags: 0x28, payloadData: manager.rxBuffer)
                 }
                 handleCompleteMessage()
@@ -249,18 +246,18 @@ extension LibreBluetoothManager {
             }
 
         case .newSensor: // 0x32: // A new sensor has been detected -> acknowledge to use sensor and reset buffer
-            dispatchToDelegate { (manager) in
+            dispatchToDelegate { manager in
                 manager.delegate?.libreBluetoothManagerReceivedMessage(0x0000, txFlags: 0x32, payloadData: manager.rxBuffer)
             }
             miaomiaoConfirmSensor(peripheral: peripheral)
             rxBuffer.resetAllBytes()
         case .noSensor: // 0x34: // No sensor has been detected -> reset buffer (and wait for new data to arrive)
-            dispatchToDelegate { (manager) in
+            dispatchToDelegate { manager in
                 manager.delegate?.libreBluetoothManagerReceivedMessage(0x0000, txFlags: 0x34, payloadData: manager.rxBuffer)
             }
             rxBuffer.resetAllBytes()
         case .frequencyChangedResponse: // 0xD1: // Success of fail for setting time intervall
-            dispatchToDelegate {(manager) in
+            dispatchToDelegate {manager in
                 manager.delegate?.libreBluetoothManagerReceivedMessage(0x0000, txFlags: 0xD1, payloadData: manager.rxBuffer)
             }
             if value.count >= 2 {
@@ -274,7 +271,6 @@ extension LibreBluetoothManager {
             }
             rxBuffer.resetAllBytes()
         }
-
     }
 
     // Confirm (to replace) the sensor. Iif a new sensor is detected and shall be used, send this command (0xD301)
@@ -282,10 +278,9 @@ extension LibreBluetoothManager {
         print("confirming new sensor")
         if let writeCharacteristic = writeCharacteristic {
             print("confirmed new sensor")
-            peripheral.writeValue(Data.init(bytes: [0xD3, 0x01]), for: writeCharacteristic, type: .withResponse)
+            peripheral.writeValue(Data(bytes: [0xD3, 0x01]), for: writeCharacteristic, type: .withResponse)
         } else {
             print("could not confirm new sensor")
         }
     }
-
 }

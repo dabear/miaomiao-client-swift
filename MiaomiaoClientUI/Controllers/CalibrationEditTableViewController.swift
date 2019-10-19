@@ -5,15 +5,14 @@
 //  Created by Bjørn Inge Berg on 07/05/2019.
 //  Copyright © 2019 Mark Wilson. All rights reserved.
 //
-import UIKit
-import LoopKitUI
 import LoopKit
+import LoopKitUI
+import UIKit
 
 import HealthKit
 import MiaomiaoClient
 
 public class CalibrationEditTableViewController: UITableViewController, mmTextFieldViewCellCellDelegate2 {
-
     public var cgmManager: MiaoMiaoClientManager?
 
     override public func viewWillDisappear(_ animated: Bool) {
@@ -35,14 +34,13 @@ public class CalibrationEditTableViewController: UITableViewController, mmTextFi
         // for testing only
 
          /*newParams = DerivedAlgorithmParameters(slope_slope: 0.0, slope_offset:0.0, offset_slope: 0.0, offset_offset: 0.0, isValidForFooterWithReverseCRCs: 1234, extraSlope: 1.0, extraOffset: 0.0)*/
-
     }
 
     @available(*, unavailable)
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    public override func viewDidLoad() {
+    override public func viewDidLoad() {
         super.viewDidLoad()
 
         tableView.register(AlarmTimeInputRangeCell.nib(), forCellReuseIdentifier: AlarmTimeInputRangeCell.className)
@@ -77,13 +75,12 @@ public class CalibrationEditTableViewController: UITableViewController, mmTextFi
         case sync
     }
 
-    public override func numberOfSections(in tableView: UITableView) -> Int {
+    override public func numberOfSections(in tableView: UITableView) -> Int {
         //dynamic number of schedules + sync row
         return 2
-
     }
 
-    public override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    override public func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         switch Section(rawValue: section)! {
         case .CalibrationDataInfoRow:
             return CalibrationDataInfoRow.count
@@ -102,7 +99,6 @@ public class CalibrationEditTableViewController: UITableViewController, mmTextFi
 
     func mmTextFieldViewCellDidUpdateValue(_ cell: MMTextFieldViewCell2, value: String?) {
         if let value = value, let numVal = Double(value) {
-
             switch CalibrationDataInfoRow(rawValue: cell.tag)! {
             case .isValidForFooterWithCRCs:
                 //this should not happen as crc can not change
@@ -127,12 +123,10 @@ public class CalibrationEditTableViewController: UITableViewController, mmTextFi
                 newParams?.extraSlope = numVal
                 print("extraslope was updated: \(numVal)")
             }
-
         }
     }
 
-    public override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-
+    override public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if indexPath.section == Section.sync.rawValue {
             let cell = tableView.dequeueIdentifiableCell(cell: TextButtonTableViewCell.self, for: indexPath)
 
@@ -204,29 +198,25 @@ public class CalibrationEditTableViewController: UITableViewController, mmTextFi
         }
     }
 
-    public override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+    override public func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         if section == Section.sync.rawValue {
             return nil
         }
         return LocalizedString("Calibrations edit mode", comment: "The title text for the Notification settings")
-
     }
 
-    public override func tableView(_ tableView: UITableView, titleForFooterInSection section: Int) -> String? {
+    override public func tableView(_ tableView: UITableView, titleForFooterInSection section: Int) -> String? {
         return nil
-
     }
 
-    public override func tableView(_ tableView: UITableView, shouldHighlightRowAt indexPath: IndexPath) -> Bool {
+    override public func tableView(_ tableView: UITableView, shouldHighlightRowAt indexPath: IndexPath) -> Bool {
         return true
     }
 
-    public override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-
+    override public func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         switch  Section(rawValue: indexPath.section)! {
         case .CalibrationDataInfoRow:
             switch CalibrationDataInfoRow(rawValue: indexPath.row)! {
-
             case .slopeslope:
                 print("slopeslope clicked")
             case .slopeoffset:
@@ -245,7 +235,7 @@ public class CalibrationEditTableViewController: UITableViewController, mmTextFi
             }
         case .sync:
             print("calibration save clicked")
-            var isSaved  = false
+            var isSaved = false
             let controller: UIAlertController
 
             if let params = newParams {
@@ -264,7 +254,6 @@ public class CalibrationEditTableViewController: UITableViewController, mmTextFi
             }
 
             self.present(controller, animated: false)
-
         }
 
         tableView.deselectRow(at: indexPath, animated: true)

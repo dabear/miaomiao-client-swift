@@ -6,9 +6,9 @@
 //  Copyright © 2018 Mark Wilson. All rights reserved.
 //
 
-import UIKit
-import os
 import MiaomiaoClient
+import os
+import UIKit
 class ViewController: UIViewController {
     //public var glucoseController: BloodSugarController?
     override func viewDidLoad() {
@@ -37,5 +37,4 @@ class ViewController: UIViewController {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-
 }
