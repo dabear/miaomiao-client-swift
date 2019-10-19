@@ -247,7 +247,8 @@ public class NotificationsSettingsTableViewController: UITableViewController, mm
             switchCell.contentView.layoutMargins.left = tableView.separatorInset.left
             return switchCell
         case .glucoseVibrate:
-            let switchCell = tableView.dequeueReusableCell(withIdentifier: MMSwitchTableViewCell.className, for: indexPath) as! MMSwitchTableViewCell
+            let switchCell = tableView.dequeueIdentifiableCell(cell: MMSwitchTableViewCell.self, for: indexPath)
+            //let switchCell = tableView.dequeueReusableCell(withIdentifier: MMSwitchTableViewCell.className, for: indexPath) as! MMSwitchTableViewCell
 
             switchCell.toggleIsSelected?.isOn = UserDefaults.standard.mmGlucoseAlarmsVibrate
             //switchCell.titleLabel?.text = "test"
