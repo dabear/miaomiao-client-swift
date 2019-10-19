@@ -12,7 +12,7 @@ import HealthKit
 import LoopKit
 import AudioToolbox
 
-class NotificationHelper {
+enum NotificationHelper {
 
     private enum Identifiers: String {
         case glucocoseNotifications = "no.bjorninge.miaomiao.glucose-notification"

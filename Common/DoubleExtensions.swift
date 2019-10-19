@@ -24,7 +24,7 @@ extension Double {
 }
 
 extension Double {
-    struct Number {
+    enum Number {
         static var formatter = NumberFormatter()
     }
     var scientificStyle: String {

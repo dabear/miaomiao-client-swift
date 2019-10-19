@@ -310,7 +310,7 @@ public class MiaomiaoClientSettingsViewController: UITableViewController, SubVie
             return cell
         case .latestCalibrationData:
 
-            var cell : UITableViewCell = tableView.dequeueIdentifiableCell(cell: SettingsTableViewCell.self, for: indexPath)
+            var cell: UITableViewCell = tableView.dequeueIdentifiableCell(cell: SettingsTableViewCell.self, for: indexPath)
 
             let data = cgmManager?.calibrationData
             /*
