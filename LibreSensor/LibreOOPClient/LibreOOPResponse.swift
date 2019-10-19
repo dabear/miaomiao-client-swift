@@ -8,7 +8,12 @@
 import Foundation
 
 struct OOPCurrentValue: Codable {
-    let currentTrend: Int
+    private let currentTrend1: Int?
+    private let currentTrend2: Int?
+
+    public var currentTrend: Int  {
+        return currentTrend1 ?? currentTrend2 ?? 0
+    }
     let currentBg: Double
     let currentTime: Int
     let historyValues: [OOPHistoryValue]
@@ -16,7 +21,8 @@ struct OOPCurrentValue: Codable {
     let timestamp: Int
 
     enum CodingKeys: String, CodingKey {
-        case currentTrend = "currenTrend"  // TODO: rename currenTrend to currentTrend
+        case currentTrend1 = "currenTrend"
+        case currentTrend2 = "currentTrend"
         case currentBg
         case currentTime
         case historyValues = "historicBg"

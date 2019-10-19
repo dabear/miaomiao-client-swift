@@ -271,7 +271,6 @@ public class MiaomiaoClientSettingsViewController: UITableViewController, SubVie
         case .delete:
             let cell =  tableView.dequeueIdentifiableCell(cell: TextButtonTableViewCell.self, for: indexPath)
 
-
             cell.textLabel?.text = LocalizedString("Delete CGM", comment: "Title text for the button to remove a CGM from Loop")
             cell.textLabel?.textAlignment = .center
             cell.tintColor = .delete
