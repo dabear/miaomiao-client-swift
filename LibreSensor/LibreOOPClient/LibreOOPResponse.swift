@@ -11,7 +11,7 @@ struct OOPCurrentValue: Codable {
     private let currentTrend1: Int?
     private let currentTrend2: Int?
 
-    public var currentTrend: Int  {
+    public var currentTrend: Int {
         return currentTrend1 ?? currentTrend2 ?? 0
     }
     let currentBg: Double

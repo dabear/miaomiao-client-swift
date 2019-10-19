@@ -303,13 +303,13 @@ public final class MiaoMiaoClientManager: CGMManager, LibreBluetoothManagerDeleg
 
             self.latestBackfill = glucose.max { $0.startDate < $1.startDate}
 
-            if newGlucose.count > 0 {
-                NSLog("dabear:: handleGoodReading returned with \(newGlucose.count) new glucose samples")
-                self.cgmManagerDelegate?.cgmManager(self, didUpdateWith: .newData(newGlucose))
-
-            } else {
+            if newGlucose.isEmpty {
                 NSLog("dabear:: handleGoodReading returned with no new data")
                 self.cgmManagerDelegate?.cgmManager(self, didUpdateWith: .noData)
+
+            } else {
+                NSLog("dabear:: handleGoodReading returned with \(newGlucose.count) new glucose samples")
+                self.cgmManagerDelegate?.cgmManager(self, didUpdateWith: .newData(newGlucose))
 
             }
 

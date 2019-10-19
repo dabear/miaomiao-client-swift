@@ -310,7 +310,7 @@ public class MiaomiaoClientSettingsViewController: UITableViewController, SubVie
             return cell
         case .latestCalibrationData:
 
-            var cell =  tableView.dequeueIdentifiableCell(cell: SettingsTableViewCell.self, for: indexPath)
+            var cell : UITableViewCell = tableView.dequeueIdentifiableCell(cell: SettingsTableViewCell.self, for: indexPath)
 
             let data = cgmManager?.calibrationData
             /*
@@ -365,7 +365,7 @@ public class MiaomiaoClientSettingsViewController: UITableViewController, SubVie
                     cell.detailTextLabel?.text = SettingsTableViewCell.NoValueString
                 }
             case .edit:
-                cell =  tableView.dequeueIdentifiableCell(cell: TextButtonTableViewCell.self, for: indexPath)
+                cell = tableView.dequeueIdentifiableCell(cell: TextButtonTableViewCell.self, for: indexPath)
 
                 cell.textLabel?.text = LocalizedString("Edit Calibrations", comment: "Title describing calibrationdata edit button")
 

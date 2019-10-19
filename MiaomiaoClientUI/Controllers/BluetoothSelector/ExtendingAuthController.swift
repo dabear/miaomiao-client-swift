@@ -32,7 +32,7 @@ public class ExtendingAuthController: NSObject, UITableViewDataSource, UITableVi
 
             //
             if let preselected = UserDefaults.standard.preSelectedDevice {
-                if discoveredDevices.count == 0 {
+                if discoveredDevices.isEmpty {
                     print("dabear:: discoveredDevices count is 0,")
 
                 } else if let index = discoveredDevices.firstIndex(where: { $0.identifier == preselected.identifier}) {

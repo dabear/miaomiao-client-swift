@@ -40,16 +40,16 @@ class NotificationHelper {
 
     public static func vibrateIfNeeded(count: Int = 3) {
         if UserDefaults.standard.mmGlucoseAlarmsVibrate {
-            vibrate(count: count)
+            vibrate(times: count)
         }
     }
-    private static func vibrate(count: Int) {
-        guard count >= 0 else {
+    private static func vibrate(times: Int) {
+        guard times >= 0 else {
             return
         }
 
         AudioServicesPlaySystemSoundWithCompletion(kSystemSoundID_Vibrate) {
-            vibrate(count: count - 1)
+            vibrate(times: times - 1)
         }
     }
 

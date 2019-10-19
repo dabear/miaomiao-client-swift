@@ -123,10 +123,12 @@ class AllowedCharsTextField: UITextField, UITextFieldDelegate {
     // 5
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         // 6
-        guard string.count > 0 else {
+
+        if string.isEmpty {
             return true
         }
-        guard allowedChars.count > 0 else {
+
+        if allowedChars.isEmpty {
             return true
         }
 
