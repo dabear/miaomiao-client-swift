@@ -255,8 +255,7 @@ public class AlarmSettingsTableViewController: UITableViewController, AlarmTimeI
             switch ScheduleRow(rawValue: indexPath.row)! {
 
             case .timerange:
-                let cell = tableView.dequeueReusableCell(withIdentifier: AlarmTimeInputRangeCell.className, for: indexPath) as!  AlarmTimeInputRangeCell
-
+                let cell = tableView.dequeueIdentifiableCell(cell: AlarmTimeInputRangeCell.self, for: indexPath)
                 //cell.minValue = "first"
                 //cell.maxValue = "second"
                 cell.delegate = self
@@ -272,7 +271,7 @@ public class AlarmSettingsTableViewController: UITableViewController, AlarmTimeI
 
                 return cell
             case .lowglucose:
-                let cell = tableView.dequeueReusableCell(withIdentifier: GlucoseAlarmInputCell.className, for: indexPath) as!  GlucoseAlarmInputCell
+                let cell = tableView.dequeueIdentifiableCell(cell: GlucoseAlarmInputCell.self, for: indexPath)
                 cell.tag = indexPath.section
                 cell.tag2 = ScheduleRowTypes.lowglucose.rawValue
                 cell.delegate = self
@@ -289,7 +288,7 @@ public class AlarmSettingsTableViewController: UITableViewController, AlarmTimeI
 
                 return cell
             case .highglucose:
-                let cell = tableView.dequeueReusableCell(withIdentifier: GlucoseAlarmInputCell.className, for: indexPath) as!  GlucoseAlarmInputCell
+                let cell = tableView.dequeueIdentifiableCell(cell: GlucoseAlarmInputCell.self, for: indexPath)
                 cell.tag = indexPath.section
                 cell.tag2 = ScheduleRowTypes.highglucose.rawValue
                 cell.delegate = self
@@ -309,7 +308,7 @@ public class AlarmSettingsTableViewController: UITableViewController, AlarmTimeI
             }
 
         default: //case .sync:
-            let cell = tableView.dequeueReusableCell(withIdentifier: TextButtonTableViewCell.className, for: indexPath) as! TextButtonTableViewCell
+            let cell = tableView.dequeueIdentifiableCell(cell: TextButtonTableViewCell.self, for: indexPath)
 
             cell.textLabel?.text = LocalizedString("Save glucose alarms", comment: "The title for Save glucose alarms")
             cell.isEnabled = !isSyncInProgress
@@ -322,9 +321,7 @@ public class AlarmSettingsTableViewController: UITableViewController, AlarmTimeI
     public override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         switch section {
         case let x where x < glucoseSchedulesCount:
-
             return LocalizedString("Glucose Alarm Schedule", comment: "The title text for the Glucose Alarm Schedule") + " #\(section+1)"
-
         default: //case .sync:
             return nil
         }
@@ -332,14 +329,7 @@ public class AlarmSettingsTableViewController: UITableViewController, AlarmTimeI
 
     public override func tableView(_ tableView: UITableView, titleForFooterInSection section: Int) -> String? {
         return nil
-        /*switch Section(rawValue: section)! {
-         case .schedule1:
-         return nil
-         case .schedule2:
-         return nil
-         case .sync:
-         return nil //LocalizedString("Save alarms", comment: "The title for saving alarms")
-         }*/
+
     }
 
     public override func tableView(_ tableView: UITableView, shouldHighlightRowAt indexPath: IndexPath) -> Bool {
@@ -386,9 +376,7 @@ public class AlarmSettingsTableViewController: UITableViewController, AlarmTimeI
                     alert = ErrorAlertController("Glucose schedules could not be modified", title: "Schedule not saved")
 
                 }
-
                 self.present(alert, animated: true)
-
                 self.isSyncInProgress = false
 
             }

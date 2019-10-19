@@ -225,7 +225,7 @@ public class MiaomiaoClientSettingsViewController: UITableViewController, SubVie
     public override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         switch Section(rawValue: indexPath.section)! {
         case .authentication:
-            let cell = tableView.dequeueReusableCell(withIdentifier: SettingsTableViewCell.className, for: indexPath) as! SettingsTableViewCell
+            let cell = tableView.dequeueIdentifiableCell(cell: SettingsTableViewCell.self, for: indexPath)
 
             cell.textLabel?.text = LocalizedString("Calibration Settings", comment: "Title of cell to set credentials")
             let tokenLength = cgmManager?.miaomiaoService.accessToken?.count ?? 0
@@ -235,7 +235,8 @@ public class MiaomiaoClientSettingsViewController: UITableViewController, SubVie
 
             return cell
         case .latestReading:
-            let cell = tableView.dequeueReusableCell(withIdentifier: SettingsTableViewCell.className, for: indexPath) as! SettingsTableViewCell
+
+            let cell = tableView.dequeueIdentifiableCell(cell: SettingsTableViewCell.self, for: indexPath)
             let glucose = cgmManager?.latestBackfill
 
             switch LatestReadingRow(rawValue: indexPath.row)! {
@@ -268,7 +269,8 @@ public class MiaomiaoClientSettingsViewController: UITableViewController, SubVie
 
             return cell
         case .delete:
-            let cell = tableView.dequeueReusableCell(withIdentifier: TextButtonTableViewCell.className, for: indexPath) as! TextButtonTableViewCell
+            let cell =  tableView.dequeueIdentifiableCell(cell: TextButtonTableViewCell.self, for: indexPath)
+
 
             cell.textLabel?.text = LocalizedString("Delete CGM", comment: "Title text for the button to remove a CGM from Loop")
             cell.textLabel?.textAlignment = .center
@@ -276,7 +278,7 @@ public class MiaomiaoClientSettingsViewController: UITableViewController, SubVie
             cell.isEnabled = true
             return cell
         case .latestBridgeInfo:
-            let cell = tableView.dequeueReusableCell(withIdentifier: SettingsTableViewCell.className, for: indexPath) as! SettingsTableViewCell
+            let cell =  tableView.dequeueIdentifiableCell(cell: SettingsTableViewCell.self, for: indexPath)
 
             switch LatestBridgeInfoRow(rawValue: indexPath.row)! {
             case .battery:
@@ -308,7 +310,8 @@ public class MiaomiaoClientSettingsViewController: UITableViewController, SubVie
 
             return cell
         case .latestCalibrationData:
-            var cell = tableView.dequeueReusableCell(withIdentifier: SettingsTableViewCell.className, for: indexPath)
+
+            var cell =  tableView.dequeueIdentifiableCell(cell: SettingsTableViewCell.self, for: indexPath)
 
             let data = cgmManager?.calibrationData
             /*
@@ -363,7 +366,7 @@ public class MiaomiaoClientSettingsViewController: UITableViewController, SubVie
                     cell.detailTextLabel?.text = SettingsTableViewCell.NoValueString
                 }
             case .edit:
-                cell = tableView.dequeueReusableCell(withIdentifier: TextButtonTableViewCell.className, for: indexPath)
+                cell =  tableView.dequeueIdentifiableCell(cell: TextButtonTableViewCell.self, for: indexPath)
 
                 cell.textLabel?.text = LocalizedString("Edit Calibrations", comment: "Title describing calibrationdata edit button")
 
@@ -395,7 +398,7 @@ public class MiaomiaoClientSettingsViewController: UITableViewController, SubVie
             }
             return cell
         case .sensorInfo:
-            let cell = tableView.dequeueReusableCell(withIdentifier: SettingsTableViewCell.className, for: indexPath) as! SettingsTableViewCell
+            let cell = tableView.dequeueIdentifiableCell(cell: SettingsTableViewCell.self, for: indexPath)
 
             switch LatestSensorInfoRow(rawValue: indexPath.row)! {
             case .sensorState:
@@ -415,7 +418,7 @@ public class MiaomiaoClientSettingsViewController: UITableViewController, SubVie
             }
             return cell
         case .advanced:
-            let cell = tableView.dequeueReusableCell(withIdentifier: SettingsTableViewCell.className, for: indexPath) as! SettingsTableViewCell
+            let cell = tableView.dequeueIdentifiableCell(cell: SettingsTableViewCell.self, for: indexPath)
 
             switch AdvancedSettingsRow(rawValue: indexPath.row)! {
             case .alarms:

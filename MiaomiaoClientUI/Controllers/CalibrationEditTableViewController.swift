@@ -133,7 +133,7 @@ public class CalibrationEditTableViewController: UITableViewController, mmTextFi
     public override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 
         if indexPath.section == Section.sync.rawValue {
-            let cell = tableView.dequeueReusableCell(withIdentifier: TextButtonTableViewCell.className, for: indexPath) as! TextButtonTableViewCell
+            let cell = tableView.dequeueIdentifiableCell(cell: TextButtonTableViewCell.self, for: indexPath)
 
             cell.textLabel?.text = LocalizedString("Save calibrations", comment: "The title for Save calibration")
             return cell
@@ -141,7 +141,7 @@ public class CalibrationEditTableViewController: UITableViewController, mmTextFi
 
         switch CalibrationDataInfoRow(rawValue: indexPath.row)! {
         case .offsetoffset:
-            let cell = (tableView.dequeueReusableCell(withIdentifier: MMTextFieldViewCell2.className, for: indexPath) as! MMTextFieldViewCell2)
+            let cell = tableView.dequeueIdentifiableCell(cell: MMTextFieldViewCell2.self, for: indexPath)
             cell.tag = indexPath.row
             cell.textInput?.text = String(newParams?.offset_offset ?? 0)
             cell.titleLabel.text = NSLocalizedString("offsetoffset", comment: "The title text for offsetoffset calibration setting")
@@ -150,7 +150,7 @@ public class CalibrationEditTableViewController: UITableViewController, mmTextFi
             return cell
 
         case .offsetslope:
-            let cell = (tableView.dequeueReusableCell(withIdentifier: MMTextFieldViewCell2.className, for: indexPath) as! MMTextFieldViewCell2)
+            let cell = tableView.dequeueIdentifiableCell(cell: MMTextFieldViewCell2.self, for: indexPath)
             cell.tag = indexPath.row
             cell.textInput?.text = String(newParams?.offset_slope ?? 0)
             cell.titleLabel.text = NSLocalizedString("offsetslope", comment: "The title text for offsetslope calibration setting")
@@ -158,14 +158,14 @@ public class CalibrationEditTableViewController: UITableViewController, mmTextFi
 
             return cell
         case .slopeoffset:
-            let cell = (tableView.dequeueReusableCell(withIdentifier: MMTextFieldViewCell2.className, for: indexPath) as! MMTextFieldViewCell2)
+           let cell = tableView.dequeueIdentifiableCell(cell: MMTextFieldViewCell2.self, for: indexPath)
             cell.tag = indexPath.row
             cell.textInput?.text = String(newParams?.slope_offset ?? 0)
             cell.titleLabel.text = NSLocalizedString("slopeoffset", comment: "The title text for slopeoffset calibration setting")
             cell.delegate = self
             return cell
         case .slopeslope:
-            let cell = (tableView.dequeueReusableCell(withIdentifier: MMTextFieldViewCell2.className, for: indexPath) as! MMTextFieldViewCell2)
+            let cell = tableView.dequeueIdentifiableCell(cell: MMTextFieldViewCell2.self, for: indexPath)
 
             cell.tag = indexPath.row
             cell.textInput?.text = String(newParams?.slope_slope ?? 0)
@@ -174,7 +174,7 @@ public class CalibrationEditTableViewController: UITableViewController, mmTextFi
             return cell
 
         case .isValidForFooterWithCRCs:
-            let cell = (tableView.dequeueReusableCell(withIdentifier: MMTextFieldViewCell2.className, for: indexPath) as! MMTextFieldViewCell2)
+            let cell = tableView.dequeueIdentifiableCell(cell: MMTextFieldViewCell2.self, for: indexPath)
 
             cell.tag = indexPath.row
 
@@ -185,7 +185,7 @@ public class CalibrationEditTableViewController: UITableViewController, mmTextFi
             cell.isEnabled = false
             return cell
         case .extraoffset:
-            let cell = (tableView.dequeueReusableCell(withIdentifier: MMTextFieldViewCell2.className, for: indexPath) as! MMTextFieldViewCell2)
+            let cell = tableView.dequeueIdentifiableCell(cell: MMTextFieldViewCell2.self, for: indexPath)
 
             cell.tag = indexPath.row
             cell.textInput?.text = String(newParams?.extraOffset ?? 0)
@@ -193,7 +193,7 @@ public class CalibrationEditTableViewController: UITableViewController, mmTextFi
             cell.delegate = self
             return cell
         case .extraslope:
-            let cell = (tableView.dequeueReusableCell(withIdentifier: MMTextFieldViewCell2.className, for: indexPath) as! MMTextFieldViewCell2)
+            let cell = tableView.dequeueIdentifiableCell(cell: MMTextFieldViewCell2.self, for: indexPath)
 
             cell.tag = indexPath.row
             cell.textInput?.text = String(newParams?.extraSlope ?? 0)

@@ -8,15 +8,10 @@
 
 import Foundation
 import UIKit
-//let cell = tableView.dequeueReusableCell(withIdentifier: TextButtonTableViewCell.className, for: indexPath) as! TextButtonTableViewCell
-
-typealias IdentifiableUITableViewCell = UITableViewCell & IdentifiableClass
 
 extension UITableView {
-    func dequeueIdentifiableCell<T: IdentifiableUITableViewCell>(cell: T.Type, for indexPath: IndexPath) -> T  {
-        let cell: T = self.dequeueReusableCell(withIdentifier: T.className, for: indexPath) as! T
-
-        return cell
+    func dequeueIdentifiableCell<T: UITableViewCell>(cell: T.Type, for indexPath: IndexPath) -> T {
+        return self.dequeueReusableCell(withIdentifier: T.className, for: indexPath) as! T
 
     }
 }

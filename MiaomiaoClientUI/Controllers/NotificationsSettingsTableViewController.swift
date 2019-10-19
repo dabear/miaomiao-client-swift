@@ -144,7 +144,7 @@ public class NotificationsSettingsTableViewController: UITableViewController, mm
 
         switch NotificationsSettingsRow(rawValue: indexPath.row)! {
         case .always:
-            let switchCell = tableView.dequeueReusableCell(withIdentifier: MMSwitchTableViewCell.className, for: indexPath) as! MMSwitchTableViewCell
+            let switchCell = tableView.dequeueIdentifiableCell(cell: MMSwitchTableViewCell.self, for: indexPath)
 
             switchCell.toggleIsSelected?.isOn = UserDefaults.standard.mmAlwaysDisplayGlucose
             //switchCell.titleLabel?.text = "test"
@@ -155,7 +155,7 @@ public class NotificationsSettingsTableViewController: UITableViewController, mm
             switchCell.contentView.layoutMargins.left = tableView.separatorInset.left
             return switchCell
         case .alertEveryXTime:
-            notificationEveryXTimesCell = (tableView.dequeueReusableCell(withIdentifier: MMTextFieldViewCell.className, for: indexPath) as! MMTextFieldViewCell)
+            notificationEveryXTimesCell = tableView.dequeueIdentifiableCell(cell: MMTextFieldViewCell.self, for: indexPath)
 
             notificationEveryXTimesCell?.textInput?.text = String(UserDefaults.standard.mmNotifyEveryXTimes)
             notificationEveryXTimesCell!.titleLabel.text = NSLocalizedString("Notify Per Reading (0-9)", comment: "The title text for the Notify every reading nr")
@@ -166,7 +166,7 @@ public class NotificationsSettingsTableViewController: UITableViewController, mm
 
         case .unit:
 
-            let cell = tableView.dequeueReusableCell(withIdentifier: SegmentViewCell.className, for: indexPath) as!  SegmentViewCell
+            let cell = tableView.dequeueIdentifiableCell(cell: SegmentViewCell.self, for: indexPath)
             cell.label.text = "Unit Override"
             cell.segment.replaceSegments(segments: glucseSegmentsStrings)
             if let selectIndex = glucseSegmentsStrings.firstIndex(where: { (item) -> Bool in
@@ -181,7 +181,7 @@ public class NotificationsSettingsTableViewController: UITableViewController, mm
             return cell
 
         case .lowBattery:
-            let switchCell = tableView.dequeueReusableCell(withIdentifier: MMSwitchTableViewCell.className, for: indexPath) as! MMSwitchTableViewCell
+            let switchCell = tableView.dequeueIdentifiableCell(cell: MMSwitchTableViewCell.self, for: indexPath)
 
             switchCell.toggleIsSelected?.isOn = UserDefaults.standard.mmAlertLowBatteryWarning
             //switchCell.titleLabel?.text = "test"
@@ -192,7 +192,7 @@ public class NotificationsSettingsTableViewController: UITableViewController, mm
             switchCell.contentView.layoutMargins.left = tableView.separatorInset.left
             return switchCell
         case .invalidSensorDetected:
-            let switchCell = tableView.dequeueReusableCell(withIdentifier: MMSwitchTableViewCell.className, for: indexPath) as! MMSwitchTableViewCell
+            let switchCell = tableView.dequeueIdentifiableCell(cell: MMSwitchTableViewCell.self, for: indexPath)
 
             switchCell.toggleIsSelected?.isOn = UserDefaults.standard.mmAlertInvalidSensorDetected
             //switchCell.titleLabel?.text = "test"
@@ -202,19 +202,9 @@ public class NotificationsSettingsTableViewController: UITableViewController, mm
             switchCell.toggleIsSelected.isEnabled = false
 
             return switchCell
-        /*case .alarmNotifications:
-            let switchCell = tableView.dequeueReusableCell(withIdentifier: mmSwitchTableViewCell.className, for: indexPath) as! mmSwitchTableViewCell
-            
-            switchCell.toggleIsSelected?.isOn = true
-            //switchCell.titleLabel?.text = "test"
-            
-            switchCell.titleLabel?.text = NSLocalizedString("Alarms schedules active", comment: "The title text for the miaomiao enable alarm schedules and notitifications")
-            
-            switchCell.toggleIsSelected?.addTarget(self, action: #selector(alarmsSchedulesActivatedChanged(_:)), for: .valueChanged)
-            switchCell.contentView.layoutMargins.left = tableView.separatorInset.left
-            return switchCell*/
+
         case .newSensorDetected:
-            let switchCell = tableView.dequeueReusableCell(withIdentifier: MMSwitchTableViewCell.className, for: indexPath) as! MMSwitchTableViewCell
+            let switchCell = tableView.dequeueIdentifiableCell(cell: MMSwitchTableViewCell.self, for: indexPath)
 
             switchCell.toggleIsSelected?.isOn = UserDefaults.standard.mmAlertNewSensorDetected
             //switchCell.titleLabel?.text = "test"
@@ -225,7 +215,7 @@ public class NotificationsSettingsTableViewController: UITableViewController, mm
             switchCell.contentView.layoutMargins.left = tableView.separatorInset.left
             return switchCell
         case .noSensorDetected:
-            let switchCell = tableView.dequeueReusableCell(withIdentifier: MMSwitchTableViewCell.className, for: indexPath) as! MMSwitchTableViewCell
+            let switchCell = tableView.dequeueIdentifiableCell(cell: MMSwitchTableViewCell.self, for: indexPath)
 
             switchCell.toggleIsSelected?.isOn = UserDefaults.standard.mmAlertNoSensorDetected
             //switchCell.titleLabel?.text = "test"
@@ -236,7 +226,7 @@ public class NotificationsSettingsTableViewController: UITableViewController, mm
             switchCell.contentView.layoutMargins.left = tableView.separatorInset.left
             return switchCell
         case .expireSoonAlarm:
-            let switchCell = tableView.dequeueReusableCell(withIdentifier: MMSwitchTableViewCell.className, for: indexPath) as! MMSwitchTableViewCell
+            let switchCell = tableView.dequeueIdentifiableCell(cell: MMSwitchTableViewCell.self, for: indexPath)
 
             switchCell.toggleIsSelected?.isOn = UserDefaults.standard.mmAlertWillSoonExpire
             //switchCell.titleLabel?.text = "test"
@@ -248,7 +238,6 @@ public class NotificationsSettingsTableViewController: UITableViewController, mm
             return switchCell
         case .glucoseVibrate:
             let switchCell = tableView.dequeueIdentifiableCell(cell: MMSwitchTableViewCell.self, for: indexPath)
-            //let switchCell = tableView.dequeueReusableCell(withIdentifier: MMSwitchTableViewCell.className, for: indexPath) as! MMSwitchTableViewCell
 
             switchCell.toggleIsSelected?.isOn = UserDefaults.standard.mmGlucoseAlarmsVibrate
             //switchCell.titleLabel?.text = "test"
