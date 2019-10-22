@@ -92,7 +92,7 @@ public class MiaomiaoClientSettingsViewController: UITableViewController, SubVie
 
     // MARK: - UITableViewDataSource
 
-    private enum Section: Int {
+    private enum Section: Int, CaseIterable {
         case snooze
         case authentication
         case latestReading
@@ -103,42 +103,39 @@ public class MiaomiaoClientSettingsViewController: UITableViewController, SubVie
 
         case delete
 
-        static let count = 8
+
     }
 
     override public func numberOfSections(in tableView: UITableView) -> Int {
-        return allowsDeletion ? Section.count : Section.count - 1
+
+        return  Section.allCases.count  - ( allowsDeletion ? 1 : 0)
     }
 
-    private enum LatestReadingRow: Int {
+    private enum LatestReadingRow: Int, CaseIterable {
         case glucose
         case date
         case trend
         case footerChecksum
 
-        static let count = 4
     }
 
-    private enum LatestSensorInfoRow: Int {
+    private enum LatestSensorInfoRow: Int, CaseIterable {
         case sensorAge
         case sensorState
         case sensorSerialNumber
 
-        static let count = 3
     }
 
-    private enum LatestBridgeInfoRow: Int {
+    private enum LatestBridgeInfoRow: Int, CaseIterable  {
         case battery
         case hardware
         case firmware
         case connectionState
         case bridgeType
         case bridgeIdentifer
-
-        static let count = 6
     }
 
-    private enum LatestCalibrationDataInfoRow: Int {
+    private enum LatestCalibrationDataInfoRow: Int, CaseIterable{
         case slopeslope
         case slopeoffset
         case offsetslope
@@ -149,16 +146,18 @@ public class MiaomiaoClientSettingsViewController: UITableViewController, SubVie
         case isValidForFooterWithCRCs
 
         case edit
-
-        static let count = 8
     }
 
-    private enum AdvancedSettingsRow: Int {
+    private enum GlucoseSettings: Int, CaseIterable{
+        case syncToNs
+        case sync
+    }
+
+    private enum AdvancedSettingsRow: Int, CaseIterable {
         case alarms
+        case glucose
         case glucoseNotifications
         case dangermode
-
-        static let count = 3
     }
 
     override public func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -166,19 +165,19 @@ public class MiaomiaoClientSettingsViewController: UITableViewController, SubVie
         case .authentication:
             return 1
         case .latestReading:
-            return LatestReadingRow.count
+            return LatestReadingRow.allCases.count
         case .sensorInfo:
-            return LatestSensorInfoRow.count
+            return LatestSensorInfoRow.allCases.count
         case .delete:
             return 1
         case .latestBridgeInfo:
-            return LatestBridgeInfoRow.count
+            return LatestBridgeInfoRow.allCases.count
 
         case .latestCalibrationData:
-            return LatestCalibrationDataInfoRow.count
+            return LatestCalibrationDataInfoRow.allCases.count
 
         case .advanced:
-            return AdvancedSettingsRow.count
+            return AdvancedSettingsRow.allCases.count
         case .snooze:
             return 1
         }
@@ -436,6 +435,12 @@ public class MiaomiaoClientSettingsViewController: UITableViewController, SubVie
                 } else {
                     cell.detailTextLabel?.text = "Deactivated"
                 }
+            case .glucose:
+                cell.textLabel?.text = LocalizedString("Glucose settings", comment: "Title describing Glucose Settings")
+
+
+                //cell.detailTextLabel?.text = "enabled: \(schedules) / \(totalSchedules)"
+                cell.accessoryType = .disclosureIndicator
             }
 
             return cell
@@ -475,6 +480,7 @@ public class MiaomiaoClientSettingsViewController: UITableViewController, SubVie
         }
     }
 
+    // swiftlint:disable:next cyclomatic_complexity function_body_length
     override public func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         switch Section(rawValue: indexPath.section)! {
         case .authentication:
@@ -612,6 +618,10 @@ public class MiaomiaoClientSettingsViewController: UITableViewController, SubVie
                     }
                     self.presentStatus(controller)
                 }
+            case .glucose:
+                let controller = GlucoseSettingsTableViewController(glucoseUnit: self.glucoseUnit)
+                controller.disappearDelegate = self
+                show(controller, sender: nil)
             }
 
         case .snooze:

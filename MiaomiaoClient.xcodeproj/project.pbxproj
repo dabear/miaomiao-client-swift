@@ -81,6 +81,9 @@
 		275C3DA1229D9BBB00E27439 /* MMTextFieldViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 275C3DA0229D9BBB00E27439 /* MMTextFieldViewCell.swift */; };
 		275C3DA3229FCED400E27439 /* NotificationHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 275C3DA2229FCED400E27439 /* NotificationHelper.swift */; };
 		276A8708235B06190055AFFA /* TableViewExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 276A8707235B06190055AFFA /* TableViewExtensions.swift */; };
+		276A870C235F841D0055AFFA /* GlucoseSettingsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 276A870B235F841D0055AFFA /* GlucoseSettingsTableViewController.swift */; };
+		276A870E235F875D0055AFFA /* UserDefaults+GlucoseSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 276A870D235F875D0055AFFA /* UserDefaults+GlucoseSettings.swift */; };
+		276A870F235F8CAC0055AFFA /* UserDefaults+GlucoseSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 276A870D235F875D0055AFFA /* UserDefaults+GlucoseSettings.swift */; };
 		277DAD0D226B970300422ADA /* UserDefaults+Alarmsettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 277DAD0C226B970300422ADA /* UserDefaults+Alarmsettings.swift */; };
 		277DAD0E226B971A00422ADA /* UserDefaults+Alarmsettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 277DAD0C226B970300422ADA /* UserDefaults+Alarmsettings.swift */; };
 		277DAD10226C93D000422ADA /* GlucoseAlarmType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 277DAD0F226C93D000422ADA /* GlucoseAlarmType.swift */; };
@@ -265,6 +268,8 @@
 		275C3DA0229D9BBB00E27439 /* MMTextFieldViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MMTextFieldViewCell.swift; sourceTree = "<group>"; };
 		275C3DA2229FCED400E27439 /* NotificationHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationHelper.swift; sourceTree = "<group>"; };
 		276A8707235B06190055AFFA /* TableViewExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewExtensions.swift; sourceTree = "<group>"; };
+		276A870B235F841D0055AFFA /* GlucoseSettingsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GlucoseSettingsTableViewController.swift; sourceTree = "<group>"; };
+		276A870D235F875D0055AFFA /* UserDefaults+GlucoseSettings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UserDefaults+GlucoseSettings.swift"; sourceTree = "<group>"; };
 		277DAD0C226B970300422ADA /* UserDefaults+Alarmsettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserDefaults+Alarmsettings.swift"; sourceTree = "<group>"; };
 		277DAD0F226C93D000422ADA /* GlucoseAlarmType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlucoseAlarmType.swift; sourceTree = "<group>"; };
 		277DAD13226CACF300422ADA /* MessagePassing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessagePassing.swift; sourceTree = "<group>"; };
@@ -582,6 +587,7 @@
 				271EDF1D22EB100500E1C8B3 /* BluetoothSelector */,
 				27E0969022B2A89D00B3164D /* CalibrationEditTableViewController.swift */,
 				274DF85122A5AEA400BFAFFE /* AlertControllers.swift */,
+				276A870B235F841D0055AFFA /* GlucoseSettingsTableViewController.swift */,
 				27CBEB3D225FE5CB004F7BF5 /* AlarmSettingsTableViewController.swift */,
 				2701478C2281FA4A0013C9E3 /* NotificationsSettingsTableViewController.swift */,
 				43A8EC8F210E676500A81379 /* MiaomiaoClientSettingsViewController.swift */,
@@ -699,6 +705,7 @@
 				27D0DA6A2231CBB7007BBB2C /* DateExtensions.swift */,
 				27CFAB5D224AB265006DEFE3 /* CollectionExtensions.swift */,
 				270C266E226A5A6E005B27F3 /* GlucoseSchedules.swift */,
+				276A870D235F875D0055AFFA /* UserDefaults+GlucoseSettings.swift */,
 				277DAD0C226B970300422ADA /* UserDefaults+Alarmsettings.swift */,
 				277DAD0F226C93D000422ADA /* GlucoseAlarmType.swift */,
 				277DAD13226CACF300422ADA /* MessagePassing.swift */,
@@ -1095,6 +1102,7 @@
 				2729D699221F44670030E1B8 /* CRC.swift in Sources */,
 				2729D687221F43150030E1B8 /* SensorData.swift in Sources */,
 				277DAD14226CACF300422ADA /* MessagePassing.swift in Sources */,
+				276A870F235F8CAC0055AFFA /* UserDefaults+GlucoseSettings.swift in Sources */,
 				271EDF2B22EF97FD00E1C8B3 /* LibreBluetoothManager+Bubble.swift in Sources */,
 				27E3C39C222EE9450036AAC7 /* LibreOOPResponse.swift in Sources */,
 			);
@@ -1112,7 +1120,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				276A870C235F841D0055AFFA /* GlucoseSettingsTableViewController.swift in Sources */,
 				43A8EC92210E676500A81379 /* MiaomiaoClientSettingsViewController.swift in Sources */,
+				276A870E235F875D0055AFFA /* UserDefaults+GlucoseSettings.swift in Sources */,
 				4325E9D5210E6B4400969CE5 /* UIColor.swift in Sources */,
 				27E0969122B2A89D00B3164D /* CalibrationEditTableViewController.swift in Sources */,
 				27E0968622A6F64800B3164D /* SnoozeViewController.swift in Sources */,

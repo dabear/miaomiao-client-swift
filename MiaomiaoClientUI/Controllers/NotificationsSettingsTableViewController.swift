@@ -10,7 +10,6 @@ import LoopKitUI
 import UIKit
 
 import HealthKit
-
 public class NotificationsSettingsTableViewController: UITableViewController, mmTextFieldViewCellCellDelegate {
     override public func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
@@ -223,7 +222,7 @@ public class NotificationsSettingsTableViewController: UITableViewController, mm
             //switchCell.titleLabel?.text = "test"
 
             switchCell.titleLabel?.text = NSLocalizedString("Sensor Not found", comment: "The title text for the miaomiao sensor not found event")
-
+            
             switchCell.toggleIsSelected?.addTarget(self, action: #selector(noSensorDetectedEventChanged(_:)), for: .valueChanged)
             switchCell.contentView.layoutMargins.left = tableView.separatorInset.left
             return switchCell
@@ -274,12 +273,12 @@ public class NotificationsSettingsTableViewController: UITableViewController, mm
             print("selected low battery row")
         case .invalidSensorDetected:
             print("selected invalidSensorDetected")
-        //case .alarmNotifications:
+            //case .alarmNotifications:
         //    print("selected alarmNotifications")
         case .newSensorDetected:
-           print("selected sensorChanged")
+            print("selected sensorChanged")
         case .noSensorDetected:
-           print("selected noSensorDetected")
+            print("selected noSensorDetected")
         case .expireSoonAlarm:
             print("selected expireSoonAlarm")
         case .alertEveryXTime:
