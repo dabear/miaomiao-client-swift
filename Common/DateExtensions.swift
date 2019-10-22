@@ -46,12 +46,10 @@ public extension Date {
     public static var LocaleWantsAMPM: Bool {
         return DateFormatter.dateFormat(fromTemplate: "j", options: 0, locale: NSLocale.current)!.contains("a")
     }
-
 }
 
 extension DateComponents {
-    func ToTimeString(wantsAMPM: Bool=Date.LocaleWantsAMPM) -> String {
-
+    func ToTimeString(wantsAMPM: Bool = Date.LocaleWantsAMPM) -> String {
         //print("hour: \(self.hour) minute: \(self.minute)")
         let date = Calendar.current.date(bySettingHour: self.hour ?? 0, minute: self.minute ?? 0, second: 0, of: Date())!
 
@@ -61,26 +59,21 @@ extension DateComponents {
 
         formatter.dateFormat = wantsAMPM ? "hh:mm a" : "HH:mm"
         return formatter.string(from: date)
-
     }
 }
 
 extension TimeInterval {
-
     func stringDaysFromTimeInterval() -> String {
-
-        let aday = 86400.0 //in seconds
+        let aday = 86_400.0 //in seconds
         let time = Double(self).magnitude
 
         let days = time / aday
 
         return days.twoDecimals
-
     }
 }
 
 extension Array where Element == DateInterval {
-
     // Check for intersection among the intervals in the given array and return
     // the interval if found.
     func intersect() -> DateInterval? {

@@ -6,11 +6,11 @@
 //  Copyright © 2018 Uwe Petersen. All rights reserved.
 //
 
-import Foundation
-import UIKit
 import CoreBluetooth
-import os.log
+import Foundation
 import HealthKit
+import os.log
+import UIKit
 
 public enum BluetoothmanagerState: String {
     case Unassigned = "Unassigned"
@@ -36,6 +36,7 @@ public enum SupportedDevices: Int, CaseIterable {
             return "miaomiao"
         }
     }
+
     public static func isSupported(_ peripheral: CBPeripheral ) -> Bool {
         if let name = peripheral.name?.lowercased() {
             return allNames.contains {
@@ -44,19 +45,17 @@ public enum SupportedDevices: Int, CaseIterable {
             }
         }
         return false
-
     }
+
     public static var allNames: [String] {
-        get {
-            return SupportedDevices.allCases.map {$0.name}
-        }
+            return SupportedDevices.allCases.map { $0.name }
     }
 }
 
 extension Bundle {
     static var current: Bundle {
-        class __ { }
-        return Bundle(for: __.self)
+        class Helper { }
+        return Bundle(for: Helper.self)
     }
 }
 
@@ -65,16 +64,13 @@ public struct CompatibleLibreBluetoothDevice: Hashable, Codable {
     public var name: String
 
     public var bridgeType: SupportedDevices? {
-        get {
-
-            switch self.name.lowercased() {
-            case let x where x.starts(with: "miaomiao"):
-                return SupportedDevices.MiaoMiao
-            case let x where x.starts(with: "bubble"):
-                return SupportedDevices.Bubble
-            default:
-                return nil
-            }
+        switch self.name.lowercased() {
+        case let x where x.starts(with: "miaomiao"):
+            return SupportedDevices.MiaoMiao
+        case let x where x.starts(with: "bubble"):
+            return SupportedDevices.Bubble
+        default:
+            return nil
         }
     }
 
@@ -101,7 +97,6 @@ public struct CompatibleLibreBluetoothDevice: Hashable, Codable {
         print("dabear:: bridgetype is \(bridgeType)")
 
         guard let bridgeType = bridgeType else {
-
             return nil
         }
         switch bridgeType {
@@ -110,12 +105,10 @@ public struct CompatibleLibreBluetoothDevice: Hashable, Codable {
         case .MiaoMiao:
             return UIImage(named: "miaomiao-small", in: bundle, compatibleWith: nil)
         }
-
     }
-
 }
 
-protocol LibreBluetoothManagerDelegate {
+protocol LibreBluetoothManagerDelegate: class {
     // Can happen on any queue
     func libreBluetoothManagerPeripheralStateChanged(_ state: BluetoothmanagerState)
     func libreBluetoothManagerReceivedMessage(_ messageIdentifier: UInt16, txFlags: UInt8, payloadData: Data)
@@ -125,7 +118,7 @@ protocol LibreBluetoothManagerDelegate {
 
 public extension CBPeripheral {
     func asCompatibleBluetoothDevice() -> CompatibleLibreBluetoothDevice? {
-        if SupportedDevices.isSupported(self), let name=self.name {
+        if SupportedDevices.isSupported(self), let name = self.name {
             return CompatibleLibreBluetoothDevice(identifier: self.identifier.uuidString, name: name)
         }
 
@@ -134,7 +127,6 @@ public extension CBPeripheral {
 }
 
 final class LibreBluetoothManager: NSObject, CBCentralManagerDelegate, CBPeripheralDelegate {
-
     // MARK: - Properties
     private var wantsToTerminate = false
     //private var lastConnectedIdentifier : String?
@@ -151,10 +143,7 @@ final class LibreBluetoothManager: NSObject, CBCentralManagerDelegate, CBPeriphe
     var sensorData: SensorData?
 
     public var identifier: UUID? {
-        get {
             return peripheral?.identifier
-        }
-
     }
 
     public func peripheralAsCompatibleDevice() -> CompatibleLibreBluetoothDevice? {
@@ -174,22 +163,19 @@ final class LibreBluetoothManager: NSObject, CBCentralManagerDelegate, CBPeriphe
     var delegate: LibreBluetoothManagerDelegate? {
         didSet {
             self.delegateQueue.async { [weak self] in
-                guard let self=self else {
+                guard let self = self else {
                     return
                 }
                 // Help delegate initialize by sending current state directly after delegate assignment
                 self.delegate?.libreBluetoothManagerPeripheralStateChanged(self.state)
-
-
             }
         }
     }
 
     private var state: BluetoothmanagerState = .Unassigned {
         didSet {
-
             self.delegateQueue.async { [weak self] in
-                guard let self=self else {
+                guard let self = self else {
                     return
                 }
                 // Help delegate initialize by sending current state directly after delegate assignment
@@ -198,18 +184,18 @@ final class LibreBluetoothManager: NSObject, CBCentralManagerDelegate, CBPeriphe
         }
     }
 
-    public func dispatchToDelegate( _ closure :@escaping  (_ aself:LibreBluetoothManager) -> Void ) {
+    public func dispatchToDelegate( _ closure :@escaping  (_ aself: LibreBluetoothManager) -> Void ) {
         delegateQueue.async { [weak self] in
-            if let self=self {
+            if let self = self {
                 closure(self)
             }
         }
     }
 
-    private func syncOnManagerQueue<T>( _ closure :@escaping  (_ aself:LibreBluetoothManager?) -> T?) -> T? {
+    private func syncOnManagerQueue<T>( _ closure :@escaping  (_ aself: LibreBluetoothManager?) -> T?) -> T? {
         var ret: T?
 
-        managerQueue.sync { [weak self,closure] in
+        managerQueue.sync { [weak self, closure] in
             ret = closure(self)
         }
 
@@ -219,7 +205,7 @@ final class LibreBluetoothManager: NSObject, CBCentralManagerDelegate, CBPeriphe
     public var connectionStateString: String? {
         dispatchPrecondition(condition: .notOnQueue(managerQueue))
 
-        return syncOnManagerQueue({ (manager)  in
+        return syncOnManagerQueue({ manager  in
             return manager?.state.rawValue
         })
 
@@ -254,7 +240,6 @@ final class LibreBluetoothManager: NSObject, CBCentralManagerDelegate, CBPeriphe
             centralManager.scanForPeripherals(withServices: nil, options: nil)
             state = .Scanning
         }
-
     }
 
     private func connect(force forceConnect: Bool = false) {
@@ -281,7 +266,6 @@ final class LibreBluetoothManager: NSObject, CBCentralManagerDelegate, CBPeriphe
         os_log("Disconnect manually while state %{public}@", log: LibreBluetoothManager.bt_log, type: .default, String(describing: state.rawValue))
 
         managerQueue.sync {
-
             switch state {
             case .Connected, .Connecting, .Notifying, .Scanning:
                 self.state = .DisconnectingDueToButtonPress  // to avoid reconnect in didDisconnetPeripheral
@@ -299,7 +283,6 @@ final class LibreBluetoothManager: NSObject, CBCentralManagerDelegate, CBPeriphe
                 centralManager.cancelPeripheralConnection(peripheral)
             }
         }
-
     }
 
     // MARK: - CBCentralManagerDelegate
@@ -324,7 +307,6 @@ final class LibreBluetoothManager: NSObject, CBCentralManagerDelegate, CBPeriphe
                 os_log("Central Manager was powered on, scanningformiaomiao: state: %{public}@", log: LibreBluetoothManager.bt_log, type: .default, String(describing: state))
                 scanForDevices() // power was switched on, while app is running -> reconnect.
             }
-
         }
     }
 
@@ -345,27 +327,20 @@ final class LibreBluetoothManager: NSObject, CBCentralManagerDelegate, CBPeriphe
             return
         }
 
-
-
         if let preselected = UserDefaults.standard.preSelectedDevice {
             if peripheral.identifier.uuidString == preselected.identifier {
                 os_log("Did connect to preselected %{public}@ with identifier %{public}@,", log: LibreBluetoothManager.bt_log, type: .default, String(describing: peripheral.name), String(describing: peripheral.identifier.uuidString))
                 self.peripheral = peripheral
 
                 self.connect(force: true)
-
             } else {
                 os_log("Did not connect to %{public}@ with identifier %{public}@, because another device with identifier %{public}@ was selected", log: LibreBluetoothManager.bt_log, type: .default, String(describing: peripheral.name), String(describing: peripheral.identifier.uuidString), preselected.identifier)
-
             }
 
             return
         } else {
             NotificationHelper.sendNoBridgeSelectedNotification()
         }
-
-
-
     }
 
     func centralManager(_ central: CBCentralManager, didConnect peripheral: CBPeripheral) {
@@ -391,7 +366,6 @@ final class LibreBluetoothManager: NSObject, CBCentralManagerDelegate, CBPeriphe
         state = .Disconnected
 
         self.delayedReconnect()
-
     }
 
     private func delayedReconnect(_ seconds: Double = 7) {
@@ -405,9 +379,7 @@ final class LibreBluetoothManager: NSObject, CBCentralManagerDelegate, CBPeriphe
             self?.managerQueue.sync {
                 self?.connect()
             }
-
         }
-
     }
 
     func centralManager(_ central: CBCentralManager, didDisconnectPeripheral peripheral: CBPeripheral, error: Error?) {
@@ -428,7 +400,6 @@ final class LibreBluetoothManager: NSObject, CBCentralManagerDelegate, CBPeriphe
             self.delayedReconnect()
             //    scanForMiaoMiao()
         }
-
     }
 
     // MARK: - CBPeripheralDelegate
@@ -441,7 +412,6 @@ final class LibreBluetoothManager: NSObject, CBCentralManagerDelegate, CBPeriphe
         }
 
         if let services = peripheral.services {
-
             for service in services {
                 peripheral.discoverCharacteristics([writeCharachteristicUUID, notifyCharacteristicUUID], for: service)
 
@@ -483,11 +453,11 @@ final class LibreBluetoothManager: NSObject, CBCentralManagerDelegate, CBPeriphe
                 //                }
 
                 // Choose the notifiying characteristic and Register to be notified whenever the MiaoMiao transmits
-                if (characteristic.properties.intersection(.notify)) == .notify && characteristic.uuid == notifyCharacteristicUUID {
+                if characteristic.properties.intersection(.notify) == .notify && characteristic.uuid == notifyCharacteristicUUID {
                     peripheral.setNotifyValue(true, for: characteristic)
                     os_log("Set notify value for this characteristic", log: LibreBluetoothManager.bt_log, type: .default)
                 }
-                if (characteristic.uuid == writeCharachteristicUUID) {
+                if characteristic.uuid == writeCharachteristicUUID {
                     writeCharacteristic = characteristic
                 }
             }
@@ -499,7 +469,7 @@ final class LibreBluetoothManager: NSObject, CBCentralManagerDelegate, CBPeriphe
     func peripheral(_ peripheral: CBPeripheral, didUpdateNotificationStateFor characteristic: CBCharacteristic, error: Error?) {
         dispatchPrecondition(condition: .onQueue(managerQueue))
         os_log("Did update notification state for characteristic: %{public}@", log: LibreBluetoothManager.bt_log, type: .default, String(describing: characteristic.debugDescription))
-        
+
         if let error = error {
             os_log("Peripheral did update notification state for characteristic: %{public}@ with error", log: LibreBluetoothManager.bt_log, type: .error, "\(error.localizedDescription)")
         } else {
@@ -517,7 +487,6 @@ final class LibreBluetoothManager: NSObject, CBCentralManagerDelegate, CBPeriphe
             os_log("Characteristic update error: %{public}@", log: LibreBluetoothManager.bt_log, type: .error, "\(error.localizedDescription)")
         } else {
             if characteristic.uuid == notifyCharacteristicUUID, let value = characteristic.value {
-
                 guard let bridge = peripheral.asCompatibleBluetoothDevice()?.bridgeType else {
                     return
                 }
@@ -528,9 +497,7 @@ final class LibreBluetoothManager: NSObject, CBCentralManagerDelegate, CBPeriphe
                 case .MiaoMiao:
                     miaomiaoDidUpdateValueForNotifyCharacteristics(value, peripheral: peripheral)
                 }
-
             }
-
         }
     }
 
@@ -542,7 +509,6 @@ final class LibreBluetoothManager: NSObject, CBCentralManagerDelegate, CBPeriphe
     // Miaomiao specific commands
 
     func requestData() {
-
         guard let peripheral = peripheral, let bridge = peripheral.asCompatibleBluetoothDevice()?.bridgeType else {
             return
         }
@@ -554,14 +520,10 @@ final class LibreBluetoothManager: NSObject, CBCentralManagerDelegate, CBPeriphe
             case .MiaoMiao:
                 miaomiaoRequestData(writeCharacteristics: writeCharacteristic, peripheral: peripheral)
             }
-
         }
     }
 
-   
-
     func handleCompleteMessage() {
-
         guard let bridge = peripheral?.asCompatibleBluetoothDevice()?.bridgeType else {
             return
         }
@@ -572,15 +534,12 @@ final class LibreBluetoothManager: NSObject, CBCentralManagerDelegate, CBPeriphe
         case .MiaoMiao:
             miaomiaoHandleCompleteMessage()
         }
-
     }
 
     deinit {
         self.delegate = nil
         os_log("dabear:: miaomiaomanager deinit called")
-
     }
-
 }
 
 extension LibreBluetoothManager {
@@ -599,7 +558,6 @@ extension LibreBluetoothManager {
     }
 
     var device: HKDevice? {
-
         return HKDevice(
             name: "MiaomiaoClient",
             manufacturer: manufacturer,
@@ -613,45 +571,41 @@ extension LibreBluetoothManager {
     }
 }
 
-
-
 //these are extensions to return properties (for inspection on the main ui) that exist on the queue only
 extension LibreBluetoothManager {
-
     var OnQueue_metadata: BluetoothBridgeMetaData? {
-        return syncOnManagerQueue { (manager)  in
+        return syncOnManagerQueue { manager  in
             return manager?.metadata
         }
     }
 
     var OnQueue_sensorData: SensorData? {
-        return syncOnManagerQueue { (manager)  in
+        return syncOnManagerQueue { manager  in
             return manager?.sensorData
         }
     }
 
     var OnQueue_state: BluetoothmanagerState? {
-        return syncOnManagerQueue { (manager)  in
+        return syncOnManagerQueue { manager  in
             return manager?.state
         }
     }
 
     var OnQueue_identifer: UUID? {
-        return syncOnManagerQueue { (manager)  in
+        return syncOnManagerQueue { manager  in
             return manager?.identifier
         }
     }
 
     var OnQueue_manufacturer: String? {
-        return syncOnManagerQueue { (manager)  in
+        return syncOnManagerQueue { manager  in
             return manager?.manufacturer
         }
     }
 
     var OnQueue_device: HKDevice? {
-        return syncOnManagerQueue { (manager)  in
+        return syncOnManagerQueue { manager  in
             return manager?.device
         }
     }
-
 }

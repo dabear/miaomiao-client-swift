@@ -58,9 +58,9 @@ struct Measurement {
     /// - returns: Measurement
     init(bytes: [UInt8], slope: Double = 0.1, offset: Double = 0.0, counter: Int = 0, date: Date, derivedAlgorithmParameterSet: DerivedAlgorithmParameters? = nil) {
         self.bytes = bytes
-        self.byteString = bytes.reduce("", {$0 + String(format: "%02X", arguments: [$1])})
+        self.byteString = bytes.reduce("", { $0 + String(format: "%02X", arguments: [$1]) })
         self.rawGlucose = (Int(bytes[1] & 0x1F) << 8) + Int(bytes[0]) // switched to 13 bit mask on 2018-03-15
-        self.rawTemperature = (Int(bytes[4] & 0x3F) << 8)  + Int(bytes[3]) // 14 bit-mask for raw temperature
+        self.rawTemperature = (Int(bytes[4] & 0x3F) << 8) + Int(bytes[3]) // 14 bit-mask for raw temperature
         self.slope = slope
         self.offset = offset
         self.glucose = offset + slope * Double(rawGlucose)

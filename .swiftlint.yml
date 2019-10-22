@@ -1,0 +1,61 @@
+disabled_rules:
+  - identifier_name
+  - large_tuple
+excluded: # paths to ignore during linting. Takes precedence over `included`.
+  - Carthage
+force_cast: warning # implicitly
+line_length: 1000
+opt_in_rules:
+  - legacy_constant
+  - legacy_constructor
+  - convenience_type
+  - empty_string
+  - fatal_error_message
+  - toggle_bool
+  - unused_private_declaration
+  - fallthrough
+  - unavailable_function
+  - overridden_super_call
+   - anyobject_protocol
+  - attributes
+  - closure_end_indentation
+  - closure_spacing
+  - collection_alignment
+  - contains_over_filter_count
+  - contains_over_filter_is_empty
+  - contains_over_first_not_nil
+  - discouraged_object_literal
+  - empty_count
+  - explicit_init
+  - file_header
+  - file_name
+  - first_where
+  - flatmap_over_map_reduce
+  - identical_operands
+  - joined_default_parameter
+  - legacy_random
+  - let_var_whitespace
+  - last_where
+  - literal_expression_end_indentation
+  - modifier_order
+  - nimble_operator
+  - number_separator
+  - operator_usage_whitespace
+  - overridden_super_call
+  - override_in_extension
+  - pattern_matching_keywords
+  - quick_discouraged_call
+  - quick_discouraged_focused_test
+  - quick_discouraged_pending_test
+  - redundant_nil_coalescing
+  - redundant_type_annotation
+  - single_test_class
+  - sorted_first_last
+  - sorted_imports
+  - unneeded_parentheses_in_closure_argument
+  - unowned_variable_capture
+  - untyped_error_in_catch
+  - vertical_parameter_alignment_on_call
+  - vertical_whitespace_closing_braces
+  - vertical_whitespace_opening_braces
+  - xct_specific_matcher

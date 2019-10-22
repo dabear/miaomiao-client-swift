@@ -6,8 +6,8 @@
 //  Copyright © 2019 Mark Wilson. All rights reserved.
 //
 
-import UIKit
 import LoopKitUI
+import UIKit
 
 protocol NibLoadable: IdentifiableClass {
     static func nib() -> UINib
@@ -24,7 +24,7 @@ extension TextFieldTableViewCell: NibLoadable { }
 extension AlarmTimeInputRangeCell: NibLoadable { }
 extension GlucoseAlarmInputCell: NibLoadable {}
 extension SegmentViewCell: NibLoadable {}
-extension mmSwitchTableViewCell: NibLoadable {}
-extension mmTextFieldViewCell: NibLoadable {}
-extension mmTextFieldViewCell2: NibLoadable {}
+extension MMSwitchTableViewCell: NibLoadable {}
+extension MMTextFieldViewCell: NibLoadable {}
+extension MMTextFieldViewCell2: NibLoadable {}
 extension SnoozeView: NibLoadable {}

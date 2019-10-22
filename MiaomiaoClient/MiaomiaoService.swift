@@ -23,10 +23,9 @@ public class MiaomiaoService: ServiceAuthentication {
             url?.absoluteString
         ]
 
-        if let accessToken = accessToken, let url = url {
+        if let _ = accessToken, let _ = url {
             isAuthorized = true
         }
-
     }
 
     public var accessToken: String? {
@@ -44,7 +43,6 @@ public class MiaomiaoService: ServiceAuthentication {
     public var isAuthorized: Bool = false
 
     public func verify(_ completion: @escaping (_ success: Bool, _ error: Error?) -> Void) {
-
         guard let accessToken = accessToken, let url = url else {
             completion(false, nil)
             return
@@ -52,14 +50,13 @@ public class MiaomiaoService: ServiceAuthentication {
 
         let client = LibreOOPClient(accessToken: accessToken, site: url.absoluteString)
 
-        client.verifyToken { (success) in
+        client.verifyToken { success in
             var error: Error?
             if !success {
                 error = LibreError.invalidAutoCalibrationCredentials
             }
             completion(success, error)
         }
-
     }
 
     public func reset() {
@@ -74,6 +71,7 @@ public class MiaomiaoService: ServiceAuthentication {
         //client = nil
     }
 }
+
 let AutoCalibrateWebServiceLabel = "LibreOOPWebClient1"
 
 extension KeychainManager {

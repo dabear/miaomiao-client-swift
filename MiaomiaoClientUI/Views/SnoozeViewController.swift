@@ -10,7 +10,6 @@ import Foundation
 import UIKit
 
 class SnoozeViewController: UIViewController {
-
     weak var customView: SnoozeView!
 
     override func loadView() {
@@ -23,7 +22,7 @@ class SnoozeViewController: UIViewController {
             customView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor),
             customView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
             customView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor)
-            ])
+        ])
         self.customView = customView
     }
 

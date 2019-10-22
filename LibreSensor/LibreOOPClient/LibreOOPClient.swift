@@ -8,7 +8,6 @@
 
 import Foundation
 class LibreOOPClient {
-
     private var accessToken: String
     private var uploadEndpoint: String   // = "https://libreoopweb.azurewebsites.net/api/CreateRequestAsync"
     private var statusEndpoint: String   // = "https://libreoopweb.azurewebsites.net/api/GetStatus"
@@ -29,16 +28,13 @@ class LibreOOPClient {
         return Data(a).base64EncodedString()
     }
     private func postToServer(_ completion:@escaping (( _ data_: Data, _ response: String, _ success: Bool ) -> Void), postURL: String, postparams: [String: String]) {
-
         let request = NSMutableURLRequest(url: NSURL(string: postURL)! as URL)
         request.httpMethod = "POST"
 
         request.setBodyContent(contentMap: postparams)
         request.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
 
-        let task = URLSession.shared.dataTask(with: request as URLRequest) {
-            data, response, _ in
-
+        let task = URLSession.shared.dataTask(with: request as URLRequest) { data, response, _ in
             guard let data = data else {
                 completion("network error".data(using: .utf8)!, "network error", false)
                 return
@@ -47,14 +43,11 @@ class LibreOOPClient {
             if let response = String(data: data, encoding: String.Encoding.utf8) {
                 completion(data, response, true)
             }
-
         }
         task.resume()
-
     }
 
-    public func getStatusIntervalled(uuid: String, intervalSeconds: UInt32=10, maxTries: Int8=8, _ completion:@escaping ((  _ success: Bool, _ message: String, _ oopCurrentValue: OOPCurrentValue?, _ newState: String) -> Void)) {
-
+    public func getStatusIntervalled(uuid: String, intervalSeconds: UInt32 = 10, maxTries: Int8 = 8, _ completion:@escaping ((  _ success: Bool, _ message: String, _ oopCurrentValue: OOPCurrentValue?, _ newState: String) -> Void)) {
         let sem = DispatchSemaphore(value: 0)
         var oopCurrentValue: OOPCurrentValue?
         var succeeded = false
@@ -69,13 +62,12 @@ class LibreOOPClient {
                 NSLog("Attempt \(i): Waiting \(intervalSeconds) seconds before calling getstatus")
                 sleep(intervalSeconds)
                 NSLog("Finished waiting \(intervalSeconds) seconds before calling getstatus")
-                if (succeeded) {
+                if succeeded {
                     error = ""
                     break
-
                 }
-                self.getStatus(uuid: uuid, { [weak self] (success, errormsg, response, newState) in
-                    if (success) {
+                self.getStatus(uuid: uuid, { [weak self] success, errormsg, response, newState in
+                    if success {
                         succeeded = true
                         newState2 = newState ?? ""
                         oopCurrentValue = self?.getOOPCurrentValue(from: response)
@@ -103,7 +95,7 @@ class LibreOOPClient {
                     }
                 }*/
 
-                if (succeeded) {
+                if succeeded {
                     error = ""
                     break
                 }
@@ -124,7 +116,7 @@ class LibreOOPClient {
                     let oopCurrentValue = try JSONDecoder().decode(OOPCurrentValue.self, from: jsonData)
                     return oopCurrentValue
                 }
-            } catch let error {
+            } catch {
                 NSLog("Error decoding json respons: \(error)")
             }
         }
@@ -132,16 +124,15 @@ class LibreOOPClient {
     }
 
     public func verifyToken( _ completion:@escaping (( _ success: Bool) -> Void)) {
-
-        postToServer({ (_, response, _) in
+        postToServer({ _, response, _ in
             completion(response == "valid")
         }, postURL: verifyTokenEndpoint, postparams: ["accessToken": self.accessToken])
     }
 
     private func getStatus(uuid: String, _ completion:@escaping ((  _ success: Bool, _ message: String, _ response: String?, _ newState: String? ) -> Void)) {
-        postToServer({ (data, response, success) in
+        postToServer({ data, response, success in
             NSLog("getstatus here:" + response)
-            if(!success) {
+            if !success {
                 NSLog("Get status failed")
                 completion(false, response, response, nil)
                 return
@@ -167,20 +158,15 @@ class LibreOOPClient {
                     completion(false, "Result was not ready", nil, nil)
                     return
                 }
-
-            } catch (let error as NSError) {
-
+            } catch let error as NSError {
                 completion(false, error.localizedDescription, nil, nil)
                 return
             }
-
         }, postURL: statusEndpoint, postparams: ["accesstoken": self.accessToken, "uuid": uuid])
     }
 
     public func uploadReading(reading: [UInt8], oldState: String?=nil, sensorStartTimestamp: Int?=nil, sensorScanTimestamp: Int?=nil, currentUtcOffset: Int?=nil, _ completion:@escaping (( _ resp: LibreOOPResponse?, _ success: Bool, _ errorMessage: String) -> Void)) {
-
         self.uploadReading(reading: LibreOOPClient.readingToString(reading), oldState: oldState, sensorStartTimestamp: sensorStartTimestamp, sensorScanTimestamp: sensorScanTimestamp, currentUtcOffset: currentUtcOffset, completion)
-
     }
     public func uploadReading(reading: String, oldState: String?=nil, sensorStartTimestamp: Int?=nil, sensorScanTimestamp: Int?=nil, currentUtcOffset: Int?=nil, _ completion:@escaping (( _ resp: LibreOOPResponse?, _ success: Bool, _ errorMessage: String) -> Void)) {
         var postParams = ["accesstoken": self.accessToken, "b64contents": reading]
@@ -201,10 +187,8 @@ class LibreOOPClient {
             postParams["currentUtcOffset"] = "\(currentUtcOffset)"
         }
 
-        postToServer({ (data, _, success)  in
-
-            if(!success) {
-
+        postToServer({ data, _, success  in
+            if !success {
                 completion(nil, false, "network error!?")
                 return
             }
@@ -212,19 +196,16 @@ class LibreOOPClient {
             do {
                 let result = try decoder.decode(LibreOOPResponse.self, from: data)
                 if let msg = result.message {
-
                     completion(nil, false, msg)
                     return
                 }
 
                 completion(result, true, "")
                 return
-
             } catch let error as NSError {
                 completion(nil, false, error.localizedDescription)
                 return
             }
-
         }, postURL: uploadEndpoint, postparams: postParams)
     }
 
@@ -234,13 +215,12 @@ class LibreOOPClient {
         var prevReading: LibreReadingResult?
 
         for (_, var reading) in readings.enumerated() {
-
             //the semaphore lets me do the requests in-order
             let awaiter = DispatchSemaphore( value: 0 )
 
             let tempState = prevReading?.newState ?? LibreOOPDefaults.defaultState
-            self.uploadReading(reading: reading.b64Contents, oldState: tempState, sensorStartTimestamp: LibreOOPDefaults.sensorStartTimestamp, sensorScanTimestamp: LibreOOPDefaults.sensorScanTimestamp, currentUtcOffset: LibreOOPDefaults.currentUtcOffset) { [weak self] (response, success, errormessage) in
-                if(!success) {
+            self.uploadReading(reading: reading.b64Contents, oldState: tempState, sensorStartTimestamp: LibreOOPDefaults.sensorStartTimestamp, sensorScanTimestamp: LibreOOPDefaults.sensorScanTimestamp, currentUtcOffset: LibreOOPDefaults.currentUtcOffset) { [weak self] response, success, errormessage in
+                if !success {
                     NSLog("remote: upload reading failed! \(errormessage)")
                     ret.append((success, errormessage, nil, ""))
                     awaiter.signal()
@@ -254,22 +234,19 @@ class LibreOOPClient {
 
                 if let response = response, let uuid = response.result?.uuid {
                     print("uuid received: " + uuid)
-                    self.getStatusIntervalled(uuid: uuid, { (success, errormessage, oopCurrentValue, newState) in
+                    self.getStatusIntervalled(uuid: uuid, { success, errormessage, oopCurrentValue, newState in
                         if let oopCurrentValue = oopCurrentValue {
                             ret.append((success, errormessage, oopCurrentValue, newState))
                             reading.newState = newState
                             prevReading = reading
-
                         }
                         awaiter.signal()
                     })
                 } else {
                     awaiter.signal()
                 }
-
             }
             awaiter.wait()
-
         }
 
         return ret
@@ -281,10 +258,8 @@ class LibreOOPClient {
     public func uploadCalibration(reading: String, _ completion:@escaping (( _ resp: CalibrationResult?, _ success: Bool, _ errorMessage: String) -> Void)) {
         let postParams = ["accesstoken": self.accessToken, "b64contents": reading]
 
-        postToServer({ (data, _, success)  in
-
-            if(!success) {
-
+        postToServer({ data, _, success  in
+            if !success {
                 completion(nil, false, "network error!?")
                 return
             }
@@ -296,24 +271,20 @@ class LibreOOPClient {
                     completion(nil, false, "error")
                 }
                 if let result = response.result {
-
                     completion(result, true, "")
                     return
                 }
 
                 completion(nil, false, "unknown error decoding")
                 return
-
             } catch let error as NSError {
                 completion(nil, false, error.localizedDescription)
                 return
             }
-
         }, postURL: calibrationEndpoint, postparams: postParams)
     }
 
-    public func getCalibrationStatusIntervalled(uuid: String, intervalSeconds: UInt32=10, maxTries: Int8=8, _ completion:@escaping ((  _ success: Bool, _ errormessage: String, _ runner: DerivedAlgorithmParameters?) -> Void)) {
-
+    public func getCalibrationStatusIntervalled(uuid: String, intervalSeconds: UInt32 = 10, maxTries: Int8 = 8, _ completion:@escaping ((  _ success: Bool, _ errormessage: String, _ runner: DerivedAlgorithmParameters?) -> Void)) {
         let sem = DispatchSemaphore(value: 0)
         var algoparams: DerivedAlgorithmParameters?
         var succeeded = false
@@ -327,17 +298,15 @@ class LibreOOPClient {
                 NSLog("Attempt \(i): Waiting \(intervalSeconds) seconds before calling getCalibrationStatus")
                 sleep(intervalSeconds)
                 NSLog("Finished waiting \(intervalSeconds) seconds before calling getCalibrationStatus")
-                if (succeeded) {
+                if succeeded {
                     error = ""
                     break
-
                 }
-                self.getCalibrationStatus(uuid: uuid, { (success, errormessage, params) in
+                self.getCalibrationStatus(uuid: uuid, { success, errormessage, params in
                     print("inside handler for getCalibrationStatus in interval, success: \(success), message: \(errormessage), params:\(String(describing: params))")
-                    if (success) {
+                    if success {
                         succeeded = true
                         algoparams = params
-
                     } else {
                         error = errormessage
                     }
@@ -346,7 +315,7 @@ class LibreOOPClient {
 
                 sem.wait()
 
-                if (succeeded) {
+                if succeeded {
                     error = ""
                     break
                 }
@@ -357,9 +326,9 @@ class LibreOOPClient {
     }
 
     private func getCalibrationStatus(uuid: String, _ completion:@escaping ((  _ success: Bool, _ message: String, _ response: DerivedAlgorithmParameters?) -> Void)) {
-        postToServer({ (data, response, success) in
+        postToServer({ data, response, success in
             NSLog("getCalibrationStatus here:" + response + ", data: \(data)")
-            if(!success) {
+            if !success {
                 NSLog("getCalibrationStatus failed")
                 completion(false, response, nil)
                 return
@@ -371,7 +340,6 @@ class LibreOOPClient {
                 NSLog("getCalibrationStatus result received")
 
                 if response.error {
-
                     completion(false, "getCalibrationStatus failes due to error", nil)
                     return
                 }
@@ -389,13 +357,11 @@ class LibreOOPClient {
                 print("calibration  is not ready, status is not ready")
 
                 completion(false, "result not ready", nil)
-
-            } catch (let error as NSError) {
+            } catch  let error as NSError {
                 print("got error trying to decode GetCalibrationStatus")
                 completion(false, error.localizedDescription, nil)
                 return
             }
-
         }, postURL: calibrationStatusEndpoint, postparams: ["accesstoken": self.accessToken, "uuid": uuid])
     }
 
@@ -411,8 +377,7 @@ class LibreOOPClient {
         dir = dir.appendingPathComponent(subfolder, isDirectory: true)
 
         do {
-            files  = try fm.contentsOfDirectory(at: dir, includingPropertiesForKeys: nil)
-
+            files = try fm.contentsOfDirectory(at: dir, includingPropertiesForKeys: nil)
         } catch {
             print("Error while enumerating files for \(dir.path): \(error.localizedDescription)")
             return nil
@@ -424,12 +389,9 @@ class LibreOOPClient {
                 assoc[fileURL.lastPathComponent] = text
             } catch let error as NSError {
                 NSLog("reading file \(fileURL) failed, due to: \(error.localizedDescription)")
-
             }
         }
 
         return assoc
-
     }
-
 }

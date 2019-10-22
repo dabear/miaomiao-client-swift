@@ -13,17 +13,15 @@ func InputAlertController(_ message: String, title: String, inputPlaceholder: St
 
     // Create OK button
     let OKAction = UIAlertAction(title: "OK", style: .default) { (_: UIAlertAction!) in
-
         // Code in this block will trigger when OK button tapped.
         completion(true, alertController)
-
     }
     let cancelAction = UIAlertAction(title: "Cancel", style: .default) { (_: UIAlertAction!) in
         // Code in this block will trigger when cancel button tapped.
         completion(false, alertController)
     }
 
-    alertController.addTextField { (textField) in
+    alertController.addTextField { textField in
         textField.placeholder = inputPlaceholder
     }
     alertController.addAction(cancelAction)
@@ -36,7 +34,6 @@ func OKAlertController(_ message: String, title: String ) -> UIAlertController {
 
     // Create OK button
     let OKAction = UIAlertAction(title: "OK", style: .default) { (_: UIAlertAction!) in
-
         // Code in this block will trigger when OK button tapped.
 
     }
@@ -48,7 +45,6 @@ func ErrorAlertController(_ message: String, title: String ) -> UIAlertControlle
 
     // Create OK button
     let OKAction = UIAlertAction(title: "ok", style: .cancel) { (_: UIAlertAction!) in
-
         // Code in this block will trigger when OK button tapped.
 
     }

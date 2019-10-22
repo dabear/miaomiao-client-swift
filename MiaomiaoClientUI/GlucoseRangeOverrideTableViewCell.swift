@@ -13,7 +13,6 @@ protocol GlucoseRangeOverrideTableViewCellDelegate: class {
 }
 
 class GlucoseRangeOverrideTableViewCell: UITableViewCell, UITextFieldDelegate {
-
     weak var delegate: GlucoseRangeOverrideTableViewCellDelegate?
 
     var minValue: Double = 0 {

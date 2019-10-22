@@ -12,8 +12,8 @@ import LoopKitUI
 import UIKit
 import UserNotifications
 
-import os.log
 import HealthKit
+import os.log
 
 public final class MiaoMiaoClientManager: CGMManager, LibreBluetoothManagerDelegate {
     public var sensorState: SensorDisplayable? {
@@ -27,16 +27,13 @@ public final class MiaoMiaoClientManager: CGMManager, LibreBluetoothManagerDeleg
 
         return UserDefaults.standard.preSelectedDevice?.smallImage ??
             UIImage(named: "libresensor", in: bundle, compatibleWith: nil)
-
     }
 
     public var device: HKDevice? {
         return proxy?.OnQueue_device
-
     }
 
     public var debugDescription: String {
-
         return [
             "## MiaomiaoClientManager",
             "Testdata: foo",
@@ -49,17 +46,15 @@ public final class MiaoMiaoClientManager: CGMManager, LibreBluetoothManagerDeleg
             //"latestBackfill: \(String(describing: "latestBackfill))",
             //"latestCollector: \(String(describing: latestSpikeCollector))",
             ""
-            ].joined(separator: "\n")
+        ].joined(separator: "\n")
     }
 
     public var miaomiaoService: MiaomiaoService
 
     public func fetchNewDataIfNeeded(_ completion: @escaping (CGMResult) -> Void) {
-
         NSLog("dabear:: fetchNewDataIfNeeded called but we don't continue")
 
         completion(.noData)
-
     }
 
     public private(set) var lastConnected: Date?
@@ -77,15 +72,13 @@ public final class MiaoMiaoClientManager: CGMManager, LibreBluetoothManagerDeleg
                 NSLog("dabear:: sending glucose notification")
                 NotificationHelper.sendGlucoseNotitifcationIfNeeded(glucose: latestBackfill, oldValue: oldValue)
             }
-
         }
     }
     public static var managerIdentifier = "DexMiaomiaoClient1"
 
-    required convenience public init?(rawState: CGMManager.RawStateValue) {
+    public required convenience init?(rawState: CGMManager.RawStateValue) {
         os_log("dabear:: MiaomiaoClientManager will init from rawstate")
         self.init()
-
     }
 
     public var rawState: CGMManager.RawStateValue {
@@ -97,11 +90,11 @@ public final class MiaoMiaoClientManager: CGMManager, LibreBluetoothManagerDeleg
     public static let localizedTitle = LocalizedString("Libre Bluetooth", comment: "Title for the CGMManager option")
 
     public let appURL: URL? = nil //URL(string: "spikeapp://")
-    weak public var cgmManagerDelegate: CGMManagerDelegate?
+    public weak var cgmManagerDelegate: CGMManagerDelegate?
     public let providesBLEHeartbeat = true
     public let shouldSyncToRemoteService = true
 
-    private(set) public var lastValidSensorData: SensorData?
+    public private(set) var lastValidSensorData: SensorData?
 
     public init() {
         lastConnected = nil
@@ -111,7 +104,6 @@ public final class MiaoMiaoClientManager: CGMManager, LibreBluetoothManagerDeleg
         os_log("dabear: MiaoMiaoClientManager will be created now")
         //proxy = MiaoMiaoBluetoothManager()
         proxy?.delegate = self
-
     }
 
     public var calibrationData: DerivedAlgorithmParameters? {
@@ -123,21 +115,17 @@ public final class MiaoMiaoClientManager: CGMManager, LibreBluetoothManagerDeleg
 
         proxy?.disconnectManually()
         proxy?.delegate = nil
-
     }
 
     deinit {
-
         NSLog("dabear:: MiaoMiaoClientManager deinit called")
         //cleanup any references to events to this class
         disconnect()
-
     }
 
     private lazy var proxy: LibreBluetoothManager? = LibreBluetoothManager()
 
     private func readingToGlucose(_ data: SensorData, calibration: DerivedAlgorithmParameters) -> [LibreGlucose] {
-
         let last16 = data.trendMeasurements(derivedAlgorithmParameterSet: calibration)
         let history = data.historyMeasurements(derivedAlgorithmParameterSet: calibration)
 
@@ -147,10 +135,9 @@ public final class MiaoMiaoClientManager: CGMManager, LibreBluetoothManagerDeleg
     public func handleGoodReading(data: SensorData?, _ callback: @escaping (LibreError?, [LibreGlucose]?) -> Void) {
         //only care about the once per minute readings here, historical data will not be considered
 
-        guard let data=data else {
+        guard let data = data else {
             callback(LibreError.noSensorData, nil)
             return
-
         }
 
         let calibrationdata = keychain.getLibreCalibrationData()
@@ -163,23 +150,20 @@ public final class MiaoMiaoClientManager: CGMManager, LibreBluetoothManagerDeleg
 
                 callback(nil, readingToGlucose(data, calibration: calibrationdata))
                 return
-
             } else {
                 NSLog("dabear:: calibrationdata incorrect for this sensor, calibrationdata.isValidForFooterWithReverseCRCs: \(calibrationdata.isValidForFooterWithReverseCRCs),  data.footerCrc.byteSwapped: \(data.footerCrc.byteSwapped)")
             }
-
         } else {
             NSLog("dabear:: calibrationdata was nil")
-
         }
 
-        guard let (accessToken, url) =  self.keychain.getAutoCalibrateWebCredentials() else {
+        guard let (accessToken, url) = self.keychain.getAutoCalibrateWebCredentials() else {
             NSLog("dabear:: could not calibrate, accesstoken or url was nil")
             callback(LibreError.invalidAutoCalibrationCredentials, nil)
             return
         }
 
-        calibrateSensor(accessToken: accessToken, site: url.absoluteString, sensordata: data) { [weak self] (calibrationparams)  in
+        calibrateSensor(accessToken: accessToken, site: url.absoluteString, sensordata: data) { [weak self] calibrationparams  in
             guard let params = calibrationparams else {
                 NSLog("dabear:: could not calibrate sensor, check libreoopweb permissions and internet connection")
                 callback(LibreError.noCalibrationData, nil)
@@ -197,9 +181,7 @@ public final class MiaoMiaoClientManager: CGMManager, LibreBluetoothManagerDeleg
             //and we trust that the remote endpoint returns correct data for the sensor
 
             callback(nil, self?.readingToGlucose(data, calibration: params))
-
         }
-
     }
 
     //will be called on utility queue
@@ -217,7 +199,7 @@ public final class MiaoMiaoClientManager: CGMManager, LibreBluetoothManagerDeleg
 
     //will be called on utility queue
     public func libreBluetoothManagerReceivedMessage(_ messageIdentifier: UInt16, txFlags: UInt8, payloadData: Data) {
-        guard let packet = MiaoMiaoResponseState.init(rawValue: txFlags) else {
+        guard let packet = MiaoMiaoResponseState(rawValue: txFlags) else {
             // Incomplete package?
             // this would only happen if delegate is called manually with an unknown txFlags value
             // this was the case for readouts that were not yet complete
@@ -231,14 +213,11 @@ public final class MiaoMiaoClientManager: CGMManager, LibreBluetoothManagerDeleg
         case .newSensor:
             NSLog("dabear:: new libresensor detected")
             NotificationHelper.sendSensorChangeNotificationIfNeeded(hasChanged: true)
-            break
         case .noSensor:
             NSLog("dabear:: no libresensor detected")
             NotificationHelper.sendSensorNotDetectedNotificationIfNeeded(noSensor: true)
-            break
         case .frequencyChangedResponse:
             NSLog("dabear:: miaomiao readout interval has changed!")
-            break
 
         default:
             //we don't care about the rest!
@@ -246,12 +225,10 @@ public final class MiaoMiaoClientManager: CGMManager, LibreBluetoothManagerDeleg
         }
 
         return
-
     }
 
     //will be called on utility queue
     public func libreBluetoothManagerDidUpdate(sensorData: SensorData, and Device: BluetoothBridgeMetaData) {
-
         print("dabear:: got sensordata: \(sensorData), bytescount: \(sensorData.bytes.count), bytes: \(sensorData.bytes)")
 
         NotificationHelper.sendLowBatteryNotificationIfNeeded(device: Device)
@@ -266,7 +243,7 @@ public final class MiaoMiaoClientManager: CGMManager, LibreBluetoothManagerDeleg
             return
         }
 
-        guard sensorData.state == .ready ||  sensorData.state == .starting else {
+        guard sensorData.state == .ready || sensorData.state == .starting else {
             os_log("dabear:: got sensordata with valid crcs, but sensor is either expired or failed")
             self.cgmManagerDelegate?.cgmManager(self, didUpdateWith: .error(LibreError.expiredSensor))
             return
@@ -275,11 +252,10 @@ public final class MiaoMiaoClientManager: CGMManager, LibreBluetoothManagerDeleg
         NSLog("dabear:: got sensordata with valid crcs, sensor was ready")
         self.lastValidSensorData = sensorData
 
-        self.handleGoodReading(data: sensorData) { [weak self] (error, glucose) in
+        self.handleGoodReading(data: sensorData) { [weak self] error, glucose in
             guard let self = self else {
                 NSLog("dabear:: handleGoodReading could not lock on self, aborting")
                 return
-
             }
             if let error = error {
                 NSLog("dabear:: handleGoodReading returned with error: \(error)")
@@ -298,28 +274,22 @@ public final class MiaoMiaoClientManager: CGMManager, LibreBluetoothManagerDeleg
             // add one second to startdate to make this an exclusive (non overlapping) match
             let startDate = self.latestBackfill?.startDate.addingTimeInterval(1)
             let device = self.proxy?.device
-            let newGlucose = glucose.filterDateRange(startDate, nil).filter({ $0.isStateValid }).map { (glucose) -> NewGlucoseSample in
-
+            let newGlucose = glucose.filterDateRange(startDate, nil).filter({ $0.isStateValid }).map { glucose -> NewGlucoseSample in
                 let syncId = "\(Int(glucose.startDate.timeIntervalSince1970))\(glucose.unsmoothedGlucose)"
                 return NewGlucoseSample(date: glucose.startDate, quantity: glucose.quantity, isDisplayOnly: false, syncIdentifier: syncId, device: device)
             }
 
-            self.latestBackfill = glucose.max { $0.startDate < $1.startDate}
+            self.latestBackfill = glucose.max { $0.startDate < $1.startDate }
 
-            if newGlucose.count > 0 {
-                NSLog("dabear:: handleGoodReading returned with \(newGlucose.count) new glucose samples")
-                self.cgmManagerDelegate?.cgmManager(self, didUpdateWith: .newData(newGlucose))
-
-            } else {
+            if newGlucose.isEmpty {
                 NSLog("dabear:: handleGoodReading returned with no new data")
                 self.cgmManagerDelegate?.cgmManager(self, didUpdateWith: .noData)
-
+            } else {
+                NSLog("dabear:: handleGoodReading returned with \(newGlucose.count) new glucose samples")
+                self.cgmManagerDelegate?.cgmManager(self, didUpdateWith: .newData(newGlucose))
             }
-
         }
-
     }
-
 }
 
 /*
@@ -331,13 +301,11 @@ extension MiaoMiaoClientManager {
     //cannot be called from managerQueue
     public var identifier: String {
         return  proxy?.OnQueue_identifer?.uuidString ?? "n/a"
-
     }
 
     //cannot be called from managerQueue
     public var connectionState: String {
         return proxy?.connectionStateString ?? "n/a"
-
     }
     //cannot be called from managerQueue
     public var sensorSerialNumber: String {
@@ -347,7 +315,6 @@ extension MiaoMiaoClientManager {
     //cannot be called from managerQueue
     public var sensorAge: String {
         return proxy?.OnQueue_sensorData?.humanReadableSensorAge ?? "n/a"
-
     }
 
     //cannot be called from managerQueue
@@ -361,20 +328,16 @@ extension MiaoMiaoClientManager {
 
     //cannot be called from managerQueue
     public var sensorStateDescription: String {
-
         return proxy?.OnQueue_sensorData?.state.description ?? "n/a"
     }
     //cannot be called from managerQueue
     public var firmwareVersion: String {
-
         return proxy?.OnQueue_metadata?.firmware ?? "n/a"
     }
 
     //cannot be called from managerQueue
     public var hardwareVersion: String {
-
         return proxy?.OnQueue_metadata?.hardware ?? "n/a"
-
     }
 
     //cannot be called from managerQueue

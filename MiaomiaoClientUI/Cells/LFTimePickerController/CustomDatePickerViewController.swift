@@ -16,17 +16,14 @@ protocol CustomDatePickerDelegate: class {
 extension CustomDatePickerDelegate {
     //makes it optional
     func CustomDatePickerDelegateDidTapCancel() {}
-
 }
 class CustomDatePickerViewController: UIViewController {
-
     fileprivate let pickerView = CustomDatePicker()
 
     public weak var delegate: CustomDatePickerDelegate?
 
-    public override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+    override public func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         setDescriptionLabel()
-
     }
 
     func setDescriptionLabel() {
@@ -57,10 +54,10 @@ class CustomDatePickerViewController: UIViewController {
         labeldesc.text = "TO"
 
         setDescriptionLabel()
-
     }
 
-    @objc func doneTapped() {
+    @objc
+    func doneTapped() {
         print("done tapped")
         delegate?.CustomDatePickerDelegateDidTapDone(fromComponent: self.pickerView.lastSelectedComponentLeft, toComponents: self.pickerView.lastSelectedComponentRight)
         self.navigationController?.popViewController(animated: true)
@@ -74,13 +71,10 @@ class CustomDatePickerViewController: UIViewController {
         return 1
     }
 
-    @objc func cancelTapped() {
-        //TODO: only for debugging
-        //crash()
-
+    @objc
+    func cancelTapped() {
         print("cancel tapped")
         delegate?.CustomDatePickerDelegateDidTapCancel()
         self.navigationController?.popViewController(animated: true)
     }
-
 }

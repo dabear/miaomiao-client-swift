@@ -11,11 +11,10 @@ import Foundation
 import UIKit
 
 protocol mmTextFieldViewCellCellDelegate2: class {
-    func mmTextFieldViewCellDidUpdateValue(_ cell: mmTextFieldViewCell2, value: String?)
+    func mmTextFieldViewCellDidUpdateValue(_ cell: MMTextFieldViewCell2, value: String?)
 }
 
-class mmTextFieldViewCell2: UITableViewCell, UITextFieldDelegate {
-
+class MMTextFieldViewCell2: UITableViewCell, UITextFieldDelegate {
     weak var delegate: mmTextFieldViewCellCellDelegate2?
 
     // MARK: Outlets
@@ -42,7 +41,6 @@ class mmTextFieldViewCell2: UITableViewCell, UITextFieldDelegate {
         set {
             titleLabel!.isEnabled = newValue
             textInput!.isEnabled = newValue
-
         }
     }
 
@@ -58,7 +56,5 @@ class mmTextFieldViewCell2: UITableViewCell, UITextFieldDelegate {
         super.init(coder: aDecoder)
         print("here2")
         textInput?.keyboardType = .numberPad
-
     }
-
 }

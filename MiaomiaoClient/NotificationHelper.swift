@@ -6,14 +6,13 @@
 //  Copyright © 2019 Mark Wilson. All rights reserved.
 //
 
+import AudioToolbox
 import Foundation
-import UserNotifications
 import HealthKit
 import LoopKit
-import AudioToolbox
+import UserNotifications
 
-class NotificationHelper {
-
+enum NotificationHelper {
     private enum Identifiers: String {
         case glucocoseNotifications = "no.bjorninge.miaomiao.glucose-notification"
         case noSensorDetected = "no.bjorninge.miaomiao.nosensordetected-notification"
@@ -40,24 +39,22 @@ class NotificationHelper {
 
     public static func vibrateIfNeeded(count: Int = 3) {
         if UserDefaults.standard.mmGlucoseAlarmsVibrate {
-            vibrate(count: count)
+            vibrate(times: count)
         }
     }
-    private static func vibrate(count: Int) {
-        guard count >= 0 else {
+    private static func vibrate(times: Int) {
+        guard times >= 0 else {
             return
         }
 
         AudioServicesPlaySystemSoundWithCompletion(kSystemSoundID_Vibrate) {
-            vibrate(count: count - 1)
+            vibrate(times: times - 1)
         }
     }
 
     public static func sendBluetoothPowerOffNotification() {
-
-        ensureCanSendNotification { (ensured) in
-
-            guard (ensured) else {
+        ensureCanSendNotification { ensured in
+            guard ensured else {
                 NSLog("dabear:: not sending PowerOff notification")
                 return
             }
@@ -72,20 +69,17 @@ class NotificationHelper {
             //content.sound = UNNotificationSound.
             let request = UNNotificationRequest(identifier: Identifiers.bluetoothPoweredOff.rawValue, content: content, trigger: nil)
 
-            center.add(request) { (error) in
+            center.add(request) { error in
                 if let error = error {
                     NSLog("dabear:: unable to add no poweroff-notification: \(error.localizedDescription)")
                 }
             }
-
         }
     }
 
     public static func sendNoBridgeSelectedNotification() {
-
-        ensureCanSendNotification { (ensured) in
-
-            guard (ensured) else {
+        ensureCanSendNotification { ensured in
+            guard ensured else {
                 NSLog("dabear:: not sending noBridgeSelected notification")
                 return
             }
@@ -100,31 +94,28 @@ class NotificationHelper {
             //content.sound = UNNotificationSound.
             let request = UNNotificationRequest(identifier: Identifiers.noBridgeSelected.rawValue, content: content, trigger: nil)
 
-            center.add(request) { (error) in
+            center.add(request) { error in
                 if let error = error {
                     NSLog("dabear:: unable to add no noBridgeSelected-notification: \(error.localizedDescription)")
                 }
             }
-
         }
     }
 
     private static func ensureCanSendNotification(_ completion: @escaping (_ canSend: Bool) -> Void ) {
-        UNUserNotificationCenter.current().getNotificationSettings { (settings) in
-            if #available(iOSApplicationExtension 12.0, *) {
-                guard (settings.authorizationStatus == .authorized || settings.authorizationStatus == .provisional) else {
+        UNUserNotificationCenter.current().getNotificationSettings { settings in
+            if #available (iOSApplicationExtension 12.0, *) {
+                guard settings.authorizationStatus == .authorized || settings.authorizationStatus == .provisional else {
                     NSLog("dabear:: ensureCanSendNotification failed, authorization denied")
                     completion(false)
                     return
-
                 }
             } else {
                 // Fallback on earlier versions
-                guard (settings.authorizationStatus == .authorized ) else {
+                guard settings.authorizationStatus == .authorized  else {
                     NSLog("dabear:: ensureCanSendNotification failed, authorization denied")
                     completion(false)
                     return
-
                 }
             }
             NSLog("dabear:: sending notification was allowed")
@@ -133,8 +124,6 @@ class NotificationHelper {
     }
 
     public static func sendInvalidChecksumIfDeveloper(_ sensorData: SensorData) {
-
-
         guard UserDefaults.standard.dangerModeActivated else {
             return
         }
@@ -143,12 +132,10 @@ class NotificationHelper {
             return
         }
 
-
-        ensureCanSendNotification { (ensured) in
+        ensureCanSendNotification { ensured in
             guard ensured else {
                 NSLog("dabear:: not sending InvalidChecksum notification due to permission problem")
                 return
-
             }
 
             let center = UNUserNotificationCenter.current()
@@ -160,21 +147,16 @@ class NotificationHelper {
             //content.sound = UNNotificationSound.
             let request = UNNotificationRequest(identifier: Identifiers.invalidChecksum.rawValue, content: content, trigger: nil)
 
-            center.add(request) { (error) in
+            center.add(request) { error in
                 if let error = error {
                     NSLog("dabear:: InvalidChecksum-notification: \(error.localizedDescription)")
                 }
             }
-
-
         }
-
-
-        
-
     }
 
     private static var glucoseNotifyCalledCount = 0
+
     public static func sendGlucoseNotitifcationIfNeeded(glucose: LibreGlucose, oldValue: LibreGlucose?) {
         glucoseNotifyCalledCount &+= 1
 
@@ -197,18 +179,15 @@ class NotificationHelper {
             NSLog("dabear:: not sending glucose, shouldSend and alarmIsActive was false")
             return
         }
-
     }
 
-    static private func sendGlucoseNotitifcation(glucose: LibreGlucose, oldValue: LibreGlucose?, alarm: GlucoseScheduleAlarmResult = .none, isSnoozed: Bool = false) {
-
+    private static func sendGlucoseNotitifcation(glucose: LibreGlucose, oldValue: LibreGlucose?, alarm: GlucoseScheduleAlarmResult = .none, isSnoozed: Bool = false) {
         guard let glucoseUnit = UserDefaults.standard.mmGlucoseUnit, glucoseUnit == HKUnit.milligramsPerDeciliter || glucoseUnit == HKUnit.millimolesPerLiter else {
             NSLog("dabear:: glucose unit was not recognized, aborting notification")
             return
         }
 
-        ensureCanSendNotification { (ensured) in
-
+        ensureCanSendNotification { ensured in
             guard ensured else {
                 NSLog("dabear:: not sending sending glucose notification")
                 return
@@ -248,15 +227,12 @@ class NotificationHelper {
                     content.title = "HIGHALERT! \(formatted)"
                     content.sound = .default()
                     vibrateIfNeeded()
-
                 }
-
             }
 
             content.body = "Glucose: \(formatted)"
 
             if let oldValue = oldValue {
-
                 //these are just calculations so I can use the convenience of the glucoseformatter
                 var diff = glucose.glucoseDouble - oldValue.glucoseDouble
 
@@ -271,7 +247,6 @@ class NotificationHelper {
                         content.body += ", " + sign + formattedDiff
                     }
                 }
-
             }
 
             if let trend = glucose.trendType?.localizedDescription {
@@ -286,30 +261,26 @@ class NotificationHelper {
             center.removeDeliveredNotifications(withIdentifiers: [Identifiers.glucocoseNotifications.rawValue])
             center.removePendingNotificationRequests(withIdentifiers: [Identifiers.glucocoseNotifications.rawValue])
 
-            center.add(request) { (error) in
+            center.add(request) { error in
                 if let error = error {
                     NSLog("dabear:: unable to add glucose notification: \(error.localizedDescription)")
                 }
             }
-
         }
     }
 
     public static func sendSensorNotDetectedNotificationIfNeeded(noSensor: Bool) {
-        guard UserDefaults.standard.mmAlertNoSensorDetected  && noSensor else {
+        guard UserDefaults.standard.mmAlertNoSensorDetected && noSensor else {
             NSLog("not sending noSensorDetected notification")
             return
         }
 
         sendSensorNotDetectedNotification()
-
     }
 
     private static func sendSensorNotDetectedNotification() {
-
-        ensureCanSendNotification { (ensured) in
-
-            guard (ensured) else {
+        ensureCanSendNotification { ensured in
+            guard ensured else {
                 NSLog("dabear:: not sending noSensorDetected notification")
                 return
             }
@@ -324,12 +295,11 @@ class NotificationHelper {
             //content.sound = UNNotificationSound.
             let request = UNNotificationRequest(identifier: Identifiers.noSensorDetected.rawValue, content: content, trigger: nil)
 
-            center.add(request) { (error) in
+            center.add(request) { error in
                 if let error = error {
                     NSLog("dabear:: unable to add no sensordetected-notification: \(error.localizedDescription)")
                 }
             }
-
         }
     }
 
@@ -339,13 +309,11 @@ class NotificationHelper {
             return
         }
         sendSensorChangeNotification()
-
     }
 
     private static func sendSensorChangeNotification() {
-        ensureCanSendNotification { (ensured) in
-
-            guard (ensured) else {
+        ensureCanSendNotification { ensured in
+            guard ensured else {
                 NSLog("dabear:: not sending sensorChangeNotification notification")
                 return
             }
@@ -358,12 +326,11 @@ class NotificationHelper {
             //content.sound = UNNotificationSound.
             let request = UNNotificationRequest(identifier: Identifiers.sensorChange.rawValue, content: content, trigger: nil)
 
-            UNUserNotificationCenter.current().add(request) { (error) in
+            UNUserNotificationCenter.current().add(request) { error in
                 if let error = error {
                     NSLog("dabear:: unable to add sensorChange notification: \(error.localizedDescription)")
                 }
             }
-
         }
     }
 
@@ -379,10 +346,8 @@ class NotificationHelper {
     }
 
     private static func sendInvalidSensorNotification(sensorData: SensorData) {
-
-        ensureCanSendNotification { (ensured) in
-
-            guard (ensured) else {
+        ensureCanSendNotification { ensured in
+            guard ensured else {
                 NSLog("dabear:: not sending InvalidSensorNotification notification")
                 return
             }
@@ -403,18 +368,17 @@ class NotificationHelper {
             //content.sound = UNNotificationSound.
             let request = UNNotificationRequest(identifier: Identifiers.invalidSensor.rawValue, content: content, trigger: nil)
 
-            UNUserNotificationCenter.current().add(request) { (error) in
+            UNUserNotificationCenter.current().add(request) { error in
                 if let error = error {
                     NSLog("dabear:: unable to add invalidsensor notification: \(error.localizedDescription)")
                 }
             }
-
         }
     }
 
     private static var lastBatteryWarning: Date?
-    public static func sendLowBatteryNotificationIfNeeded(device: BluetoothBridgeMetaData) {
 
+    public static func sendLowBatteryNotificationIfNeeded(device: BluetoothBridgeMetaData) {
         guard UserDefaults.standard.mmAlertLowBatteryWarning else {
             NSLog("mmAlertLowBatteryWarning toggle was not enabled, not sending low notification")
             return
@@ -425,9 +389,9 @@ class NotificationHelper {
             return
         }
 
-        let now  = Date()
+        let now = Date()
         //only once per mins minute
-        let mins =  60.0 * 120
+        let mins = 60.0 * 120
         if let earlier = lastBatteryWarning {
             let earlierplus = earlier.addingTimeInterval(mins)
             if earlierplus < now {
@@ -440,13 +404,11 @@ class NotificationHelper {
             sendLowBatteryNotification(batteryPercentage: device.batteryString)
             lastBatteryWarning = now
         }
-
     }
 
     private static func sendLowBatteryNotification(batteryPercentage: String) {
-        ensureCanSendNotification { (ensured) in
-
-            guard (ensured) else {
+        ensureCanSendNotification { ensured in
+            guard ensured else {
                 NSLog("dabear:: not sending LowBattery notification")
                 return
             }
@@ -461,31 +423,30 @@ class NotificationHelper {
             //content.sound = UNNotificationSound.
             let request = UNNotificationRequest(identifier: Identifiers.lowBattery.rawValue, content: content, trigger: nil)
 
-            UNUserNotificationCenter.current().add(request) { (error) in
+            UNUserNotificationCenter.current().add(request) { error in
                 if let error = error {
                     NSLog("dabear:: unable to add lowbattery notification: \(error.localizedDescription)")
                 }
             }
-
         }
     }
 
     private static var lastSensorExpireAlert: Date?
-    public static func sendSensorExpireAlertIfNeeded(sensorData: SensorData) {
 
+    public static func sendSensorExpireAlertIfNeeded(sensorData: SensorData) {
         guard UserDefaults.standard.mmAlertWillSoonExpire else {
             NSLog("mmAlertWillSoonExpire toggle was not enabled, not sending expiresoon alarm")
             return
         }
 
-        guard sensorData.minutesSinceStart >= 19440 else {
+        guard sensorData.minutesSinceStart >= 19_440 else {
             NSLog("sensor start was less than 13,5 days in the past, not sending notification: \(sensorData.minutesSinceStart) minutes / \(sensorData.humanReadableSensorAge)")
             return
         }
 
-        let now  = Date()
+        let now = Date()
         //only once per 6 hours
-        let min45 = 60.0  * 60 * 6
+        let min45 = 60.0 * 60 * 6
         if let earlier = lastSensorExpireAlert {
             if earlier.addingTimeInterval(min45) < now {
                 sendSensorExpireAlert(sensorData: sensorData)
@@ -497,14 +458,11 @@ class NotificationHelper {
             sendSensorExpireAlert(sensorData: sensorData)
             lastSensorExpireAlert = now
         }
-
     }
 
     private static func sendSensorExpireAlert(sensorData: SensorData) {
-
-        ensureCanSendNotification { (ensured) in
-
-            guard (ensured) else {
+        ensureCanSendNotification { ensured in
+            guard ensured else {
                 NSLog("dabear:: not sending SensorExpireAlert notification")
                 return
             }
@@ -519,13 +477,11 @@ class NotificationHelper {
             //content.sound = UNNotificationSound.
             let request = UNNotificationRequest(identifier: Identifiers.sensorExpire.rawValue, content: content, trigger: nil)
 
-            UNUserNotificationCenter.current().add(request) { (error) in
+            UNUserNotificationCenter.current().add(request) { error in
                 if let error = error {
                     NSLog("dabear:: unable to add SensorExpire notification: \(error.localizedDescription)")
                 }
             }
-
         }
     }
-
 }

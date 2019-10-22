@@ -13,7 +13,6 @@ protocol GlucoseAlarmInputCellDelegate: class {
 }
 
 class GlucoseAlarmInputCell: UITableViewCell, UITextFieldDelegate {
-
     weak var delegate: GlucoseAlarmInputCellDelegate?
 
     var minValue: Double = 0 {
@@ -35,7 +34,6 @@ class GlucoseAlarmInputCell: UITableViewCell, UITextFieldDelegate {
     var alarmType: GlucoseAlarmType? {
         didSet {
             titleLabel.text = alarmType?.rawValue ?? "invalid"
-
         }
     }
 

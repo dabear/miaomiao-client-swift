@@ -19,7 +19,7 @@ func CalculateSmothedData5Points(origtrends: [LibreGlucose]) -> [LibreGlucose] {
 
     var trends = origtrends
     //this is an adoptation, doesn't follow the original directly
-    if(trends.count < 5) {
+    if trends.count < 5 {
         for i in 0 ..< trends.count {
             trends[i].glucoseDouble = trends[i].unsmoothedGlucose
         }
@@ -27,9 +27,7 @@ func CalculateSmothedData5Points(origtrends: [LibreGlucose]) -> [LibreGlucose] {
         return trends
     }
     for i in 0 ..< trends.count - 4 {
-
-        trends[i].glucoseDouble = (trends[i].unsmoothedGlucose + trends[i+1].unsmoothedGlucose + trends[i+2].unsmoothedGlucose + trends[i+3].unsmoothedGlucose + trends[i+4].unsmoothedGlucose) / 5
-
+        trends[i].glucoseDouble = (trends[i].unsmoothedGlucose + trends[i + 1].unsmoothedGlucose + trends[i + 2].unsmoothedGlucose + trends[i + 3].unsmoothedGlucose + trends[i + 4].unsmoothedGlucose) / 5
     }
     trends[trends.count - 4].glucoseDouble = (trends[trends.count - 4].unsmoothedGlucose + trends[trends.count - 3].unsmoothedGlucose + trends[trends.count - 2].unsmoothedGlucose + trends[trends.count - 1].unsmoothedGlucose) / 4
     trends[trends.count - 3].glucoseDouble = (trends[trends.count - 3].unsmoothedGlucose + trends[trends.count - 2].unsmoothedGlucose + trends[trends.count - 1].unsmoothedGlucose ) / 3

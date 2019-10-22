@@ -5,9 +5,9 @@
 //  Created by Bjørn Inge Berg on 11/04/2019.
 //  Copyright © 2019 Mark Wilson. All rights reserved.
 //
-import UIKit
-import LoopKitUI
 import LoopKit
+import LoopKitUI
+import UIKit
 
 import HealthKit
 
@@ -50,7 +50,6 @@ public class AlarmSettingsTableViewController: UITableViewController, AlarmTimeI
             schedule.from = fromComponent
             schedule.to = toComponents
             schedule.enabled = datepickerSender?.toggleIsSelected.isOn
-
         }
     }
 
@@ -63,8 +62,8 @@ public class AlarmSettingsTableViewController: UITableViewController, AlarmTimeI
 
         print("AlarmSettingsTableViewController will now disappear")
         disappearDelegate?.onDisappear()
-
     }
+    
     public weak var disappearDelegate: SubViewControllerWillDisappear?
 
     func glucoseAlarmInputCellDidUpdateValue(_ cell: GlucoseAlarmInputCell, value: Double) {
@@ -78,16 +77,13 @@ public class AlarmSettingsTableViewController: UITableViewController, AlarmTimeI
                 } else {
                     schedule.storeHighAlarm(forUnit: self.glucoseUnit, highAlarm: value)
                 }
-
             } else if tag2 == ScheduleRowTypes.lowglucose.rawValue {
                 if value == 0 {
                     schedule.lowAlarm = nil
                 } else {
                     schedule.storeLowAlarm(forUnit: self.glucoseUnit, lowAlarm: value)
                 }
-
             }
-
         }
     }
 
@@ -96,7 +92,6 @@ public class AlarmSettingsTableViewController: UITableViewController, AlarmTimeI
         if let schedule = glucoseSchedules?.schedules.safeIndexAt(cell.tag, default: GlucoseSchedule()) {
             schedule.enabled = isOn
         }
-
     }
 
     private var datepickerSender: AlarmTimeInputRangeCell?
@@ -141,7 +136,6 @@ public class AlarmSettingsTableViewController: UITableViewController, AlarmTimeI
 
     private var isSyncInProgress = false {
         didSet {
-
             for cell in tableView.visibleCells {
                 switch cell {
                 case let cell as TextButtonTableViewCell:
@@ -178,13 +172,13 @@ public class AlarmSettingsTableViewController: UITableViewController, AlarmTimeI
 
         super.init(style: .grouped)
         print("loaded glucose schedule was \(glucoseSchedules)")
-
     }
 
+    @available(*, unavailable)
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    public override func viewDidLoad() {
+    override public func viewDidLoad() {
         super.viewDidLoad()
 
         tableView.register(AlarmTimeInputRangeCell.nib(), forCellReuseIdentifier: AlarmTimeInputRangeCell.className)
@@ -211,19 +205,17 @@ public class AlarmSettingsTableViewController: UITableViewController, AlarmTimeI
     }
 
     private enum ScheduleRowTypes: String {
-
-        case timerange = "timerange"
-        case lowglucose = "lowglucose"
-        case highglucose = "highglucose"
+        case timerange
+        case lowglucose
+        case highglucose
     }
 
-    public override func numberOfSections(in tableView: UITableView) -> Int {
+    override public func numberOfSections(in tableView: UITableView) -> Int {
         //dynamic number of schedules + sync row
         return glucoseSchedulesCount + 1
-
     }
 
-    public override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    override public func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         /*switch Section(rawValue: section)! {
          case .schedule1:
          return ScheduleRow.count
@@ -239,13 +231,10 @@ public class AlarmSettingsTableViewController: UITableViewController, AlarmTimeI
         default:
             return 1
         }
-
     }
 
-    public override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-
-        switch (indexPath.section) {
-
+    override public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        switch indexPath.section {
         case let x where x < glucoseSchedulesCount:
 
             let bundle = Bundle(for: type(of: self))
@@ -253,10 +242,8 @@ public class AlarmSettingsTableViewController: UITableViewController, AlarmTimeI
             var savedSchedule = glucoseSchedules?.schedules[safe: indexPath.section]
 
             switch ScheduleRow(rawValue: indexPath.row)! {
-
             case .timerange:
-                let cell = tableView.dequeueReusableCell(withIdentifier: AlarmTimeInputRangeCell.className, for: indexPath) as!  AlarmTimeInputRangeCell
-
+                let cell = tableView.dequeueIdentifiableCell(cell: AlarmTimeInputRangeCell.self, for: indexPath)
                 //cell.minValue = "first"
                 //cell.maxValue = "second"
                 cell.delegate = self
@@ -272,7 +259,7 @@ public class AlarmSettingsTableViewController: UITableViewController, AlarmTimeI
 
                 return cell
             case .lowglucose:
-                let cell = tableView.dequeueReusableCell(withIdentifier: GlucoseAlarmInputCell.className, for: indexPath) as!  GlucoseAlarmInputCell
+                let cell = tableView.dequeueIdentifiableCell(cell: GlucoseAlarmInputCell.self, for: indexPath)
                 cell.tag = indexPath.section
                 cell.tag2 = ScheduleRowTypes.lowglucose.rawValue
                 cell.delegate = self
@@ -289,7 +276,7 @@ public class AlarmSettingsTableViewController: UITableViewController, AlarmTimeI
 
                 return cell
             case .highglucose:
-                let cell = tableView.dequeueReusableCell(withIdentifier: GlucoseAlarmInputCell.className, for: indexPath) as!  GlucoseAlarmInputCell
+                let cell = tableView.dequeueIdentifiableCell(cell: GlucoseAlarmInputCell.self, for: indexPath)
                 cell.tag = indexPath.section
                 cell.tag2 = ScheduleRowTypes.highglucose.rawValue
                 cell.delegate = self
@@ -309,7 +296,7 @@ public class AlarmSettingsTableViewController: UITableViewController, AlarmTimeI
             }
 
         default: //case .sync:
-            let cell = tableView.dequeueReusableCell(withIdentifier: TextButtonTableViewCell.className, for: indexPath) as! TextButtonTableViewCell
+            let cell = tableView.dequeueIdentifiableCell(cell: TextButtonTableViewCell.self, for: indexPath)
 
             cell.textLabel?.text = LocalizedString("Save glucose alarms", comment: "The title for Save glucose alarms")
             cell.isEnabled = !isSyncInProgress
@@ -319,34 +306,24 @@ public class AlarmSettingsTableViewController: UITableViewController, AlarmTimeI
         }
     }
 
-    public override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+    override public func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         switch section {
         case let x where x < glucoseSchedulesCount:
-
-            return LocalizedString("Glucose Alarm Schedule", comment: "The title text for the Glucose Alarm Schedule") + " #\(section+1)"
-
+            return LocalizedString("Glucose Alarm Schedule", comment: "The title text for the Glucose Alarm Schedule") + " #\(section + 1)"
         default: //case .sync:
             return nil
         }
     }
 
-    public override func tableView(_ tableView: UITableView, titleForFooterInSection section: Int) -> String? {
+    override public func tableView(_ tableView: UITableView, titleForFooterInSection section: Int) -> String? {
         return nil
-        /*switch Section(rawValue: section)! {
-         case .schedule1:
-         return nil
-         case .schedule2:
-         return nil
-         case .sync:
-         return nil //LocalizedString("Save alarms", comment: "The title for saving alarms")
-         }*/
     }
 
-    public override func tableView(_ tableView: UITableView, shouldHighlightRowAt indexPath: IndexPath) -> Bool {
+    override public func tableView(_ tableView: UITableView, shouldHighlightRowAt indexPath: IndexPath) -> Bool {
         return true
     }
 
-    public override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    override public func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         switch indexPath.section {
         case let x where x < glucoseSchedulesCount:
             if let cell = tableView.cellForRow(at: indexPath) as? TextFieldTableViewCell {
@@ -365,7 +342,6 @@ public class AlarmSettingsTableViewController: UITableViewController, AlarmTimeI
                 var alert: UIAlertController
                 print("before saving, schedules is: \(self.glucoseSchedules)")
                 if let settings = self.glucoseSchedules {
-
                     print("Saving glucose schedule as: : \(settings) ")
 
                     let validationResult = settings.validateGlucoseSchedules()
@@ -381,18 +357,12 @@ public class AlarmSettingsTableViewController: UITableViewController, AlarmTimeI
 
                         print("Could not save glucose schedules, validation failed")
                     }
-
                 } else {
                     alert = ErrorAlertController("Glucose schedules could not be modified", title: "Schedule not saved")
-
                 }
-
                 self.present(alert, animated: true)
-
                 self.isSyncInProgress = false
-
             }
-
         }
 
         tableView.deselectRow(at: indexPath, animated: true)

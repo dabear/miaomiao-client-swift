@@ -12,13 +12,11 @@ import UIKit
 
 protocol mmSwitchTableViewCellDelegate: class {
     //func AlarmTimeInputCellDidUpdateValue(_ cell: AlarmTimeInputRangeCell)
-    func mmSwitchTableViewCellDidTouch(_ cell: mmSwitchTableViewCell)
-    func mmSwitchTableViewCellWasDisabled(_ cell: mmSwitchTableViewCell)
-
+    func mmSwitchTableViewCellDidTouch(_ cell: MMSwitchTableViewCell)
+    func mmSwitchTableViewCellWasDisabled(_ cell: MMSwitchTableViewCell)
 }
 
-class mmSwitchTableViewCell: UITableViewCell, UITextFieldDelegate {
-
+class MMSwitchTableViewCell: UITableViewCell, UITextFieldDelegate {
     weak var delegate: mmSwitchTableViewCellDelegate?
 
     // MARK: Outlets
@@ -37,13 +35,10 @@ class mmSwitchTableViewCell: UITableViewCell, UITextFieldDelegate {
 
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-
     }
 
     required init?(coder aDecoder: NSCoder) {
         NSLog("dabear:: required init")
         super.init(coder: aDecoder)
-
     }
-
 }

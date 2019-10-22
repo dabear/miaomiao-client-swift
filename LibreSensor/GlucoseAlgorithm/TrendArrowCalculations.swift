@@ -11,20 +11,20 @@ import LoopKit
 
 //https://github.com/dabear/FloatingGlucose/blob/master/FloatingGlucose/Classes/Utils/GlucoseMath.cs
 
-class TrendArrowCalculation {
+enum TrendArrowCalculation {
     static func calculateSlope(current: LibreGlucose, last: LibreGlucose) -> Double {
         if current.timestamp == last.timestamp {
             return 0.0
         }
 
-        let _curr = Double(current.timestamp.timeIntervalSince1970 * 1000)
-        let _last = Double(last.timestamp.timeIntervalSince1970 * 1000)
+        let _curr = Double(current.timestamp.timeIntervalSince1970 * 1_000)
+        let _last = Double(last.timestamp.timeIntervalSince1970 * 1_000)
 
         return (Double(last.unsmoothedGlucose) - Double(current.unsmoothedGlucose)) / (_last - _curr)
     }
 
     static func calculateSlopeByMinute(current: LibreGlucose, last: LibreGlucose) -> Double {
-        return calculateSlope(current: current, last: last) * 60000
+        return calculateSlope(current: current, last: last) * 60_000
     }
 
     static func GetGlucoseDirection(current: LibreGlucose?, last: LibreGlucose?) -> GlucoseTrend {
@@ -56,6 +56,5 @@ class TrendArrowCalculation {
             NSLog("Got unknown trendarrow value of \(s))")
             return GlucoseTrend.flat
         }
-
     }
 }

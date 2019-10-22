@@ -9,7 +9,7 @@
 import UIKit
 
 extension UISegmentedControl {
-    func replaceSegments(segments: Array<String>) {
+    func replaceSegments(segments: [String]) {
         self.removeAllSegments()
         for segment in segments {
             self.insertSegment(withTitle: segment, at: self.numberOfSegments, animated: false)
@@ -18,7 +18,6 @@ extension UISegmentedControl {
 }
 
 class SegmentViewCell: UITableViewCell {
-
     @IBOutlet weak var segment: UISegmentedControl!
 
     @IBOutlet weak var label: UILabel!
@@ -33,5 +32,4 @@ class SegmentViewCell: UITableViewCell {
 
         // Configure the view for the selected state
     }
-
 }

@@ -10,7 +10,6 @@ import Foundation
 import HealthKit
 import MiaomiaoClient
 public enum GlucoseScheduleAlarmResult: Int, CaseIterable {
-
     case none = 0
     case low
     case high
@@ -21,11 +20,9 @@ public enum GlucoseScheduleAlarmResult: Int, CaseIterable {
 }
 
 public enum GlucoseScheduleAlarmResultWithSnooze {
-
     case none
     case low(Bool)
     case high(Bool)
-
 }
 
 enum GlucoseSchedulesValidationStatus {
@@ -34,42 +31,34 @@ enum GlucoseSchedulesValidationStatus {
 }
 
 class GlucoseScheduleList: Codable, CustomStringConvertible {
-
     var description: String {
-        get {
-            return "(schedules: \(schedules) )"
-        }
+        return "(schedules: \(schedules) )"
     }
 
     public var schedules: [GlucoseSchedule] = [GlucoseSchedule]()
 
     public var enabledSchedules: [GlucoseSchedule] {
-        return schedules.compactMap({ $0.enabled == true ? $0 : nil})
-
+        return schedules.compactMap({ $0.enabled == true ? $0 : nil })
     }
 
     //this is only used by the ui to count total number of schedules
     public static let minimumSchedulesCount = 2
 
     public var activeSchedules: [GlucoseSchedule] {
-        get {
-
-            return enabledSchedules.compactMap {
-                if let activeTime = $0.getScheduleActiveToFrom() {
-                    let now = Date()
-                    return activeTime.contains(now) ? $0 : nil
-                }
-                return nil
+        return enabledSchedules.compactMap {
+            if let activeTime = $0.getScheduleActiveToFrom() {
+                let now = Date()
+                return activeTime.contains(now) ? $0 : nil
             }
+            return nil
         }
     }
 
     public func validateGlucoseSchedules() -> GlucoseSchedulesValidationStatus {
-
         // This is on purpose
         // we check all chedules for valid thresholds
         for schedule in self.schedules {
-            if let low=schedule.lowAlarm, let high=schedule.highAlarm {
+            if let low = schedule.lowAlarm, let high = schedule.highAlarm {
                 if low == high {
                     return .error("One of your glucose schedules had the same value for low and high thresholds")
                 }
@@ -110,10 +99,8 @@ class GlucoseScheduleList: Codable, CustomStringConvertible {
                     }
                 }
                 return schedule
-
             })
             if sameStartEnd {
-
                 return .error("One interval had the same start and end!")
             }
             if let intersects = intervals.intersect() {
@@ -127,10 +114,11 @@ class GlucoseScheduleList: Codable, CustomStringConvertible {
     //for convenience
     public static var snoozedUntil: Date? {
         return UserDefaults.standard.snoozedUntil
-
     }
+    
     public static func isSnoozed() -> Bool {
         let now = Date()
+
         if let snoozedUntil = snoozedUntil {
             return snoozedUntil >= now
         }
@@ -138,7 +126,6 @@ class GlucoseScheduleList: Codable, CustomStringConvertible {
     }
 
     public static func getActiveAlarms() -> GlucoseScheduleAlarmResultWithSnooze {
-
         if let schedules = UserDefaults.standard.glucoseSchedules, let glucose = MiaoMiaoClientManager.latestGlucose?.glucoseDouble {
             let isSnoozed = GlucoseScheduleList.isSnoozed()
             switch schedules.getActiveAlarms(glucose) {
@@ -149,11 +136,9 @@ class GlucoseScheduleList: Codable, CustomStringConvertible {
             default:
                 break
             }
-
         }
 
         return .none
-
     }
 
     public func getActiveAlarms(_ currentGlucoseInMGDL: Double) -> GlucoseScheduleAlarmResult {
@@ -169,11 +154,9 @@ class GlucoseScheduleList: Codable, CustomStringConvertible {
         }
         return .none
     }
-
 }
 
 class GlucoseSchedule: Codable, CustomStringConvertible {
-
     var from: DateComponents?
     var to: DateComponents?
     var lowAlarm: Double?
@@ -181,29 +164,27 @@ class GlucoseSchedule: Codable, CustomStringConvertible {
     var enabled: Bool?
 
     init() {
-
     }
 
     public func getScheduleActiveToFrom() -> DateInterval? {
-        guard let fromComponents=from, let toComponents = to else {
+        guard let fromComponents = from, let toComponents = to else {
             return nil
         }
 
         let now = Date()
         let previousMidnight = Calendar.current.startOfDay(for: now)
-        let helper  = Calendar.current.date(byAdding: .day, value: 1, to: previousMidnight)!
+        let helper = Calendar.current.date(byAdding: .day, value: 1, to: previousMidnight)!
         let nextMidnight = Calendar.current.startOfDay(for: helper)
 
         let fromDate: Date? =  Calendar.current.date(byAdding: fromComponents, to: previousMidnight)
         var toDate: Date?
         if  toComponents.minute == 0 && toComponents.hour == 0 {
             toDate = nextMidnight
-
         } else {
             toDate = Calendar.current.date(byAdding: toComponents, to: previousMidnight)!
         }
 
-        if let fromDate=fromDate, let toDate=toDate, toDate >= fromDate {
+        if let fromDate = fromDate, let toDate = toDate, toDate >= fromDate {
             return DateInterval(start: fromDate, end: toDate)
         }
         return nil
@@ -218,7 +199,6 @@ class GlucoseSchedule: Codable, CustomStringConvertible {
         self.lowAlarm = lowAlarm
     }
     public func retrieveLowAlarm(forUnit unit: HKUnit) -> Double? {
-
         if let lowAlarm = self.lowAlarm {
             if unit == HKUnit.millimolesPerLiter {
                 return (lowAlarm / 18).roundTo(places: 1)
@@ -239,21 +219,17 @@ class GlucoseSchedule: Codable, CustomStringConvertible {
         self.highAlarm = highAlarm
     }
     public func retrieveHighAlarm(forUnit unit: HKUnit) -> Double? {
-
         if let highAlarm = self.highAlarm {
             if unit == HKUnit.millimolesPerLiter {
                 return (highAlarm / 18).roundTo(places: 1)
             }
             return highAlarm
-
         }
 
         return nil
     }
 
     var description: String {
-        get {
-            return "(from: \(from), to: \(to), low: \(lowAlarm), high: \(highAlarm), enabled: \(enabled))"
-        }
+        return "(from: \(from), to: \(to), low: \(lowAlarm), high: \(highAlarm), enabled: \(enabled))"
     }
 }

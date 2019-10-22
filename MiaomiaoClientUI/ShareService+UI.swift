@@ -10,13 +10,11 @@ import MiaomiaoClient
 
 public enum LibreOOPWebAzzure: String {
     case LibreOOPWebAzzure="https://libreoopweb.azurewebsites.net"
-
 }
 
 extension MiaomiaoService: ServiceAuthenticationUI {
     public var credentialFormFields: [ServiceCredential] {
         return [
-
             ServiceCredential(
                 title: LocalizedString("Password", comment: "The title of the Spike password credential"),
                 isSecret: true,
@@ -28,7 +26,6 @@ extension MiaomiaoService: ServiceAuthenticationUI {
                 options: [
                     (title: LocalizedString("LibreOOPWeb", comment: "LibreOOPWeb server option"),
                      value: LibreOOPWebAzzure.LibreOOPWebAzzure.rawValue)
-
                 ]
             )
         ]

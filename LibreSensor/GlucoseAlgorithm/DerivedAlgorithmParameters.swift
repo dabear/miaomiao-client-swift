@@ -31,4 +31,3 @@ public struct DerivedAlgorithmParameters: Codable, CustomStringConvertible {
         self.extraOffset = extraOffset
     }
 }
- 

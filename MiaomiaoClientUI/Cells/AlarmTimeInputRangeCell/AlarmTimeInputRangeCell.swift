@@ -14,17 +14,13 @@ protocol AlarmTimeInputCellDelegate: class {
     //func AlarmTimeInputCellDidUpdateValue(_ cell: AlarmTimeInputRangeCell)
     func AlarmTimeInputRangeCellDidTouch(_ cell: AlarmTimeInputRangeCell)
     func AlarmTimeInputRangeCellWasToggled(_ cell: AlarmTimeInputRangeCell, _ isOn: Bool)
-
 }
 
 class AlarmTimeInputRangeCell: UITableViewCell, UITextFieldDelegate {
-
     private func updateComponentTextField() {
-
         if let p1 = minComponents?.ToTimeString(), let p2 = maxComponents?.ToTimeString() {
             minValue = "\(p1)-\(p2)"
         }
-
     }
 
     public var tag2: String?
@@ -32,13 +28,11 @@ class AlarmTimeInputRangeCell: UITableViewCell, UITextFieldDelegate {
     weak var delegate: AlarmTimeInputCellDelegate?
     var minComponents: DateComponents? {
         didSet {
-
            updateComponentTextField()
         }
     }
     var maxComponents: DateComponents? {
         didSet {
-
             updateComponentTextField()
         }
     }
@@ -86,17 +80,14 @@ class AlarmTimeInputRangeCell: UITableViewCell, UITextFieldDelegate {
 
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-
     }
 
     required init?(coder aDecoder: NSCoder) {
         NSLog("dabear:: required init")
         super.init(coder: aDecoder)
-
     }
 
     func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
-
         // code which you want to execute when the user touch myTextField
         NSLog("dabear:: user has touched mytextfield")
         delegate?.AlarmTimeInputRangeCellDidTouch(self)

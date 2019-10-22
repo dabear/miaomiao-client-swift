@@ -6,21 +6,17 @@
 //  Copyright © 2019 Mark Wilson. All rights reserved.
 //
 
-import Foundation
-
-//
-import Foundation
-import UIKit
 import CoreBluetooth
-import os.log
+import Foundation
 import MiaomiaoClient
+import os.log
+import UIKit
 
 protocol BluetoothSearchDelegate: class {
     func didDiscoverCompatibleDevice(_ device: CompatibleLibreBluetoothDevice, allCompatibleDevices: [CompatibleLibreBluetoothDevice])
 }
 
 final class BluetoothSearchManager: NSObject, CBCentralManagerDelegate, CBPeripheralDelegate {
-
     static let bt_log = OSLog(subsystem: "com.LibreMonitor", category: "BluetoothSearchManager")
 
     var centralManager: CBCentralManager!
@@ -34,33 +30,29 @@ final class BluetoothSearchManager: NSObject, CBCentralManagerDelegate, CBPeriph
         discoveredDevices.append(device)
         discoveredDevices.removeDuplicates()
         discoverDelegate.didDiscoverCompatibleDevice(device, allCompatibleDevices: discoveredDevices)
-
     }
 
     // MARK: - Methods
     weak var discoverDelegate: BluetoothSearchDelegate!
+
     init(discoverDelegate: BluetoothSearchDelegate) {
         self.discoverDelegate = discoverDelegate
         super.init()
         centralManager = CBCentralManager(delegate: self, queue: nil, options: nil)
         //        slipBuffer.delegate = self
         os_log("BluetoothSearchManager init called ", log: BluetoothSearchManager.bt_log)
-
     }
 
     func scanForCompatibleDevices() {
-
         //        print(centralManager.debugDescription)
         if centralManager.state == .poweredOn {
             os_log("Before scan for MiaoMiao while central manager state %{public}@", log: BluetoothSearchManager.bt_log, type: .default, String(describing: centralManager.state.rawValue))
 
             centralManager.scanForPeripherals(withServices: nil, options: nil)
-
         }
     }
 
     func disconnectManually() {
-
             print("did disconnect manually")
         //        NotificationManager.scheduleDebugNotification(message: "Timer fired in Background", wait: 3)
         //        _ = Timer(timeInterval: 150, repeats: false, block: {timer in NotificationManager.scheduleDebugNotification(message: "Timer fired in Background", wait: 0.5)})
@@ -68,13 +60,11 @@ final class BluetoothSearchManager: NSObject, CBCentralManagerDelegate, CBPeriph
             if centralManager.isScanning {
                 centralManager.stopScan()
             }
-
     }
 
     // MARK: - CBCentralManagerDelegate
 
     func centralManagerDidUpdateState(_ central: CBCentralManager) {
-
         os_log("Central Manager did update state to %{public}@", log: BluetoothSearchManager.bt_log, type: .default, String(describing: central.state.rawValue))
 
         switch central.state {
@@ -85,7 +75,6 @@ final class BluetoothSearchManager: NSObject, CBCentralManagerDelegate, CBPeriph
 
                 scanForCompatibleDevices() // power was switched on, while app is running -> reconnect.
         }
-
     }
 
     func centralManager(_ central: CBCentralManager, didDiscover peripheral: CBPeripheral, advertisementData: [String: Any], rssi RSSI: NSNumber) {
@@ -102,9 +91,7 @@ final class BluetoothSearchManager: NSObject, CBCentralManagerDelegate, CBPeriph
 
             print("dabear:: did recognize device: \(name): \(device.identifier)")
             self.addDiscoveredDevice(device)
-
         } else {
-
             if UserDefaults.standard.dangerModeActivated {
                 //allow listing any device when danger mode is active
 
@@ -114,37 +101,30 @@ final class BluetoothSearchManager: NSObject, CBCentralManagerDelegate, CBPeriph
                 print("dabear:: did not add unknown device: \(device.name): \(device.identifier)")
             }
         }
-
     }
 
     func centralManager(_ central: CBCentralManager, didConnect peripheral: CBPeripheral) {
-
         //self.lastConnectedIdentifier = peripheral.identifier.uuidString
 
     }
 
     func centralManager(_ central: CBCentralManager, didFailToConnect peripheral: CBPeripheral, error: Error?) {
-
         print("did fail to connect")
-
     }
 
     func centralManager(_ central: CBCentralManager, didDisconnectPeripheral peripheral: CBPeripheral, error: Error?) {
-
        print("did didDisconnectPeripheral")
     }
 
     // MARK: - CBPeripheralDelegate
 
     func peripheral(_ peripheral: CBPeripheral, didDiscoverServices error: Error?) {
-
         os_log("Did discover services", log: BluetoothSearchManager.bt_log, type: .default)
         if let error = error {
             os_log("Did discover services error: %{public}@", log: BluetoothSearchManager.bt_log, type: .error, "\(error.localizedDescription)")
         }
 
         if let services = peripheral.services {
-
             for service in services {
                 peripheral.discoverCharacteristics(nil, for: service)
 
@@ -154,7 +134,6 @@ final class BluetoothSearchManager: NSObject, CBCentralManagerDelegate, CBPeriph
     }
 
     func peripheral(_ peripheral: CBPeripheral, didDiscoverCharacteristicsFor service: CBService, error: Error?) {
-
         os_log("Did discover characteristics for service %{public}@", log: BluetoothSearchManager.bt_log, type: .default, String(describing: peripheral.name))
 
         if let error = error {
@@ -169,7 +148,7 @@ final class BluetoothSearchManager: NSObject, CBCentralManagerDelegate, CBPeriph
                     peripheral.setNotifyValue(true, for: characteristic)
                     os_log("Set notify value for this characteristic", log: BluetoothSearchManager.bt_log, type: .default)
                 }
-                if (characteristic.uuid == CBUUID(string: "6E400002-B5A3-F393-E0A9-E50E24DCCA9E")) {
+                if characteristic.uuid == CBUUID(string: "6E400002-B5A3-F393-E0A9-E50E24DCCA9E") {
                     //writeCharacteristic = characteristic
                 }
             }
@@ -179,14 +158,11 @@ final class BluetoothSearchManager: NSObject, CBCentralManagerDelegate, CBPeriph
     }
 
     func peripheral(_ peripheral: CBPeripheral, didUpdateNotificationStateFor characteristic: CBCharacteristic, error: Error?) {
-
         os_log("Did update notification state for characteristic: %{public}@", log: BluetoothSearchManager.bt_log, type: .default, String(describing: characteristic.debugDescription))
-
     }
 
     func peripheral(_ peripheral: CBPeripheral, didUpdateValueFor characteristic: CBCharacteristic, error: Error?) {
         os_log("Did update value for characteristic: %{public}@", log: BluetoothSearchManager.bt_log, type: .default, String(describing: characteristic.debugDescription))
-
     }
 
     func peripheral(_ peripheral: CBPeripheral, didWriteValueFor characteristic: CBCharacteristic, error: Error?) {
@@ -194,9 +170,6 @@ final class BluetoothSearchManager: NSObject, CBCentralManagerDelegate, CBPeriph
     }
 
     deinit {
-
         os_log("dabear:: BluetoothSearchManager deinit called")
-
     }
-
 }

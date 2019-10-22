@@ -8,7 +8,6 @@
 
 import UIKit
 class View: UIView {
-
     init() {
         super.init(frame: .zero)
 
@@ -33,7 +32,6 @@ class View: UIView {
 }
 
 class SnoozeView: View, UIPickerViewDataSource, UIPickerViewDelegate {
-
     // this is going to be our container object
     @IBOutlet weak var containerView: UIView!
 
@@ -54,7 +52,6 @@ class SnoozeView: View, UIPickerViewDataSource, UIPickerViewDelegate {
     func pickerView(_ pickerView: UIPickerView,
                     titleForRow row: Int,
                     forComponent component: Int) -> String? {
-
         // Return a string from the array for this row.
         //return data[row]
         return "row: \(row), component \(component)"
@@ -79,7 +76,7 @@ class SnoozeView: View, UIPickerViewDataSource, UIPickerViewDelegate {
             self.containerView.bottomAnchor.constraint(equalTo: self.bottomAnchor),
             self.containerView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
             self.containerView.trailingAnchor.constraint(equalTo: self.trailingAnchor)
-            ])
+        ])
 
         //snoozeButton.frame.size = CGSize(width: self.frame.width, height: self.frame.height)
         snoozeButton.setTitle("Test1", for: .normal)
@@ -87,9 +84,7 @@ class SnoozeView: View, UIPickerViewDataSource, UIPickerViewDelegate {
         snoozePicker.delegate = self
         snoozePicker.layer.cornerRadius = 4
         snoozePicker.layer.borderWidth = 1
-
     }
-
 }
 
 extension UIView {

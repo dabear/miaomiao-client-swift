@@ -6,10 +6,10 @@
 //  Copyright © 2019 Mark Wilson. All rights reserved.
 //
 
-import Foundation
-import UIKit
 import CoreBluetooth
+import Foundation
 import os.log
+import UIKit
 
 public enum BubbleResponseType: UInt8 {
     case dataPacket = 130
@@ -20,7 +20,6 @@ public enum BubbleResponseType: UInt8 {
 
 //bubble support
 extension LibreBluetoothManager {
-
     func bubbleHandleCompleteMessage() {
         print("dabear:: bubbleHandleCompleteMessage")
 
@@ -32,17 +31,12 @@ extension LibreBluetoothManager {
         print("dabear:: bubbleHandleCompleteMessage raw data: \([UInt8](rxBuffer))")
         sensorData = SensorData(uuid: rxBuffer.subdata(in: 0..<8), bytes: [UInt8](data), date: Date())
 
-
-
-
-        dispatchToDelegate { (manager) in
+        dispatchToDelegate { manager in
             guard let metadata = manager.metadata, let sensorData = manager.sensorData else {
                 return
             }
             manager.delegate?.libreBluetoothManagerDidUpdate(sensorData: sensorData, and: metadata)
         }
-
-
     }
 
     func bubbleRequestData(writeCharacteristics: CBCharacteristic, peripheral: CBPeripheral) {
@@ -51,7 +45,6 @@ extension LibreBluetoothManager {
         //timer?.invalidate()
         print("-----set: ", writeCharacteristics)
         peripheral.writeValue(Data([0x00, 0x00, 0x05]), for: writeCharacteristics, type: .withResponse)
-
     }
 
     func bubbleDidUpdateValueForNotifyCharacteristics(_ value: Data, peripheral: CBPeripheral) {
@@ -64,9 +57,10 @@ extension LibreBluetoothManager {
             let hardware = value[2].description + ".0"
             let firmware = value[1].description + ".0"
             let battery = Int(value[4])
-            metadata = BluetoothBridgeMetaData(hardware: hardware,
-                                firmware: firmware,
-                                battery: battery)
+            metadata = BluetoothBridgeMetaData(
+                hardware: hardware,
+                firmware: firmware,
+                battery: battery)
             print("dabear:: Got bubbledevice: \(metadata)")
             if let writeCharacteristic = writeCharacteristic {
                 print("-----set: ", writeCharacteristic)
@@ -79,7 +73,7 @@ extension LibreBluetoothManager {
                 rxBuffer.resetAllBytes()
             }
         case .noSensor:
-            dispatchToDelegate { (manager) in
+            dispatchToDelegate { manager in
                 manager.delegate?.libreBluetoothManagerReceivedMessage(0x0000, txFlags: 0x34, payloadData: manager.rxBuffer)
             }
 
@@ -87,7 +81,5 @@ extension LibreBluetoothManager {
         case .serialNumber:
             rxBuffer.append(value.subdata(in: 2..<10))
         }
-
-
     }
 }

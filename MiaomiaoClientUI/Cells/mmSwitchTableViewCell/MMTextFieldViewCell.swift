@@ -11,13 +11,12 @@ import Foundation
 import UIKit
 
 protocol mmTextFieldViewCellCellDelegate: class {
-    func mmTextFieldViewCellDidUpdateValue(_ cell: mmTextFieldViewCell, value: String?)
+    func mmTextFieldViewCellDidUpdateValue(_ cell: MMTextFieldViewCell, value: String?)
 }
 
 private var maxLengths = [UITextField: Int]()
 
-class mmTextFieldViewCell: UITableViewCell, UITextFieldDelegate {
-
+class MMTextFieldViewCell: UITableViewCell, UITextFieldDelegate {
     weak var delegate: mmTextFieldViewCellCellDelegate?
 
     // MARK: Outlets
@@ -44,7 +43,6 @@ class mmTextFieldViewCell: UITableViewCell, UITextFieldDelegate {
         set {
             titleLabel!.isEnabled = newValue
             textInput!.isEnabled = newValue
-
         }
     }
 
@@ -60,14 +58,11 @@ class mmTextFieldViewCell: UITableViewCell, UITextFieldDelegate {
         super.init(coder: aDecoder)
         print("here2")
         textInput?.keyboardType = .numberPad
-
     }
-
 }
 
 // 2
 extension AllowedCharsTextField {
-
     // 3
     @IBInspectable var maxLength: Int {
         get {
@@ -88,7 +83,8 @@ extension AllowedCharsTextField {
         }
     }
 
-    @objc func limitLength(textField: UITextField) {
+    @objc
+    func limitLength(textField: UITextField) {
         // 6
         NSLog("maxlength for uitextfield is: \(maxLength)")
         guard let prospectiveText = textField.text, prospectiveText.count > maxLength else {
@@ -103,12 +99,10 @@ extension AllowedCharsTextField {
 
         selectedTextRange = selection
     }
-
 }
 
 // 1
 class AllowedCharsTextField: UITextField, UITextFieldDelegate {
-
     // 2
     @IBInspectable var allowedChars: String = ""
 
@@ -123,10 +117,12 @@ class AllowedCharsTextField: UITextField, UITextFieldDelegate {
     // 5
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         // 6
-        guard string.count > 0 else {
+
+        if string.isEmpty {
             return true
         }
-        guard allowedChars.count > 0 else {
+
+        if allowedChars.isEmpty {
             return true
         }
 
@@ -135,18 +131,14 @@ class AllowedCharsTextField: UITextField, UITextFieldDelegate {
         let prospectiveText = currentText.replacingCharacters(in: range, with: string)
 
         return  prospectiveText.containsOnlyCharactersIn(matchCharacters: allowedChars)
-
     }
-
 }
 
 // 8
 extension String {
-
     // Returns true if the string contains only characters found in matchCharacters.
     func containsOnlyCharactersIn(matchCharacters: String) -> Bool {
         let disallowedCharacterSet = NSCharacterSet(charactersIn: matchCharacters).inverted
         return self.rangeOfCharacter(from: disallowedCharacterSet) == nil
     }
-
 }
