@@ -116,7 +116,7 @@
 		27E0968D22A9806200B3164D /* CGFLoat+Double.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27E0968C22A9806200B3164D /* CGFLoat+Double.swift */; };
 		27E0968F22A9AD6F00B3164D /* TimeIntervalExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27E0968E22A9AD6F00B3164D /* TimeIntervalExtensions.swift */; };
 		27E0969122B2A89D00B3164D /* CalibrationEditTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27E0969022B2A89D00B3164D /* CalibrationEditTableViewController.swift */; };
-		27E0969422B2C4D700B3164D /* mmTextFieldViewCell2.xib in Resources */ = {isa = PBXBuildFile; fileRef = 27E0969222B2C4D700B3164D /* mmTextFieldViewCell2.xib */; };
+		27E0969422B2C4D700B3164D /* MMTextFieldViewCell2.xib in Resources */ = {isa = PBXBuildFile; fileRef = 27E0969222B2C4D700B3164D /* MMTextFieldViewCell2.xib */; };
 		27E0969522B2C4D700B3164D /* MMTextFieldViewCell2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27E0969322B2C4D700B3164D /* MMTextFieldViewCell2.swift */; };
 		27E0969822B94CAD00B3164D /* CustomDatePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27E0969722B94CAD00B3164D /* CustomDatePicker.swift */; };
 		27E0969B22B94D4400B3164D /* CustomDatePickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27E0969922B94D4400B3164D /* CustomDatePickerViewController.swift */; };
@@ -293,7 +293,7 @@
 		27E0968C22A9806200B3164D /* CGFLoat+Double.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CGFLoat+Double.swift"; sourceTree = "<group>"; };
 		27E0968E22A9AD6F00B3164D /* TimeIntervalExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeIntervalExtensions.swift; sourceTree = "<group>"; };
 		27E0969022B2A89D00B3164D /* CalibrationEditTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CalibrationEditTableViewController.swift; sourceTree = "<group>"; };
-		27E0969222B2C4D700B3164D /* mmTextFieldViewCell2.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = mmTextFieldViewCell2.xib; sourceTree = "<group>"; };
+		27E0969222B2C4D700B3164D /* MMTextFieldViewCell2.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MMTextFieldViewCell2.xib; sourceTree = "<group>"; };
 		27E0969322B2C4D700B3164D /* MMTextFieldViewCell2.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MMTextFieldViewCell2.swift; sourceTree = "<group>"; };
 		27E0969722B94CAD00B3164D /* CustomDatePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomDatePicker.swift; sourceTree = "<group>"; };
 		27E0969922B94D4400B3164D /* CustomDatePickerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomDatePickerViewController.swift; sourceTree = "<group>"; };
@@ -503,7 +503,7 @@
 			isa = PBXGroup;
 			children = (
 				27E0969322B2C4D700B3164D /* MMTextFieldViewCell2.swift */,
-				27E0969222B2C4D700B3164D /* mmTextFieldViewCell2.xib */,
+				27E0969222B2C4D700B3164D /* MMTextFieldViewCell2.xib */,
 				275C3DA0229D9BBB00E27439 /* MMTextFieldViewCell.swift */,
 				275C3D9E229D9AD500E27439 /* MMTextFieldViewCell.xib */,
 				275C3D94229AA69C00E27439 /* MMSwitchTableViewCell.swift */,
@@ -984,7 +984,7 @@
 				270C26662269E611005B27F3 /* icons8-slide-up-50.png in Resources */,
 				27E0968122A6E9AB00B3164D /* SnoozeView.xib in Resources */,
 				275C3D9A229AA88500E27439 /* MMSwitchTableViewCell.xib in Resources */,
-				27E0969422B2C4D700B3164D /* mmTextFieldViewCell2.xib in Resources */,
+				27E0969422B2C4D700B3164D /* MMTextFieldViewCell2.xib in Resources */,
 				2701478A227B53AB0013C9E3 /* miaomiao-small.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
