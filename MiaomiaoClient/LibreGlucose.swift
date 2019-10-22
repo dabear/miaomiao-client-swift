@@ -62,11 +62,8 @@ extension LibreGlucose {
         return arr
     }
 
-    static func fromTrendMeasurements(_ measurements: [Measurement]) -> [LibreGlucose] {
+    static func fromTrendMeasurements(_ measurements: [Measurement], returnAll: Bool) -> [LibreGlucose] {
         var origarr = [LibreGlucose]()
-
-        //whether or not to return all the 16 latest trends or just every fifth element
-        let returnAllTrends = true
 
         for trend in measurements {
             let glucose = LibreGlucose(unsmoothedGlucose: trend.temperatureAlgorithmGlucose, glucoseDouble: 0.0, trend: UInt8(GlucoseTrend.flat.rawValue), timestamp: trend.date, collector: "MiaoMiao")
@@ -86,10 +83,16 @@ extension LibreGlucose {
             //NSLog("Date: \(trend.timestamp), before: \(trend.unsmoothedGlucose), after: \(trend.glucose), arrow: \(trend.trend)")
         }
 
-        if returnAllTrends {
+        if returnAll {
             return arr
         }
 
+        if let first = arr.first {
+            return [first]
+        }
+        
+        return [LibreGlucose]()
+        /*
         var filtered = [LibreGlucose]()
         for elm in arr.enumerated() where elm.offset % 5 == 0 {
             filtered.append(elm.element)
@@ -97,5 +100,6 @@ extension LibreGlucose {
 
         //NSLog("dabear:: glucose samples after smoothing: \(String(describing: arr))")
         return filtered
+         */
     }
 }
