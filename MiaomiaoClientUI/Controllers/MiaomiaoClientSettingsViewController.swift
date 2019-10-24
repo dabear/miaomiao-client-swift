@@ -108,7 +108,7 @@ public class MiaomiaoClientSettingsViewController: UITableViewController, SubVie
 
     override public func numberOfSections(in tableView: UITableView) -> Int {
 
-        return  Section.allCases.count  - ( allowsDeletion ? 1 : 0)
+        return  Section.allCases.count  - ( allowsDeletion ? 0 : 1 )
     }
 
     private enum LatestReadingRow: Int, CaseIterable {
