@@ -41,11 +41,12 @@ public func calibrateSensor(accessToken: String, site: String, sensordata: Senso
             callback(nil)
             return
         }
-        NSLog("uuid received: " + calibrationResult.uuid)
+        NSLog("calibrateSensor: uuid received: " + calibrationResult.uuid)
         libreOOPClient.getCalibrationStatusIntervalled(uuid: calibrationResult.uuid, {success, errormessage, parameters in
             NSLog("GetStatusIntervalled returned with success?: \(success), error: \(errormessage), response: \(parameters?.description)")
             // check for data integrity
             guard success else {
+                NSLog("could not get calibration result: \(errormessage)")
                 callback(nil)
                 return
             }

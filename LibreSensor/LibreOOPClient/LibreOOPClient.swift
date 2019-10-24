@@ -291,7 +291,10 @@ class LibreOOPClient {
         var error = ""
 
         DispatchQueue.global().async { [weak self] in
+            NSLog("getCalibrationStatusIntervalled async handler starting")
             guard let self = self else {
+                NSLog("getCalibrationStatusIntervalled could not lock self")
+                completion(false, "could not lock self", nil)
                 return
             }
             for i in 1...maxTries {
