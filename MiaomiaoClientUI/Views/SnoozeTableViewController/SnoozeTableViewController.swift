@@ -5,11 +5,11 @@
 //  Created by Bjørn Inge Berg on 07/05/2019.
 //  Copyright © 2019 Mark Wilson. All rights reserved.
 //
+import HealthKit
 import LoopKit
 import LoopKitUI
-import UIKit
 import MiaomiaoClient
-import HealthKit
+import UIKit
 
 public class SnoozeTableViewController: UITableViewController, UIPickerViewDataSource, UIPickerViewDelegate {
     public func numberOfComponents(in pickerView: UIPickerView) -> Int {
@@ -70,13 +70,14 @@ public class SnoozeTableViewController: UITableViewController, UIPickerViewDataS
     public weak var pickerView: UIPickerView!
 
     private weak var manager: MiaoMiaoClientManager?
+
     public init(manager: MiaoMiaoClientManager?) {
         self.manager = manager
         super.init(style: .plain)
     }
 
     private var pickerSelectedRow: Int?
-    
+
     public func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         print("pickerSelectedRow: \(row)")
         pickerSelectedRow = row
@@ -126,15 +127,14 @@ public class SnoozeTableViewController: UITableViewController, UIPickerViewDataS
     }
 
     override public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = UITableViewCell(style: UITableViewCellStyle.default, reuseIdentifier: "DefaultCell")
+
         switch SnoozeRow(rawValue: indexPath.row)! {
         case .snoozeButton:
-            let cell = UITableViewCell(style: UITableViewCellStyle.default, reuseIdentifier: "DefaultCell")
-
             cell.textLabel?.textAlignment = .center
             cell.textLabel?.text = LocalizedString("Click to Snooze Alerts", comment: "Title of cell to snooze active alarms")
             return cell
         case .snoozePicker:
-            let cell = UITableViewCell(style: UITableViewCellStyle.default, reuseIdentifier: "DefaultCell")
             let height = tableView.rectForRow(at: indexPath).height
             let pickerView = UIPickerView(frame: CGRect(x: 0, y: 0, width: tableView.frame.width, height: height))
 
@@ -154,8 +154,6 @@ public class SnoozeTableViewController: UITableViewController, UIPickerViewDataS
 
             return cell
         case .description:
-            let cell = UITableViewCell(style: UITableViewCellStyle.default, reuseIdentifier: "DefaultCell")
-
             cell.textLabel?.textAlignment = .center
             cell.textLabel!.numberOfLines = 0
 
@@ -163,22 +161,17 @@ public class SnoozeTableViewController: UITableViewController, UIPickerViewDataS
             var celltext = ""
 
             if let glucoseDouble = manager?.latestBackfill?.glucoseDouble, let activeAlarms = UserDefaults.standard.glucoseSchedules?.getActiveAlarms(glucoseDouble) {
-                switch activeAlarms{
+                switch activeAlarms {
                 case .high:
                     celltext = "High Glucose Alarm active"
                 case .low:
                     celltext = "Low Glucose Alarm active"
                 case .none:
                     celltext = "No Glucose Alarm active"
-
                 }
-
-
             } else {
                 celltext = "No Glucose Alarm active"
             }
-
-
 
             if let until = GlucoseScheduleList.snoozedUntil {
                 snoozeDescription = "snoozing until \(until.description(with: .current))"
@@ -187,8 +180,8 @@ public class SnoozeTableViewController: UITableViewController, UIPickerViewDataS
             }
 
             cell.textLabel?.text = [celltext, snoozeDescription].joined(separator: ", ")
-            return cell
         }
+        return cell
     }
 
     override public func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {

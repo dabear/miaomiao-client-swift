@@ -10,12 +10,10 @@ import Foundation
 import HealthKit
 import LoopKit
 
-public struct ConcreteSensorDisplayable : SensorDisplayable {
+public struct ConcreteSensorDisplayable: SensorDisplayable {
     public var isStateValid: Bool
 
     public var trendType: GlucoseTrend?
 
     public var isLocal: Bool
-
-
 }

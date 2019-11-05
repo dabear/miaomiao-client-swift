@@ -63,7 +63,7 @@ public class AlarmSettingsTableViewController: UITableViewController, AlarmTimeI
         print("AlarmSettingsTableViewController will now disappear")
         disappearDelegate?.onDisappear()
     }
-    
+
     public weak var disappearDelegate: SubViewControllerWillDisappear?
 
     func glucoseAlarmInputCellDidUpdateValue(_ cell: GlucoseAlarmInputCell, value: Double) {

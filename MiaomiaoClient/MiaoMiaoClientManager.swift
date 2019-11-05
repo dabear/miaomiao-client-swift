@@ -60,7 +60,6 @@ public final class MiaoMiaoClientManager: CGMManager, LibreBluetoothManagerDeleg
 
     public private(set) var lastConnected: Date?
 
-
     public private(set) var latestBackfill: LibreGlucose? {
         didSet(oldValue) {
             NSLog("dabear:: latestBackfill set, newvalue is \(latestBackfill)")
@@ -76,7 +75,6 @@ public final class MiaoMiaoClientManager: CGMManager, LibreBluetoothManagerDeleg
                 } else {
                     self.sensorState = nil
                 }
-
 
                 NSLog("dabear:: sending glucose notification")
                 NotificationHelper.sendGlucoseNotitifcationIfNeeded(glucose: latestBackfill, oldValue: oldValue)
@@ -101,7 +99,7 @@ public final class MiaoMiaoClientManager: CGMManager, LibreBluetoothManagerDeleg
     public let appURL: URL? = nil //URL(string: "spikeapp://")
     public weak var cgmManagerDelegate: CGMManagerDelegate?
     public let providesBLEHeartbeat = true
-    public var shouldSyncToRemoteService : Bool {
+    public var shouldSyncToRemoteService: Bool {
         return UserDefaults.standard.mmSyncToNs
     }
 
@@ -137,8 +135,6 @@ public final class MiaoMiaoClientManager: CGMManager, LibreBluetoothManagerDeleg
     private lazy var proxy: LibreBluetoothManager? = LibreBluetoothManager()
 
     private func readingToGlucose(_ data: SensorData, calibration: DerivedAlgorithmParameters) -> [LibreGlucose] {
-
-
         let last16 = data.trendMeasurements(derivedAlgorithmParameterSet: calibration)
 
         var entries = LibreGlucose.fromTrendMeasurements(last16, returnAll: UserDefaults.standard.mmBackfillFromTrend)
@@ -147,7 +143,6 @@ public final class MiaoMiaoClientManager: CGMManager, LibreBluetoothManagerDeleg
             let history = data.historyMeasurements(derivedAlgorithmParameterSet: calibration)
             entries += LibreGlucose.fromHistoryMeasurements(history)
         }
-
 
         return entries
     }

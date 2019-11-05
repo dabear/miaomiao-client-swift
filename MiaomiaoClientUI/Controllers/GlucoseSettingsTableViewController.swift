@@ -11,22 +11,8 @@ import UIKit
 
 import HealthKit
 
-//
-//  GlucoseNotificationsSettingsTableViewController.swift
-//  MiaomiaoClientUI
-//
-//  Created by Bjørn Inge Berg on 07/05/2019.
-//  Copyright © 2019 Mark Wilson. All rights reserved.
-//
-import LoopKit
-import LoopKitUI
-import UIKit
-
-import HealthKit
-
 public class GlucoseSettingsTableViewController: UITableViewController, mmTextFieldViewCellCellDelegate {
     func mmTextFieldViewCellDidUpdateValue(_ cell: MMTextFieldViewCell, value: String?) {
-
     }
 
     override public func viewWillDisappear(_ animated: Bool) {
@@ -86,14 +72,12 @@ public class GlucoseSettingsTableViewController: UITableViewController, mmTextFi
     }
 
     override public func numberOfSections(in tableView: UITableView) -> Int {
-
         return 1
     }
 
     override public func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return GlucoseSettings.count
     }
-
 
     @objc
     private func syncToNsChanged(_ sender: UISwitch) {
@@ -113,12 +97,10 @@ public class GlucoseSettingsTableViewController: UITableViewController, mmTextFi
         UserDefaults.standard.mmBackfillFromHistory = sender.isOn
     }
 
-
     override public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let switchCell = tableView.dequeueIdentifiableCell(cell: MMSwitchTableViewCell.self, for: indexPath)
 
         switch GlucoseSettings(rawValue: indexPath.row)! {
-
         case .backfillFromHistory:
             switchCell.toggleIsSelected?.isOn = UserDefaults.standard.mmBackfillFromHistory
             switchCell.titleLabel?.text = NSLocalizedString("Backfill from history", comment: "The title text forbackfill from history setting")
@@ -137,7 +119,6 @@ public class GlucoseSettingsTableViewController: UITableViewController, mmTextFi
             switchCell.titleLabel?.text = NSLocalizedString("Sync to Nightscout", comment: "The title text for the sync to nightscout setting")
 
             switchCell.toggleIsSelected?.addTarget(self, action: #selector(syncToNsChanged(_:)), for: .valueChanged)
-
         }
 
         switchCell.contentView.layoutMargins.left = tableView.separatorInset.left
@@ -164,7 +145,3 @@ public class GlucoseSettingsTableViewController: UITableViewController, mmTextFi
         tableView.deselectRow(at: indexPath, animated: true)
     }
 }
-
-
-
-

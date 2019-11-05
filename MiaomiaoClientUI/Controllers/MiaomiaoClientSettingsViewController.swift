@@ -107,13 +107,10 @@ public class MiaomiaoClientSettingsViewController: UITableViewController, SubVie
         case advanced
 
         case delete
-
-
     }
 
     override public func numberOfSections(in tableView: UITableView) -> Int {
-
-        return  Section.allCases.count  - ( allowsDeletion ? 0 : 1 )
+        return  Section.allCases.count - ( allowsDeletion ? 0 : 1 )
     }
 
     private enum LatestReadingRow: Int, CaseIterable {
@@ -121,17 +118,15 @@ public class MiaomiaoClientSettingsViewController: UITableViewController, SubVie
         case date
         case trend
         case footerChecksum
-
     }
 
     private enum LatestSensorInfoRow: Int, CaseIterable {
         case sensorAge
         case sensorState
         case sensorSerialNumber
-
     }
 
-    private enum LatestBridgeInfoRow: Int, CaseIterable  {
+    private enum LatestBridgeInfoRow: Int, CaseIterable {
         case battery
         case hardware
         case firmware
@@ -140,7 +135,7 @@ public class MiaomiaoClientSettingsViewController: UITableViewController, SubVie
         case bridgeIdentifer
     }
 
-    private enum LatestCalibrationDataInfoRow: Int, CaseIterable{
+    private enum LatestCalibrationDataInfoRow: Int, CaseIterable {
         case slopeslope
         case slopeoffset
         case offsetslope
@@ -153,7 +148,7 @@ public class MiaomiaoClientSettingsViewController: UITableViewController, SubVie
         case edit
     }
 
-    private enum GlucoseSettings: Int, CaseIterable{
+    private enum GlucoseSettings: Int, CaseIterable {
         case syncToNs
         case sync
     }
@@ -442,7 +437,6 @@ public class MiaomiaoClientSettingsViewController: UITableViewController, SubVie
                 }
             case .glucose:
                 cell.textLabel?.text = LocalizedString("Glucose settings", comment: "Title describing Glucose Settings")
-
 
                 //cell.detailTextLabel?.text = "enabled: \(schedules) / \(totalSchedules)"
                 cell.accessoryType = .disclosureIndicator
