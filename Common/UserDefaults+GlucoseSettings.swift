@@ -36,7 +36,7 @@ extension UserDefaults {
 
     var mmBackfillFromTrend: Bool {
         get {
-            return optionalBool(forKey: Key.mmBackfillFromTrend.rawValue) ?? true
+            return optionalBool(forKey: Key.mmBackfillFromTrend.rawValue) ?? false
         }
         set {
             set(newValue, forKey: Key.mmBackfillFromTrend.rawValue)
