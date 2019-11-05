@@ -233,6 +233,7 @@ public class AlarmSettingsTableViewController: UITableViewController, AlarmTimeI
         }
     }
 
+    // swiftlint:disable:next function_body_length
     override public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         switch indexPath.section {
         case let x where x < glucoseSchedulesCount:

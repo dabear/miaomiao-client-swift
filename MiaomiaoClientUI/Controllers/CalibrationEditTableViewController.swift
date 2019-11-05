@@ -126,6 +126,7 @@ public class CalibrationEditTableViewController: UITableViewController, mmTextFi
         }
     }
 
+    // swiftlint:disable:next function_body_length
     override public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if indexPath.section == Section.sync.rawValue {
             let cell = tableView.dequeueIdentifiableCell(cell: TextButtonTableViewCell.self, for: indexPath)
@@ -213,6 +214,7 @@ public class CalibrationEditTableViewController: UITableViewController, mmTextFi
         return true
     }
 
+    // swiftlint:disable:next cyclomatic_complexity
     override public func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         switch  Section(rawValue: indexPath.section)! {
         case .CalibrationDataInfoRow:

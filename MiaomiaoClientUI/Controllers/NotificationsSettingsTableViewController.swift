@@ -142,6 +142,7 @@ public class NotificationsSettingsTableViewController: UITableViewController, mm
         }
     }
 
+    // swiftlint:disable:next function_body_length
     override public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         switch NotificationsSettingsRow(rawValue: indexPath.row)! {
         case .always:

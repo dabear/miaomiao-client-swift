@@ -23,7 +23,7 @@ public class MiaomiaoService: ServiceAuthentication {
             url?.absoluteString
         ]
 
-        if let _ = accessToken, let _ = url {
+        if accessToken != nil && url != nil {
             isAuthorized = true
         }
     }

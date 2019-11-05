@@ -69,7 +69,7 @@ public final class MiaoMiaoClientManager: CGMManager, LibreBluetoothManagerDeleg
                     // this is because the old and new glucose values represent earlier readouts, while the trend buffer contains somewhat more jumpy (noisy) values.
                     let oldIsRecent = LibreGlucose.timeDifference(oldGlucose: oldValue, newGlucose: latestBackfill) <= TimeInterval.minutes(15)
 
-                    var trend = oldIsRecent ? TrendArrowCalculation.GetGlucoseDirection(current: latestBackfill, last: oldValue) : GlucoseTrend.flat
+                    var trend = oldIsRecent ? TrendArrowCalculations.GetGlucoseDirection(current: latestBackfill, last: oldValue) : GlucoseTrend.flat
 
                     self.sensorState = ConcreteSensorDisplayable(isStateValid: latestBackfill.isStateValid, trendType: trend, isLocal: latestBackfill.isLocal)
                 } else {

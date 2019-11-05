@@ -48,7 +48,7 @@ class GlucoseScheduleList: Codable, CustomStringConvertible {
         }
     }
 
-    public func validateGlucoseSchedules() -> GlucoseSchedulesValidationStatus {
+    private func validateGlucoseThresholds() -> GlucoseSchedulesValidationStatus? {
         // This is on purpose
         // we check all chedules for valid thresholds
         for schedule in self.schedules {
@@ -64,6 +64,13 @@ class GlucoseScheduleList: Codable, CustomStringConvertible {
                     return .error("One of your glucose schedules had a high threshold set below your low threshold")
                 }
             }
+        }
+        return nil
+    }
+
+    public func validateGlucoseSchedules() -> GlucoseSchedulesValidationStatus {
+        if let errors = validateGlucoseThresholds() {
+            return errors
         }
 
         // if we have zero or 1 enabled schedules, overlapping would not be possible

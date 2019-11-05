@@ -11,7 +11,7 @@ import LoopKit
 
 //https://github.com/dabear/FloatingGlucose/blob/master/FloatingGlucose/Classes/Utils/GlucoseMath.cs
 
-enum TrendArrowCalculation {
+enum TrendArrowCalculations {
     static func calculateSlope(current: LibreGlucose, last: LibreGlucose) -> Double {
         if current.timestamp == last.timestamp {
             return 0.0
