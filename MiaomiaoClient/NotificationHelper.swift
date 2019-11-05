@@ -235,7 +235,7 @@ enum NotificationHelper {
             var titles: [String] = []
             switch alarm {
             case .none:
-                break
+                titles.append("Glucose")
             case .low:
                 titles.append("LOWALERT!")
             case .high:
@@ -299,16 +299,8 @@ enum NotificationHelper {
             content.title = "No Sensor Detected"
             content.body = "This might be an intermittent problem, but please check that your miaomiao is tightly secured over your sensor"
 
-            let center = UNUserNotificationCenter.current()
+            addRequest(identifier: Identifiers.noSensorDetected, content: content)
 
-            //content.sound = UNNotificationSound.
-            let request = UNNotificationRequest(identifier: Identifiers.noSensorDetected.rawValue, content: content, trigger: nil)
-
-            center.add(request) { error in
-                if let error = error {
-                    NSLog("dabear:: unable to add no sensordetected-notification: \(error.localizedDescription)")
-                }
-            }
         }
     }
 
