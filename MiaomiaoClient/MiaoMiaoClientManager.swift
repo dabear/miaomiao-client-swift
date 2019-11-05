@@ -73,7 +73,7 @@ public final class MiaoMiaoClientManager: CGMManager, LibreBluetoothManagerDeleg
                     NSLog("dabear:: timediff is \(timediff)")
                     let oldIsRecent = timediff <= TimeInterval.minutes(15)
 
-                    let trend = oldIsRecent ? TrendArrowCalculations.GetGlucoseDirection(current: latestBackfill, last: oldValue) : GlucoseTrend.flat
+                    let trend = oldIsRecent ? TrendArrowCalculations.GetGlucoseDirection(current: newValue, last: oldValue) : GlucoseTrend.flat
 
                     self.sensorState = ConcreteSensorDisplayable(isStateValid: newValue.isStateValid, trendType: trend, isLocal: newValue.isLocal)
                 } else {
