@@ -55,16 +55,16 @@ public class MiaomiaoClientSettingsViewController: UITableViewController, SubVie
                 return UITableViewAutomaticDimension
             }
 
-            switch UserDefaults.standard.glucoseSchedules?.getActiveAlarms(glucoseDouble) {
-            case .none:
-                return UITableViewAutomaticDimension
-            default:
+            if let alarms = UserDefaults.standard.glucoseSchedules?.getActiveAlarms(glucoseDouble), alarms.isAlarming() {
                 return 100
             }
 
+
         default:
-            return UITableViewAutomaticDimension
+            break
         }
+
+        return UITableViewAutomaticDimension
     }
     override public func viewDidLoad() {
         super.viewDidLoad()
