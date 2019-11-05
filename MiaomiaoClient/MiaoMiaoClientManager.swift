@@ -61,23 +61,27 @@ public final class MiaoMiaoClientManager: CGMManager, LibreBluetoothManagerDeleg
     public private(set) var lastConnected: Date?
 
     public private(set) var latestBackfill: LibreGlucose? {
-        didSet(oldValue) {
-            NSLog("dabear:: latestBackfill set, newvalue is \(latestBackfill)")
-            if let latestBackfill = latestBackfill {
+        willSet(newValue) {
+            let oldValue = latestBackfill
+            NSLog("dabear:: latestBackfill set, newvalue is \(newValue)")
+            if let newValue = newValue {
+
                 if let oldValue = oldValue {
                     // the idea here is to use the diff between the old and the new glucose to calculate slope and direction, rather than using trend from the glucose value.
                     // this is because the old and new glucose values represent earlier readouts, while the trend buffer contains somewhat more jumpy (noisy) values.
-                    let oldIsRecent = LibreGlucose.timeDifference(oldGlucose: oldValue, newGlucose: latestBackfill) <= TimeInterval.minutes(15)
+                    let timediff = LibreGlucose.timeDifference(oldGlucose: oldValue, newGlucose: newValue)
+                    NSLog("dabear:: timediff is \(timediff)")
+                    let oldIsRecent = timediff <= TimeInterval.minutes(15)
 
-                    var trend = oldIsRecent ? TrendArrowCalculations.GetGlucoseDirection(current: latestBackfill, last: oldValue) : GlucoseTrend.flat
+                    let trend = oldIsRecent ? TrendArrowCalculations.GetGlucoseDirection(current: latestBackfill, last: oldValue) : GlucoseTrend.flat
 
-                    self.sensorState = ConcreteSensorDisplayable(isStateValid: latestBackfill.isStateValid, trendType: trend, isLocal: latestBackfill.isLocal)
+                    self.sensorState = ConcreteSensorDisplayable(isStateValid: newValue.isStateValid, trendType: trend, isLocal: newValue.isLocal)
                 } else {
                     self.sensorState = nil
                 }
 
                 NSLog("dabear:: sending glucose notification")
-                NotificationHelper.sendGlucoseNotitifcationIfNeeded(glucose: latestBackfill, oldValue: oldValue)
+                NotificationHelper.sendGlucoseNotitifcationIfNeeded(glucose: newValue, oldValue: oldValue)
             }
         }
     }
