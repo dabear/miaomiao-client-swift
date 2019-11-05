@@ -300,7 +300,6 @@ enum NotificationHelper {
             content.body = "This might be an intermittent problem, but please check that your miaomiao is tightly secured over your sensor"
 
             addRequest(identifier: Identifiers.noSensorDetected, content: content)
-
         }
     }
 

@@ -65,7 +65,6 @@ public final class MiaoMiaoClientManager: CGMManager, LibreBluetoothManagerDeleg
             let oldValue = latestBackfill
             NSLog("dabear:: latestBackfill set, newvalue is \(newValue)")
             if let newValue = newValue {
-
                 if let oldValue = oldValue {
                     // the idea here is to use the diff between the old and the new glucose to calculate slope and direction, rather than using trend from the glucose value.
                     // this is because the old and new glucose values represent earlier readouts, while the trend buffer contains somewhat more jumpy (noisy) values.
@@ -77,6 +76,7 @@ public final class MiaoMiaoClientManager: CGMManager, LibreBluetoothManagerDeleg
 
                     self.sensorState = ConcreteSensorDisplayable(isStateValid: newValue.isStateValid, trendType: trend, isLocal: newValue.isLocal)
                 } else {
+                    //could consider setting this to ConcreteSensorDisplayable with trendtype GlucoseTrend.flat, but that would be kinda lying
                     self.sensorState = nil
                 }
 

@@ -59,7 +59,6 @@ public class MiaomiaoClientSettingsViewController: UITableViewController, SubVie
                 return 100
             }
 
-
         default:
             break
         }

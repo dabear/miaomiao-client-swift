@@ -36,7 +36,6 @@ extension String {
         characterSet.addCharacters(in: "-._~")
         return self.addingPercentEncoding(withAllowedCharacters: characterSet as CharacterSet)
     }
-
 }
 
 extension Date {
