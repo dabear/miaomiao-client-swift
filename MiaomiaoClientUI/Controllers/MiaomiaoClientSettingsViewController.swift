@@ -50,7 +50,12 @@ public class MiaomiaoClientSettingsViewController: UITableViewController, SubVie
     override public func tableView(_ tableView: UITableView, heightForRowAt index: IndexPath) -> CGFloat {
         switch Section(rawValue: index.section)! {
         case .snooze:
-            switch GlucoseScheduleList.getActiveAlarms() {
+
+            guard let glucoseDouble = cgmManager?.latestBackfill?.glucoseDouble else {
+                return UITableViewAutomaticDimension
+            }
+
+            switch UserDefaults.standard.glucoseSchedules?.getActiveAlarms(glucoseDouble) {
             case .none:
                 return UITableViewAutomaticDimension
             default:
@@ -626,7 +631,9 @@ public class MiaomiaoClientSettingsViewController: UITableViewController, SubVie
 
         case .snooze:
             print("Snooze called")
-            let controller = SnoozeTableViewController()
+
+            let controller = SnoozeTableViewController(manager: self.cgmManager)
+
             show(controller, sender: nil)
             tableView.deselectRow(at: indexPath, animated: true)
         }

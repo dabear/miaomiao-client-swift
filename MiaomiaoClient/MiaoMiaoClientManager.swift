@@ -16,9 +16,10 @@ import HealthKit
 import os.log
 
 public final class MiaoMiaoClientManager: CGMManager, LibreBluetoothManagerDelegate {
-    public var sensorState: SensorDisplayable? {
+    public var sensorState: SensorDisplayable? /*{
+        
         return latestBackfill
-    }
+    }*/
 
     public var managedDataInterval: TimeInterval?
 
@@ -59,16 +60,24 @@ public final class MiaoMiaoClientManager: CGMManager, LibreBluetoothManagerDeleg
 
     public private(set) var lastConnected: Date?
 
-    // This tighly tracks latestBackfill,
-    // and is defined here so that the ui can have a way to fetch the latest
-    // glucose value
-    public static var latestGlucose: LibreGlucose?
 
     public private(set) var latestBackfill: LibreGlucose? {
         didSet(oldValue) {
             NSLog("dabear:: latestBackfill set, newvalue is \(latestBackfill)")
             if let latestBackfill = latestBackfill {
-                MiaoMiaoClientManager.latestGlucose = latestBackfill
+                if let oldValue = oldValue {
+                    // the idea here is to use the diff between the old and the new glucose to calculate slope and direction, rather than using trend from the glucose value.
+                    // this is because the old and new glucose values represent earlier readouts, while the trend buffer contains somewhat more jumpy (noisy) values.
+                    let oldIsRecent = LibreGlucose.timeDifference(oldGlucose: oldValue, newGlucose: latestBackfill) <= TimeInterval.minutes(15)
+
+                    var trend = oldIsRecent ? TrendArrowCalculation.GetGlucoseDirection(current: latestBackfill, last: oldValue) : GlucoseTrend.flat
+
+                    self.sensorState = ConcreteSensorDisplayable(isStateValid: latestBackfill.isStateValid, trendType: trend, isLocal: latestBackfill.isLocal)
+                } else {
+                    self.sensorState = nil
+                }
+
+
                 NSLog("dabear:: sending glucose notification")
                 NotificationHelper.sendGlucoseNotitifcationIfNeeded(glucose: latestBackfill, oldValue: oldValue)
             }

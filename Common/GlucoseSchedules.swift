@@ -19,11 +19,7 @@ public enum GlucoseScheduleAlarmResult: Int, CaseIterable {
     }
 }
 
-public enum GlucoseScheduleAlarmResultWithSnooze {
-    case none
-    case low(Bool)
-    case high(Bool)
-}
+
 
 enum GlucoseSchedulesValidationStatus {
     case success
@@ -125,26 +121,10 @@ class GlucoseScheduleList: Codable, CustomStringConvertible {
         return false
     }
 
-    public static func getActiveAlarms() -> GlucoseScheduleAlarmResultWithSnooze {
-        if let schedules = UserDefaults.standard.glucoseSchedules, let glucose = MiaoMiaoClientManager.latestGlucose?.glucoseDouble {
-            let isSnoozed = GlucoseScheduleList.isSnoozed()
-            switch schedules.getActiveAlarms(glucose) {
-            case .high:
-                return .high(isSnoozed)
-            case .low:
-                return .low(isSnoozed)
-            default:
-                break
-            }
-        }
-
-        return .none
-    }
 
     public func getActiveAlarms(_ currentGlucoseInMGDL: Double) -> GlucoseScheduleAlarmResult {
-        let mySchedules = self.activeSchedules
 
-        for schedule in mySchedules {
+        for schedule in self.activeSchedules {
             if let lowAlarm = schedule.lowAlarm, currentGlucoseInMGDL <= lowAlarm {
                 return .low
             }

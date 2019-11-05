@@ -8,7 +8,7 @@
 import LoopKit
 import LoopKitUI
 import UIKit
-
+import MiaomiaoClient
 import HealthKit
 
 public class SnoozeTableViewController: UITableViewController, UIPickerViewDataSource, UIPickerViewDelegate {
@@ -69,7 +69,9 @@ public class SnoozeTableViewController: UITableViewController, UIPickerViewDataS
 
     public weak var pickerView: UIPickerView!
 
-    public init() {
+    private weak var manager: MiaoMiaoClientManager?
+    public init(manager: MiaoMiaoClientManager?) {
+        self.manager = manager
         super.init(style: .plain)
     }
 
@@ -160,14 +162,23 @@ public class SnoozeTableViewController: UITableViewController, UIPickerViewDataS
             var snoozeDescription  = ""
             var celltext = ""
 
-            switch GlucoseScheduleList.getActiveAlarms() {
-            case .high:
-                celltext = "High Glucose Alarm active"
-            case .low:
-                celltext = "Low Glucose Alarm active"
-            case .none:
+            if let glucoseDouble = manager?.latestBackfill?.glucoseDouble, let activeAlarms = UserDefaults.standard.glucoseSchedules?.getActiveAlarms(glucoseDouble) {
+                switch activeAlarms{
+                case .high:
+                    celltext = "High Glucose Alarm active"
+                case .low:
+                    celltext = "Low Glucose Alarm active"
+                case .none:
+                    celltext = "No Glucose Alarm active"
+
+                }
+
+
+            } else {
                 celltext = "No Glucose Alarm active"
             }
+
+
 
             if let until = GlucoseScheduleList.snoozedUntil {
                 snoozeDescription = "snoozing until \(until.description(with: .current))"

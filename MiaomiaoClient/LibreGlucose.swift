@@ -19,6 +19,10 @@ public struct LibreGlucose {
     public var trend: UInt8
     public let timestamp: Date
     public let collector: String?
+
+    public static func timeDifference(oldGlucose:LibreGlucose, newGlucose: LibreGlucose) -> TimeInterval {
+        return newGlucose.startDate.timeIntervalSince(oldGlucose.startDate)
+    }
 }
 
 extension LibreGlucose: GlucoseValue {
@@ -30,6 +34,7 @@ extension LibreGlucose: GlucoseValue {
         return HKQuantity(unit: .milligramsPerDeciliter, doubleValue: Double(glucose))
     }
 }
+
 
 extension LibreGlucose: SensorDisplayable {
     public var isStateValid: Bool {
