@@ -63,6 +63,7 @@ public final class MiaoMiaoClientManager: CGMManager, LibreBluetoothManagerDeleg
     public private(set) var latestBackfill: LibreGlucose? {
         willSet(newValue) {
             let oldValue = latestBackfill
+            var trend: GlucoseTrend?
             NSLog("dabear:: latestBackfill set, newvalue is \(newValue)")
             if let newValue = newValue {
                 if let oldValue = oldValue {
@@ -72,7 +73,7 @@ public final class MiaoMiaoClientManager: CGMManager, LibreBluetoothManagerDeleg
                     NSLog("dabear:: timediff is \(timediff)")
                     let oldIsRecent = timediff <= TimeInterval.minutes(15)
 
-                    let trend = oldIsRecent ? TrendArrowCalculations.GetGlucoseDirection(current: newValue, last: oldValue) : GlucoseTrend.flat
+                    trend = oldIsRecent ? TrendArrowCalculations.GetGlucoseDirection(current: newValue, last: oldValue) : nil
 
                     self.sensorState = ConcreteSensorDisplayable(isStateValid: newValue.isStateValid, trendType: trend, isLocal: newValue.isLocal)
                 } else {
@@ -81,7 +82,7 @@ public final class MiaoMiaoClientManager: CGMManager, LibreBluetoothManagerDeleg
                 }
 
                 NSLog("dabear:: sending glucose notification")
-                NotificationHelper.sendGlucoseNotitifcationIfNeeded(glucose: newValue, oldValue: oldValue)
+                NotificationHelper.sendGlucoseNotitifcationIfNeeded(glucose: newValue, oldValue: oldValue, trend: trend)
             }
         }
     }
