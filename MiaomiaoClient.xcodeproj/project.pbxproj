@@ -88,8 +88,6 @@
 		276A870F235F8CAC0055AFFA /* UserDefaults+GlucoseSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 276A870D235F875D0055AFFA /* UserDefaults+GlucoseSettings.swift */; };
 		277DAD0D226B970300422ADA /* UserDefaults+Alarmsettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 277DAD0C226B970300422ADA /* UserDefaults+Alarmsettings.swift */; };
 		277DAD0E226B971A00422ADA /* UserDefaults+Alarmsettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 277DAD0C226B970300422ADA /* UserDefaults+Alarmsettings.swift */; };
-		277DAD10226C93D000422ADA /* GlucoseAlarmType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 277DAD0F226C93D000422ADA /* GlucoseAlarmType.swift */; };
-		277DAD11226C986000422ADA /* GlucoseAlarmType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 277DAD0F226C93D000422ADA /* GlucoseAlarmType.swift */; };
 		277DAD12226C9FA800422ADA /* DateExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27D0DA6A2231CBB7007BBB2C /* DateExtensions.swift */; };
 		277DAD14226CACF300422ADA /* MessagePassing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 277DAD13226CACF300422ADA /* MessagePassing.swift */; };
 		277DAD15226CACF700422ADA /* MessagePassing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 277DAD13226CACF300422ADA /* MessagePassing.swift */; };
@@ -274,7 +272,6 @@
 		276A870B235F841D0055AFFA /* GlucoseSettingsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GlucoseSettingsTableViewController.swift; sourceTree = "<group>"; };
 		276A870D235F875D0055AFFA /* UserDefaults+GlucoseSettings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UserDefaults+GlucoseSettings.swift"; sourceTree = "<group>"; };
 		277DAD0C226B970300422ADA /* UserDefaults+Alarmsettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserDefaults+Alarmsettings.swift"; sourceTree = "<group>"; };
-		277DAD0F226C93D000422ADA /* GlucoseAlarmType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlucoseAlarmType.swift; sourceTree = "<group>"; };
 		277DAD13226CACF300422ADA /* MessagePassing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessagePassing.swift; sourceTree = "<group>"; };
 		2795404C2165502600D657E5 /* clitester */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = clitester; sourceTree = BUILT_PRODUCTS_DIR; };
 		2795404E2165502600D657E5 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
@@ -711,7 +708,6 @@
 				270C266E226A5A6E005B27F3 /* GlucoseSchedules.swift */,
 				276A870D235F875D0055AFFA /* UserDefaults+GlucoseSettings.swift */,
 				277DAD0C226B970300422ADA /* UserDefaults+Alarmsettings.swift */,
-				277DAD0F226C93D000422ADA /* GlucoseAlarmType.swift */,
 				277DAD13226CACF300422ADA /* MessagePassing.swift */,
 				27E0968E22A9AD6F00B3164D /* TimeIntervalExtensions.swift */,
 				271EDF2422EC739F00E1C8B3 /* UserDefaults+Bluetooth.swift */,
@@ -1092,7 +1088,6 @@
 				27C335B82165667300CF0868 /* LibreGlucose.swift in Sources */,
 				27E3C3A2222EEDCD0036AAC7 /* DerivedAlgorithmParameters.swift in Sources */,
 				2729D69C221F44670030E1B8 /* SensorSerialNumber.swift in Sources */,
-				277DAD10226C93D000422ADA /* GlucoseAlarmType.swift in Sources */,
 				27408E592370D8C1002C71C8 /* TimeIntervalExtensions.swift in Sources */,
 				27CFAB5622496CBB006DEFE3 /* DoubleExtensions.swift in Sources */,
 				43AB51362133177800B3D58D /* LocalizedString.swift in Sources */,
@@ -1141,7 +1136,6 @@
 				271EDF3422F095C000E1C8B3 /* UserDefaults+Bluetooth.swift in Sources */,
 				270C265C22691253005B27F3 /* GlucoseAlarmInputCell.swift in Sources */,
 				43AB51372133177800B3D58D /* LocalizedString.swift in Sources */,
-				277DAD11226C986000422ADA /* GlucoseAlarmType.swift in Sources */,
 				27CFAB5E224AB265006DEFE3 /* CollectionExtensions.swift in Sources */,
 				27CBEB3C225FB3A7004F7BF5 /* NibLoadable.swift in Sources */,
 				277DAD15226CACF700422ADA /* MessagePassing.swift in Sources */,

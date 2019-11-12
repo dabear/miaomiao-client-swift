@@ -13,6 +13,11 @@ protocol GlucoseAlarmInputCellDelegate: class {
 }
 
 class GlucoseAlarmInputCell: UITableViewCell, UITextFieldDelegate {
+    public enum GlucoseAlarmType: String {
+        case low = "Low"
+        case high = "High"
+    }
+    
     weak var delegate: GlucoseAlarmInputCellDelegate?
 
     var minValue: Double = 0 {

@@ -30,7 +30,7 @@ enum TrendArrowCalculations {
     static func GetGlucoseDirection(current: LibreGlucose?, last: LibreGlucose?) -> GlucoseTrend {
         //NSLog("GetGlucoseDirection:: current:\(current), last: \(last)")
         guard let current = current, let last = last else {
-            return GlucoseTrend.flat
+            return  .flat
         }
 
         let  s = calculateSlopeByMinute(current: current, last: last)
@@ -38,23 +38,23 @@ enum TrendArrowCalculations {
 
         switch s {
         case _ where s <= (-3.5):
-            return GlucoseTrend.downDownDown
+            return .downDownDown
         case _ where s <= (-2):
-            return GlucoseTrend.downDown
+            return .downDown
         case _ where s <= (-1):
-            return GlucoseTrend.down
+            return .down
         case _ where s <= (1):
-            return GlucoseTrend.flat
+            return .flat
         case _ where s <= (2):
-            return GlucoseTrend.up
+            return .up
         case _ where s <= (3.5):
-            return GlucoseTrend.upUp
+            return .upUp
         case _ where s <= (40):
-            return GlucoseTrend.flat //flat is the new (tm) "unknown"!
+            return .flat //flat is the new (tm) "unknown"!
 
         default:
             NSLog("Got unknown trendarrow value of \(s))")
-            return GlucoseTrend.flat
+            return .flat
         }
     }
 }

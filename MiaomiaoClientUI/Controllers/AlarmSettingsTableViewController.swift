@@ -264,7 +264,7 @@ public class AlarmSettingsTableViewController: UITableViewController, AlarmTimeI
                 cell.tag = indexPath.section
                 cell.tag2 = ScheduleRowTypes.lowglucose.rawValue
                 cell.delegate = self
-                cell.alarmType = GlucoseAlarmType.low
+                cell.alarmType = .low
                 cell.minValueTextField.placeholder = "glucose"
                 cell.unitString = self.glucoseUnit.localizedShortUnitString
                 cell.minValueTextField.keyboardType = .decimalPad
@@ -281,7 +281,7 @@ public class AlarmSettingsTableViewController: UITableViewController, AlarmTimeI
                 cell.tag = indexPath.section
                 cell.tag2 = ScheduleRowTypes.highglucose.rawValue
                 cell.delegate = self
-                cell.alarmType = GlucoseAlarmType.high
+                cell.alarmType = .high
                 cell.minValueTextField.keyboardType = .decimalPad
 
                 cell.unitString = self.glucoseUnit.localizedShortUnitString

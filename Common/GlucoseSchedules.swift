@@ -29,7 +29,7 @@ class GlucoseScheduleList: Codable, CustomStringConvertible {
         return "(schedules: \(schedules) )"
     }
 
-    public var schedules: [GlucoseSchedule] = [GlucoseSchedule]()
+    public var schedules = [GlucoseSchedule]()
 
     public var enabledSchedules: [GlucoseSchedule] {
         return schedules.compactMap({ $0.enabled == true ? $0 : nil })
@@ -150,6 +150,9 @@ class GlucoseSchedule: Codable, CustomStringConvertible {
     init() {
     }
 
+    //glucose schedules are stored as standalone datecomponents (i.e. offsets)
+    //this takes the current start of day and adds those offsets,
+    // and returns a Dateinterval with those offsets applied
     public func getScheduleActiveToFrom() -> DateInterval? {
         guard let fromComponents = from, let toComponents = to else {
             return nil
@@ -173,7 +176,8 @@ class GlucoseSchedule: Codable, CustomStringConvertible {
         }
         return nil
     }
-
+    //stores the alarm. It does not synhronize the value with the underlaying userdefaults
+    //that is up to the caller of this class
     public func storeLowAlarm(forUnit unit: HKUnit, lowAlarm: Double) {
         if unit == HKUnit.millimolesPerLiter {
             self.lowAlarm = lowAlarm * 18
@@ -182,6 +186,7 @@ class GlucoseSchedule: Codable, CustomStringConvertible {
 
         self.lowAlarm = lowAlarm
     }
+
     public func retrieveLowAlarm(forUnit unit: HKUnit) -> Double? {
         if let lowAlarm = self.lowAlarm {
             if unit == HKUnit.millimolesPerLiter {
@@ -194,6 +199,8 @@ class GlucoseSchedule: Codable, CustomStringConvertible {
         return nil
     }
 
+    //stores the alarm. It does not synhronize the value with the underlaying userdefaults
+    //that is up to the caller of this class
     public func storeHighAlarm(forUnit unit: HKUnit, highAlarm: Double) {
         if unit == HKUnit.millimolesPerLiter {
             self.highAlarm = highAlarm * 18
