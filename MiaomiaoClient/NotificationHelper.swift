@@ -78,7 +78,6 @@ enum NotificationHelper {
             content.body = "Please turn on Bluetooth"
 
             addRequest(identifier: Identifiers.bluetoothPoweredOff, content: content)
-
         }
     }
 
@@ -90,13 +89,11 @@ enum NotificationHelper {
             }
             NSLog("dabear:: sending noBridgeSelected")
 
-            
             let content = UNMutableNotificationContent()
             content.title = "No Libre Bridge Selected"
             content.body = "Delete CGMManager and start anew. Your libreoopweb credentials will be preserved"
 
             addRequest(identifier: Identifiers.noBridgeSelected, content: content)
-
         }
     }
 
@@ -147,14 +144,11 @@ enum NotificationHelper {
                 return
             }
 
-
-
             let content = UNMutableNotificationContent()
             content.title = "Invalid libre checksum"
             content.body = "Libre sensor was incorrectly read, CRCs were not valid"
 
             addRequest(identifier: Identifiers.invalidChecksum, content: content)
-
         }
     }
 
@@ -240,7 +234,6 @@ enum NotificationHelper {
                 if diff == 0 {
                     content.body += ", \(sign) 0"
                 } else {
-
                     diff = abs(diff)
 
                     let asObj = LibreGlucose(unsmoothedGlucose: diff, glucoseDouble: diff, trend: 0, timestamp: Date(), collector: nil)

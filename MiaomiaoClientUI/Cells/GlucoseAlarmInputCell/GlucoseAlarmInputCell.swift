@@ -17,7 +17,7 @@ class GlucoseAlarmInputCell: UITableViewCell, UITextFieldDelegate {
         case low = "Low"
         case high = "High"
     }
-    
+
     weak var delegate: GlucoseAlarmInputCellDelegate?
 
     var minValue: Double = 0 {

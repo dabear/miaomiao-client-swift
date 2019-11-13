@@ -62,28 +62,31 @@ public final class MiaoMiaoClientManager: CGMManager, LibreBluetoothManagerDeleg
 
     public private(set) var latestBackfill: LibreGlucose? {
         willSet(newValue) {
+            guard let newValue = newValue else {
+                return
+            }
+
             let oldValue = latestBackfill
             var trend: GlucoseTrend?
             NSLog("dabear:: latestBackfill set, newvalue is \(newValue)")
-            if let newValue = newValue {
-                if let oldValue = oldValue {
-                    // the idea here is to use the diff between the old and the new glucose to calculate slope and direction, rather than using trend from the glucose value.
-                    // this is because the old and new glucose values represent earlier readouts, while the trend buffer contains somewhat more jumpy (noisy) values.
-                    let timediff = LibreGlucose.timeDifference(oldGlucose: oldValue, newGlucose: newValue)
-                    NSLog("dabear:: timediff is \(timediff)")
-                    let oldIsRecent = timediff <= TimeInterval.minutes(15)
 
-                    trend = oldIsRecent ? TrendArrowCalculations.GetGlucoseDirection(current: newValue, last: oldValue) : nil
+            if let oldValue = oldValue {
+                // the idea here is to use the diff between the old and the new glucose to calculate slope and direction, rather than using trend from the glucose value.
+                // this is because the old and new glucose values represent earlier readouts, while the trend buffer contains somewhat more jumpy (noisy) values.
+                let timediff = LibreGlucose.timeDifference(oldGlucose: oldValue, newGlucose: newValue)
+                NSLog("dabear:: timediff is \(timediff)")
+                let oldIsRecent = timediff <= TimeInterval.minutes(15)
 
-                    self.sensorState = ConcreteSensorDisplayable(isStateValid: newValue.isStateValid, trendType: trend, isLocal: newValue.isLocal)
-                } else {
-                    //could consider setting this to ConcreteSensorDisplayable with trendtype GlucoseTrend.flat, but that would be kinda lying
-                    self.sensorState = nil
-                }
+                trend = oldIsRecent ? TrendArrowCalculations.GetGlucoseDirection(current: newValue, last: oldValue) : nil
 
-                NSLog("dabear:: sending glucose notification")
-                NotificationHelper.sendGlucoseNotitifcationIfNeeded(glucose: newValue, oldValue: oldValue, trend: trend)
+                self.sensorState = ConcreteSensorDisplayable(isStateValid: newValue.isStateValid, trendType: trend, isLocal: newValue.isLocal)
+            } else {
+                //could consider setting this to ConcreteSensorDisplayable with trendtype GlucoseTrend.flat, but that would be kinda lying
+                self.sensorState = nil
             }
+
+            NSLog("dabear:: sending glucose notification")
+            NotificationHelper.sendGlucoseNotitifcationIfNeeded(glucose: newValue, oldValue: oldValue, trend: trend)
         }
     }
     public static var managerIdentifier = "DexMiaomiaoClient1"
