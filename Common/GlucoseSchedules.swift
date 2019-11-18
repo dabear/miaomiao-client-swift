@@ -19,12 +19,6 @@ public enum GlucoseScheduleAlarmResult: Int, CaseIterable {
     }
 }
 
-public enum GlucoseScheduleAlarmResultWithSnooze {
-    case none
-    case low(Bool)
-    case high(Bool)
-}
-
 enum GlucoseSchedulesValidationStatus {
     case success
     case error(String)
@@ -35,7 +29,7 @@ class GlucoseScheduleList: Codable, CustomStringConvertible {
         return "(schedules: \(schedules) )"
     }
 
-    public var schedules: [GlucoseSchedule] = [GlucoseSchedule]()
+    public var schedules = [GlucoseSchedule]()
 
     public var enabledSchedules: [GlucoseSchedule] {
         return schedules.compactMap({ $0.enabled == true ? $0 : nil })
@@ -54,7 +48,7 @@ class GlucoseScheduleList: Codable, CustomStringConvertible {
         }
     }
 
-    public func validateGlucoseSchedules() -> GlucoseSchedulesValidationStatus {
+    private func validateGlucoseThresholds() -> GlucoseSchedulesValidationStatus? {
         // This is on purpose
         // we check all chedules for valid thresholds
         for schedule in self.schedules {
@@ -71,51 +65,59 @@ class GlucoseScheduleList: Codable, CustomStringConvertible {
                 }
             }
         }
+        return nil
+    }
+
+    public func validateGlucoseSchedules() -> GlucoseSchedulesValidationStatus {
+        if let errors = validateGlucoseThresholds() {
+            return errors
+        }
 
         // if we have zero or 1 enabled schedules, overlapping would not be possible
         // (there is nothing to overlap on), so we skip interval check
-        if self.enabledSchedules.count > 1 {
-            var sameStartEnd = false
-            let intervals: [DateInterval] = enabledSchedules.compactMap({
-                var schedule = $0.getScheduleActiveToFrom()
-                if let start = schedule?.start, let end = schedule?.end {
-                    if start == end {
-                        sameStartEnd = true
-                        return nil
-                    }
-                }
-                // This compensates for Datetimes being closed range in nature
-                // example,
-                // interval1start = 12:00, interval1end=14:00
-                // interval2start = 14:00, interval2end=24:00
-                // interval1end and interval2 would collide when .intersect()-ing,
-                // so we change interval1end to 13:59:59
-                // and interval2end to 23:59:59
-                // This function is only used in the gui for validation, so this is acceptable
-                //
-                if let end = schedule?.end {
-                    if let newEnd = Calendar.current.date(byAdding: .second, value: -1, to: end) {
-                        schedule?.end = newEnd
-                    }
-                }
-                return schedule
-            })
-            if sameStartEnd {
-                return .error("One interval had the same start and end!")
-            }
-            if let intersects = intervals.intersect() {
-                print("Glucose schedule collided, not valid! \(intersects)")
-                return .error("Glucose schedules had overlapping time intervals")
-            }
+        guard self.enabledSchedules.count > 1 else {
+            return .success
         }
 
+        var sameStartEnd = false
+        let intervals: [DateInterval] = enabledSchedules.compactMap({
+            var schedule = $0.getScheduleActiveToFrom()
+            if let start = schedule?.start, let end = schedule?.end {
+                if start == end {
+                    sameStartEnd = true
+                    return nil
+                }
+            }
+            // This compensates for Datetimes being closed range in nature
+            // example,
+            // interval1start = 12:00, interval1end=14:00
+            // interval2start = 14:00, interval2end=24:00
+            // interval1end and interval2 would collide when .intersect()-ing,
+            // so we change interval1end to 13:59:59
+            // and interval2end to 23:59:59
+            // This function is only used in the gui for validation, so this is acceptable
+            //
+            if let end = schedule?.end {
+                if let newEnd = Calendar.current.date(byAdding: .second, value: -1, to: end) {
+                    schedule?.end = newEnd
+                }
+            }
+            return schedule
+        })
+        if sameStartEnd {
+            return .error("One interval had the same start and end!")
+        }
+        if let intersects = intervals.intersect() {
+            print("Glucose schedule collided, not valid! \(intersects)")
+            return .error("Glucose schedules had overlapping time intervals")
+        }
         return .success
     }
     //for convenience
     public static var snoozedUntil: Date? {
         return UserDefaults.standard.snoozedUntil
     }
-    
+
     public static func isSnoozed() -> Bool {
         let now = Date()
 
@@ -125,26 +127,8 @@ class GlucoseScheduleList: Codable, CustomStringConvertible {
         return false
     }
 
-    public static func getActiveAlarms() -> GlucoseScheduleAlarmResultWithSnooze {
-        if let schedules = UserDefaults.standard.glucoseSchedules, let glucose = MiaoMiaoClientManager.latestGlucose?.glucoseDouble {
-            let isSnoozed = GlucoseScheduleList.isSnoozed()
-            switch schedules.getActiveAlarms(glucose) {
-            case .high:
-                return .high(isSnoozed)
-            case .low:
-                return .low(isSnoozed)
-            default:
-                break
-            }
-        }
-
-        return .none
-    }
-
     public func getActiveAlarms(_ currentGlucoseInMGDL: Double) -> GlucoseScheduleAlarmResult {
-        let mySchedules = self.activeSchedules
-
-        for schedule in mySchedules {
+        for schedule in self.activeSchedules {
             if let lowAlarm = schedule.lowAlarm, currentGlucoseInMGDL <= lowAlarm {
                 return .low
             }
@@ -166,6 +150,9 @@ class GlucoseSchedule: Codable, CustomStringConvertible {
     init() {
     }
 
+    //glucose schedules are stored as standalone datecomponents (i.e. offsets)
+    //this takes the current start of day and adds those offsets,
+    // and returns a Dateinterval with those offsets applied
     public func getScheduleActiveToFrom() -> DateInterval? {
         guard let fromComponents = from, let toComponents = to else {
             return nil
@@ -189,7 +176,8 @@ class GlucoseSchedule: Codable, CustomStringConvertible {
         }
         return nil
     }
-
+    //stores the alarm. It does not synhronize the value with the underlaying userdefaults
+    //that is up to the caller of this class
     public func storeLowAlarm(forUnit unit: HKUnit, lowAlarm: Double) {
         if unit == HKUnit.millimolesPerLiter {
             self.lowAlarm = lowAlarm * 18
@@ -198,6 +186,7 @@ class GlucoseSchedule: Codable, CustomStringConvertible {
 
         self.lowAlarm = lowAlarm
     }
+
     public func retrieveLowAlarm(forUnit unit: HKUnit) -> Double? {
         if let lowAlarm = self.lowAlarm {
             if unit == HKUnit.millimolesPerLiter {
@@ -210,6 +199,8 @@ class GlucoseSchedule: Codable, CustomStringConvertible {
         return nil
     }
 
+    //stores the alarm. It does not synhronize the value with the underlaying userdefaults
+    //that is up to the caller of this class
     public func storeHighAlarm(forUnit unit: HKUnit, highAlarm: Double) {
         if unit == HKUnit.millimolesPerLiter {
             self.highAlarm = highAlarm * 18

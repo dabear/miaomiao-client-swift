@@ -8,6 +8,8 @@
 
 import Foundation
 
+// really needs to be a class to compile 
+// swiftlint:disable:next convenience_type
 internal class FrameworkBundle {
     static let main = Bundle(for: FrameworkBundle.self)
 }

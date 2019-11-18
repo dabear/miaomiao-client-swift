@@ -23,7 +23,7 @@ public class MiaomiaoService: ServiceAuthentication {
             url?.absoluteString
         ]
 
-        if let _ = accessToken, let _ = url {
+        if accessToken != nil && url != nil {
             isAuthorized = true
         }
     }
@@ -51,11 +51,7 @@ public class MiaomiaoService: ServiceAuthentication {
         let client = LibreOOPClient(accessToken: accessToken, site: url.absoluteString)
 
         client.verifyToken { success in
-            var error: Error?
-            if !success {
-                error = LibreError.invalidAutoCalibrationCredentials
-            }
-            completion(success, error)
+            completion(success, success ? nil : LibreError.invalidAutoCalibrationCredentials)
         }
     }
 

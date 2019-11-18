@@ -13,6 +13,8 @@ import UIKit
 class MiaomiaoClientSetupViewController: UINavigationController, CGMManagerSetupViewController, CompletionNotifying {
     weak var completionDelegate: CompletionDelegate?
 
+    // this must follow the protocol from loopkit, so it cannot be weak
+    // swiftlint:disable:next weak_delegate
     var setupDelegate: CGMManagerSetupViewControllerDelegate?
 
     lazy var cgmManager: MiaoMiaoClientManager? =  MiaoMiaoClientManager()

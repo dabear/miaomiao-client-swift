@@ -36,22 +36,6 @@ extension String {
         characterSet.addCharacters(in: "-._~")
         return self.addingPercentEncoding(withAllowedCharacters: characterSet as CharacterSet)
     }
-
-    //: ### Base64 encoding a string
-    func base64Encoded() -> String? {
-        if let data = self.data(using: .utf8) {
-            return data.base64EncodedString()
-        }
-        return nil
-    }
-
-    //: ### Base64 decoding a string
-    func base64Decoded() -> [UInt8]? {
-        if let data = Data(base64Encoded: self) {
-            return [UInt8](data)
-        }
-        return nil
-    }
 }
 
 extension Date {

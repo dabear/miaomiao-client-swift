@@ -63,7 +63,7 @@ public class AlarmSettingsTableViewController: UITableViewController, AlarmTimeI
         print("AlarmSettingsTableViewController will now disappear")
         disappearDelegate?.onDisappear()
     }
-    
+
     public weak var disappearDelegate: SubViewControllerWillDisappear?
 
     func glucoseAlarmInputCellDidUpdateValue(_ cell: GlucoseAlarmInputCell, value: Double) {
@@ -233,6 +233,7 @@ public class AlarmSettingsTableViewController: UITableViewController, AlarmTimeI
         }
     }
 
+    // swiftlint:disable:next function_body_length
     override public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         switch indexPath.section {
         case let x where x < glucoseSchedulesCount:
@@ -263,7 +264,7 @@ public class AlarmSettingsTableViewController: UITableViewController, AlarmTimeI
                 cell.tag = indexPath.section
                 cell.tag2 = ScheduleRowTypes.lowglucose.rawValue
                 cell.delegate = self
-                cell.alarmType = GlucoseAlarmType.low
+                cell.alarmType = .low
                 cell.minValueTextField.placeholder = "glucose"
                 cell.unitString = self.glucoseUnit.localizedShortUnitString
                 cell.minValueTextField.keyboardType = .decimalPad
@@ -280,7 +281,7 @@ public class AlarmSettingsTableViewController: UITableViewController, AlarmTimeI
                 cell.tag = indexPath.section
                 cell.tag2 = ScheduleRowTypes.highglucose.rawValue
                 cell.delegate = self
-                cell.alarmType = GlucoseAlarmType.high
+                cell.alarmType = .high
                 cell.minValueTextField.keyboardType = .decimalPad
 
                 cell.unitString = self.glucoseUnit.localizedShortUnitString

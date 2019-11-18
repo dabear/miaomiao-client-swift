@@ -16,9 +16,10 @@ import HealthKit
 import os.log
 
 public final class MiaoMiaoClientManager: CGMManager, LibreBluetoothManagerDelegate {
-    public var sensorState: SensorDisplayable? {
+    public var sensorState: SensorDisplayable? /*{
+        
         return latestBackfill
-    }
+    }*/
 
     public var managedDataInterval: TimeInterval?
 
@@ -59,19 +60,33 @@ public final class MiaoMiaoClientManager: CGMManager, LibreBluetoothManagerDeleg
 
     public private(set) var lastConnected: Date?
 
-    // This tighly tracks latestBackfill,
-    // and is defined here so that the ui can have a way to fetch the latest
-    // glucose value
-    public static var latestGlucose: LibreGlucose?
-
     public private(set) var latestBackfill: LibreGlucose? {
-        didSet(oldValue) {
-            NSLog("dabear:: latestBackfill set, newvalue is \(latestBackfill)")
-            if let latestBackfill = latestBackfill {
-                MiaoMiaoClientManager.latestGlucose = latestBackfill
-                NSLog("dabear:: sending glucose notification")
-                NotificationHelper.sendGlucoseNotitifcationIfNeeded(glucose: latestBackfill, oldValue: oldValue)
+        willSet(newValue) {
+            guard let newValue = newValue else {
+                return
             }
+
+            let oldValue = latestBackfill
+            var trend: GlucoseTrend?
+            NSLog("dabear:: latestBackfill set, newvalue is \(newValue)")
+
+            if let oldValue = oldValue {
+                // the idea here is to use the diff between the old and the new glucose to calculate slope and direction, rather than using trend from the glucose value.
+                // this is because the old and new glucose values represent earlier readouts, while the trend buffer contains somewhat more jumpy (noisy) values.
+                let timediff = LibreGlucose.timeDifference(oldGlucose: oldValue, newGlucose: newValue)
+                NSLog("dabear:: timediff is \(timediff)")
+                let oldIsRecent = timediff <= TimeInterval.minutes(15)
+
+                trend = oldIsRecent ? TrendArrowCalculations.GetGlucoseDirection(current: newValue, last: oldValue) : nil
+
+                self.sensorState = ConcreteSensorDisplayable(isStateValid: newValue.isStateValid, trendType: trend, isLocal: newValue.isLocal)
+            } else {
+                //could consider setting this to ConcreteSensorDisplayable with trendtype GlucoseTrend.flat, but that would be kinda lying
+                self.sensorState = nil
+            }
+
+            NSLog("dabear:: sending glucose notification")
+            NotificationHelper.sendGlucoseNotitifcationIfNeeded(glucose: newValue, oldValue: oldValue, trend: trend)
         }
     }
     public static var managerIdentifier = "DexMiaomiaoClient1"
@@ -92,7 +107,7 @@ public final class MiaoMiaoClientManager: CGMManager, LibreBluetoothManagerDeleg
     public let appURL: URL? = nil //URL(string: "spikeapp://")
     public weak var cgmManagerDelegate: CGMManagerDelegate?
     public let providesBLEHeartbeat = true
-    public var shouldSyncToRemoteService : Bool {
+    public var shouldSyncToRemoteService: Bool {
         return UserDefaults.standard.mmSyncToNs
     }
 
@@ -128,8 +143,6 @@ public final class MiaoMiaoClientManager: CGMManager, LibreBluetoothManagerDeleg
     private lazy var proxy: LibreBluetoothManager? = LibreBluetoothManager()
 
     private func readingToGlucose(_ data: SensorData, calibration: DerivedAlgorithmParameters) -> [LibreGlucose] {
-
-
         let last16 = data.trendMeasurements(derivedAlgorithmParameterSet: calibration)
 
         var entries = LibreGlucose.fromTrendMeasurements(last16, returnAll: UserDefaults.standard.mmBackfillFromTrend)
@@ -138,7 +151,6 @@ public final class MiaoMiaoClientManager: CGMManager, LibreBluetoothManagerDeleg
             let history = data.historyMeasurements(derivedAlgorithmParameterSet: calibration)
             entries += LibreGlucose.fromHistoryMeasurements(history)
         }
-
 
         return entries
     }

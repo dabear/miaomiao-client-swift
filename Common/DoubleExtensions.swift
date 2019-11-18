@@ -20,9 +20,7 @@ extension Double {
     var fourDecimals: String {
         return String(format: "%.4f", self)
     }
-}
 
-extension Double {
     enum Number {
         static var formatter = NumberFormatter()
     }

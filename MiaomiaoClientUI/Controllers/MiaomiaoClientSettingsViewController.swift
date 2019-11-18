@@ -50,16 +50,20 @@ public class MiaomiaoClientSettingsViewController: UITableViewController, SubVie
     override public func tableView(_ tableView: UITableView, heightForRowAt index: IndexPath) -> CGFloat {
         switch Section(rawValue: index.section)! {
         case .snooze:
-            switch GlucoseScheduleList.getActiveAlarms() {
-            case .none:
+
+            guard let glucoseDouble = cgmManager?.latestBackfill?.glucoseDouble else {
                 return UITableViewAutomaticDimension
-            default:
+            }
+
+            if let alarms = UserDefaults.standard.glucoseSchedules?.getActiveAlarms(glucoseDouble), alarms.isAlarming() {
                 return 100
             }
 
         default:
-            return UITableViewAutomaticDimension
+            break
         }
+
+        return UITableViewAutomaticDimension
     }
     override public func viewDidLoad() {
         super.viewDidLoad()
@@ -102,13 +106,10 @@ public class MiaomiaoClientSettingsViewController: UITableViewController, SubVie
         case advanced
 
         case delete
-
-
     }
 
     override public func numberOfSections(in tableView: UITableView) -> Int {
-
-        return  Section.allCases.count  - ( allowsDeletion ? 0 : 1 )
+        return  Section.allCases.count - ( allowsDeletion ? 0 : 1 )
     }
 
     private enum LatestReadingRow: Int, CaseIterable {
@@ -116,17 +117,15 @@ public class MiaomiaoClientSettingsViewController: UITableViewController, SubVie
         case date
         case trend
         case footerChecksum
-
     }
 
     private enum LatestSensorInfoRow: Int, CaseIterable {
         case sensorAge
         case sensorState
         case sensorSerialNumber
-
     }
 
-    private enum LatestBridgeInfoRow: Int, CaseIterable  {
+    private enum LatestBridgeInfoRow: Int, CaseIterable {
         case battery
         case hardware
         case firmware
@@ -135,7 +134,7 @@ public class MiaomiaoClientSettingsViewController: UITableViewController, SubVie
         case bridgeIdentifer
     }
 
-    private enum LatestCalibrationDataInfoRow: Int, CaseIterable{
+    private enum LatestCalibrationDataInfoRow: Int, CaseIterable {
         case slopeslope
         case slopeoffset
         case offsetslope
@@ -148,7 +147,7 @@ public class MiaomiaoClientSettingsViewController: UITableViewController, SubVie
         case edit
     }
 
-    private enum GlucoseSettings: Int, CaseIterable{
+    private enum GlucoseSettings: Int, CaseIterable {
         case syncToNs
         case sync
     }
@@ -438,7 +437,6 @@ public class MiaomiaoClientSettingsViewController: UITableViewController, SubVie
             case .glucose:
                 cell.textLabel?.text = LocalizedString("Glucose settings", comment: "Title describing Glucose Settings")
 
-
                 //cell.detailTextLabel?.text = "enabled: \(schedules) / \(totalSchedules)"
                 cell.accessoryType = .disclosureIndicator
             }
@@ -626,7 +624,9 @@ public class MiaomiaoClientSettingsViewController: UITableViewController, SubVie
 
         case .snooze:
             print("Snooze called")
-            let controller = SnoozeTableViewController()
+
+            let controller = SnoozeTableViewController(manager: self.cgmManager)
+
             show(controller, sender: nil)
             tableView.deselectRow(at: indexPath, animated: true)
         }
