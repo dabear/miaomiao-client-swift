@@ -218,7 +218,7 @@ enum NotificationHelper {
             if isSnoozed {
                 titles.append("(Snoozed)")
             } else if  alarm.isAlarming() {
-                content.sound = .default()
+                content.sound = .default
                 vibrateIfNeeded()
             }
             titles.append(formatted)
@@ -331,7 +331,7 @@ enum NotificationHelper {
                 content.body = "Detected sensor is invalid: \(sensorData.state.description)"
             }
 
-            content.sound = .default()
+            content.sound = .default
 
             addRequest(identifier: Identifiers.invalidSensor, content: content)
         }
@@ -379,7 +379,7 @@ enum NotificationHelper {
             content.title = "Low Battery"
             content.body = "Battery is running low (\(batteryPercentage)), consider charging your miaomiao device as soon as possible"
 
-            content.sound = .default()
+            content.sound = .default
 
             addRequest(identifier: Identifiers.lowBattery, content: content)
         }

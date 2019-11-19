@@ -46,24 +46,14 @@
 		271EDF3B22F23A0800E1C8B3 /* libresensor.png in Resources */ = {isa = PBXBuildFile; fileRef = 271EDF3922F23A0800E1C8B3 /* libresensor.png */; };
 		271EDF3D22F3658D00E1C8B3 /* LibreBluetoothManager+Miaomiao.swift in Sources */ = {isa = PBXBuildFile; fileRef = 271EDF3C22F3658D00E1C8B3 /* LibreBluetoothManager+Miaomiao.swift */; };
 		2724930E232F03E500AFE86A /* test_lint.h in Headers */ = {isa = PBXBuildFile; fileRef = 2724930C232F03E500AFE86A /* test_lint.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		27249311232F03E500AFE86A /* test_lint.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2724930A232F03E400AFE86A /* test_lint.framework */; };
-		27249312232F03E500AFE86A /* test_lint.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 2724930A232F03E400AFE86A /* test_lint.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		2729D677221F421C0030E1B8 /* BluetoothBridgeMetaData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2729D676221F421C0030E1B8 /* BluetoothBridgeMetaData.swift */; };
-		2729D678221F421C0030E1B8 /* BluetoothBridgeMetaData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2729D676221F421C0030E1B8 /* BluetoothBridgeMetaData.swift */; };
 		2729D67B221F421F0030E1B8 /* LibreBluetoothManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2729D67A221F421F0030E1B8 /* LibreBluetoothManager.swift */; };
-		2729D685221F42760030E1B8 /* BloodSugarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2729D682221F42760030E1B8 /* BloodSugarController.swift */; };
 		2729D687221F43150030E1B8 /* SensorData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2729D686221F43150030E1B8 /* SensorData.swift */; };
-		2729D689221F43150030E1B8 /* SensorData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2729D686221F43150030E1B8 /* SensorData.swift */; };
 		2729D693221F44670030E1B8 /* Measurement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2729D68B221F44660030E1B8 /* Measurement.swift */; };
-		2729D695221F44670030E1B8 /* Measurement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2729D68B221F44660030E1B8 /* Measurement.swift */; };
 		2729D699221F44670030E1B8 /* CRC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2729D68D221F44670030E1B8 /* CRC.swift */; };
-		2729D69B221F44670030E1B8 /* CRC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2729D68D221F44670030E1B8 /* CRC.swift */; };
 		2729D69C221F44670030E1B8 /* SensorSerialNumber.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2729D68E221F44670030E1B8 /* SensorSerialNumber.swift */; };
-		2729D69E221F44670030E1B8 /* SensorSerialNumber.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2729D68E221F44670030E1B8 /* SensorSerialNumber.swift */; };
 		2729D69F221F44670030E1B8 /* SensorState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2729D68F221F44670030E1B8 /* SensorState.swift */; };
-		2729D6A1221F44670030E1B8 /* SensorState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2729D68F221F44670030E1B8 /* SensorState.swift */; };
 		2729D6A822248BDD0030E1B8 /* MiaoMiaoClientManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2729D6A722248BDD0030E1B8 /* MiaoMiaoClientManager.swift */; };
-		2729D6AA22248BDD0030E1B8 /* MiaoMiaoClientManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2729D6A722248BDD0030E1B8 /* MiaoMiaoClientManager.swift */; };
 		272BF9C32338044600AD38AA /* DataExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 272BF9C22338044600AD38AA /* DataExtensions.swift */; };
 		272BF9C9233D3F5A00AD38AA /* MiaomiaoTestMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 272BF9C8233D3F5A00AD38AA /* MiaomiaoTestMessage.swift */; };
 		272DFE6F223E909600FBE2CB /* LoopKitUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 272DFE6D223E909500FBE2CB /* LoopKitUI.framework */; };
@@ -74,9 +64,6 @@
 		27408E582370D3C3002C71C8 /* ConcreteSensorDisplayable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27408E572370D3C3002C71C8 /* ConcreteSensorDisplayable.swift */; };
 		27408E592370D8C1002C71C8 /* TimeIntervalExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27E0968E22A9AD6F00B3164D /* TimeIntervalExtensions.swift */; };
 		274DF85222A5AEA400BFAFFE /* AlertControllers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 274DF85122A5AEA400BFAFFE /* AlertControllers.swift */; };
-		275B74912225BF90009CD5EB /* MiaomiaoClient.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 432B0E881CDFC3C50045347B /* MiaomiaoClient.framework */; };
-		275B74922225BF90009CD5EB /* MiaomiaoClient.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 432B0E881CDFC3C50045347B /* MiaomiaoClient.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		275B74952225C137009CD5EB /* LibreBluetoothManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2729D67A221F421F0030E1B8 /* LibreBluetoothManager.swift */; };
 		275C3D99229AA88200E27439 /* MMSwitchTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 275C3D94229AA69C00E27439 /* MMSwitchTableViewCell.swift */; };
 		275C3D9A229AA88500E27439 /* MMSwitchTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 275C3D95229AA69C00E27439 /* MMSwitchTableViewCell.xib */; };
 		275C3D9F229D9AD500E27439 /* MMTextFieldViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 275C3D9E229D9AD500E27439 /* MMTextFieldViewCell.xib */; };
@@ -94,11 +81,6 @@
 		2795404F2165502600D657E5 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2795404E2165502600D657E5 /* main.swift */; };
 		27C335B82165667300CF0868 /* LibreGlucose.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43C418AE1CE0488900405B6A /* LibreGlucose.swift */; };
 		27C335B9216566C500CF0868 /* MiaomiaoClient.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 432B0E881CDFC3C50045347B /* MiaomiaoClient.framework */; };
-		27C335E121667C7A00CF0868 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27C335E021667C7A00CF0868 /* AppDelegate.swift */; };
-		27C335E321667C7B00CF0868 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27C335E221667C7B00CF0868 /* ViewController.swift */; };
-		27C335E621667C7B00CF0868 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 27C335E421667C7B00CF0868 /* Main.storyboard */; };
-		27C335E821667C7C00CF0868 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 27C335E721667C7C00CF0868 /* Assets.xcassets */; };
-		27C335EB21667C7C00CF0868 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 27C335E921667C7C00CF0868 /* LaunchScreen.storyboard */; };
 		27CBEB3C225FB3A7004F7BF5 /* NibLoadable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27CBEB3B225FB3A7004F7BF5 /* NibLoadable.swift */; };
 		27CBEB3F225FE5CB004F7BF5 /* AlarmSettingsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27CBEB3D225FE5CB004F7BF5 /* AlarmSettingsTableViewController.swift */; };
 		27CBEB552261DF9D004F7BF5 /* AlarmTimeInputRangeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27CBEB542261DF9C004F7BF5 /* AlarmTimeInputRangeCell.swift */; };
@@ -148,33 +130,12 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		2724930F232F03E500AFE86A /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 432B0E7F1CDFC3C50045347B /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 27249309232F03E400AFE86A;
-			remoteInfo = "test-lint";
-		};
-		275B74932225BF90009CD5EB /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 432B0E7F1CDFC3C50045347B /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 432B0E871CDFC3C50045347B;
-			remoteInfo = MiaomiaoClient;
-		};
 		277FE8E02165606D001ACE55 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 432B0E7F1CDFC3C50045347B /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = 432B0E871CDFC3C50045347B;
 			remoteInfo = MiaomiaoClient;
-		};
-		27C335F521667D1600CF0868 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 432B0E7F1CDFC3C50045347B /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 27C335DD21667C7A00CF0868;
-			remoteInfo = singleviewtesterapp2;
 		};
 		4325E9D6210E714B00969CE5 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -200,18 +161,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		2738940021667EF80075A197 /* Embed Frameworks */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 10;
-			files = (
-				275B74922225BF90009CD5EB /* MiaomiaoClient.framework in Embed Frameworks */,
-				27249312232F03E500AFE86A /* test_lint.framework in Embed Frameworks */,
-			);
-			name = "Embed Frameworks";
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		2795404A2165502600D657E5 /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -275,7 +224,6 @@
 		277DAD13226CACF300422ADA /* MessagePassing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessagePassing.swift; sourceTree = "<group>"; };
 		2795404C2165502600D657E5 /* clitester */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = clitester; sourceTree = BUILT_PRODUCTS_DIR; };
 		2795404E2165502600D657E5 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
-		27C335DE21667C7A00CF0868 /* singleviewtesterapp2.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = singleviewtesterapp2.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		27C335E021667C7A00CF0868 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		27C335E221667C7B00CF0868 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		27C335E521667C7B00CF0868 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -362,15 +310,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				27C335B9216566C500CF0868 /* MiaomiaoClient.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		27C335DB21667C7A00CF0868 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				275B74912225BF90009CD5EB /* MiaomiaoClient.framework in Frameworks */,
-				27249311232F03E500AFE86A /* test_lint.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -639,7 +578,6 @@
 				432B0E921CDFC3C50045347B /* MiaomiaoClientTests.xctest */,
 				43A8EC82210E664300A81379 /* MiaomiaoClientUI.framework */,
 				2795404C2165502600D657E5 /* clitester */,
-				27C335DE21667C7A00CF0868 /* singleviewtesterapp2.app */,
 				2724930A232F03E400AFE86A /* test_lint.framework */,
 			);
 			name = Products;
@@ -781,26 +719,6 @@
 			productReference = 2795404C2165502600D657E5 /* clitester */;
 			productType = "com.apple.product-type.tool";
 		};
-		27C335DD21667C7A00CF0868 /* singleviewtesterapp2 */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 27C335ED21667C7C00CF0868 /* Build configuration list for PBXNativeTarget "singleviewtesterapp2" */;
-			buildPhases = (
-				27C335DA21667C7A00CF0868 /* Sources */,
-				27C335DB21667C7A00CF0868 /* Frameworks */,
-				27C335DC21667C7A00CF0868 /* Resources */,
-				2738940021667EF80075A197 /* Embed Frameworks */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				275B74942225BF90009CD5EB /* PBXTargetDependency */,
-				27249310232F03E500AFE86A /* PBXTargetDependency */,
-			);
-			name = singleviewtesterapp2;
-			productName = singleviewtesterapp2;
-			productReference = 27C335DE21667C7A00CF0868 /* singleviewtesterapp2.app */;
-			productType = "com.apple.product-type.application";
-		};
 		432B0E871CDFC3C50045347B /* MiaomiaoClient */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 432B0E9C1CDFC3C50045347B /* Build configuration list for PBXNativeTarget "MiaomiaoClient" */;
@@ -832,7 +750,6 @@
 			);
 			dependencies = (
 				432B0E951CDFC3C50045347B /* PBXTargetDependency */,
-				27C335F621667D1600CF0868 /* PBXTargetDependency */,
 			);
 			name = MiaomiaoClientTests;
 			productName = MiaomiaoClientTests;
@@ -878,20 +795,15 @@
 						DevelopmentTeam = L28K36YETG;
 						ProvisioningStyle = Automatic;
 					};
-					27C335DD21667C7A00CF0868 = {
-						CreatedOnToolsVersion = 9.4.1;
-						DevelopmentTeam = L28K36YETG;
-						ProvisioningStyle = Automatic;
-					};
 					432B0E871CDFC3C50045347B = {
 						CreatedOnToolsVersion = 7.3.1;
 						DevelopmentTeam = L28K36YETG;
-						LastSwiftMigration = 0900;
+						LastSwiftMigration = 1120;
 					};
 					432B0E911CDFC3C50045347B = {
 						CreatedOnToolsVersion = 7.3.1;
 						DevelopmentTeam = L28K36YETG;
-						LastSwiftMigration = 0900;
+						LastSwiftMigration = 1120;
 					};
 					43A8EC75210E653B00A81379 = {
 						CreatedOnToolsVersion = 9.4.1;
@@ -931,7 +843,6 @@
 				43A8EC81210E664300A81379 /* MiaomiaoClientUI */,
 				43A8EC75210E653B00A81379 /* Cartfile */,
 				2795404B2165502600D657E5 /* clitester */,
-				27C335DD21667C7A00CF0868 /* singleviewtesterapp2 */,
 				27249309232F03E400AFE86A /* test-lint */,
 			);
 		};
@@ -942,16 +853,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		27C335DC21667C7A00CF0868 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				27C335EB21667C7C00CF0868 /* LaunchScreen.storyboard in Resources */,
-				27C335E821667C7C00CF0868 /* Assets.xcassets in Resources */,
-				27C335E621667C7B00CF0868 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1045,24 +946,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				2795404F2165502600D657E5 /* main.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		27C335DA21667C7A00CF0868 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				275B74952225C137009CD5EB /* LibreBluetoothManager.swift in Sources */,
-				2729D69B221F44670030E1B8 /* CRC.swift in Sources */,
-				2729D6AA22248BDD0030E1B8 /* MiaoMiaoClientManager.swift in Sources */,
-				2729D689221F43150030E1B8 /* SensorData.swift in Sources */,
-				27C335E321667C7B00CF0868 /* ViewController.swift in Sources */,
-				2729D678221F421C0030E1B8 /* BluetoothBridgeMetaData.swift in Sources */,
-				2729D69E221F44670030E1B8 /* SensorSerialNumber.swift in Sources */,
-				2729D695221F44670030E1B8 /* Measurement.swift in Sources */,
-				2729D6A1221F44670030E1B8 /* SensorState.swift in Sources */,
-				2729D685221F42760030E1B8 /* BloodSugarController.swift in Sources */,
-				27C335E121667C7A00CF0868 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1166,25 +1049,10 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		27249310232F03E500AFE86A /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 27249309232F03E400AFE86A /* test-lint */;
-			targetProxy = 2724930F232F03E500AFE86A /* PBXContainerItemProxy */;
-		};
-		275B74942225BF90009CD5EB /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 432B0E871CDFC3C50045347B /* MiaomiaoClient */;
-			targetProxy = 275B74932225BF90009CD5EB /* PBXContainerItemProxy */;
-		};
 		277FE8E12165606D001ACE55 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 432B0E871CDFC3C50045347B /* MiaomiaoClient */;
 			targetProxy = 277FE8E02165606D001ACE55 /* PBXContainerItemProxy */;
-		};
-		27C335F621667D1600CF0868 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 27C335DD21667C7A00CF0868 /* singleviewtesterapp2 */;
-			targetProxy = 27C335F521667D1600CF0868 /* PBXContainerItemProxy */;
 		};
 		4325E9D7210E714B00969CE5 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -1358,63 +1226,6 @@
 			};
 			name = Release;
 		};
-		27C335EE21667C7C00CF0868 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
-				CLANG_ENABLE_OBJC_WEAK = YES;
-				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
-				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = L28K36YETG;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PROJECT_DIR)/Carthage/Build/iOS",
-				);
-				GCC_C_LANGUAGE_STANDARD = gnu11;
-				INFOPLIST_FILE = singleviewtesterapp2/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.2;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.mddub.ShareClient.singleviewtesterapp2;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
-				SWIFT_VERSION = 4.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-			};
-			name = Debug;
-		};
-		27C335EF21667C7C00CF0868 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
-				CLANG_ENABLE_OBJC_WEAK = YES;
-				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
-				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = L28K36YETG;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PROJECT_DIR)/Carthage/Build/iOS",
-				);
-				GCC_C_LANGUAGE_STANDARD = gnu11;
-				INFOPLIST_FILE = singleviewtesterapp2/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.2;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.mddub.ShareClient.singleviewtesterapp2;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-			};
-			name = Release;
-		};
 		432B0E9A1CDFC3C50045347B /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -1574,7 +1385,7 @@
 				SKIP_INSTALL = YES;
 				SUPPORTED_PLATFORMS = "iphonesimulator iphoneos";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2,4";
 			};
 			name = Debug;
@@ -1604,7 +1415,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				SUPPORTED_PLATFORMS = "iphonesimulator iphoneos";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2,4";
 			};
 			name = Release;
@@ -1617,7 +1428,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.mddub.MiaomiaoClientTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 5.0;
 			};
 			name = Debug;
 		};
@@ -1629,7 +1440,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.mddub.MiaomiaoClientTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 5.0;
 			};
 			name = Release;
 		};
@@ -1735,15 +1546,6 @@
 			buildConfigurations = (
 				279540512165502600D657E5 /* Debug */,
 				279540522165502600D657E5 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		27C335ED21667C7C00CF0868 /* Build configuration list for PBXNativeTarget "singleviewtesterapp2" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				27C335EE21667C7C00CF0868 /* Debug */,
-				27C335EF21667C7C00CF0868 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
