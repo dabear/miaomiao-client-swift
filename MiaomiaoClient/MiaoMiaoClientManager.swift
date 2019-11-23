@@ -16,6 +16,26 @@ import HealthKit
 import os.log
 
 public final class MiaoMiaoClientManager: CGMManager, LibreBluetoothManagerDelegate {
+    public var cgmManagerDelegate: CGMManagerDelegate? {
+        get {
+            return delegate.delegate
+        }
+        set {
+            delegate.delegate = newValue
+        }
+    }
+
+    public var delegateQueue: DispatchQueue! {
+        get {
+            return delegate.queue
+        }
+        set {
+            delegate.queue = newValue
+        }
+    }
+
+    public let delegate = WeakSynchronizedDelegate<CGMManagerDelegate>()
+
     public var sensorState: SensorDisplayable? /*{
         
         return latestBackfill
@@ -105,7 +125,7 @@ public final class MiaoMiaoClientManager: CGMManager, LibreBluetoothManagerDeleg
     public static let localizedTitle = LocalizedString("Libre Bluetooth", comment: "Title for the CGMManager option")
 
     public let appURL: URL? = nil //URL(string: "spikeapp://")
-    public weak var cgmManagerDelegate: CGMManagerDelegate?
+
     public let providesBLEHeartbeat = true
     public var shouldSyncToRemoteService: Bool {
         return UserDefaults.standard.mmSyncToNs
