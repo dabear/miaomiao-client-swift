@@ -54,6 +54,7 @@ public final class MiaoMiaoClientManager: CGMManager, LibreBluetoothManagerDeleg
         return proxy?.OnQueue_device
     }
 
+  
     public var debugDescription: String {
         return [
             "## MiaomiaoClientManager",
@@ -62,10 +63,12 @@ public final class MiaoMiaoClientManager: CGMManager, LibreBluetoothManagerDeleg
             "Connection state: \(connectionState)",
             "Sensor state: \(sensorStateDescription)",
             "Bridge battery: \(battery)",
-            //"Notification glucoseunit: \(glucoseUnit)",
-            //"shouldSendGlucoseNotifications: \(shouldSendGlucoseNotifications)",
-            //"latestBackfill: \(String(describing: "latestBackfill))",
-            //"latestCollector: \(String(describing: latestSpikeCollector))",
+            "git revision: \(AppMetadata.gitRevision)",
+            "git branch: \(AppMetadata.gitBranch)",
+            "git remote: \(AppMetadata.gitRemote)",
+            "sourcepath: \(AppMetadata.srcRoot)",
+            "build date: \(AppMetadata.buildDate)",
+            "xcode built revision: \(AppMetadata.xcodeVersion)",
             ""
         ].joined(separator: "\n")
     }

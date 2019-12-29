@@ -78,6 +78,8 @@
 		277DAD12226C9FA800422ADA /* DateExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27D0DA6A2231CBB7007BBB2C /* DateExtensions.swift */; };
 		277DAD14226CACF300422ADA /* MessagePassing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 277DAD13226CACF300422ADA /* MessagePassing.swift */; };
 		277DAD15226CACF700422ADA /* MessagePassing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 277DAD13226CACF300422ADA /* MessagePassing.swift */; };
+		2791064623B96B07004B362F /* UIApplication+metadata.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2791064523B96B07004B362F /* UIApplication+metadata.swift */; };
+		2791064723B96B07004B362F /* UIApplication+metadata.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2791064523B96B07004B362F /* UIApplication+metadata.swift */; };
 		2795404F2165502600D657E5 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2795404E2165502600D657E5 /* main.swift */; };
 		27C335B82165667300CF0868 /* LibreGlucose.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43C418AE1CE0488900405B6A /* LibreGlucose.swift */; };
 		27C335B9216566C500CF0868 /* MiaomiaoClient.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 432B0E881CDFC3C50045347B /* MiaomiaoClient.framework */; };
@@ -222,6 +224,8 @@
 		276A870D235F875D0055AFFA /* UserDefaults+GlucoseSettings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UserDefaults+GlucoseSettings.swift"; sourceTree = "<group>"; };
 		277DAD0C226B970300422ADA /* UserDefaults+Alarmsettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserDefaults+Alarmsettings.swift"; sourceTree = "<group>"; };
 		277DAD13226CACF300422ADA /* MessagePassing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessagePassing.swift; sourceTree = "<group>"; };
+		2791063E23B960AF004B362F /* capture-build-details.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = "capture-build-details.sh"; sourceTree = "<group>"; };
+		2791064523B96B07004B362F /* UIApplication+metadata.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIApplication+metadata.swift"; sourceTree = "<group>"; };
 		2795404C2165502600D657E5 /* clitester */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = clitester; sourceTree = BUILT_PRODUCTS_DIR; };
 		2795404E2165502600D657E5 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		27C335E021667C7A00CF0868 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -465,6 +469,14 @@
 			path = LFTimePickerController;
 			sourceTree = "<group>";
 		};
+		2791063D23B96092004B362F /* Scripts */ = {
+			isa = PBXGroup;
+			children = (
+				2791063E23B960AF004B362F /* capture-build-details.sh */,
+			);
+			path = Scripts;
+			sourceTree = "<group>";
+		};
 		2795404D2165502600D657E5 /* clitester */ = {
 			isa = PBXGroup;
 			children = (
@@ -557,6 +569,7 @@
 		432B0E7E1CDFC3C50045347B = {
 			isa = PBXGroup;
 			children = (
+				2791063D23B96092004B362F /* Scripts */,
 				2729D6A62220C1030030E1B8 /* LibreSensor */,
 				2729D671221F42070030E1B8 /* Bluetooth */,
 				432B0E8A1CDFC3C50045347B /* MiaomiaoClient */,
@@ -650,6 +663,7 @@
 				27E0968E22A9AD6F00B3164D /* TimeIntervalExtensions.swift */,
 				271EDF2422EC739F00E1C8B3 /* UserDefaults+Bluetooth.swift */,
 				272BF9C22338044600AD38AA /* DataExtensions.swift */,
+				2791064523B96B07004B362F /* UIApplication+metadata.swift */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -727,6 +741,7 @@
 				432B0E841CDFC3C50045347B /* Frameworks */,
 				432B0E851CDFC3C50045347B /* Headers */,
 				432B0E861CDFC3C50045347B /* Resources */,
+				2791063C23B95EA7004B362F /* Capture build details */,
 			);
 			buildRules = (
 			);
@@ -764,6 +779,7 @@
 				43A8EC7E210E664300A81379 /* Frameworks */,
 				43A8EC7F210E664300A81379 /* Headers */,
 				43A8EC80210E664300A81379 /* Resources */,
+				2791064423B96A45004B362F /* Capture Build Details */,
 			);
 			buildRules = (
 			);
@@ -917,6 +933,42 @@
 			shellPath = /bin/sh;
 			shellScript = "if which swiftlint >/dev/null; then\necho \"pwd is\"\npwd\nswiftlint\nelse\necho \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n";
 		};
+		2791063C23B95EA7004B362F /* Capture build details */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Capture build details";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\n\n\"${SRCROOT}/Scripts/capture-build-details.sh\"\n";
+		};
+		2791064423B96A45004B362F /* Capture Build Details */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Capture Build Details";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\n\"${SRCROOT}/Scripts/capture-build-details.sh\"\n";
+		};
 		43A8EC79210E654300A81379 /* Build Carthage Dependencies */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -929,7 +981,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "if [ -f $PROJECT_DIR/.gitmodules ]; then\n    echo \"Skipping checkout due to presence of .gitmodules file\"\n    if [ $ACTION = \"install\" ]; then\n        echo \"You're installing: Make sure to keep all submodules up-to-date and run carthage build after changes.\"\n    fi\nelse\n    echo \"Bootstrapping carthage dependencies\"\n    /usr/local/bin/carthage bootstrap --project-directory \"$SRCROOT\" --cache-builds\nfi";
+			shellScript = "if [ -f $PROJECT_DIR/.gitmodules ]; then\n    echo \"Skipping checkout due to presence of .gitmodules file\"\n    if [ $ACTION = \"install\" ]; then\n        echo \"You're installing: Make sure to keep all submodules up-to-date and run carthage build after changes.\"\n    fi\nelse\n    echo \"Bootstrapping carthage dependencies\"\n    /usr/local/bin/carthage bootstrap --project-directory \"$SRCROOT\" --cache-builds\nfi\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -966,6 +1018,7 @@
 				27D0DA6B2231CBB7007BBB2C /* DateExtensions.swift in Sources */,
 				271EDF2622EC755D00E1C8B3 /* UserDefaults+Bluetooth.swift in Sources */,
 				27E3C398222EE9450036AAC7 /* LibreOOPDefaults.swift in Sources */,
+				2791064623B96B07004B362F /* UIApplication+metadata.swift in Sources */,
 				277DAD0D226B970300422ADA /* UserDefaults+Alarmsettings.swift in Sources */,
 				27E3C393222EE2EC0036AAC7 /* Calibration.swift in Sources */,
 				27C335B82165667300CF0868 /* LibreGlucose.swift in Sources */,
@@ -1033,6 +1086,7 @@
 				277DAD0E226B971A00422ADA /* UserDefaults+Alarmsettings.swift in Sources */,
 				4325E9D3210E6ADA00969CE5 /* IdentifiableClass.swift in Sources */,
 				271EDF1F22EB103B00E1C8B3 /* ExtendingAuthController.swift in Sources */,
+				2791064723B96B07004B362F /* UIApplication+metadata.swift in Sources */,
 				27E0968D22A9806200B3164D /* CGFLoat+Double.swift in Sources */,
 				27CBEB552261DF9D004F7BF5 /* AlarmTimeInputRangeCell.swift in Sources */,
 				275C3DA1229D9BBB00E27439 /* MMTextFieldViewCell.swift in Sources */,
