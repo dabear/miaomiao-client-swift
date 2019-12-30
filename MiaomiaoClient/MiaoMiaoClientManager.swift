@@ -284,14 +284,19 @@ public final class MiaoMiaoClientManager: CGMManager, LibreBluetoothManagerDeleg
         NotificationHelper.sendInvalidChecksumIfDeveloper(sensorData)
 
         guard sensorData.hasValidCRCs else {
-            self.cgmManagerDelegate?.cgmManager(self, didUpdateWith: .error(LibreError.checksumValidationError))
+            self.delegateQueue.async {
+                self.cgmManagerDelegate?.cgmManager(self, didUpdateWith: .error(LibreError.checksumValidationError))
+            }
+
             os_log("dit not get sensordata with valid crcs")
             return
         }
 
         guard sensorData.state == .ready || sensorData.state == .starting else {
             os_log("dabear:: got sensordata with valid crcs, but sensor is either expired or failed")
+            self.delegateQueue.async {
             self.cgmManagerDelegate?.cgmManager(self, didUpdateWith: .error(LibreError.expiredSensor))
+            }
             return
         }
 
@@ -305,15 +310,17 @@ public final class MiaoMiaoClientManager: CGMManager, LibreBluetoothManagerDeleg
             }
             if let error = error {
                 NSLog("dabear:: handleGoodReading returned with error: \(error)")
-
-                self.cgmManagerDelegate?.cgmManager(self, didUpdateWith: .error(error))
+                self.delegateQueue.async {
+                    self.cgmManagerDelegate?.cgmManager(self, didUpdateWith: .error(error))
+                }
                 return
             }
 
             guard let glucose = glucose else {
                 NSLog("dabear:: handleGoodReading returned with no data")
-                self.cgmManagerDelegate?.cgmManager(self, didUpdateWith: .noData)
-
+                self.delegateQueue.async {
+                    self.cgmManagerDelegate?.cgmManager(self, didUpdateWith: .noData)
+                }
                 return
             }
 
@@ -329,10 +336,15 @@ public final class MiaoMiaoClientManager: CGMManager, LibreBluetoothManagerDeleg
 
             if newGlucose.isEmpty {
                 NSLog("dabear:: handleGoodReading returned with no new data")
-                self.cgmManagerDelegate?.cgmManager(self, didUpdateWith: .noData)
+                self.delegateQueue.async {
+                    self.cgmManagerDelegate?.cgmManager(self, didUpdateWith: .noData)
+                }
+
             } else {
                 NSLog("dabear:: handleGoodReading returned with \(newGlucose.count) new glucose samples")
-                self.cgmManagerDelegate?.cgmManager(self, didUpdateWith: .newData(newGlucose))
+                self.delegateQueue.async {
+                    self.cgmManagerDelegate?.cgmManager(self, didUpdateWith: .newData(newGlucose))
+                }
             }
         }
     }
