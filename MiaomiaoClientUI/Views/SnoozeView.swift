@@ -42,11 +42,11 @@ class SnoozeView: View, UIPickerViewDataSource, UIPickerViewDelegate {
     @IBOutlet weak var snoozeButton: UIButton!
 
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
-        return 1
+        1
     }
 
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        return 3
+        3
     }
 
     func pickerView(_ pickerView: UIPickerView,

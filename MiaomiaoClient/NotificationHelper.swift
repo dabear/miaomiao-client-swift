@@ -53,7 +53,7 @@ enum NotificationHelper {
     }
 
     public static func GlucoseUnitIsSupported(unit: HKUnit) -> Bool {
-        return [HKUnit.milligramsPerDeciliter, HKUnit.millimolesPerLiter].contains(unit)
+        [HKUnit.milligramsPerDeciliter, HKUnit.millimolesPerLiter].contains(unit)
     }
 
     public static var dynamicFormatter: QuantityFormatter? {

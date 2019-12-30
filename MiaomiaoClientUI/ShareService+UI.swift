@@ -14,7 +14,7 @@ public enum LibreOOPWebAzzure: String {
 
 extension MiaomiaoService: ServiceAuthenticationUI {
     public var credentialFormFields: [ServiceCredential] {
-        return [
+        [
             ServiceCredential(
                 title: LocalizedString("Password", comment: "The title of the Spike password credential"),
                 isSecret: true,

@@ -10,15 +10,15 @@ import Foundation
 
 extension TimeInterval {
     static func seconds(_ seconds: Double) -> TimeInterval {
-        return seconds
+        seconds
     }
 
     static func minutes(_ minutes: Double) -> TimeInterval {
-        return TimeInterval(minutes: minutes)
+        TimeInterval(minutes: minutes)
     }
 
     static func hours(_ hours: Double) -> TimeInterval {
-        return TimeInterval(hours: hours)
+        TimeInterval(hours: hours)
     }
 
     init(minutes: Double) {
@@ -32,10 +32,10 @@ extension TimeInterval {
     }
 
     var minutes: Double {
-        return self / 60.0
+        self / 60.0
     }
 
     var hours: Double {
-        return minutes / 60.0
+        minutes / 60.0
     }
 }

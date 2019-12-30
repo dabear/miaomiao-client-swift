@@ -38,7 +38,7 @@ class MMTextFieldViewCell: UITableViewCell, UITextFieldDelegate {
 
     public var isEnabled: Bool {
         get {
-            return titleLabel!.isEnabled && textInput!.isEnabled
+            titleLabel!.isEnabled && textInput!.isEnabled
         }
         set {
             titleLabel!.isEnabled = newValue
@@ -48,7 +48,7 @@ class MMTextFieldViewCell: UITableViewCell, UITextFieldDelegate {
 
     @IBOutlet weak var textInput: AllowedCharsTextField?
 
-    override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         print("here1")
     }
@@ -78,7 +78,7 @@ extension AllowedCharsTextField {
             addTarget(
                 self,
                 action: #selector(limitLength),
-                for: UIControlEvents.editingChanged
+                for: UIControl.Event.editingChanged
             )
         }
     }
@@ -118,11 +118,7 @@ class AllowedCharsTextField: UITextField, UITextFieldDelegate {
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         // 6
 
-        if string.isEmpty {
-            return true
-        }
-
-        if allowedChars.isEmpty {
+        if string.isEmpty || allowedChars.isEmpty {
             return true
         }
 

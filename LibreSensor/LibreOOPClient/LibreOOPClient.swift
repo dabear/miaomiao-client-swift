@@ -25,7 +25,7 @@ class LibreOOPClient {
     }
 
     public static func readingToString(_ a: [UInt8]) -> String {
-        return Data(a).base64EncodedString()
+        Data(a).base64EncodedString()
     }
     private func postToServer(_ completion:@escaping (( _ data_: Data, _ response: String, _ success: Bool ) -> Void), postURL: String, postparams: [String: String]) {
         let request = NSMutableURLRequest(url: NSURL(string: postURL)! as URL)
@@ -252,7 +252,7 @@ class LibreOOPClient {
         return ret
     }
     public func uploadCalibration(reading: [UInt8], _ completion:@escaping (( _ resp: CalibrationResult?, _ success: Bool, _ errorMessage: String) -> Void)) {
-        return uploadCalibration(reading: LibreOOPClient.readingToString(reading), completion)
+        uploadCalibration(reading: LibreOOPClient.readingToString(reading), completion)
     }
 
     public func uploadCalibration(reading: String, _ completion:@escaping (( _ resp: CalibrationResult?, _ success: Bool, _ errorMessage: String) -> Void)) {

@@ -92,7 +92,7 @@ struct SensorSerialNumber: CustomStringConvertible {
     }
 
     var uidString: String {
-        return Data(self.uid).hexEncodedString()
+        Data(self.uid).hexEncodedString()
     }
 
     var prettyUidString: String {
@@ -102,6 +102,6 @@ struct SensorSerialNumber: CustomStringConvertible {
 
     // MARK: - CustomStringConvertible Protocoll
     var description: String {
-        return "Uid is \(prettyUidString) and derived serial number is \(serialNumber)"
+        "Uid is \(prettyUidString) and derived serial number is \(serialNumber)"
     }
 }

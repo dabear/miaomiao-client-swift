@@ -48,7 +48,7 @@ public enum SupportedDevices: Int, CaseIterable {
     }
 
     public static var allNames: [String] {
-            return SupportedDevices.allCases.map { $0.name }
+            SupportedDevices.allCases.map { $0.name }
     }
 }
 
@@ -83,7 +83,7 @@ public struct CompatibleLibreBluetoothDevice: Hashable, Codable {
     }
 
     public static func == (lhs: CompatibleLibreBluetoothDevice, rhs: CompatibleLibreBluetoothDevice) -> Bool {
-        return lhs.identifier == rhs.identifier && lhs.name == rhs.name
+        lhs.identifier == rhs.identifier && lhs.name == rhs.name
     }
 
     public var smallImage: UIImage? {
@@ -137,7 +137,7 @@ final class LibreBluetoothManager: NSObject, CBCentralManagerDelegate, CBPeriphe
     var sensorData: SensorData?
 
     public var identifier: UUID? {
-            return peripheral?.identifier
+        return peripheral?.identifier
     }
 
     public func peripheralAsCompatibleDevice() -> CompatibleLibreBluetoothDevice? {
@@ -552,7 +552,7 @@ extension LibreBluetoothManager {
     }
 
     var device: HKDevice? {
-        return HKDevice(
+        HKDevice(
             name: "MiaomiaoClient",
             manufacturer: manufacturer,
             model: nil, //latestSpikeCollector,
@@ -568,38 +568,38 @@ extension LibreBluetoothManager {
 //these are extensions to return properties (for inspection on the main ui) that exist on the queue only
 extension LibreBluetoothManager {
     var OnQueue_metadata: BluetoothBridgeMetaData? {
-        return syncOnManagerQueue { manager  in
-            return manager?.metadata
+        syncOnManagerQueue { manager  in
+            manager?.metadata
         }
     }
 
     var OnQueue_sensorData: SensorData? {
-        return syncOnManagerQueue { manager  in
-            return manager?.sensorData
+        syncOnManagerQueue { manager  in
+             manager?.sensorData
         }
     }
 
     var OnQueue_state: BluetoothmanagerState? {
-        return syncOnManagerQueue { manager  in
-            return manager?.state
+        syncOnManagerQueue { manager  in
+             manager?.state
         }
     }
 
     var OnQueue_identifer: UUID? {
-        return syncOnManagerQueue { manager  in
-            return manager?.identifier
+        syncOnManagerQueue { manager  in
+            manager?.identifier
         }
     }
 
     var OnQueue_manufacturer: String? {
-        return syncOnManagerQueue { manager  in
-            return manager?.manufacturer
+        syncOnManagerQueue { manager  in
+            manager?.manufacturer
         }
     }
 
     var OnQueue_device: HKDevice? {
-        return syncOnManagerQueue { manager  in
-            return manager?.device
+        syncOnManagerQueue { manager  in
+            manager?.device
         }
     }
 }

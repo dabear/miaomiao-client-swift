@@ -9,17 +9,17 @@
 import Foundation
 import UIKit
 func * (lhs: CGFloat, rhs: Double) -> Double {
-    return Double(lhs) * rhs
+    Double(lhs) * rhs
 }
 
 func * (lhs: CGFloat, rhs: Double) -> CGFloat {
-    return lhs * CGFloat(rhs)
+    lhs * CGFloat(rhs)
 }
 
 func * (lhs: Double, rhs: CGFloat) -> Double {
-    return lhs * Double(rhs)
+    lhs * Double(rhs)
 }
 
 func * (lhs: Double, rhs: CGFloat) -> CGFloat {
-    return CGFloat(lhs) * rhs
+    CGFloat(lhs) * rhs
 }

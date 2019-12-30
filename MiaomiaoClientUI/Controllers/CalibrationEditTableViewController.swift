@@ -77,7 +77,7 @@ public class CalibrationEditTableViewController: UITableViewController, mmTextFi
 
     override public func numberOfSections(in tableView: UITableView) -> Int {
         //dynamic number of schedules + sync row
-        return 2
+        2
     }
 
     override public func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -207,11 +207,11 @@ public class CalibrationEditTableViewController: UITableViewController, mmTextFi
     }
 
     override public func tableView(_ tableView: UITableView, titleForFooterInSection section: Int) -> String? {
-        return nil
+         nil
     }
 
     override public func tableView(_ tableView: UITableView, shouldHighlightRowAt indexPath: IndexPath) -> Bool {
-        return true
+        true
     }
 
     // swiftlint:disable:next cyclomatic_complexity

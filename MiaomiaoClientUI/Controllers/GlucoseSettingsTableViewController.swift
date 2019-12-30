@@ -72,11 +72,11 @@ public class GlucoseSettingsTableViewController: UITableViewController, mmTextFi
     }
 
     override public func numberOfSections(in tableView: UITableView) -> Int {
-        return 1
+        1
     }
 
     override public func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return GlucoseSettings.count
+        GlucoseSettings.count
     }
 
     @objc
@@ -126,15 +126,15 @@ public class GlucoseSettingsTableViewController: UITableViewController, mmTextFi
     }
 
     override public func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return LocalizedString("Notification settings", comment: "The title text for the Notification settings")
+        LocalizedString("Notification settings", comment: "The title text for the Notification settings")
     }
 
     override public func tableView(_ tableView: UITableView, titleForFooterInSection section: Int) -> String? {
-        return nil
+         nil
     }
 
     override public func tableView(_ tableView: UITableView, shouldHighlightRowAt indexPath: IndexPath) -> Bool {
-        return true
+        true
     }
 
     override public func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {

@@ -26,6 +26,6 @@ public struct BluetoothBridgeMetaData: CustomStringConvertible {
     }
 
     public var description: String {
-        return "Hardware: \(hardware), firmware: \(firmware), battery: \(batteryString)"
+         "Hardware: \(hardware), firmware: \(firmware), battery: \(batteryString)"
     }
 }

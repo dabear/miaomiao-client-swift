@@ -63,11 +63,11 @@ enum LibreOOPDefaults {
         0x0e, 0x6e, 0x1a, 0xc8, 0x04, 0xdd, 0x58, 0x6d  // 0x2A End of footer
     ]
     public static var TestPatchAlwaysReturning63: [UInt8] {
-        return _testPatchAlwaysReturning63.map { $0 }
+        _testPatchAlwaysReturning63.map { $0 }
     }
 
     public static var defaultState: String {
-        return Data(_defaultState).base64EncodedString()
+        Data(_defaultState).base64EncodedString()
     }
     public static var sensorStartTimestamp = 0x0e181349
     public static var sensorScanTimestamp = 0x0e1c4794

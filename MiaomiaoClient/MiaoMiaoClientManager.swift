@@ -44,19 +44,17 @@ public final class MiaoMiaoClientManager: CGMManager, LibreBluetoothManagerDeleg
     public var managedDataInterval: TimeInterval?
 
     public func getSmallImage() -> UIImage? {
-        let bundle = Bundle.current
-
-        return UserDefaults.standard.preSelectedDevice?.smallImage ??
-            UIImage(named: "libresensor", in: bundle, compatibleWith: nil)
+        UserDefaults.standard.preSelectedDevice?.smallImage ??
+            UIImage(named: "libresensor", in:  Bundle.current, compatibleWith: nil)
     }
 
     public var device: HKDevice? {
-        return proxy?.OnQueue_device
+         proxy?.OnQueue_device
     }
 
   
     public var debugDescription: String {
-        return [
+        [
             "## MiaomiaoClientManager",
             "Testdata: foo",
             "lastConnected: \(String(describing: lastConnected))",
@@ -120,7 +118,7 @@ public final class MiaoMiaoClientManager: CGMManager, LibreBluetoothManagerDeleg
     }
 
     public var rawState: CGMManager.RawStateValue {
-        return [:]
+        [:]
     }
 
     public let keychain = KeychainManager()
@@ -131,7 +129,7 @@ public final class MiaoMiaoClientManager: CGMManager, LibreBluetoothManagerDeleg
 
     public let providesBLEHeartbeat = true
     public var shouldSyncToRemoteService: Bool {
-        return UserDefaults.standard.mmSyncToNs
+        UserDefaults.standard.mmSyncToNs
     }
 
     public private(set) var lastValidSensorData: SensorData?
@@ -147,7 +145,7 @@ public final class MiaoMiaoClientManager: CGMManager, LibreBluetoothManagerDeleg
     }
 
     public var calibrationData: DerivedAlgorithmParameters? {
-        return keychain.getLibreCalibrationData()
+        keychain.getLibreCalibrationData()
     }
 
     public func disconnect() {
@@ -358,21 +356,21 @@ public final class MiaoMiaoClientManager: CGMManager, LibreBluetoothManagerDeleg
 extension MiaoMiaoClientManager {
     //cannot be called from managerQueue
     public var identifier: String {
-        return  proxy?.OnQueue_identifer?.uuidString ?? "n/a"
+        proxy?.OnQueue_identifer?.uuidString ?? "n/a"
     }
 
     //cannot be called from managerQueue
     public var connectionState: String {
-        return proxy?.connectionStateString ?? "n/a"
+        proxy?.connectionStateString ?? "n/a"
     }
     //cannot be called from managerQueue
     public var sensorSerialNumber: String {
-        return proxy?.OnQueue_sensorData?.serialNumber ?? "n/a"
+        proxy?.OnQueue_sensorData?.serialNumber ?? "n/a"
     }
 
     //cannot be called from managerQueue
     public var sensorAge: String {
-        return proxy?.OnQueue_sensorData?.humanReadableSensorAge ?? "n/a"
+        proxy?.OnQueue_sensorData?.humanReadableSensorAge ?? "n/a"
     }
 
     //cannot be called from managerQueue
@@ -386,16 +384,16 @@ extension MiaoMiaoClientManager {
 
     //cannot be called from managerQueue
     public var sensorStateDescription: String {
-        return proxy?.OnQueue_sensorData?.state.description ?? "n/a"
+        proxy?.OnQueue_sensorData?.state.description ?? "n/a"
     }
     //cannot be called from managerQueue
     public var firmwareVersion: String {
-        return proxy?.OnQueue_metadata?.firmware ?? "n/a"
+        proxy?.OnQueue_metadata?.firmware ?? "n/a"
     }
 
     //cannot be called from managerQueue
     public var hardwareVersion: String {
-        return proxy?.OnQueue_metadata?.hardware ?? "n/a"
+        proxy?.OnQueue_metadata?.hardware ?? "n/a"
     }
 
     //cannot be called from managerQueue

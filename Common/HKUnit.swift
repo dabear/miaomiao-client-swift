@@ -11,11 +11,11 @@ import HealthKit
 /* not needed for loop dev/jojo ? */
 extension HKUnit {
     static let milligramsPerDeciliter: HKUnit = {
-        return HKUnit.gramUnit(with: .milli).unitDivided(by: .literUnit(with: .deci))
+        HKUnit.gramUnit(with: .milli).unitDivided(by: .literUnit(with: .deci))
     }()
 
     static let millimolesPerLiter: HKUnit = {
-        return HKUnit.moleUnit(with: .milli, molarMass: HKUnitMolarMassBloodGlucose).unitDivided(by: .liter())
+        HKUnit.moleUnit(with: .milli, molarMass: HKUnitMolarMassBloodGlucose).unitDivided(by: .liter())
     }()
 
     var localizedShortUnitString: String {

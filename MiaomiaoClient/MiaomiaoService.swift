@@ -29,7 +29,7 @@ public class MiaomiaoService: ServiceAuthentication {
     }
 
     public var accessToken: String? {
-        return credentialValues[0]
+        credentialValues[0]
     }
 
     public var url: URL? {

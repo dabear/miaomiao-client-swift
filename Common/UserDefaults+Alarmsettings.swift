@@ -44,7 +44,7 @@ extension UserDefaults {
 
     var mmAlwaysDisplayGlucose: Bool {
         get {
-            return optionalBool(forKey: Key.mmAlwaysDisplayGlucose.rawValue) ?? true
+            optionalBool(forKey: Key.mmAlwaysDisplayGlucose.rawValue) ?? true
         }
         set {
             set(newValue, forKey: Key.mmAlwaysDisplayGlucose.rawValue)
@@ -52,7 +52,7 @@ extension UserDefaults {
     }
     var mmNotifyEveryXTimes: Int {
         get {
-            return integer(forKey: Key.mmNotifyEveryXTimes.rawValue)
+            integer(forKey: Key.mmNotifyEveryXTimes.rawValue)
         }
         set {
             set(newValue, forKey: Key.mmNotifyEveryXTimes.rawValue)
@@ -61,7 +61,7 @@ extension UserDefaults {
 
     var mmAlertLowBatteryWarning: Bool {
         get {
-            return optionalBool(forKey: Key.mmAlertLowBatteryWarning.rawValue) ?? true
+            optionalBool(forKey: Key.mmAlertLowBatteryWarning.rawValue) ?? true
         }
         set {
             set(newValue, forKey: Key.mmAlertLowBatteryWarning.rawValue)
@@ -69,7 +69,7 @@ extension UserDefaults {
     }
     var mmAlertInvalidSensorDetected: Bool {
         get {
-            return optionalBool(forKey: Key.mmAlertInvalidSensorDetected.rawValue) ?? true
+            optionalBool(forKey: Key.mmAlertInvalidSensorDetected.rawValue) ?? true
         }
         set {
             set(newValue, forKey: Key.mmAlertInvalidSensorDetected.rawValue)
@@ -78,7 +78,7 @@ extension UserDefaults {
 
     var mmAlertNewSensorDetected: Bool {
         get {
-            return optionalBool(forKey: Key.mmAlertNewSensorDetected.rawValue) ?? true
+            optionalBool(forKey: Key.mmAlertNewSensorDetected.rawValue) ?? true
         }
         set {
             set(newValue, forKey: Key.mmAlertNewSensorDetected.rawValue)
@@ -87,7 +87,7 @@ extension UserDefaults {
 
     var mmAlertNoSensorDetected: Bool {
         get {
-            return optionalBool(forKey: Key.mmAlertNoSensorDetected.rawValue) ?? true
+            optionalBool(forKey: Key.mmAlertNoSensorDetected.rawValue) ?? true
         }
         set {
             set(newValue, forKey: Key.mmAlertNoSensorDetected.rawValue)
@@ -96,7 +96,7 @@ extension UserDefaults {
 
     var mmAlertWillSoonExpire: Bool {
         get {
-            return optionalBool(forKey: Key.mmAlertSensorSoonExpire.rawValue) ?? true
+            optionalBool(forKey: Key.mmAlertSensorSoonExpire.rawValue) ?? true
         }
         set {
             set(newValue, forKey: Key.mmAlertSensorSoonExpire.rawValue)
@@ -105,7 +105,7 @@ extension UserDefaults {
 
     var mmGlucoseAlarmsVibrate: Bool {
         get {
-            return optionalBool(forKey: Key.mmGlucoseAlarmsVibrate.rawValue) ?? true
+            optionalBool(forKey: Key.mmGlucoseAlarmsVibrate.rawValue) ?? true
         }
         set {
             set(newValue, forKey: Key.mmGlucoseAlarmsVibrate.rawValue)
@@ -113,12 +113,12 @@ extension UserDefaults {
     }
 
     var allNotificationToggles: [Bool] {
-        return [mmAlwaysDisplayGlucose, mmAlertLowBatteryWarning, mmAlertInvalidSensorDetected, mmAlertNewSensorDetected, mmAlertNoSensorDetected, mmAlertWillSoonExpire, mmGlucoseAlarmsVibrate]
+        [mmAlwaysDisplayGlucose, mmAlertLowBatteryWarning, mmAlertInvalidSensorDetected, mmAlertNewSensorDetected, mmAlertNoSensorDetected, mmAlertWillSoonExpire, mmGlucoseAlarmsVibrate]
     }
 
     var dangerModeActivated: Bool {
         get {
-            return optionalBool(forKey: Key.mmDangerMode.rawValue) ?? false
+            optionalBool(forKey: Key.mmDangerMode.rawValue) ?? false
         }
         set {
             set(newValue, forKey: Key.mmDangerMode.rawValue)
@@ -148,7 +148,7 @@ extension UserDefaults {
     }
 
     var enabledSchedules: [GlucoseSchedule]? {
-        return glucoseSchedules?.schedules.compactMap({ schedule -> GlucoseSchedule? in
+        glucoseSchedules?.schedules.compactMap({ schedule -> GlucoseSchedule? in
             if schedule.enabled ?? false {
                 return schedule
             }
@@ -157,7 +157,7 @@ extension UserDefaults {
     }
     var snoozedUntil: Date? {
         get {
-            return object(forKey: Key.mmSnoozedUntil.rawValue) as? Date
+            object(forKey: Key.mmSnoozedUntil.rawValue) as? Date
         }
         set {
             set (newValue, forKey: Key.mmSnoozedUntil.rawValue)

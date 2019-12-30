@@ -12,6 +12,6 @@ import UIKit
 extension UITableView {
     func dequeueIdentifiableCell<T: UITableViewCell>(cell: T.Type, for indexPath: IndexPath) -> T {
         // swiftlint:disable:next force_cast
-        return self.dequeueReusableCell(withIdentifier: T.className, for: indexPath) as! T
+        self.dequeueReusableCell(withIdentifier: T.className, for: indexPath) as! T
     }
 }

@@ -14,38 +14,38 @@ public struct LibreGlucose {
     public let unsmoothedGlucose: Double
     public var glucoseDouble: Double
     public var glucose: UInt16 {
-        return UInt16(glucoseDouble.rounded())
+        UInt16(glucoseDouble.rounded())
     }
     public var trend: UInt8
     public let timestamp: Date
     public let collector: String?
 
     public static func timeDifference(oldGlucose: LibreGlucose, newGlucose: LibreGlucose) -> TimeInterval {
-        return newGlucose.startDate.timeIntervalSince(oldGlucose.startDate)
+        newGlucose.startDate.timeIntervalSince(oldGlucose.startDate)
     }
 }
 
 extension LibreGlucose: GlucoseValue {
     public var startDate: Date {
-        return timestamp
+        timestamp
     }
 
     public var quantity: HKQuantity {
-        return HKQuantity(unit: .milligramsPerDeciliter, doubleValue: Double(glucose))
+         HKQuantity(unit: .milligramsPerDeciliter, doubleValue: Double(glucose))
     }
 }
 
 extension LibreGlucose: SensorDisplayable {
     public var isStateValid: Bool {
-        return glucose >= 39
+        glucose >= 39
     }
 
     public var trendType: GlucoseTrend? {
-        return GlucoseTrend(rawValue: Int(trend))
+        GlucoseTrend(rawValue: Int(trend))
     }
 
     public var isLocal: Bool {
-        return true
+        true
     }
 }
 

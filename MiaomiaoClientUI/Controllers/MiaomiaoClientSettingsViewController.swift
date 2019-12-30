@@ -52,7 +52,7 @@ public class MiaomiaoClientSettingsViewController: UITableViewController, SubVie
         case .snooze:
 
             guard let glucoseDouble = cgmManager?.latestBackfill?.glucoseDouble else {
-                return UITableViewAutomaticDimension
+                return UITableView.automaticDimension
             }
 
             if let alarms = UserDefaults.standard.glucoseSchedules?.getActiveAlarms(glucoseDouble), alarms.isAlarming() {
@@ -63,17 +63,17 @@ public class MiaomiaoClientSettingsViewController: UITableViewController, SubVie
             break
         }
 
-        return UITableViewAutomaticDimension
+        return UITableView.automaticDimension
     }
     override public func viewDidLoad() {
         super.viewDidLoad()
 
         title = cgmManager?.localizedTitle
 
-        tableView.rowHeight = UITableViewAutomaticDimension
+        tableView.rowHeight = UITableView.automaticDimension
         tableView.estimatedRowHeight = 44
 
-        tableView.sectionHeaderHeight = UITableViewAutomaticDimension
+        tableView.sectionHeaderHeight = UITableView.automaticDimension
         tableView.estimatedSectionHeaderHeight = 55
 
         tableView.register(SettingsTableViewCell.self, forCellReuseIdentifier: SettingsTableViewCell.className)
@@ -109,7 +109,7 @@ public class MiaomiaoClientSettingsViewController: UITableViewController, SubVie
     }
 
     override public func numberOfSections(in tableView: UITableView) -> Int {
-        return  Section.allCases.count - ( allowsDeletion ? 0 : 1 )
+        Section.allCases.count - ( allowsDeletion ? 0 : 1 )
     }
 
     private enum LatestReadingRow: Int, CaseIterable {
@@ -444,7 +444,7 @@ public class MiaomiaoClientSettingsViewController: UITableViewController, SubVie
             return cell
         case .snooze:
             //let cell = tableView.dequeueReusableCell(withIdentifier: SettingsTableViewCell.className, for: indexPath) as! SettingsTableViewCell
-            let cell = UITableViewCell(style: UITableViewCellStyle.default, reuseIdentifier: "DefaultCell")
+            let cell = UITableViewCell(style: .default, reuseIdentifier: "DefaultCell")
 
             cell.textLabel?.textAlignment = .center
             cell.textLabel?.text = LocalizedString("Snooze Alerts", comment: "Title of cell to snooze active alarms")

@@ -10,7 +10,7 @@ import Foundation
 
 public extension Date {
     func isBetween(_ date1: Date, and date2: Date) -> Bool {
-        return date2 >= date1 && (date1 ... date2).contains(self)
+         date2 >= date1 && (date1 ... date2).contains(self)
     }
 
     func rounded(on amount: Int, _ component: Calendar.Component) -> Date {
@@ -44,7 +44,7 @@ public extension Date {
     }
 
     public static var LocaleWantsAMPM: Bool {
-        return DateFormatter.dateFormat(fromTemplate: "j", options: 0, locale: NSLocale.current)!.contains("a")
+        DateFormatter.dateFormat(fromTemplate: "j", options: 0, locale: NSLocale.current)!.contains("a")
     }
 }
 

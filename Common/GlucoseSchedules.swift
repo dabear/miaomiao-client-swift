@@ -15,7 +15,7 @@ public enum GlucoseScheduleAlarmResult: Int, CaseIterable {
     case high
 
     func isAlarming() -> Bool {
-        return rawValue != GlucoseScheduleAlarmResult.none.rawValue
+        rawValue != GlucoseScheduleAlarmResult.none.rawValue
     }
 }
 
@@ -26,20 +26,20 @@ enum GlucoseSchedulesValidationStatus {
 
 class GlucoseScheduleList: Codable, CustomStringConvertible {
     var description: String {
-        return "(schedules: \(schedules) )"
+        "(schedules: \(schedules) )"
     }
 
     public var schedules = [GlucoseSchedule]()
 
     public var enabledSchedules: [GlucoseSchedule] {
-        return schedules.compactMap({ $0.enabled == true ? $0 : nil })
+        schedules.compactMap({ $0.enabled == true ? $0 : nil })
     }
 
     //this is only used by the ui to count total number of schedules
     public static let minimumSchedulesCount = 2
 
     public var activeSchedules: [GlucoseSchedule] {
-        return enabledSchedules.compactMap {
+        enabledSchedules.compactMap {
             if let activeTime = $0.getScheduleActiveToFrom() {
                 let now = Date()
                 return activeTime.contains(now) ? $0 : nil
@@ -115,7 +115,7 @@ class GlucoseScheduleList: Codable, CustomStringConvertible {
     }
     //for convenience
     public static var snoozedUntil: Date? {
-        return UserDefaults.standard.snoozedUntil
+        UserDefaults.standard.snoozedUntil
     }
 
     public static func isSnoozed() -> Bool {
@@ -221,6 +221,6 @@ class GlucoseSchedule: Codable, CustomStringConvertible {
     }
 
     var description: String {
-        return "(from: \(from), to: \(to), low: \(lowAlarm), high: \(highAlarm), enabled: \(enabled))"
+         "(from: \(from), to: \(to), low: \(lowAlarm), high: \(highAlarm), enabled: \(enabled))"
     }
 }

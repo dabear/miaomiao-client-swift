@@ -13,15 +13,15 @@ import UIKit
 
 public class SnoozeTableViewController: UITableViewController, UIPickerViewDataSource, UIPickerViewDelegate {
     public func numberOfComponents(in pickerView: UIPickerView) -> Int {
-        return 1
+        1
     }
 
     public func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        return pickerTimes.count
+         pickerTimes.count
     }
 
     public func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        return formatter.string(from: pickerTimes[row]!)!
+        formatter.string(from: pickerTimes[row]!)!
     }
 
     lazy var pickerTimes: [TimeInterval?] = pickerTimesArray()
@@ -119,15 +119,15 @@ public class SnoozeTableViewController: UITableViewController, UIPickerViewDataS
 
     override public func numberOfSections(in tableView: UITableView) -> Int {
         //dynamic number of schedules + sync row
-        return 1
+        1
     }
 
     override public func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return SnoozeRow.count
+        SnoozeRow.count
     }
 
     override public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = UITableViewCell(style: UITableViewCellStyle.default, reuseIdentifier: "DefaultCell")
+        let cell = UITableViewCell(style: .default, reuseIdentifier: "DefaultCell")
 
         switch SnoozeRow(rawValue: indexPath.row)! {
         case .snoozeButton:
@@ -185,21 +185,21 @@ public class SnoozeTableViewController: UITableViewController, UIPickerViewDataS
     }
 
     override public func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return nil
+        nil
     }
 
     override public func tableView(_ tableView: UITableView, titleForFooterInSection section: Int) -> String? {
-        return nil
+        nil
     }
 
     override public func tableView(_ tableView: UITableView, shouldHighlightRowAt indexPath: IndexPath) -> Bool {
-        return true
+        true
     }
     override public func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return CGFloat.leastNormalMagnitude
+        CGFloat.leastNormalMagnitude
     }
     override public func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
-        return CGFloat.leastNormalMagnitude
+        CGFloat.leastNormalMagnitude
     }
     override public func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         switch SnoozeRow(rawValue: indexPath.row)! {

@@ -12,7 +12,7 @@ import UIKit
 class AnnotatedSubtitleCell<T>: UITableViewCell {
     public var annotation: T?
 
-    override init(style: UITableViewCellStyle = .subtitle, reuseIdentifier: String?) {
+    override init(style: UITableViewCell.CellStyle = .subtitle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
     }
 

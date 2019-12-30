@@ -34,7 +34,7 @@ class CustomDatePicker: UIPickerView, UIPickerViewDelegate, UIPickerViewDataSour
     private var endTimes = [String]()
 
     open class var wants12hourClock: Bool {
-        return Date.LocaleWantsAMPM
+        Date.LocaleWantsAMPM
     }
 
     func setPickerLabels(labels: [Int: UILabel], containedView: UIView) { // [component number:label]
@@ -122,7 +122,7 @@ class CustomDatePicker: UIPickerView, UIPickerViewDelegate, UIPickerViewDataSour
     }
 
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
-        return CustomDateComponents.count
+        CustomDateComponents.count
     }
 
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {

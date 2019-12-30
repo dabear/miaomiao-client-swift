@@ -18,7 +18,7 @@ extension UserDefaults {
 
     var mmSyncToNs: Bool {
         get {
-            return optionalBool(forKey: Key.mmSyncToNS.rawValue) ?? true
+             optionalBool(forKey: Key.mmSyncToNS.rawValue) ?? true
         }
         set {
             set(newValue, forKey: Key.mmSyncToNS.rawValue)
@@ -27,7 +27,7 @@ extension UserDefaults {
 
     var mmBackfillFromHistory: Bool {
         get {
-            return optionalBool(forKey: Key.mmBackfillFromHistory.rawValue) ?? true
+             optionalBool(forKey: Key.mmBackfillFromHistory.rawValue) ?? true
         }
         set {
             set(newValue, forKey: Key.mmBackfillFromHistory.rawValue)
@@ -36,7 +36,7 @@ extension UserDefaults {
 
     var mmBackfillFromTrend: Bool {
         get {
-            return optionalBool(forKey: Key.mmBackfillFromTrend.rawValue) ?? false
+            optionalBool(forKey: Key.mmBackfillFromTrend.rawValue) ?? false
         }
         set {
             set(newValue, forKey: Key.mmBackfillFromTrend.rawValue)

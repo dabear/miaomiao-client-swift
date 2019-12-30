@@ -12,7 +12,7 @@ struct OOPCurrentValue: Codable {
     private let currentTrend2: Int?
 
     public var currentTrend: Int {
-        return currentTrend1 ?? currentTrend2 ?? 0
+        currentTrend1 ?? currentTrend2 ?? 0
     }
     let currentBg: Double
     let currentTime: Int
@@ -74,7 +74,7 @@ struct LibreReadingResult: Codable {
 
 extension LibreReadingResult {
     var created: Date? {
-        return Date.dateFromISOString(string: self.createdOn)
+        Date.dateFromISOString(string: self.createdOn)
     }
 
     init(created: String, b64Contents: String, uuid: String="") {
@@ -162,6 +162,6 @@ struct GetCalibrationStatusResult: Codable, CustomStringConvertible {
     }
 
     var description: String {
-        return "calibrationparams:: slopeslope: \(String(describing: slopeSlope)), slopeoffset: \(String(describing: slopeOffset)), offsetoffset: \(String(describing: offsetOffset)), offsetSlope: \(String(describing: offsetSlope)), isValidForFooterWithReverseCRCs: \(String(describing: isValidForFooterWithReverseCRCs))"
+        "calibrationparams:: slopeslope: \(String(describing: slopeSlope)), slopeoffset: \(String(describing: slopeOffset)), offsetoffset: \(String(describing: offsetOffset)), offsetSlope: \(String(describing: offsetSlope)), isValidForFooterWithReverseCRCs: \(String(describing: isValidForFooterWithReverseCRCs))"
     }
 }

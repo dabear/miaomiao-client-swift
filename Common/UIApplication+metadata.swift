@@ -8,37 +8,37 @@
 
 import Foundation
 enum AppMetadata{
-    private static func get<T>(key: String, default defaultValue: @autoclosure () -> T ) ->  T{
+    private static func getMeta<T>(key: String, default defaultValue: @autoclosure () -> T ) ->  T{
         if let anObj = Bundle.current.object(forInfoDictionaryKey: key) as? T {
             return anObj
         }
         return defaultValue()
     }
 
-    private static func get(key: String) ->  String{
-        return get(key: key, default: "unknown")
+    private static func getMeta(key: String) ->  String{
+        getMeta(key: key, default: "unknown")
     }
 
     static var gitRevision: String {
-        return get(key: "no-bjorninge-mm-git-revision", default: "unknown")
+        getMeta(key: "no-bjorninge-mm-git-revision", default: "unknown")
     }
 
     static var gitBranch: String {
-        return get(key: "no-bjorninge-mm-git-branch", default: "unknown")
+        getMeta(key: "no-bjorninge-mm-git-branch", default: "unknown")
     }
 
     static var gitRemote: String {
-        return get(key: "no-bjorninge-mm-git-remote", default: "unknown")
+        getMeta(key: "no-bjorninge-mm-git-remote", default: "unknown")
     }
 
     static var srcRoot: String {
-        return get(key: "no-bjorninge-mm-srcroot", default: "unknown")
+        getMeta(key: "no-bjorninge-mm-srcroot", default: "unknown")
     }
     static var buildDate: String {
-        return get(key: "no-bjorninge-mm-build-date", default: "unknown")
+        getMeta(key: "no-bjorninge-mm-build-date", default: "unknown")
     }
     static var xcodeVersion: String {
-        return get(key: "no-bjorninge-mm-xcode-version", default: "unknown")
+        getMeta(key: "no-bjorninge-mm-xcode-version", default: "unknown")
     }
 
 }

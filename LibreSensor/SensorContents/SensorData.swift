@@ -38,28 +38,28 @@ public struct SensorData {
     let nextHistoryBlock: Int
     /// true if all crc's are valid
     var hasValidCRCs: Bool {
-        return hasValidHeaderCRC && hasValidBodyCRC && hasValidFooterCRC
+        hasValidHeaderCRC && hasValidBodyCRC && hasValidFooterCRC
     }
     /// true if the header crc, stored in the first two header bytes, is equal to the calculated crc
     var hasValidHeaderCRC: Bool {
-        return Crc.hasValidCrc16InFirstTwoBytes(header)
+        Crc.hasValidCrc16InFirstTwoBytes(header)
     }
     /// true if the body crc, stored in the first two body bytes, is equal to the calculated crc
     var hasValidBodyCRC: Bool {
-        return Crc.hasValidCrc16InFirstTwoBytes(body)
+        Crc.hasValidCrc16InFirstTwoBytes(body)
     }
     /// true if the footer crc, stored in the first two footer bytes, is equal to the calculated crc
     var hasValidFooterCRC: Bool {
-        return Crc.hasValidCrc16InFirstTwoBytes(footer)
+        Crc.hasValidCrc16InFirstTwoBytes(footer)
     }
     /// Footer crc needed for checking integrity of SwiftLibreOOPWeb response
     var footerCrc: UInt16 {
-        return  Crc.crc16(Array(footer.dropFirst(2)), seed: 0xffff)
+        Crc.crc16(Array(footer.dropFirst(2)), seed: 0xffff)
     }
 
     /// Sensor state (ready, failure, starting etc.)
     var state: SensorState {
-        return SensorState(stateByte: header[4])
+        SensorState(stateByte: header[4])
     }
 
     var isLikelyLibre1: Bool {
@@ -213,7 +213,7 @@ public struct SensorData {
     }
 
     func oopWebInterfaceInput() -> String {
-        return Data(bytes).base64EncodedString()
+        Data(bytes).base64EncodedString()
     }
 
     /// Returns a new array of 344 bytes of FRAM with correct crc for header, body and footer.
@@ -221,6 +221,6 @@ public struct SensorData {
     /// Usefull, if some bytes are modified in order to investigate how the OOP algorithm handles this modification.
     /// - Returns: 344 bytes of FRAM with correct crcs
     func bytesWithCorrectCRC() -> [UInt8] {
-        return Crc.bytesWithCorrectCRC(header) + Crc.bytesWithCorrectCRC(body) + Crc.bytesWithCorrectCRC(footer)
+        Crc.bytesWithCorrectCRC(header) + Crc.bytesWithCorrectCRC(body) + Crc.bytesWithCorrectCRC(footer)
     }
 }

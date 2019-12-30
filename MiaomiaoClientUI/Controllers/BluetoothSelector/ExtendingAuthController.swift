@@ -46,7 +46,7 @@ public class ExtendingAuthController: NSObject, UITableViewDataSource, UITableVi
 
     private func isExtendedSection(section: Int) -> Bool {
         // section is zero-index, compensate
-        return section > (source.numberOfSections(in: source!.tableView) - 1)
+        section > (source.numberOfSections(in: source!.tableView) - 1)
     }
 
     public func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -61,7 +61,7 @@ public class ExtendingAuthController: NSObject, UITableViewDataSource, UITableVi
 
     public func getExtendedSection() -> Int {
         // -1 + 1 (cancels out)
-        return source.numberOfSections(in: source.tableView)
+        source.numberOfSections(in: source.tableView)
     }
 
     public func numberOfSections(in tableView: UITableView) -> Int {
@@ -120,7 +120,7 @@ public class ExtendingAuthController: NSObject, UITableViewDataSource, UITableVi
         return
     }
     public func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 44
+         44
     }
 
     public func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
@@ -128,7 +128,7 @@ public class ExtendingAuthController: NSObject, UITableViewDataSource, UITableVi
             return source.tableView(tableView, heightForHeaderInSection: section)
         }*/
 
-        return UITableViewAutomaticDimension
+        UITableView.automaticDimension
     }
 
     public func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {

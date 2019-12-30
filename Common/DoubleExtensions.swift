@@ -15,10 +15,10 @@ extension Double {
     }
 
     var twoDecimals: String {
-        return String(format: "%.2f", self)
+        String(format: "%.2f", self)
     }
     var fourDecimals: String {
-        return String(format: "%.4f", self)
+        String(format: "%.4f", self)
     }
 
     enum Number {

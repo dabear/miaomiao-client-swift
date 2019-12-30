@@ -76,11 +76,11 @@ public class NotificationsSettingsTableViewController: UITableViewController, mm
 
     override public func numberOfSections(in tableView: UITableView) -> Int {
         //dynamic number of schedules + sync row
-        return 1
+        1
     }
 
     override public func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return NotificationsSettingsRow.count
+        NotificationsSettingsRow.count
     }
 
     private weak var notificationEveryXTimesCell: MMTextFieldViewCell?
@@ -253,15 +253,15 @@ public class NotificationsSettingsTableViewController: UITableViewController, mm
     }
 
     override public func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return LocalizedString("Notification settings", comment: "The title text for the Notification settings")
+        LocalizedString("Notification settings", comment: "The title text for the Notification settings")
     }
 
     override public func tableView(_ tableView: UITableView, titleForFooterInSection section: Int) -> String? {
-        return nil
+        nil
     }
 
     override public func tableView(_ tableView: UITableView, shouldHighlightRowAt indexPath: IndexPath) -> Bool {
-        return true
+        true
     }
 
     override public func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
