@@ -516,15 +516,30 @@ public class MiaomiaoClientSettingsViewController: UITableViewController, SubVie
                 NSLog("dabear:: confirmed: cgmmanagerwantsdeletion")
                 if let cgmManager = self.cgmManager {
                     cgmManager.disconnect()
-                    cgmManager.delegateQueue.async {
-                        cgmManager.cgmManagerDelegate?.cgmManagerWantsDeletion(cgmManager)
+                    
+                    /*let confirmVC = UIAlertController(cgmDeletionHandler: {
+                        self.cgmManager.notifyDelegateOfDeletion {
+                            DispatchQueue.main.async {
+                                self.complete()
+                            }
+                        }
+                    })*/
+
+                    cgmManager.notifyDelegateOfDeletion {
+                        DispatchQueue.main.async {
+                            self.complete()
+                            self.cgmManager = nil
+                        }
+
+
                     }
 
 
-                    self.cgmManager = nil
+
+
                 }
 
-                self.complete()
+
             })
 
             present(confirmVC, animated: true) {
