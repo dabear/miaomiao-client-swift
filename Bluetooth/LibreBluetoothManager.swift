@@ -52,12 +52,6 @@ public enum SupportedDevices: Int, CaseIterable {
     }
 }
 
-extension Bundle {
-    static var current: Bundle {
-        class Helper { }
-        return Bundle(for: Helper.self)
-    }
-}
 
 public struct CompatibleLibreBluetoothDevice: Hashable, Codable {
     public var identifier: String

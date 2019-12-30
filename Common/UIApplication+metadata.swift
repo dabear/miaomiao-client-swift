@@ -9,7 +9,7 @@
 import Foundation
 enum AppMetadata{
     private static func get<T>(key: String, default defaultValue: @autoclosure () -> T ) ->  T{
-        if let anObj = Bundle.main.object(forInfoDictionaryKey: key) as? T {
+        if let anObj = Bundle.current.object(forInfoDictionaryKey: key) as? T {
             return anObj
         }
         return defaultValue()
@@ -42,4 +42,12 @@ enum AppMetadata{
     }
 
 }
+
+extension Bundle {
+    static var current: Bundle {
+        class Helper { }
+        return Bundle(for: Helper.self)
+    }
+}
+
 
