@@ -9,12 +9,12 @@
 import Foundation
 import MiaomiaoClient
 import UIKit
-
+import CoreBluetooth
 private var foo: ExtendingAuthController!
 
 // This will only work if original controller keeps a somewhat static amount of sections
 public class ExtendingAuthController: NSObject, UITableViewDataSource, UITableViewDelegate, BluetoothSearchDelegate {
-    func didDiscoverCompatibleDevice(_ device: CompatibleLibreBluetoothDevice, allCompatibleDevices: [CompatibleLibreBluetoothDevice]) {
+    func didDiscoverCompatibleDevice(_ device: CBPeripheral, allCompatibleDevices: [CBPeripheral]) {
         print("ExtendingAuthController was notified of new devices. alldevices:\(allCompatibleDevices.count)")
 
         if discoveredDevices != allCompatibleDevices {
@@ -22,7 +22,7 @@ public class ExtendingAuthController: NSObject, UITableViewDataSource, UITableVi
         }
     }
 
-    private var discoveredDevices = [CompatibleLibreBluetoothDevice]() {
+    private var discoveredDevices = [CBPeripheral]() {
         didSet {
             let section = getExtendedSection()
             print("will reload section \(section)")
@@ -33,7 +33,7 @@ public class ExtendingAuthController: NSObject, UITableViewDataSource, UITableVi
             if let preselected = UserDefaults.standard.preSelectedDevice {
                 if discoveredDevices.isEmpty {
                     print("dabear:: discoveredDevices count is 0,")
-                } else if let index = discoveredDevices.firstIndex(where: { $0.identifier == preselected.identifier }) {
+                } else if let index = discoveredDevices.firstIndex(where: { $0.identifier.uuidString == preselected }) {
                     print("dabear:: found preselected device in index \(index), selecting row \(index)")
                     selectRow(row: index)
                 } else {
@@ -106,9 +106,9 @@ public class ExtendingAuthController: NSObject, UITableViewDataSource, UITableVi
                 //static text
                 UserDefaults.standard.preSelectedDevice = nil
             } else {
-                if let cell = (cell as? AnnotatedSubtitleCell<CompatibleLibreBluetoothDevice>), let device = cell.annotation {
-                    print("Selected device: \(device)")
-                    UserDefaults.standard.preSelectedDevice = device
+                if let cell = (cell as? AnnotatedSubtitleCell<CBPeripheral>), let peripheral = cell.annotation {
+                    print("Selected device: \(peripheral)")
+                    UserDefaults.standard.preSelectedDevice = peripheral.identifier.uuidString
                 } else {
                     print("Could not downcastcell, selected device was not retrieved")
                 }
@@ -146,8 +146,8 @@ public class ExtendingAuthController: NSObject, UITableViewDataSource, UITableVi
         //don't override users choice
         print("dabear:: selectIfannotatedCellMatchesPreSelection")
         if let preselected = UserDefaults.standard.preSelectedDevice,
-            let cell = (cell as? AnnotatedSubtitleCell<CompatibleLibreBluetoothDevice>) {
-            if cell.annotation == preselected {
+            let cell = (cell as? AnnotatedSubtitleCell<CBPeripheral>) {
+            if cell.annotation?.identifier.uuidString == preselected {
                 print("dabear:: selecting preselected peripheral cell with id \(preselected)")
                 cell.isSelected = true
             }
@@ -159,7 +159,7 @@ public class ExtendingAuthController: NSObject, UITableViewDataSource, UITableVi
             return source.tableView(source.tableView, cellForRowAt: indexPath)
         }
 
-        var cell = AnnotatedSubtitleCell<CompatibleLibreBluetoothDevice>(style: .subtitle, reuseIdentifier: nil)
+        var cell = AnnotatedSubtitleCell<CBPeripheral>(style: .subtitle, reuseIdentifier: nil)
         //tableView.dequeueReusableCell(withIdentifier: "UITableViewCell", for: indexPath)
 
         if let device = discoveredDevices[safe: indexPath.row] {
@@ -212,8 +212,8 @@ public class ExtendingAuthController: NSObject, UITableViewDataSource, UITableVi
         let path = IndexPath(row: row, section: section)
         source.tableView.selectRow(at: path, animated: false, scrollPosition: .none)
 
-        if let cell = source.tableView.cellForRow(at: path) as? AnnotatedSubtitleCell<CompatibleLibreBluetoothDevice> {
-            UserDefaults.standard.preSelectedDevice = cell.annotation
+        if let cell = source.tableView.cellForRow(at: path) as? AnnotatedSubtitleCell<CBPeripheral> {
+            UserDefaults.standard.preSelectedDevice = cell.annotation?.identifier.uuidString
         } else {
             UserDefaults.standard.preSelectedDevice = nil
         }

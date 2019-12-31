@@ -13,7 +13,7 @@ import os.log
 import UIKit
 
 protocol BluetoothSearchDelegate: class {
-    func didDiscoverCompatibleDevice(_ device: CompatibleLibreBluetoothDevice, allCompatibleDevices: [CompatibleLibreBluetoothDevice])
+    func didDiscoverCompatibleDevice(_ device: CBPeripheral, allCompatibleDevices: [CBPeripheral])
 }
 
 final class BluetoothSearchManager: NSObject, CBCentralManagerDelegate, CBPeripheralDelegate {
@@ -24,9 +24,9 @@ final class BluetoothSearchManager: NSObject, CBCentralManagerDelegate, CBPeriph
     //fileprivate let deviceNames = SupportedDevices.allNames
     //fileprivate let serviceUUIDs:[CBUUID]? = [CBUUID(string: "6E400001-B5A3-F393-E0A9-E50E24DCCA9E")]
 
-    private var discoveredDevices = [CompatibleLibreBluetoothDevice]()
+    private var discoveredDevices = [CBPeripheral]()
 
-    public func addDiscoveredDevice(_ device: CompatibleLibreBluetoothDevice) {
+    public func addDiscoveredDevice(_ device: CBPeripheral) {
         discoveredDevices.append(device)
         discoveredDevices.removeDuplicates()
         discoverDelegate.didDiscoverCompatibleDevice(device, allCompatibleDevices: discoveredDevices)
@@ -83,22 +83,19 @@ final class BluetoothSearchManager: NSObject, CBCentralManagerDelegate, CBPeriph
             return
         }
 
-        // We forcefully create a compatibledevice here because we want to be able to list
-        // all devices in the gui if danger mode is on
-        let device = CompatibleLibreBluetoothDevice(identifier: peripheral.identifier.uuidString, name: name)
 
         if SupportedDevices.isSupported(peripheral) { //deviceNames.contains(name) {
 
-            print("dabear:: did recognize device: \(name): \(device.identifier)")
-            self.addDiscoveredDevice(device)
+            print("dabear:: did recognize device: \(name): \(peripheral.identifier)")
+            self.addDiscoveredDevice(peripheral)
         } else {
             if UserDefaults.standard.dangerModeActivated {
                 //allow listing any device when danger mode is active
 
-                print("dabear:: did add unknown device due to dangermode being active \(device.name): \(device.identifier)")
-                self.addDiscoveredDevice(device)
+                print("dabear:: did add unknown device due to dangermode being active \(peripheral.name): \(peripheral.identifier)")
+                self.addDiscoveredDevice(peripheral)
             } else {
-                print("dabear:: did not add unknown device: \(device.name): \(device.identifier)")
+                print("dabear:: did not add unknown device: \(peripheral.name): \(peripheral.identifier)")
             }
         }
     }

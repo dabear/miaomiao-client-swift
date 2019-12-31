@@ -81,6 +81,9 @@
 		2791064623B96B07004B362F /* UIApplication+metadata.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2791064523B96B07004B362F /* UIApplication+metadata.swift */; };
 		2791064723B96B07004B362F /* UIApplication+metadata.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2791064523B96B07004B362F /* UIApplication+metadata.swift */; };
 		2795404F2165502600D657E5 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2795404E2165502600D657E5 /* main.swift */; };
+		27C175E223BAA99100414F28 /* CBPeripheral+SupportedDevices.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27C175E123BAA99100414F28 /* CBPeripheral+SupportedDevices.swift */; };
+		27C175E423BAC33F00414F28 /* CBPeripheral.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27C175E323BAC33F00414F28 /* CBPeripheral.swift */; };
+		27C175E523BAC37100414F28 /* CBPeripheral.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27C175E323BAC33F00414F28 /* CBPeripheral.swift */; };
 		27C335B82165667300CF0868 /* LibreGlucose.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43C418AE1CE0488900405B6A /* LibreGlucose.swift */; };
 		27C335B9216566C500CF0868 /* MiaomiaoClient.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 432B0E881CDFC3C50045347B /* MiaomiaoClient.framework */; };
 		27CBEB3C225FB3A7004F7BF5 /* NibLoadable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27CBEB3B225FB3A7004F7BF5 /* NibLoadable.swift */; };
@@ -228,6 +231,8 @@
 		2791064523B96B07004B362F /* UIApplication+metadata.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIApplication+metadata.swift"; sourceTree = "<group>"; };
 		2795404C2165502600D657E5 /* clitester */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = clitester; sourceTree = BUILT_PRODUCTS_DIR; };
 		2795404E2165502600D657E5 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
+		27C175E123BAA99100414F28 /* CBPeripheral+SupportedDevices.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CBPeripheral+SupportedDevices.swift"; sourceTree = "<group>"; };
+		27C175E323BAC33F00414F28 /* CBPeripheral.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CBPeripheral.swift; sourceTree = "<group>"; };
 		27C335E021667C7A00CF0868 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		27C335E221667C7B00CF0868 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		27C335E521667C7B00CF0868 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -408,6 +413,7 @@
 				271EDF3C22F3658D00E1C8B3 /* LibreBluetoothManager+Miaomiao.swift */,
 				2729D676221F421C0030E1B8 /* BluetoothBridgeMetaData.swift */,
 				272BF9C8233D3F5A00AD38AA /* MiaomiaoTestMessage.swift */,
+				27C175E123BAA99100414F28 /* CBPeripheral+SupportedDevices.swift */,
 			);
 			path = Bluetooth;
 			sourceTree = "<group>";
@@ -664,6 +670,7 @@
 				271EDF2422EC739F00E1C8B3 /* UserDefaults+Bluetooth.swift */,
 				272BF9C22338044600AD38AA /* DataExtensions.swift */,
 				2791064523B96B07004B362F /* UIApplication+metadata.swift */,
+				27C175E323BAC33F00414F28 /* CBPeripheral.swift */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -1008,6 +1015,7 @@
 			files = (
 				27E3C39F222EE9A80036AAC7 /* LibreOOPWebExtensions.swift in Sources */,
 				27CFAB5F224AB27B006DEFE3 /* CollectionExtensions.swift in Sources */,
+				27C175E423BAC33F00414F28 /* CBPeripheral.swift in Sources */,
 				27E3C390222EDF560036AAC7 /* LibreError.swift in Sources */,
 				4325E9CF210E6A0A00969CE5 /* HKUnit.swift in Sources */,
 				27CFAB59224977B9006DEFE3 /* GlucoseSmoothing.swift in Sources */,
@@ -1016,6 +1024,7 @@
 				272BF9C9233D3F5A00AD38AA /* MiaomiaoTestMessage.swift in Sources */,
 				2729D69F221F44670030E1B8 /* SensorState.swift in Sources */,
 				27408E582370D3C3002C71C8 /* ConcreteSensorDisplayable.swift in Sources */,
+				27C175E223BAA99100414F28 /* CBPeripheral+SupportedDevices.swift in Sources */,
 				27D0DA6B2231CBB7007BBB2C /* DateExtensions.swift in Sources */,
 				271EDF2622EC755D00E1C8B3 /* UserDefaults+Bluetooth.swift in Sources */,
 				27E3C398222EE9450036AAC7 /* LibreOOPDefaults.swift in Sources */,
@@ -1066,6 +1075,7 @@
 				27E0968622A6F64800B3164D /* SnoozeViewController.swift in Sources */,
 				271EDF3322F0946400E1C8B3 /* BluetoothSearch.swift in Sources */,
 				27E0969B22B94D4400B3164D /* CustomDatePickerViewController.swift in Sources */,
+				27C175E523BAC37100414F28 /* CBPeripheral.swift in Sources */,
 				27E0968422A6EFCD00B3164D /* SnoozeView.swift in Sources */,
 				43A8EC97210E680100A81379 /* ShareService+UI.swift in Sources */,
 				275C3D99229AA88200E27439 /* MMSwitchTableViewCell.swift in Sources */,

@@ -43,10 +43,9 @@ public final class MiaoMiaoClientManager: CGMManager, LibreBluetoothManagerDeleg
 
     public var managedDataInterval: TimeInterval?
 
-    public func getSmallImage() -> UIImage? {
-        UserDefaults.standard.preSelectedDevice?.smallImage ??
-            UIImage(named: "libresensor", in:  Bundle.current, compatibleWith: nil)
-    }
+   
+
+
 
     public var device: HKDevice? {
          proxy?.OnQueue_device
@@ -402,5 +401,13 @@ extension MiaoMiaoClientManager {
             return "\(bat)%"
         }
         return "n/a"
+    }
+
+    public func getDeviceType() -> String? {
+        proxy?.OnQueue_peripheral?.bridgeType?.name
+    }
+    public func getSmallImage() -> UIImage? {
+        proxy?.OnQueue_peripheral?.smallImage ??
+        UIImage(named: "libresensor", in:  Bundle.current, compatibleWith: nil)
     }
 }
