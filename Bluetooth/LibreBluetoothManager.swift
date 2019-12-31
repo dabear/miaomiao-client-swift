@@ -215,6 +215,8 @@ final class LibreBluetoothManager: NSObject, CBCentralManagerDelegate, CBPeriphe
                 os_log("Central Manager was powered on, scanningformiaomiao: state: %{public}@", log: LibreBluetoothManager.bt_log, type: .default, String(describing: state))
                 scanForDevices() // power was switched on, while app is running -> reconnect.
             }
+        @unknown default:
+            fatalError("libre bluetooth state unhandled")
         }
     }
 

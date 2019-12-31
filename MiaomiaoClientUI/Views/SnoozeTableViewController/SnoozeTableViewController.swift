@@ -39,7 +39,7 @@ public class SnoozeTableViewController: UITableViewController, UIPickerViewDataS
         let mins10 = 0.166_67
         let mins20 = mins10 * 2
         let mins30 = mins10 * 3
-        let mins40 = mins10 * 4
+        //let mins40 = mins10 * 4
 
         for hr in 0..<2 {
             for min in [0.0, mins20, mins20 * 2] {
@@ -105,6 +105,7 @@ public class SnoozeTableViewController: UITableViewController, UIPickerViewDataS
         self.tableView.rowHeight = 44
         tableView.contentInset = UIEdgeInsets.zero
         self.automaticallyAdjustsScrollViewInsets = false
+        
         tableView.tableFooterView = UIView()
         tableView.tableHeaderView = UIView()
     }

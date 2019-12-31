@@ -74,6 +74,8 @@ final class BluetoothSearchManager: NSObject, CBCentralManagerDelegate, CBPeriph
                 //os_log("Central Manager was powered on, scanningformiaomiao: state: %{public}@", log: MiaoMiaoBluetoothManager.bt_log, type: .default, String(describing: state))
 
                 scanForCompatibleDevices() // power was switched on, while app is running -> reconnect.
+        @unknown default:
+            fatalError("libre bluetooth state unhandled")
         }
     }
 

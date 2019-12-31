@@ -159,7 +159,7 @@ public class ExtendingAuthController: NSObject, UITableViewDataSource, UITableVi
             return source.tableView(source.tableView, cellForRowAt: indexPath)
         }
 
-        var cell = AnnotatedSubtitleCell<CBPeripheral>(style: .subtitle, reuseIdentifier: nil)
+        let cell = AnnotatedSubtitleCell<CBPeripheral>(style: .subtitle, reuseIdentifier: nil)
         //tableView.dequeueReusableCell(withIdentifier: "UITableViewCell", for: indexPath)
 
         if let device = discoveredDevices[safe: indexPath.row] {

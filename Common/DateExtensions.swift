@@ -43,7 +43,7 @@ public extension Date {
         return date
     }
 
-    public static var LocaleWantsAMPM: Bool {
+    static var LocaleWantsAMPM: Bool {
         DateFormatter.dateFormat(fromTemplate: "j", options: 0, locale: NSLocale.current)!.contains("a")
     }
 }

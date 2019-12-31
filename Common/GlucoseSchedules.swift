@@ -8,7 +8,7 @@
 
 import Foundation
 import HealthKit
-import MiaomiaoClient
+//import MiaomiaoClient
 public enum GlucoseScheduleAlarmResult: Int, CaseIterable {
     case none = 0
     case low
