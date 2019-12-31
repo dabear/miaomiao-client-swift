@@ -17,7 +17,7 @@ extension UserDefaults {
 
     public var preSelectedDevice: String? {
         get {
-            print("getting Key.bluetoothDeviceUUIDString.rawValue: \(Key.bluetoothDeviceUUIDString.rawValue) ")
+            
             if let astr = string(forKey: Key.bluetoothDeviceUUIDString.rawValue) {
                 return astr.count > 0 ? astr : nil
             }
