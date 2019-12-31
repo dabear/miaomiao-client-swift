@@ -163,7 +163,8 @@ public class ExtendingAuthController: NSObject, UITableViewDataSource, UITableVi
         //tableView.dequeueReusableCell(withIdentifier: "UITableViewCell", for: indexPath)
 
         if let device = discoveredDevices[safe: indexPath.row] {
-            cell.textLabel?.text = "\(device.name) "
+            let name = device.name ?? "Unknown"
+            cell.textLabel?.text = "\(name)"
             cell.detailTextLabel?.text = "\(device.identifier)"
             cell.textLabel?.numberOfLines = 0
             cell.textLabel?.lineBreakMode = .byWordWrapping

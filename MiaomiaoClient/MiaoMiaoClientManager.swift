@@ -403,8 +403,8 @@ extension MiaoMiaoClientManager {
         return "n/a"
     }
 
-    public func getDeviceType() -> String? {
-        proxy?.OnQueue_peripheral?.bridgeType?.name
+    public func getDeviceType() -> String {
+        proxy?.OnQueue_peripheral?.bridgeType?.name ?? "Unknown"
     }
     public func getSmallImage() -> UIImage? {
         proxy?.OnQueue_peripheral?.smallImage ??

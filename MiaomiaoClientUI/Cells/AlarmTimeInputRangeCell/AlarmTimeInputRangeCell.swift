@@ -104,7 +104,7 @@ class AlarmTimeInputRangeCell: UITableViewCell, UITextFieldDelegate {
     }
 
     func textFieldDidEndEditing(_ textField: UITextField) {
-        let value = valueNumberFormatter.number(from: textField.text ?? "")?.doubleValue ?? 0
+        
 
         switch textField {
         case minValueTextField:
