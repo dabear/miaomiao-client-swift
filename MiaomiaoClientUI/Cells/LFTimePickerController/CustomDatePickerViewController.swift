@@ -46,7 +46,12 @@ class CustomDatePickerViewController: UIViewController {
         self.navigationItem.prompt = "Schedule"
 
         //self.pickerView.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
-        self.pickerView.backgroundColor = .white
+        if #available(iOS 13.0, *) {
+            self.pickerView.backgroundColor = .systemBackground
+        } else {
+            // Fallback on earlier versions
+            self.pickerView.backgroundColor = .white
+        }
         self.pickerView.reloadAllComponents()
         self.pickerView.fixInView(self.view)
         self.view.addSubview(self.pickerView)
