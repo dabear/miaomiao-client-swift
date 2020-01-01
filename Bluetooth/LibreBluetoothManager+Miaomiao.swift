@@ -211,7 +211,7 @@ extension LibreBluetoothManager {
 
         print("dabear: miaomiaoRequestData")
 
-        peripheral.writeValue(Data(bytes: [0xF0]), for: writeCharacteristics, type: .withResponse)
+        peripheral.writeValue(Data([0xF0]), for: writeCharacteristics, type: .withResponse)
     }
 
     func miaomiaoDidUpdateValueForNotifyCharacteristics(_ value: Data, peripheral: CBPeripheral) {
@@ -278,7 +278,7 @@ extension LibreBluetoothManager {
         print("confirming new sensor")
         if let writeCharacteristic = writeCharacteristic {
             print("confirmed new sensor")
-            peripheral.writeValue(Data(bytes: [0xD3, 0x01]), for: writeCharacteristic, type: .withResponse)
+            peripheral.writeValue(Data([0xD3, 0x01]), for: writeCharacteristic, type: .withResponse)
         } else {
             print("could not confirm new sensor")
         }

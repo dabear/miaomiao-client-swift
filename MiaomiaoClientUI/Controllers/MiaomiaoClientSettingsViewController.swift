@@ -296,10 +296,10 @@ public class MiaomiaoClientSettingsViewController: UITableViewController, SubVie
             case .bridgeType:
                 cell.textLabel?.text = LocalizedString("Bridge Type", comment: "Title Bridge Type")
 
-                cell.detailTextLabel?.text = UserDefaults.standard.preSelectedDevice?.bridgeType?.name
+                cell.detailTextLabel?.text = cgmManager?.getDeviceType()
             case .bridgeIdentifer:
                 cell.textLabel?.text = LocalizedString("Bridge Identifer", comment: "Title Bridge Identifier")
-                cell.detailTextLabel?.text = UserDefaults.standard.preSelectedDevice?.identifier
+                cell.detailTextLabel?.text = UserDefaults.standard.preSelectedDevice
             }
 
             return cell
