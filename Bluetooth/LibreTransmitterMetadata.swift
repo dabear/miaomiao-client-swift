@@ -8,7 +8,7 @@
 
 import Foundation
 
-public struct BluetoothBridgeMetaData: CustomStringConvertible {
+public struct LibreTransmitterMetadata: CustomStringConvertible {
     // hardware number
     let hardware: String
     // software number

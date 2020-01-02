@@ -19,7 +19,7 @@ public enum BubbleResponseType: UInt8 {
 }
 
 //bubble support
-extension LibreBluetoothManager {
+extension LibreTransmitterManager {
     func bubbleHandleCompleteMessage() {
         print("dabear:: bubbleHandleCompleteMessage")
 
@@ -35,7 +35,7 @@ extension LibreBluetoothManager {
             guard let metadata = manager.metadata, let sensorData = manager.sensorData else {
                 return
             }
-            manager.delegate?.libreBluetoothManagerDidUpdate(sensorData: sensorData, and: metadata)
+            manager.delegate?.libreTransmitterDidUpdate(with: sensorData, and: metadata)
         }
     }
 
@@ -57,7 +57,7 @@ extension LibreBluetoothManager {
             let hardware = value[2].description + ".0"
             let firmware = value[1].description + ".0"
             let battery = Int(value[4])
-            metadata = BluetoothBridgeMetaData(
+            metadata = LibreTransmitterMetadata(
                 hardware: hardware,
                 firmware: firmware,
                 battery: battery)
@@ -74,7 +74,7 @@ extension LibreBluetoothManager {
             }
         case .noSensor:
             dispatchToDelegate { manager in
-                manager.delegate?.libreBluetoothManagerReceivedMessage(0x0000, txFlags: 0x34, payloadData: manager.rxBuffer)
+                manager.delegate?.libreTransmitterReceivedMessage(0x0000, txFlags: 0x34, payloadData: manager.rxBuffer)
             }
 
             rxBuffer.resetAllBytes()

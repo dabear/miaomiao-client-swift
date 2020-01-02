@@ -339,7 +339,7 @@ enum NotificationHelper {
 
     private static var lastBatteryWarning: Date?
 
-    public static func sendLowBatteryNotificationIfNeeded(device: BluetoothBridgeMetaData) {
+    public static func sendLowBatteryNotificationIfNeeded(device: LibreTransmitterMetadata) {
         guard UserDefaults.standard.mmAlertLowBatteryWarning else {
             NSLog("mmAlertLowBatteryWarning toggle was not enabled, not sending low notification")
             return

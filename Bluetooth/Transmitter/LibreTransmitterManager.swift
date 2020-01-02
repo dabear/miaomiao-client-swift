@@ -27,22 +27,22 @@ public enum BluetoothmanagerState: String {
 
 
 
-protocol LibreBluetoothManagerDelegate: class {
+protocol LibreTransmitterDelegate: class {
     // Can happen on any queue
-    func libreBluetoothManagerPeripheralStateChanged(_ state: BluetoothmanagerState)
-    func libreBluetoothManagerReceivedMessage(_ messageIdentifier: UInt16, txFlags: UInt8, payloadData: Data)
+    func libreTransmitterStateChanged(_ state: BluetoothmanagerState)
+    func libreTransmitterReceivedMessage(_ messageIdentifier: UInt16, txFlags: UInt8, payloadData: Data)
     // Will always happen on managerQueue
-    func libreBluetoothManagerDidUpdate(sensorData: SensorData, and Device: BluetoothBridgeMetaData)
+    func libreTransmitterDidUpdate(with sensorData: SensorData, and Device: LibreTransmitterMetadata)
 }
 
 
-final class LibreBluetoothManager: NSObject, CBCentralManagerDelegate, CBPeripheralDelegate {
+final class LibreTransmitterManager: NSObject, CBCentralManagerDelegate, CBPeripheralDelegate {
     // MARK: - Properties
     private var wantsToTerminate = false
     //private var lastConnectedIdentifier : String?
 
     static let bt_log = OSLog(subsystem: "com.LibreMonitor", category: "MiaoMiaoManager")
-    var metadata: BluetoothBridgeMetaData?
+    var metadata: LibreTransmitterMetadata?
 
     var centralManager: CBCentralManager!
     var peripheral: CBPeripheral?
@@ -68,14 +68,14 @@ final class LibreBluetoothManager: NSObject, CBCentralManagerDelegate, CBPeriphe
     var BLEScanDuration = 3.0
     weak var timer: Timer?
 
-    var delegate: LibreBluetoothManagerDelegate? {
+    var delegate: LibreTransmitterDelegate? {
         didSet {
             self.delegateQueue.async { [weak self] in
                 guard let self = self else {
                     return
                 }
                 // Help delegate initialize by sending current state directly after delegate assignment
-                self.delegate?.libreBluetoothManagerPeripheralStateChanged(self.state)
+                self.delegate?.libreTransmitterStateChanged(self.state)
             }
         }
     }
@@ -87,12 +87,12 @@ final class LibreBluetoothManager: NSObject, CBCentralManagerDelegate, CBPeriphe
                     return
                 }
                 // Help delegate initialize by sending current state directly after delegate assignment
-                self.delegate?.libreBluetoothManagerPeripheralStateChanged(self.state)
+                self.delegate?.libreTransmitterStateChanged(self.state)
             }
         }
     }
 
-    public func dispatchToDelegate( _ closure :@escaping  (_ aself: LibreBluetoothManager) -> Void ) {
+    public func dispatchToDelegate( _ closure :@escaping  (_ aself: LibreTransmitterManager) -> Void ) {
         delegateQueue.async { [weak self] in
             if let self = self {
                 closure(self)
@@ -100,7 +100,7 @@ final class LibreBluetoothManager: NSObject, CBCentralManagerDelegate, CBPeriphe
         }
     }
 
-    private func syncOnManagerQueue<T>( _ closure :@escaping  (_ aself: LibreBluetoothManager?) -> T?) -> T? {
+    private func syncOnManagerQueue<T>( _ closure :@escaping  (_ aself: LibreTransmitterManager?) -> T?) -> T? {
         var ret: T?
 
         managerQueue.sync { [weak self, closure] in
@@ -127,7 +127,7 @@ final class LibreBluetoothManager: NSObject, CBCentralManagerDelegate, CBPeriphe
         super.init()
 
         //        slipBuffer.delegate = self
-        os_log("miaomiaomanager init called ", log: LibreBluetoothManager.bt_log)
+        os_log("miaomiaomanager init called ", log: Self.bt_log)
         managerQueue.sync {
             centralManager = CBCentralManager(delegate: self, queue: managerQueue, options: nil)
         }
@@ -136,14 +136,14 @@ final class LibreBluetoothManager: NSObject, CBCentralManagerDelegate, CBPeriphe
     func scanForDevices() {
         dispatchPrecondition(condition: .onQueue(managerQueue))
 
-        os_log("Scan for MiaoMiao while internal state %{public}@, bluetooth state %{public}@", log: LibreBluetoothManager.bt_log, type: .default, String(describing: state), String(describing: centralManager.state ))
+        os_log("Scan for MiaoMiao while internal state %{public}@, bluetooth state %{public}@", log: LibreTransmitterManager.bt_log, type: .default, String(describing: state), String(describing: centralManager.state ))
 
         guard centralManager.state == .poweredOn else {
             return
         }
         //        print(centralManager.debugDescription)
         if centralManager.state == .poweredOn {
-            os_log("Before scan for MiaoMiao while central manager state %{public}@", log: LibreBluetoothManager.bt_log, type: .default, String(describing: centralManager.state.rawValue))
+            os_log("Before scan for MiaoMiao while central manager state %{public}@", log: LibreTransmitterManager.bt_log, type: .default, String(describing: centralManager.state.rawValue))
 
             centralManager.scanForPeripherals(withServices: nil, options: nil)
             state = .Scanning
@@ -152,12 +152,12 @@ final class LibreBluetoothManager: NSObject, CBCentralManagerDelegate, CBPeriphe
 
     private func connect(force forceConnect: Bool = false) {
         dispatchPrecondition(condition: .onQueue(managerQueue))
-        os_log("Connect while state %{public}@", log: LibreBluetoothManager.bt_log, type: .default, String(describing: state.rawValue))
+        os_log("Connect while state %{public}@", log: LibreTransmitterManager.bt_log, type: .default, String(describing: state.rawValue))
         if centralManager.isScanning {
             centralManager.stopScan()
         }
         if state == .DisconnectingDueToButtonPress && !forceConnect {
-            os_log("Connect aborted, user has actively disconnected and a reconnect was not forced ", log: LibreBluetoothManager.bt_log, type: .default)
+            os_log("Connect aborted, user has actively disconnected and a reconnect was not forced ", log: LibreTransmitterManager.bt_log, type: .default)
             return
         }
 
@@ -171,7 +171,7 @@ final class LibreBluetoothManager: NSObject, CBCentralManagerDelegate, CBPeriphe
 
     func disconnectManually() {
         dispatchPrecondition(condition: .notOnQueue(managerQueue))
-        os_log("Disconnect manually while state %{public}@", log: LibreBluetoothManager.bt_log, type: .default, String(describing: state.rawValue))
+        os_log("Disconnect manually while state %{public}@", log: LibreTransmitterManager.bt_log, type: .default, String(describing: state.rawValue))
 
         managerQueue.sync {
             switch state {
@@ -184,7 +184,7 @@ final class LibreBluetoothManager: NSObject, CBCentralManagerDelegate, CBPeriphe
             }
 
             if centralManager.isScanning {
-                os_log("stopping scan", log: LibreBluetoothManager.bt_log, type: .default)
+                os_log("stopping scan", log: LibreTransmitterManager.bt_log, type: .default)
                 centralManager.stopScan()
             }
             if let peripheral = peripheral {
@@ -197,22 +197,22 @@ final class LibreBluetoothManager: NSObject, CBCentralManagerDelegate, CBPeriphe
 
     func centralManagerDidUpdateState(_ central: CBCentralManager) {
         dispatchPrecondition(condition: .onQueue(managerQueue))
-        os_log("Central Manager did update state to %{public}@", log: LibreBluetoothManager.bt_log, type: .default, String(describing: central.state.rawValue))
+        os_log("Central Manager did update state to %{public}@", log: LibreTransmitterManager.bt_log, type: .default, String(describing: central.state.rawValue))
 
         switch central.state {
         case .poweredOff:
             state = .powerOff
         case .resetting, .unauthorized, .unknown, .unsupported:
-            os_log("Central Manager was either .poweredOff, .resetting, .unauthorized, .unknown, .unsupported: %{public}@", log: LibreBluetoothManager.bt_log, type: .default, String(describing: central.state))
+            os_log("Central Manager was either .poweredOff, .resetting, .unauthorized, .unknown, .unsupported: %{public}@", log: LibreTransmitterManager.bt_log, type: .default, String(describing: central.state))
             state = .Unassigned
             if central.isScanning {
                 central.stopScan()
             }
         case .poweredOn:
             if state == .DisconnectingDueToButtonPress {
-                os_log("Central Manager was powered on but sensorstate was DisconnectingDueToButtonPress:  %{public}@", log: LibreBluetoothManager.bt_log, type: .default, String(describing: central.state))
+                os_log("Central Manager was powered on but sensorstate was DisconnectingDueToButtonPress:  %{public}@", log: LibreTransmitterManager.bt_log, type: .default, String(describing: central.state))
             } else {
-                os_log("Central Manager was powered on, scanningformiaomiao: state: %{public}@", log: LibreBluetoothManager.bt_log, type: .default, String(describing: state))
+                os_log("Central Manager was powered on, scanningformiaomiao: state: %{public}@", log: LibreTransmitterManager.bt_log, type: .default, String(describing: state))
                 scanForDevices() // power was switched on, while app is running -> reconnect.
             }
         @unknown default:
@@ -223,7 +223,7 @@ final class LibreBluetoothManager: NSObject, CBCentralManagerDelegate, CBPeriphe
     func centralManager(_ central: CBCentralManager, didDiscover peripheral: CBPeripheral, advertisementData: [String: Any], rssi RSSI: NSNumber) {
         dispatchPrecondition(condition: .onQueue(managerQueue))
 
-        os_log("Did discover peripheral while state %{public}@ with name: %{public}@, wantstoterminate?:  %d", log: LibreBluetoothManager.bt_log, type: .default, String(describing: state.rawValue), String(describing: peripheral.name), self.wantsToTerminate)
+        os_log("Did discover peripheral while state %{public}@ with name: %{public}@, wantstoterminate?:  %d", log: LibreTransmitterManager.bt_log, type: .default, String(describing: state.rawValue), String(describing: peripheral.name), self.wantsToTerminate)
 
         /*
          if peripheral.name == deviceName {
@@ -233,18 +233,18 @@ final class LibreBluetoothManager: NSObject, CBCentralManagerDelegate, CBPeriphe
          return
          }*/
         guard peripheral.name?.lowercased() != nil else {
-            os_log("discovered peripheral had no name, returning: %{public}@", log: LibreBluetoothManager.bt_log, type: .default, String(describing: peripheral.identifier.uuidString))
+            os_log("discovered peripheral had no name, returning: %{public}@", log: LibreTransmitterManager.bt_log, type: .default, String(describing: peripheral.identifier.uuidString))
             return
         }
 
         if let preselected = UserDefaults.standard.preSelectedDevice {
             if peripheral.identifier.uuidString == preselected {
-                os_log("Did connect to preselected %{public}@ with identifier %{public}@,", log: LibreBluetoothManager.bt_log, type: .default, String(describing: peripheral.name), String(describing: peripheral.identifier.uuidString))
+                os_log("Did connect to preselected %{public}@ with identifier %{public}@,", log: LibreTransmitterManager.bt_log, type: .default, String(describing: peripheral.name), String(describing: peripheral.identifier.uuidString))
                 self.peripheral = peripheral
 
                 self.connect(force: true)
             } else {
-                os_log("Did not connect to %{public}@ with identifier %{public}@, because another device with identifier %{public}@ was selected", log: LibreBluetoothManager.bt_log, type: .default, String(describing: peripheral.name), String(describing: peripheral.identifier.uuidString), preselected)
+                os_log("Did not connect to %{public}@ with identifier %{public}@, because another device with identifier %{public}@ was selected", log: LibreTransmitterManager.bt_log, type: .default, String(describing: peripheral.name), String(describing: peripheral.identifier.uuidString), preselected)
             }
 
             return
@@ -256,7 +256,7 @@ final class LibreBluetoothManager: NSObject, CBCentralManagerDelegate, CBPeriphe
     func centralManager(_ central: CBCentralManager, didConnect peripheral: CBPeripheral) {
         dispatchPrecondition(condition: .onQueue(managerQueue))
 
-        os_log("Did connect peripheral while state %{public}@ with name: %{public}@", log: LibreBluetoothManager.bt_log, type: .default, String(describing: state.rawValue), String(describing: peripheral.name))
+        os_log("Did connect peripheral while state %{public}@ with name: %{public}@", log: LibreTransmitterManager.bt_log, type: .default, String(describing: state.rawValue), String(describing: peripheral.name))
         if central.isScanning {
             central.stopScan()
         }
@@ -269,9 +269,9 @@ final class LibreBluetoothManager: NSObject, CBCentralManagerDelegate, CBPeriphe
     func centralManager(_ central: CBCentralManager, didFailToConnect peripheral: CBPeripheral, error: Error?) {
         dispatchPrecondition(condition: .onQueue(managerQueue))
 
-        os_log("Did fail to connect peripheral while state: %{public}@", log: LibreBluetoothManager.bt_log, type: .default, String(describing: state.rawValue))
+        os_log("Did fail to connect peripheral while state: %{public}@", log: LibreTransmitterManager.bt_log, type: .default, String(describing: state.rawValue))
         if let error = error {
-            os_log("Did fail to connect peripheral error: %{public}@", log: LibreBluetoothManager.bt_log, type: .error, "\(error.localizedDescription)")
+            os_log("Did fail to connect peripheral error: %{public}@", log: LibreTransmitterManager.bt_log, type: .error, "\(error.localizedDescription)")
         }
         state = .Disconnected
 
@@ -280,7 +280,7 @@ final class LibreBluetoothManager: NSObject, CBCentralManagerDelegate, CBPeriphe
 
     private func delayedReconnect(_ seconds: Double = 7) {
         state = .DelayedReconnect
-        os_log("Will reconnect peripheral in  %{public}@ seconds", log: LibreBluetoothManager.bt_log, type: .default, String(describing: seconds))
+        os_log("Will reconnect peripheral in  %{public}@ seconds", log: LibreTransmitterManager.bt_log, type: .default, String(describing: seconds))
         rxBuffer.resetAllBytes()
         // attempt to avoid IOS killing app because of cpu usage.
         // postpone connecting for x seconds
@@ -295,9 +295,9 @@ final class LibreBluetoothManager: NSObject, CBCentralManagerDelegate, CBPeriphe
     func centralManager(_ central: CBCentralManager, didDisconnectPeripheral peripheral: CBPeripheral, error: Error?) {
         dispatchPrecondition(condition: .onQueue(managerQueue))
 
-        os_log("Did disconnect peripheral while state: %{public}@", log: LibreBluetoothManager.bt_log, type: .default, String(describing: state.rawValue))
+        os_log("Did disconnect peripheral while state: %{public}@", log: LibreTransmitterManager.bt_log, type: .default, String(describing: state.rawValue))
         if let error = error {
-            os_log("Did disconnect peripheral error: %{public}@", log: LibreBluetoothManager.bt_log, type: .error, "\(error.localizedDescription)")
+            os_log("Did disconnect peripheral error: %{public}@", log: LibreTransmitterManager.bt_log, type: .error, "\(error.localizedDescription)")
         }
 
         switch state {
@@ -316,16 +316,16 @@ final class LibreBluetoothManager: NSObject, CBCentralManagerDelegate, CBPeriphe
 
     func peripheral(_ peripheral: CBPeripheral, didDiscoverServices error: Error?) {
         dispatchPrecondition(condition: .onQueue(managerQueue))
-        os_log("Did discover services", log: LibreBluetoothManager.bt_log, type: .default)
+        os_log("Did discover services", log: LibreTransmitterManager.bt_log, type: .default)
         if let error = error {
-            os_log("Did discover services error: %{public}@", log: LibreBluetoothManager.bt_log, type: .error, "\(error.localizedDescription)")
+            os_log("Did discover services error: %{public}@", log: LibreTransmitterManager.bt_log, type: .error, "\(error.localizedDescription)")
         }
 
         if let services = peripheral.services {
             for service in services {
                 peripheral.discoverCharacteristics([writeCharachteristicUUID, notifyCharacteristicUUID], for: service)
 
-                os_log("Did discover service: %{public}@", log: LibreBluetoothManager.bt_log, type: .default, String(describing: service.debugDescription))
+                os_log("Did discover service: %{public}@", log: LibreTransmitterManager.bt_log, type: .default, String(describing: service.debugDescription))
             }
         }
     }
@@ -333,15 +333,15 @@ final class LibreBluetoothManager: NSObject, CBCentralManagerDelegate, CBPeriphe
     func peripheral(_ peripheral: CBPeripheral, didDiscoverCharacteristicsFor service: CBService, error: Error?) {
         dispatchPrecondition(condition: .onQueue(managerQueue))
 
-        os_log("Did discover characteristics for service %{public}@", log: LibreBluetoothManager.bt_log, type: .default, String(describing: peripheral.name))
+        os_log("Did discover characteristics for service %{public}@", log: LibreTransmitterManager.bt_log, type: .default, String(describing: peripheral.name))
 
         if let error = error {
-            os_log("Did discover characteristics for service error: %{public}@", log: LibreBluetoothManager.bt_log, type: .error, "\(error.localizedDescription)")
+            os_log("Did discover characteristics for service error: %{public}@", log: LibreTransmitterManager.bt_log, type: .error, "\(error.localizedDescription)")
         }
 
         if let characteristics = service.characteristics {
             for characteristic in characteristics {
-                os_log("Did discover characteristic: %{public}@", log: LibreBluetoothManager.bt_log, type: .default, String(describing: characteristic.debugDescription))
+                os_log("Did discover characteristic: %{public}@", log: LibreTransmitterManager.bt_log, type: .default, String(describing: characteristic.debugDescription))
                 //                print("Characteristic: ")
                 //                debugPrint(characteristic.debugDescription)
                 //                print("... with properties: ")
@@ -365,23 +365,23 @@ final class LibreBluetoothManager: NSObject, CBCentralManagerDelegate, CBPeriphe
                 // Choose the notifiying characteristic and Register to be notified whenever the MiaoMiao transmits
                 if characteristic.properties.intersection(.notify) == .notify && characteristic.uuid == notifyCharacteristicUUID {
                     peripheral.setNotifyValue(true, for: characteristic)
-                    os_log("Set notify value for this characteristic", log: LibreBluetoothManager.bt_log, type: .default)
+                    os_log("Set notify value for this characteristic", log: LibreTransmitterManager.bt_log, type: .default)
                 }
                 if characteristic.uuid == writeCharachteristicUUID {
                     writeCharacteristic = characteristic
                 }
             }
         } else {
-            os_log("Discovered characteristics, but no characteristics listed. There must be some error.", log: LibreBluetoothManager.bt_log, type: .default)
+            os_log("Discovered characteristics, but no characteristics listed. There must be some error.", log: LibreTransmitterManager.bt_log, type: .default)
         }
     }
 
     func peripheral(_ peripheral: CBPeripheral, didUpdateNotificationStateFor characteristic: CBCharacteristic, error: Error?) {
         dispatchPrecondition(condition: .onQueue(managerQueue))
-        os_log("Did update notification state for characteristic: %{public}@", log: LibreBluetoothManager.bt_log, type: .default, String(describing: characteristic.debugDescription))
+        os_log("Did update notification state for characteristic: %{public}@", log: LibreTransmitterManager.bt_log, type: .default, String(describing: characteristic.debugDescription))
 
         if let error = error {
-            os_log("Peripheral did update notification state for characteristic: %{public}@ with error", log: LibreBluetoothManager.bt_log, type: .error, "\(error.localizedDescription)")
+            os_log("Peripheral did update notification state for characteristic: %{public}@ with error", log: LibreTransmitterManager.bt_log, type: .error, "\(error.localizedDescription)")
         } else {
             rxBuffer.resetAllBytes()
             requestData()
@@ -391,10 +391,10 @@ final class LibreBluetoothManager: NSObject, CBCentralManagerDelegate, CBPeriphe
 
     func peripheral(_ peripheral: CBPeripheral, didUpdateValueFor characteristic: CBCharacteristic, error: Error?) {
         dispatchPrecondition(condition: .onQueue(managerQueue))
-        os_log("Did update value for characteristic: %{public}@", log: LibreBluetoothManager.bt_log, type: .default, String(describing: characteristic.debugDescription))
+        os_log("Did update value for characteristic: %{public}@", log: LibreTransmitterManager.bt_log, type: .default, String(describing: characteristic.debugDescription))
 
         if let error = error {
-            os_log("Characteristic update error: %{public}@", log: LibreBluetoothManager.bt_log, type: .error, "\(error.localizedDescription)")
+            os_log("Characteristic update error: %{public}@", log: LibreTransmitterManager.bt_log, type: .error, "\(error.localizedDescription)")
         } else {
             if characteristic.uuid == notifyCharacteristicUUID, let value = characteristic.value {
                 guard let bridge = peripheral.bridgeType else {
@@ -413,7 +413,7 @@ final class LibreBluetoothManager: NSObject, CBCentralManagerDelegate, CBPeriphe
 
     func peripheral(_ peripheral: CBPeripheral, didWriteValueFor characteristic: CBCharacteristic, error: Error?) {
         dispatchPrecondition(condition: .onQueue(managerQueue))
-        os_log("Did Write value %{public}@ for characteristic %{public}@", log: LibreBluetoothManager.bt_log, type: .default, String(characteristic.value.debugDescription), String(characteristic.debugDescription))
+        os_log("Did Write value %{public}@ for characteristic %{public}@", log: LibreTransmitterManager.bt_log, type: .default, String(characteristic.value.debugDescription), String(characteristic.debugDescription))
     }
 
     // Miaomiao specific commands
@@ -452,7 +452,7 @@ final class LibreBluetoothManager: NSObject, CBCentralManagerDelegate, CBPeriphe
     }
 }
 
-extension LibreBluetoothManager {
+extension LibreTransmitterManager {
     public var manufacturer: String {
         guard let bridgeType = self.peripheral?.bridgeType else {
             return "n/a"
@@ -486,7 +486,7 @@ extension LibreBluetoothManager {
 
 
 //these are extensions to return properties (for inspection on the main ui) that exist on the queue only
-extension LibreBluetoothManager {
+extension LibreTransmitterManager {
     var OnQueue_peripheral: CBPeripheral? {
         syncOnManagerQueue { manager  in
             manager?.peripheral
@@ -494,7 +494,7 @@ extension LibreBluetoothManager {
         }
 
     }
-    var OnQueue_metadata: BluetoothBridgeMetaData? {
+    var OnQueue_metadata: LibreTransmitterMetadata? {
         syncOnManagerQueue { manager  in
             manager?.metadata
         }

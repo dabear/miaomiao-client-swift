@@ -183,13 +183,13 @@ extension MiaoMiaoResponseState: CustomStringConvertible {
 }
 
 //miaomiao support
-extension LibreBluetoothManager {
+extension LibreTransmitterManager {
     func miaomiaoHandleCompleteMessage() {
         guard rxBuffer.count >= 363 else {
             return
         }
 
-        metadata = BluetoothBridgeMetaData(hardware: String(describing: rxBuffer[16...17].hexEncodedString()),
+        metadata = LibreTransmitterMetadata(hardware: String(describing: rxBuffer[16...17].hexEncodedString()),
                                            firmware: String(describing: rxBuffer[14...15].hexEncodedString()),
                                            battery: Int(rxBuffer[13]))
 
@@ -201,7 +201,7 @@ extension LibreBluetoothManager {
             }
 
             // Inform delegate that new data is available
-            manager.delegate?.libreBluetoothManagerDidUpdate(sensorData: sensorData, and: metadata)
+            manager.delegate?.libreTransmitterDidUpdate(with: sensorData, and: metadata)
         }
     }
 
@@ -217,9 +217,9 @@ extension LibreBluetoothManager {
     func miaomiaoDidUpdateValueForNotifyCharacteristics(_ value: Data, peripheral: CBPeripheral) {
         rxBuffer.append(value)
 
-        os_log("Appended value with length %{public}@, buffer length is: %{public}@", log: LibreBluetoothManager.bt_log, type: .default, String(describing: value.count), String(describing: rxBuffer.count))
+        os_log("Appended value with length %{public}@, buffer length is: %{public}@", log: LibreTransmitterManager.bt_log, type: .default, String(describing: value.count), String(describing: rxBuffer.count))
 
-        os_log("rxBuffer.first is: %{public}@, value.first is: %{public}@", log: LibreBluetoothManager.bt_log, type: .default, String(describing: rxBuffer.first), String(describing: value.first))
+        os_log("rxBuffer.first is: %{public}@, value.first is: %{public}@", log: LibreTransmitterManager.bt_log, type: .default, String(describing: rxBuffer.first), String(describing: value.first))
 
         // When spreading a message over multiple telegrams, the miaomiao protocol
         // does not repeat that initial byte
@@ -237,9 +237,9 @@ extension LibreBluetoothManager {
         case .dataPacketReceived: // 0x28: // data received, append to buffer and inform delegate if end reached
 
             if rxBuffer.count >= 363, let last = rxBuffer.last, last == 0x29 {
-                os_log("Buffer complete, inform delegate.", log: LibreBluetoothManager.bt_log, type: .default)
+                os_log("Buffer complete, inform delegate.", log: LibreTransmitterManager.bt_log, type: .default)
                 dispatchToDelegate { manager in
-                    manager.delegate?.libreBluetoothManagerReceivedMessage(0x0000, txFlags: 0x28, payloadData: manager.rxBuffer)
+                    manager.delegate?.libreTransmitterReceivedMessage(0x0000, txFlags: 0x28, payloadData: manager.rxBuffer)
                 }
                 handleCompleteMessage()
                 rxBuffer.resetAllBytes()
@@ -247,26 +247,26 @@ extension LibreBluetoothManager {
 
         case .newSensor: // 0x32: // A new sensor has been detected -> acknowledge to use sensor and reset buffer
             dispatchToDelegate { manager in
-                manager.delegate?.libreBluetoothManagerReceivedMessage(0x0000, txFlags: 0x32, payloadData: manager.rxBuffer)
+                manager.delegate?.libreTransmitterReceivedMessage(0x0000, txFlags: 0x32, payloadData: manager.rxBuffer)
             }
             miaomiaoConfirmSensor(peripheral: peripheral)
             rxBuffer.resetAllBytes()
         case .noSensor: // 0x34: // No sensor has been detected -> reset buffer (and wait for new data to arrive)
             dispatchToDelegate { manager in
-                manager.delegate?.libreBluetoothManagerReceivedMessage(0x0000, txFlags: 0x34, payloadData: manager.rxBuffer)
+                manager.delegate?.libreTransmitterReceivedMessage(0x0000, txFlags: 0x34, payloadData: manager.rxBuffer)
             }
             rxBuffer.resetAllBytes()
         case .frequencyChangedResponse: // 0xD1: // Success of fail for setting time intervall
             dispatchToDelegate {manager in
-                manager.delegate?.libreBluetoothManagerReceivedMessage(0x0000, txFlags: 0xD1, payloadData: manager.rxBuffer)
+                manager.delegate?.libreTransmitterReceivedMessage(0x0000, txFlags: 0xD1, payloadData: manager.rxBuffer)
             }
             if value.count >= 2 {
                 if value[2] == 0x01 {
-                    os_log("Success setting time interval.", log: LibreBluetoothManager.bt_log, type: .default)
+                    os_log("Success setting time interval.", log: LibreTransmitterManager.bt_log, type: .default)
                 } else if value[2] == 0x00 {
-                    os_log("Failure setting time interval.", log: LibreBluetoothManager.bt_log, type: .default)
+                    os_log("Failure setting time interval.", log: LibreTransmitterManager.bt_log, type: .default)
                 } else {
-                    os_log("Unkown response for setting time interval.", log: LibreBluetoothManager.bt_log, type: .default)
+                    os_log("Unkown response for setting time interval.", log: LibreTransmitterManager.bt_log, type: .default)
                 }
             }
             rxBuffer.resetAllBytes()

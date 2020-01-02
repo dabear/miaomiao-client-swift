@@ -37,17 +37,17 @@
 		271EDF1F22EB103B00E1C8B3 /* ExtendingAuthController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 271EDF1E22EB103B00E1C8B3 /* ExtendingAuthController.swift */; };
 		271EDF2322EC6F0A00E1C8B3 /* AnnotatedSubtitleCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 271EDF2222EC6F0A00E1C8B3 /* AnnotatedSubtitleCell.swift */; };
 		271EDF2622EC755D00E1C8B3 /* UserDefaults+Bluetooth.swift in Sources */ = {isa = PBXBuildFile; fileRef = 271EDF2422EC739F00E1C8B3 /* UserDefaults+Bluetooth.swift */; };
-		271EDF2B22EF97FD00E1C8B3 /* LibreBluetoothManager+Bubble.swift in Sources */ = {isa = PBXBuildFile; fileRef = 271EDF2922EF97D000E1C8B3 /* LibreBluetoothManager+Bubble.swift */; };
+		271EDF2B22EF97FD00E1C8B3 /* LibreTransmitterManager+Bubble.swift in Sources */ = {isa = PBXBuildFile; fileRef = 271EDF2922EF97D000E1C8B3 /* LibreTransmitterManager+Bubble.swift */; };
 		271EDF2F22EFA29C00E1C8B3 /* bubble.png in Resources */ = {isa = PBXBuildFile; fileRef = 271EDF2E22EFA29C00E1C8B3 /* bubble.png */; };
 		271EDF3322F0946400E1C8B3 /* BluetoothSearch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 271EDF2022EB63B100E1C8B3 /* BluetoothSearch.swift */; };
 		271EDF3422F095C000E1C8B3 /* UserDefaults+Bluetooth.swift in Sources */ = {isa = PBXBuildFile; fileRef = 271EDF2422EC739F00E1C8B3 /* UserDefaults+Bluetooth.swift */; };
 		271EDF3522F22BEE00E1C8B3 /* bubble.png in Resources */ = {isa = PBXBuildFile; fileRef = 271EDF2E22EFA29C00E1C8B3 /* bubble.png */; };
 		271EDF3A22F23A0800E1C8B3 /* libresensor.png in Resources */ = {isa = PBXBuildFile; fileRef = 271EDF3922F23A0800E1C8B3 /* libresensor.png */; };
 		271EDF3B22F23A0800E1C8B3 /* libresensor.png in Resources */ = {isa = PBXBuildFile; fileRef = 271EDF3922F23A0800E1C8B3 /* libresensor.png */; };
-		271EDF3D22F3658D00E1C8B3 /* LibreBluetoothManager+Miaomiao.swift in Sources */ = {isa = PBXBuildFile; fileRef = 271EDF3C22F3658D00E1C8B3 /* LibreBluetoothManager+Miaomiao.swift */; };
+		271EDF3D22F3658D00E1C8B3 /* LibreTransmitterManager+Miaomiao.swift in Sources */ = {isa = PBXBuildFile; fileRef = 271EDF3C22F3658D00E1C8B3 /* LibreTransmitterManager+Miaomiao.swift */; };
 		2724930E232F03E500AFE86A /* test_lint.h in Headers */ = {isa = PBXBuildFile; fileRef = 2724930C232F03E500AFE86A /* test_lint.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		2729D677221F421C0030E1B8 /* BluetoothBridgeMetaData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2729D676221F421C0030E1B8 /* BluetoothBridgeMetaData.swift */; };
-		2729D67B221F421F0030E1B8 /* LibreBluetoothManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2729D67A221F421F0030E1B8 /* LibreBluetoothManager.swift */; };
+		2729D677221F421C0030E1B8 /* LibreTransmitterMetadata.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2729D676221F421C0030E1B8 /* LibreTransmitterMetadata.swift */; };
+		2729D67B221F421F0030E1B8 /* LibreTransmitterManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2729D67A221F421F0030E1B8 /* LibreTransmitterManager.swift */; };
 		2729D687221F43150030E1B8 /* SensorData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2729D686221F43150030E1B8 /* SensorData.swift */; };
 		2729D693221F44670030E1B8 /* Measurement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2729D68B221F44660030E1B8 /* Measurement.swift */; };
 		2729D699221F44670030E1B8 /* CRC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2729D68D221F44670030E1B8 /* CRC.swift */; };
@@ -193,15 +193,15 @@
 		271EDF2022EB63B100E1C8B3 /* BluetoothSearch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BluetoothSearch.swift; sourceTree = "<group>"; };
 		271EDF2222EC6F0A00E1C8B3 /* AnnotatedSubtitleCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnnotatedSubtitleCell.swift; sourceTree = "<group>"; };
 		271EDF2422EC739F00E1C8B3 /* UserDefaults+Bluetooth.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserDefaults+Bluetooth.swift"; sourceTree = "<group>"; };
-		271EDF2922EF97D000E1C8B3 /* LibreBluetoothManager+Bubble.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "LibreBluetoothManager+Bubble.swift"; sourceTree = "<group>"; };
+		271EDF2922EF97D000E1C8B3 /* LibreTransmitterManager+Bubble.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "LibreTransmitterManager+Bubble.swift"; sourceTree = "<group>"; };
 		271EDF2E22EFA29C00E1C8B3 /* bubble.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bubble.png; sourceTree = "<group>"; };
 		271EDF3922F23A0800E1C8B3 /* libresensor.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = libresensor.png; sourceTree = "<group>"; };
-		271EDF3C22F3658D00E1C8B3 /* LibreBluetoothManager+Miaomiao.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "LibreBluetoothManager+Miaomiao.swift"; sourceTree = "<group>"; };
+		271EDF3C22F3658D00E1C8B3 /* LibreTransmitterManager+Miaomiao.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "LibreTransmitterManager+Miaomiao.swift"; sourceTree = "<group>"; };
 		2724930A232F03E400AFE86A /* test_lint.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = test_lint.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		2724930C232F03E500AFE86A /* test_lint.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = test_lint.h; sourceTree = "<group>"; };
 		2724930D232F03E500AFE86A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		2729D676221F421C0030E1B8 /* BluetoothBridgeMetaData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BluetoothBridgeMetaData.swift; sourceTree = "<group>"; };
-		2729D67A221F421F0030E1B8 /* LibreBluetoothManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibreBluetoothManager.swift; sourceTree = "<group>"; };
+		2729D676221F421C0030E1B8 /* LibreTransmitterMetadata.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibreTransmitterMetadata.swift; sourceTree = "<group>"; };
+		2729D67A221F421F0030E1B8 /* LibreTransmitterManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibreTransmitterManager.swift; sourceTree = "<group>"; };
 		2729D682221F42760030E1B8 /* BloodSugarController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BloodSugarController.swift; sourceTree = "<group>"; };
 		2729D686221F43150030E1B8 /* SensorData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SensorData.swift; sourceTree = "<group>"; };
 		2729D68B221F44660030E1B8 /* Measurement.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Measurement.swift; sourceTree = "<group>"; };
@@ -407,11 +407,9 @@
 		2729D671221F42070030E1B8 /* Bluetooth */ = {
 			isa = PBXGroup;
 			children = (
+				277CC0FC23BE937A00E83556 /* Transmitter */,
 				271EDF2022EB63B100E1C8B3 /* BluetoothSearch.swift */,
-				2729D67A221F421F0030E1B8 /* LibreBluetoothManager.swift */,
-				271EDF2922EF97D000E1C8B3 /* LibreBluetoothManager+Bubble.swift */,
-				271EDF3C22F3658D00E1C8B3 /* LibreBluetoothManager+Miaomiao.swift */,
-				2729D676221F421C0030E1B8 /* BluetoothBridgeMetaData.swift */,
+				2729D676221F421C0030E1B8 /* LibreTransmitterMetadata.swift */,
 				272BF9C8233D3F5A00AD38AA /* MiaomiaoTestMessage.swift */,
 				27C175E123BAA99100414F28 /* CBPeripheral+SupportedDevices.swift */,
 			);
@@ -473,6 +471,16 @@
 				27E0969922B94D4400B3164D /* CustomDatePickerViewController.swift */,
 			);
 			path = LFTimePickerController;
+			sourceTree = "<group>";
+		};
+		277CC0FC23BE937A00E83556 /* Transmitter */ = {
+			isa = PBXGroup;
+			children = (
+				2729D67A221F421F0030E1B8 /* LibreTransmitterManager.swift */,
+				271EDF2922EF97D000E1C8B3 /* LibreTransmitterManager+Bubble.swift */,
+				271EDF3C22F3658D00E1C8B3 /* LibreTransmitterManager+Miaomiao.swift */,
+			);
+			path = Transmitter;
 			sourceTree = "<group>";
 		};
 		2791063D23B96092004B362F /* Scripts */ = {
@@ -1037,19 +1045,19 @@
 				27CFAB5622496CBB006DEFE3 /* DoubleExtensions.swift in Sources */,
 				43AB51362133177800B3D58D /* LocalizedString.swift in Sources */,
 				2729D693221F44670030E1B8 /* Measurement.swift in Sources */,
-				2729D67B221F421F0030E1B8 /* LibreBluetoothManager.swift in Sources */,
+				2729D67B221F421F0030E1B8 /* LibreTransmitterManager.swift in Sources */,
 				270C266F226A5A6E005B27F3 /* GlucoseSchedules.swift in Sources */,
-				2729D677221F421C0030E1B8 /* BluetoothBridgeMetaData.swift in Sources */,
+				2729D677221F421C0030E1B8 /* LibreTransmitterMetadata.swift in Sources */,
 				2729D6A822248BDD0030E1B8 /* MiaoMiaoClientManager.swift in Sources */,
 				43A8EC99210E682A00A81379 /* MiaomiaoService.swift in Sources */,
-				271EDF3D22F3658D00E1C8B3 /* LibreBluetoothManager+Miaomiao.swift in Sources */,
+				271EDF3D22F3658D00E1C8B3 /* LibreTransmitterManager+Miaomiao.swift in Sources */,
 				275C3DA3229FCED400E27439 /* NotificationHelper.swift in Sources */,
 				272BF9C32338044600AD38AA /* DataExtensions.swift in Sources */,
 				2729D699221F44670030E1B8 /* CRC.swift in Sources */,
 				2729D687221F43150030E1B8 /* SensorData.swift in Sources */,
 				277DAD14226CACF300422ADA /* MessagePassing.swift in Sources */,
 				276A870F235F8CAC0055AFFA /* UserDefaults+GlucoseSettings.swift in Sources */,
-				271EDF2B22EF97FD00E1C8B3 /* LibreBluetoothManager+Bubble.swift in Sources */,
+				271EDF2B22EF97FD00E1C8B3 /* LibreTransmitterManager+Bubble.swift in Sources */,
 				27E3C39C222EE9450036AAC7 /* LibreOOPResponse.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

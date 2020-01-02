@@ -15,7 +15,7 @@ import UserNotifications
 import HealthKit
 import os.log
 
-public final class MiaoMiaoClientManager: CGMManager, LibreBluetoothManagerDelegate {
+public final class MiaoMiaoClientManager: CGMManager, LibreTransmitterDelegate {
     public var cgmManagerDelegate: CGMManagerDelegate? {
         get {
             return delegate.delegate
@@ -160,7 +160,7 @@ public final class MiaoMiaoClientManager: CGMManager, LibreBluetoothManagerDeleg
         disconnect()
     }
 
-    private lazy var proxy: LibreBluetoothManager? = LibreBluetoothManager()
+    private lazy var proxy: LibreTransmitterManager? = LibreTransmitterManager()
 
     private func readingToGlucose(_ data: SensorData, calibration: DerivedAlgorithmParameters) -> [LibreGlucose] {
         let last16 = data.trendMeasurements(derivedAlgorithmParameterSet: calibration)
@@ -228,7 +228,7 @@ public final class MiaoMiaoClientManager: CGMManager, LibreBluetoothManagerDeleg
     }
 
     //will be called on utility queue
-    public func libreBluetoothManagerPeripheralStateChanged(_ state: BluetoothmanagerState) {
+    public func libreTransmitterStateChanged(_ state: BluetoothmanagerState) {
         switch state {
         case .Connected:
             lastConnected = Date()
@@ -241,7 +241,7 @@ public final class MiaoMiaoClientManager: CGMManager, LibreBluetoothManagerDeleg
     }
 
     //will be called on utility queue
-    public func libreBluetoothManagerReceivedMessage(_ messageIdentifier: UInt16, txFlags: UInt8, payloadData: Data) {
+    public func libreTransmitterReceivedMessage(_ messageIdentifier: UInt16, txFlags: UInt8, payloadData: Data) {
         guard let packet = MiaoMiaoResponseState(rawValue: txFlags) else {
             // Incomplete package?
             // this would only happen if delegate is called manually with an unknown txFlags value
@@ -271,8 +271,8 @@ public final class MiaoMiaoClientManager: CGMManager, LibreBluetoothManagerDeleg
     }
 
     //will be called on utility queue
-    public func libreBluetoothManagerDidUpdate(sensorData: SensorData, and Device: BluetoothBridgeMetaData) {
-        print("dabear:: got sensordata: \(sensorData), bytescount: \(sensorData.bytes.count), bytes: \(sensorData.bytes)")
+    public func libreTransmitterDidUpdate(with sensorData: SensorData, and Device: LibreTransmitterMetadata) {
+        print("dabear:: got sensordata: \(sensorData), bytescount: \( sensorData.bytes.count), bytes: \(sensorData.bytes)")
 
         NotificationHelper.sendLowBatteryNotificationIfNeeded(device: Device)
         NotificationHelper.sendInvalidSensorNotificationIfNeeded(sensorData: sensorData)
