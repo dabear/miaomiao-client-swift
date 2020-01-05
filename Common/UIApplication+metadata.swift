@@ -15,30 +15,30 @@ enum AppMetadata{
         return defaultValue()
     }
 
-    private static func getMeta(key: String) ->  String{
+    private static func getMeta(key: String, defaultString: String = "unknown") ->  String{
         getMeta(key: key, default: "unknown")
     }
 
     static var gitRevision: String {
-        getMeta(key: "no-bjorninge-mm-git-revision", default: "unknown")
+        getMeta(key: "no-bjorninge-mm-git-revision")
     }
 
     static var gitBranch: String {
-        getMeta(key: "no-bjorninge-mm-git-branch", default: "unknown")
+        getMeta(key: "no-bjorninge-mm-git-branch")
     }
 
     static var gitRemote: String {
-        getMeta(key: "no-bjorninge-mm-git-remote", default: "unknown")
+        getMeta(key: "no-bjorninge-mm-git-remote")
     }
 
     static var srcRoot: String {
-        getMeta(key: "no-bjorninge-mm-srcroot", default: "unknown")
+        getMeta(key: "no-bjorninge-mm-srcroot")
     }
     static var buildDate: String {
-        getMeta(key: "no-bjorninge-mm-build-date", default: "unknown")
+        getMeta(key: "no-bjorninge-mm-build-date")
     }
     static var xcodeVersion: String {
-        getMeta(key: "no-bjorninge-mm-xcode-version", default: "unknown")
+        getMeta(key: "no-bjorninge-mm-xcode-version")
     }
 
 }
