@@ -7,6 +7,8 @@
 //
 
 import Foundation
+
+fileprivate let prefix = "no-bjorninge-mm-git"
 enum AppMetadata{
     private static func getMeta<T>(key: String, default defaultValue: @autoclosure () -> T ) ->  T{
         if let anObj = Bundle.current.object(forInfoDictionaryKey: key) as? T {
@@ -20,25 +22,35 @@ enum AppMetadata{
     }
 
     static var gitRevision: String {
-        getMeta(key: "no-bjorninge-mm-git-revision")
+        getMeta(key: "\(prefix)-revision")
     }
 
     static var gitBranch: String {
-        getMeta(key: "no-bjorninge-mm-git-branch")
+        getMeta(key: "\(prefix)-git-branch")
     }
 
     static var gitRemote: String {
-        getMeta(key: "no-bjorninge-mm-git-remote")
+        getMeta(key: "\(prefix)-git-remote")
     }
 
     static var srcRoot: String {
-        getMeta(key: "no-bjorninge-mm-srcroot")
+        getMeta(key: "\(prefix)-srcroot")
     }
     static var buildDate: String {
-        getMeta(key: "no-bjorninge-mm-build-date")
+        getMeta(key: "\(prefix)-build-date")
     }
     static var xcodeVersion: String {
-        getMeta(key: "no-bjorninge-mm-xcode-version")
+        getMeta(key: "\(prefix)-xcode-version")
+    }
+
+    static var allProperties : String {
+        if let dict = Bundle.current.infoDictionary {
+            return dict.map {
+                return "\($0.key) + \($0.value)"
+
+            }.joined(separator: "\n")
+        }
+        return "none"
     }
 
 }

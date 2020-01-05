@@ -66,6 +66,7 @@ public final class MiaoMiaoClientManager: CGMManager, LibreTransmitterDelegate {
             "sourcepath: \(AppMetadata.srcRoot)",
             "build date: \(AppMetadata.buildDate)",
             "xcode built revision: \(AppMetadata.xcodeVersion)",
+            "all properties: \(AppMetadata.allProperties)",
             ""
         ].joined(separator: "\n")
     }
