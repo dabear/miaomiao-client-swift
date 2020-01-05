@@ -60,13 +60,7 @@ public final class MiaoMiaoClientManager: CGMManager, LibreTransmitterDelegate {
             "Connection state: \(connectionState)",
             "Sensor state: \(sensorStateDescription)",
             "Bridge battery: \(battery)",
-            "git revision: \(AppMetadata.gitRevision)",
-            "git branch: \(AppMetadata.gitBranch)",
-            "git remote: \(AppMetadata.gitRemote)",
-            "sourcepath: \(AppMetadata.srcRoot)",
-            "build date: \(AppMetadata.buildDate)",
-            "xcode built revision: \(AppMetadata.xcodeVersion)",
-            "all properties: \(AppMetadata.allProperties)",
+            "Metainfo::\n \(AppMetaData.allProperties)",
             ""
         ].joined(separator: "\n")
     }
