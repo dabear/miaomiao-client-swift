@@ -36,10 +36,36 @@ protocol LibreTransmitterDelegate: class {
 }
 
 
-final class LibreTransmitterManager: NSObject, CBCentralManagerDelegate, CBPeripheralDelegate {
+final class LibreTransmitterManager: NSObject, CBCentralManagerDelegate, CBPeripheralDelegate, LibreTransmitterDelegate {
+    func libreTransmitterStateChanged(_ state: BluetoothmanagerState) {
+
+    }
+
+    func libreTransmitterReceivedMessage(_ messageIdentifier: UInt16, txFlags: UInt8, payloadData: Data) {
+
+    }
+
+    func libreTransmitterDidUpdate(with sensorData: SensorData, and Device: LibreTransmitterMetadata) {
+
+    }
+
     // MARK: - Properties
     private var wantsToTerminate = false
     //private var lastConnectedIdentifier : String?
+
+    static var allTransmitters: [LibreTransmitter.Type] = [MiaoMiaoTransmitter.self, BubbleTransmitter.self]
+
+    func getTransmitterPlugin(for peripheral: CBPeripheral) -> LibreTransmitter.Type? {
+        for i in 0 ..< Self.allTransmitters.count {
+            let transmitter =  Self.allTransmitters[i]
+            if transmitter.canSupportPeripheral(peripheral) {
+                return transmitter.self
+            }
+       }
+       return nil
+    }
+
+    var activePlugin: LibreTransmitter?
 
     static let bt_log = OSLog(subsystem: "com.LibreMonitor", category: "MiaoMiaoManager")
     var metadata: LibreTransmitterMetadata?
@@ -163,7 +189,9 @@ final class LibreTransmitterManager: NSObject, CBCentralManagerDelegate, CBPerip
 
         if let peripheral = peripheral {
             peripheral.delegate = self
-
+            if let plugin = getTransmitterPlugin(for: peripheral) {
+                self.activePlugin = plugin.init(delegate: self)
+            }
             centralManager.connect(peripheral, options: nil)
             state = .Connecting
         }

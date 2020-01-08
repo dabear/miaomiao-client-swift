@@ -81,6 +81,10 @@
 		2791064623B96B07004B362F /* UIApplication+metadata.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2791064523B96B07004B362F /* UIApplication+metadata.swift */; };
 		2791064723B96B07004B362F /* UIApplication+metadata.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2791064523B96B07004B362F /* UIApplication+metadata.swift */; };
 		2795404F2165502600D657E5 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2795404E2165502600D657E5 /* main.swift */; };
+		27A85D8723C6512A00F7FFC9 /* LibreTransmitter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27A85D8623C6512A00F7FFC9 /* LibreTransmitter.swift */; };
+		27A85D8923C6516300F7FFC9 /* UUIDContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27A85D8823C6516300F7FFC9 /* UUIDContainer.swift */; };
+		27A85D8B23C651B300F7FFC9 /* MiaomiaoTransmitter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27A85D8A23C651B300F7FFC9 /* MiaomiaoTransmitter.swift */; };
+		27A85D8D23C6520300F7FFC9 /* BubbleTransmitter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27A85D8C23C6520300F7FFC9 /* BubbleTransmitter.swift */; };
 		27C175E223BAA99100414F28 /* CBPeripheral+SupportedDevices.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27C175E123BAA99100414F28 /* CBPeripheral+SupportedDevices.swift */; };
 		27C175E423BAC33F00414F28 /* CBPeripheral.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27C175E323BAC33F00414F28 /* CBPeripheral.swift */; };
 		27C175E523BAC37100414F28 /* CBPeripheral.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27C175E323BAC33F00414F28 /* CBPeripheral.swift */; };
@@ -231,6 +235,10 @@
 		2791064523B96B07004B362F /* UIApplication+metadata.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIApplication+metadata.swift"; sourceTree = "<group>"; };
 		2795404C2165502600D657E5 /* clitester */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = clitester; sourceTree = BUILT_PRODUCTS_DIR; };
 		2795404E2165502600D657E5 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
+		27A85D8623C6512A00F7FFC9 /* LibreTransmitter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibreTransmitter.swift; sourceTree = "<group>"; };
+		27A85D8823C6516300F7FFC9 /* UUIDContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UUIDContainer.swift; sourceTree = "<group>"; };
+		27A85D8A23C651B300F7FFC9 /* MiaomiaoTransmitter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MiaomiaoTransmitter.swift; sourceTree = "<group>"; };
+		27A85D8C23C6520300F7FFC9 /* BubbleTransmitter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BubbleTransmitter.swift; sourceTree = "<group>"; };
 		27C175E123BAA99100414F28 /* CBPeripheral+SupportedDevices.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CBPeripheral+SupportedDevices.swift"; sourceTree = "<group>"; };
 		27C175E323BAC33F00414F28 /* CBPeripheral.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CBPeripheral.swift; sourceTree = "<group>"; };
 		27C335E021667C7A00CF0868 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -479,6 +487,10 @@
 				2729D67A221F421F0030E1B8 /* LibreTransmitterManager.swift */,
 				271EDF2922EF97D000E1C8B3 /* LibreTransmitterManager+Bubble.swift */,
 				271EDF3C22F3658D00E1C8B3 /* LibreTransmitterManager+Miaomiao.swift */,
+				27A85D8623C6512A00F7FFC9 /* LibreTransmitter.swift */,
+				27A85D8823C6516300F7FFC9 /* UUIDContainer.swift */,
+				27A85D8A23C651B300F7FFC9 /* MiaomiaoTransmitter.swift */,
+				27A85D8C23C6520300F7FFC9 /* BubbleTransmitter.swift */,
 			);
 			path = Transmitter;
 			sourceTree = "<group>";
@@ -1024,6 +1036,8 @@
 				27CFAB5F224AB27B006DEFE3 /* CollectionExtensions.swift in Sources */,
 				27C175E423BAC33F00414F28 /* CBPeripheral.swift in Sources */,
 				27E3C390222EDF560036AAC7 /* LibreError.swift in Sources */,
+				27A85D8723C6512A00F7FFC9 /* LibreTransmitter.swift in Sources */,
+				27A85D8923C6516300F7FFC9 /* UUIDContainer.swift in Sources */,
 				4325E9CF210E6A0A00969CE5 /* HKUnit.swift in Sources */,
 				27CFAB59224977B9006DEFE3 /* GlucoseSmoothing.swift in Sources */,
 				27E3C39A222EE9450036AAC7 /* LibreOOPClient.swift in Sources */,
@@ -1047,6 +1061,7 @@
 				2729D693221F44670030E1B8 /* Measurement.swift in Sources */,
 				2729D67B221F421F0030E1B8 /* LibreTransmitterManager.swift in Sources */,
 				270C266F226A5A6E005B27F3 /* GlucoseSchedules.swift in Sources */,
+				27A85D8B23C651B300F7FFC9 /* MiaomiaoTransmitter.swift in Sources */,
 				2729D677221F421C0030E1B8 /* LibreTransmitterMetadata.swift in Sources */,
 				2729D6A822248BDD0030E1B8 /* MiaoMiaoClientManager.swift in Sources */,
 				43A8EC99210E682A00A81379 /* MiaomiaoService.swift in Sources */,
@@ -1057,6 +1072,7 @@
 				2729D687221F43150030E1B8 /* SensorData.swift in Sources */,
 				277DAD14226CACF300422ADA /* MessagePassing.swift in Sources */,
 				276A870F235F8CAC0055AFFA /* UserDefaults+GlucoseSettings.swift in Sources */,
+				27A85D8D23C6520300F7FFC9 /* BubbleTransmitter.swift in Sources */,
 				271EDF2B22EF97FD00E1C8B3 /* LibreTransmitterManager+Bubble.swift in Sources */,
 				27E3C39C222EE9450036AAC7 /* LibreOOPResponse.swift in Sources */,
 			);
