@@ -86,7 +86,8 @@ final class BluetoothSearchManager: NSObject, CBCentralManagerDelegate, CBPeriph
         }
 
 
-        if SupportedDevices.isSupported(peripheral) { //deviceNames.contains(name) {
+
+        if LibreTransmitters.isSupported(peripheral)  { 
 
             print("dabear:: did recognize device: \(name): \(peripheral.identifier)")
             self.addDiscoveredDevice(peripheral)

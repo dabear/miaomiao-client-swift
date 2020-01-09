@@ -28,15 +28,13 @@ public protocol LibreTransmitter {
 
 }
 
-public extension LibreTransmitter {
-    static var allPlugins : [LibreTransmitter.Type] {
-        return [MiaoMiaoTransmitter.self, BubbleTransmitter.self]
-    }
-}
 
 public enum LibreTransmitters {
-    public static var allPlugins : [LibreTransmitter.Type] {
+    public static var all : [LibreTransmitter.Type] {
         return [MiaoMiaoTransmitter.self, BubbleTransmitter.self]
+    }
+    public static func isSupported(_ peripheral:CBPeripheral) -> Bool{
+        return  Self.all.getSupportedPlugins(peripheral)?.isEmpty == false
     }
 }
 

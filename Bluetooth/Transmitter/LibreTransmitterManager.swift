@@ -65,7 +65,11 @@ final class LibreTransmitterManager: NSObject, CBCentralManagerDelegate, CBPerip
        return nil
     }
 
-    var activePlugin: LibreTransmitter?
+    var activePlugin: LibreTransmitter? {
+        didSet {
+            print("dabear:: activePlugin changed from \(oldValue) to \(activePlugin)")
+        }
+    }
 
     static let bt_log = OSLog(subsystem: "com.LibreMonitor", category: "MiaoMiaoManager")
     var metadata: LibreTransmitterMetadata?
@@ -454,6 +458,7 @@ final class LibreTransmitterManager: NSObject, CBCentralManagerDelegate, CBPerip
 
 
     deinit {
+        self.activePlugin = nil
         self.delegate = nil
         os_log("dabear:: miaomiaomanager deinit called")
     }
