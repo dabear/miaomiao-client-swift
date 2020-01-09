@@ -46,7 +46,8 @@ final class LibreTransmitterManager: NSObject, CBCentralManagerDelegate, CBPerip
     }
 
     func libreTransmitterDidUpdate(with sensorData: SensorData, and Device: LibreTransmitterMetadata) {
-
+        self.metadata = Device
+        self.sensorData = sensorData
     }
 
     // MARK: - Properties
