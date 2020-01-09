@@ -71,6 +71,13 @@ final class LibreTransmitterManager: NSObject, CBCentralManagerDelegate, CBPerip
         }
     }
 
+    var shortTransmitterName: String? {
+        if let activePlugin = activePlugin {
+            return type(of:activePlugin).shortTransmitterName
+        }
+        return nil
+    }
+
     static let bt_log = OSLog(subsystem: "com.LibreMonitor", category: "MiaoMiaoManager")
     var metadata: LibreTransmitterMetadata?
 
@@ -502,11 +509,7 @@ extension LibreTransmitterManager {
 
     var OnQueue_shortTransmitterName: String? {
         syncOnManagerQueue { manager  in
-            if let activePlugin = manager?.activePlugin {
-                return type(of:activePlugin).shortTransmitterName
-            }
-            return nil
-
+            manager?.shortTransmitterName
         }
 
     }
