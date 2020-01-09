@@ -27,7 +27,7 @@ public enum BluetoothmanagerState: String {
 
 
 
-protocol LibreTransmitterDelegate: class {
+public protocol LibreTransmitterDelegate: class {
     // Can happen on any queue
     func libreTransmitterStateChanged(_ state: BluetoothmanagerState)
     func libreTransmitterReceivedMessage(_ messageIdentifier: UInt16, txFlags: UInt8, payloadData: Data)
@@ -82,6 +82,8 @@ final class LibreTransmitterManager: NSObject, CBCentralManagerDelegate, CBPerip
         return peripheral?.identifier
     }
 
+   
+
 
 
     private let managerQueue = DispatchQueue(label: "no.bjorninge.bluetoothManagerQueue", qos: .utility)
@@ -96,10 +98,8 @@ final class LibreTransmitterManager: NSObject, CBCentralManagerDelegate, CBPerip
 
     var delegate: LibreTransmitterDelegate? {
         didSet {
-            self.delegateQueue.async { [weak self] in
-                guard let self = self else {
-                    return
-                }
+           dispatchToDelegate { manager in
+
                 // Help delegate initialize by sending current state directly after delegate assignment
                 self.delegate?.libreTransmitterStateChanged(self.state)
             }
@@ -108,13 +108,12 @@ final class LibreTransmitterManager: NSObject, CBCentralManagerDelegate, CBPerip
 
     private var state: BluetoothmanagerState = .Unassigned {
         didSet {
-            self.delegateQueue.async { [weak self] in
-                guard let self = self else {
-                    return
-                }
+            dispatchToDelegate { manager in
                 // Help delegate initialize by sending current state directly after delegate assignment
-                self.delegate?.libreTransmitterStateChanged(self.state)
+                manager.libreTransmitterStateChanged(self.state)
             }
+
+
         }
     }
 
@@ -191,6 +190,7 @@ final class LibreTransmitterManager: NSObject, CBCentralManagerDelegate, CBPerip
             peripheral.delegate = self
             if let plugin = getTransmitterPlugin(for: peripheral) {
                 self.activePlugin = plugin.init(delegate: self)
+                
             }
             centralManager.connect(peripheral, options: nil)
             state = .Connecting
@@ -426,16 +426,10 @@ final class LibreTransmitterManager: NSObject, CBCentralManagerDelegate, CBPerip
             os_log("Characteristic update error: %{public}@", log: Self.bt_log, type: .error, "\(error.localizedDescription)")
         } else {
             if characteristic.uuid == notifyCharacteristicUUID, let value = characteristic.value {
-                guard let bridge = peripheral.bridgeType else {
-                    return
-                }
 
-                switch bridge {
-                case .Bubble:
-                    bubbleDidUpdateValueForNotifyCharacteristics(value, peripheral: peripheral)
-                case .MiaoMiao:
-                    miaomiaoDidUpdateValueForNotifyCharacteristics(value, peripheral: peripheral)
-                }
+                self.activePlugin?.updateValueForNotifyCharacteristics(value, peripheral: peripheral, writeCharacteristic: writeCharacteristic)
+
+
             }
         }
     }
@@ -448,32 +442,16 @@ final class LibreTransmitterManager: NSObject, CBCentralManagerDelegate, CBPerip
     // Miaomiao specific commands
 
     func requestData() {
-        guard let peripheral = peripheral, let bridge = peripheral.bridgeType else {
+        guard let peripheral = peripheral else {
             return
         }
 
         if let writeCharacteristic = writeCharacteristic {
-            switch bridge {
-            case .Bubble:
-                bubbleRequestData(writeCharacteristics: writeCharacteristic, peripheral: peripheral)
-            case .MiaoMiao:
-                miaomiaoRequestData(writeCharacteristics: writeCharacteristic, peripheral: peripheral)
-            }
+            self.activePlugin?.requestData(writeCharacteristics: writeCharacteristic, peripheral: peripheral)
+
         }
     }
 
-    func handleCompleteMessage() {
-        guard let bridge = peripheral?.bridgeType else {
-            return
-        }
-
-        switch bridge {
-        case .Bubble:
-            bubbleHandleCompleteMessage()
-        case .MiaoMiao:
-            miaomiaoHandleCompleteMessage()
-        }
-    }
 
     deinit {
         self.delegate = nil
@@ -483,17 +461,10 @@ final class LibreTransmitterManager: NSObject, CBCentralManagerDelegate, CBPerip
 
 extension LibreTransmitterManager {
     public var manufacturer: String {
-        guard let bridgeType = self.peripheral?.bridgeType else {
+        guard let plugin = self.activePlugin else {
             return "n/a"
         }
-        switch bridgeType {
-        case .Bubble:
-            return "Bubbledevteam"
-        case .MiaoMiao:
-            return "Tomato"
-        default:
-            return "n/a"
-        }
+        return type(of: plugin).manufacturerer
     }
 
     var device: HKDevice? {
@@ -523,6 +494,18 @@ extension LibreTransmitterManager {
         }
 
     }
+
+    var OnQueue_shortTransmitterName: String? {
+        syncOnManagerQueue { manager  in
+            if let activePlugin = manager?.activePlugin {
+                return type(of:activePlugin).shortTransmitterName
+            }
+            return nil
+
+        }
+
+    }
+
     var OnQueue_metadata: LibreTransmitterMetadata? {
         syncOnManagerQueue { manager  in
             manager?.metadata

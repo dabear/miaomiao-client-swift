@@ -171,8 +171,10 @@ public class ExtendingAuthController: NSObject, UITableViewDataSource, UITableVi
             cell.tag = 1
             cell.annotation = device
             selectIfannotatedCellMatchesPreSelection(cell)
-            print("rendering device image in gui \(device.smallImage) for device \(device.name)")
-            if let image = device.smallImage {
+
+            
+
+            if let pluginType =  LibreTransmitters.allPlugins.getSupportedPlugins(device)?.first, let image = pluginType.smallImage{
                 cell.imageView!.image = image
             }
         } else {

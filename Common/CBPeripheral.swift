@@ -13,7 +13,7 @@ import MiaomiaoClient
 extension CBPeripheral{
 
 
-    public var bridgeType: SupportedDevices? {
+    /*public var bridgeType: SupportedDevices? {
         guard let name = self.name?.lowercased() else {
             return nil
         }
@@ -25,7 +25,9 @@ extension CBPeripheral{
         default:
             return nil
         }
-    }
+    }*/
+
+    /*
 
     public var smallImage: UIImage? {
        let bundle = Bundle.current
@@ -41,4 +43,7 @@ extension CBPeripheral{
            return UIImage(named: "miaomiao-small", in: bundle, compatibleWith: nil)
        }
    }
+ */
 }
+
+

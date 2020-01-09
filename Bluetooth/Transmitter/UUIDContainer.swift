@@ -8,13 +8,13 @@
 
 import Foundation
 import CoreBluetooth
-struct UUIDContainer: ExpressibleByStringLiteral{
+public struct UUIDContainer: ExpressibleByStringLiteral{
     var value: CBUUID
 
     init(value: CBUUID) {
         self.value = value
     }
-    init(stringLiteral value: String) {
+    public init(stringLiteral value: String) {
         self.value = CBUUID(string: value)
     }
 

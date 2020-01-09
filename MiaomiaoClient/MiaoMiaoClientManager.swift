@@ -399,10 +399,13 @@ extension MiaoMiaoClientManager {
     }
 
     public func getDeviceType() -> String {
-        proxy?.OnQueue_peripheral?.bridgeType?.name ?? "Unknown"
+        proxy?.OnQueue_shortTransmitterName ?? "Unknown"
     }
     public func getSmallImage() -> UIImage? {
-        proxy?.OnQueue_peripheral?.smallImage ??
-        UIImage(named: "libresensor", in:  Bundle.current, compatibleWith: nil)
+        if let activePlugin = proxy?.activePlugin {
+            return type(of: activePlugin).smallImage
+        }
+
+        return UIImage(named: "libresensor", in:  Bundle.current, compatibleWith: nil)
     }
 }

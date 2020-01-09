@@ -8,19 +8,49 @@
 
 import Foundation
 import CoreBluetooth
-protocol LibreTransmitter {
-   static func canSupportPeripheral(_ peripheral:CBPeripheral)->Bool
+import UIKit
+public protocol LibreTransmitter {
+    static var shortTransmitterName: String {get}
+    static var smallImage: UIImage? {get}
+    static var manufacturerer: String {get}
+    static func canSupportPeripheral(_ peripheral:CBPeripheral)->Bool
 
-   static var writeCharachteristic: UUIDContainer? {get set}
-   static var notifyCharachteristic: UUIDContainer? {get set}
-   static var serviceUUID: [UUIDContainer] {get set}
+    static var writeCharachteristic: UUIDContainer? {get set}
+    static var notifyCharachteristic: UUIDContainer? {get set}
+    static var serviceUUID: [UUIDContainer] {get set}
 
 
-   var delegate: LibreTransmitterDelegate? {get set}
-   init(delegate: LibreTransmitterDelegate )
-   func requestData(writeCharacteristics: CBCharacteristic, peripheral: CBPeripheral)
-   func updateValueForNotifyCharacteristics(_ value: Data, peripheral: CBPeripheral)
+    var delegate: LibreTransmitterDelegate? {get set}
+    init(delegate: LibreTransmitterDelegate )
+    func requestData(writeCharacteristics: CBCharacteristic, peripheral: CBPeripheral)
+    func updateValueForNotifyCharacteristics(_ value: Data, peripheral: CBPeripheral,  writeCharacteristic: CBCharacteristic?)
 
-   
 
 }
+
+public extension LibreTransmitter {
+    static var allPlugins : [LibreTransmitter.Type] {
+        return [MiaoMiaoTransmitter.self, BubbleTransmitter.self]
+    }
+}
+
+public enum LibreTransmitters {
+    public static var allPlugins : [LibreTransmitter.Type] {
+        return [MiaoMiaoTransmitter.self, BubbleTransmitter.self]
+    }
+}
+
+public extension Array where Element == LibreTransmitter.Type {
+
+    func getSupportedPlugins(_ peripheral:CBPeripheral) -> [LibreTransmitter.Type]? {
+        self.enumerated().compactMap {
+            $0.element.canSupportPeripheral(peripheral) ? $0.element : nil
+        }
+
+    }
+
+
+
+}
+
+
