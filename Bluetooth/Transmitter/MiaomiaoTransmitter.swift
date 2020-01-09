@@ -181,6 +181,10 @@ extension MiaoMiaoResponseState: CustomStringConvertible {
 }
 
 class MiaoMiaoTransmitter: LibreTransmitter{
+    func reset() {
+        rxBuffer.resetAllBytes()
+    }
+
     class var manufacturerer: String {
         "Tomato"
     }

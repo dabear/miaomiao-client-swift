@@ -71,6 +71,13 @@ final class LibreTransmitterManager: NSObject, CBCentralManagerDelegate, CBPerip
         }
     }
 
+    var activePluginType: LibreTransmitter.Type? {
+        if let activePlugin =  activePlugin {
+            return type(of: activePlugin)
+        }
+        return nil
+    }
+
     var shortTransmitterName: String? {
         if let activePlugin = activePlugin {
             return type(of:activePlugin).shortTransmitterName
@@ -86,7 +93,6 @@ final class LibreTransmitterManager: NSObject, CBCentralManagerDelegate, CBPerip
     //    var slipBuffer = SLIPBuffer()
     var writeCharacteristic: CBCharacteristic?
 
-    var rxBuffer = Data()
     var sensorData: SensorData?
 
     public var identifier: UUID? {
@@ -100,9 +106,20 @@ final class LibreTransmitterManager: NSObject, CBCentralManagerDelegate, CBPerip
     private let managerQueue = DispatchQueue(label: "no.bjorninge.bluetoothManagerQueue", qos: .utility)
     private let delegateQueue = DispatchQueue(label: "no.bjorninge.delegateQueue", qos: .utility)
 
+    /*
     fileprivate let serviceUUIDs: [CBUUID]? = [CBUUID(string: "6E400001-B5A3-F393-E0A9-E50E24DCCA9E")]
     fileprivate let writeCharachteristicUUID = CBUUID(string: "6E400002-B5A3-F393-E0A9-E50E24DCCA9E")
-    fileprivate let notifyCharacteristicUUID = CBUUID(string: "6E400003-B5A3-F393-E0A9-E50E24DCCA9E")
+    fileprivate let notifyCharacteristicUUID = CBUUID(string: "6E400003-B5A3-F393-E0A9-E50E24DCCA9E")*/
+
+    fileprivate var serviceUUIDs: [CBUUID]? {
+        activePluginType?.serviceUUID.map { $0.value }
+    }
+    fileprivate var writeCharachteristicUUID : CBUUID? {
+        activePluginType?.writeCharachteristic?.value
+    }
+    fileprivate var notifyCharacteristicUUID : CBUUID? {
+        activePluginType?.notifyCharachteristic?.value
+    }
 
     var BLEScanDuration = 3.0
     weak var timer: Timer?
@@ -321,7 +338,7 @@ final class LibreTransmitterManager: NSObject, CBCentralManagerDelegate, CBPerip
         state = .DelayedReconnect
 
         os_log("Will reconnect peripheral in  %{public}@ seconds", log: Self.bt_log, type: .default, String(describing: seconds))
-        rxBuffer.resetAllBytes()
+        activePlugin?.reset()
         // attempt to avoid IOS killing app because of cpu usage.
         // postpone connecting for x seconds
         DispatchQueue.global(qos: .utility).async { [weak self] in
@@ -363,9 +380,17 @@ final class LibreTransmitterManager: NSObject, CBCentralManagerDelegate, CBPerip
 
         if let services = peripheral.services {
             for service in services {
-                peripheral.discoverCharacteristics([writeCharachteristicUUID, notifyCharacteristicUUID], for: service)
 
-                os_log("Did discover service: %{public}@", log: Self.bt_log, type: .default, String(describing: service.debugDescription))
+                let toDiscover : [CBUUID] = [writeCharachteristicUUID, notifyCharacteristicUUID].compactMap{ $0 }
+
+                os_log("Will discover : %{public}@ Characteristics for service", log: Self.bt_log, type: .default, String(describing:toDiscover.count), String(describing: service.debugDescription))
+
+                if !toDiscover.isEmpty {
+                    peripheral.discoverCharacteristics(toDiscover, for: service)
+
+                    os_log("Did discover service: %{public}@", log: Self.bt_log, type: .default, String(describing: service.debugDescription))
+                }
+
             }
         }
     }
@@ -423,7 +448,7 @@ final class LibreTransmitterManager: NSObject, CBCentralManagerDelegate, CBPerip
         if let error = error {
             os_log("Peripheral did update notification state for characteristic: %{public}@ with error", log: Self.bt_log, type: .error, "\(error.localizedDescription)")
         } else {
-            rxBuffer.resetAllBytes()
+            activePlugin?.reset()
             requestData()
         }
         state = .Notifying

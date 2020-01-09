@@ -25,6 +25,7 @@ public protocol LibreTransmitter {
     func requestData(writeCharacteristics: CBCharacteristic, peripheral: CBPeripheral)
     func updateValueForNotifyCharacteristics(_ value: Data, peripheral: CBPeripheral,  writeCharacteristic: CBCharacteristic?)
 
+    func reset()
 
 }
 
