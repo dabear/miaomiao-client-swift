@@ -32,24 +32,17 @@ public protocol LibreTransmitter {
 
 public enum LibreTransmitters {
     public static var all : [LibreTransmitter.Type] {
-        return [MiaoMiaoTransmitter.self, BubbleTransmitter.self]
+        [MiaoMiaoTransmitter.self, BubbleTransmitter.self]
     }
     public static func isSupported(_ peripheral:CBPeripheral) -> Bool{
-        return  Self.all.getSupportedPlugins(peripheral)?.isEmpty == false
+        Self.getSupportedPlugins(peripheral)?.isEmpty == false
     }
-}
 
-public extension Array where Element == LibreTransmitter.Type {
-
-    func getSupportedPlugins(_ peripheral:CBPeripheral) -> [LibreTransmitter.Type]? {
-        self.enumerated().compactMap {
+    public static func getSupportedPlugins(_ peripheral:CBPeripheral) -> [LibreTransmitter.Type]? {
+        Self.all.enumerated().compactMap {
             $0.element.canSupportPeripheral(peripheral) ? $0.element : nil
         }
 
     }
-
-
-
 }
-
 

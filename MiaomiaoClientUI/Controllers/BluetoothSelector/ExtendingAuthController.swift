@@ -174,7 +174,7 @@ public class ExtendingAuthController: NSObject, UITableViewDataSource, UITableVi
 
             
 
-            if let pluginType =  LibreTransmitters.all.getSupportedPlugins(device)?.first {
+            if let pluginType =  LibreTransmitters.getSupportedPlugins(device)?.first {
                 cell.imageView!.image = pluginType.smallImage
             }
         } else {
