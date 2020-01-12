@@ -37,6 +37,10 @@ class BubbleTransmitter: MiaoMiaoTransmitter{
         peripheral.name?.lowercased().starts(with: "bubble") ?? false
     }
 
+    override func reset() {
+        rxBuffer.resetAllBytes()
+    }
+
     override func requestData(writeCharacteristics: CBCharacteristic, peripheral: CBPeripheral) {
         print("dabear:: bubbleRequestData")
         rxBuffer.resetAllBytes()
@@ -71,7 +75,6 @@ class BubbleTransmitter: MiaoMiaoTransmitter{
            }
         case .noSensor:
             delegate?.libreTransmitterReceivedMessage(0x0000, txFlags: 0x34, payloadData: rxBuffer)
-
 
            rxBuffer.resetAllBytes()
         case .serialNumber:

@@ -326,18 +326,13 @@ public final class MiaoMiaoClientManager: CGMManager, LibreTransmitterDelegate {
 
             self.latestBackfill = glucose.max { $0.startDate < $1.startDate }
 
-            if newGlucose.isEmpty {
-                NSLog("dabear:: handleGoodReading returned with no new data")
-                self.delegateQueue.async {
-                    self.cgmManagerDelegate?.cgmManager(self, didUpdateWith: .noData)
-                }
 
-            } else {
-                NSLog("dabear:: handleGoodReading returned with \(newGlucose.count) new glucose samples")
-                self.delegateQueue.async {
-                    self.cgmManagerDelegate?.cgmManager(self, didUpdateWith: .newData(newGlucose))
-                }
+            NSLog("dabear:: handleGoodReading returned with no new data")
+            self.delegateQueue.async {
+                self.cgmManagerDelegate?.cgmManager(self, didUpdateWith: newGlucose.isEmpty ? .noData : .newData(newGlucose))
             }
+
+
         }
     }
 }
@@ -370,7 +365,7 @@ extension MiaoMiaoClientManager {
     //cannot be called from managerQueue
     public var sensorFooterChecksums: String {
         if let crc = proxy?.OnQueue_sensorData?.footerCrc.byteSwapped {
-            //if let crc = MiaoMiaoClientManager.proxy?.sensorData?.footerCrc.byteSwapped {
+
             return  "\(crc)"
         }
         return  "n/a"
@@ -392,8 +387,8 @@ extension MiaoMiaoClientManager {
 
     //cannot be called from managerQueue
     public var battery: String {
-        if let bat = proxy?.OnQueue_metadata?.battery {
-            return "\(bat)%"
+        if let bat = proxy?.OnQueue_metadata?.batteryString {
+            return "\(bat)"
         }
         return "n/a"
     }
@@ -402,10 +397,6 @@ extension MiaoMiaoClientManager {
         proxy?.OnQueue_shortTransmitterName ?? "Unknown"
     }
     public func getSmallImage() -> UIImage? {
-        if let activePlugin = proxy?.activePlugin {
-            return type(of: activePlugin).smallImage
-        }
-
-        return UIImage(named: "libresensor", in:  Bundle.current, compatibleWith: nil)
+        proxy?.activePluginType?.smallImage ?? UIImage(named: "libresensor", in:  Bundle.current, compatibleWith: nil)
     }
 }

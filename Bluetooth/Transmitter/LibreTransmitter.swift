@@ -29,6 +29,12 @@ public protocol LibreTransmitter {
 
 }
 
+extension LibreTransmitter {
+    func canSupportPeripheral(_ peripheral:CBPeripheral)->Bool {
+        Self.canSupportPeripheral(peripheral)
+    }
+}
+
 
 public enum LibreTransmitters {
     public static var all : [LibreTransmitter.Type] {

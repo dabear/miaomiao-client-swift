@@ -39,32 +39,31 @@ public protocol LibreTransmitterDelegate: class {
 final class LibreTransmitterManager: NSObject, CBCentralManagerDelegate, CBPeripheralDelegate, LibreTransmitterDelegate {
     func libreTransmitterStateChanged(_ state: BluetoothmanagerState) {
 
+        dispatchToDelegate { manager in
+            manager.libreTransmitterStateChanged(state)
+        }
     }
 
     func libreTransmitterReceivedMessage(_ messageIdentifier: UInt16, txFlags: UInt8, payloadData: Data) {
 
+        dispatchToDelegate { manager in
+            manager.libreTransmitterReceivedMessage(messageIdentifier, txFlags: txFlags, payloadData: payloadData)
+        }
     }
 
     func libreTransmitterDidUpdate(with sensorData: SensorData, and Device: LibreTransmitterMetadata) {
         self.metadata = Device
         self.sensorData = sensorData
+
+        dispatchToDelegate { manager in
+            manager.libreTransmitterDidUpdate(with: sensorData, and: Device)
+        }
     }
 
     // MARK: - Properties
     private var wantsToTerminate = false
     //private var lastConnectedIdentifier : String?
 
-    static var allTransmitters: [LibreTransmitter.Type] = [MiaoMiaoTransmitter.self, BubbleTransmitter.self]
-
-    func getTransmitterPlugin(for peripheral: CBPeripheral) -> LibreTransmitter.Type? {
-        for i in 0 ..< Self.allTransmitters.count {
-            let transmitter =  Self.allTransmitters[i]
-            if transmitter.canSupportPeripheral(peripheral) {
-                return transmitter.self
-            }
-       }
-       return nil
-    }
 
     var activePlugin: LibreTransmitter? {
         didSet {
@@ -80,10 +79,7 @@ final class LibreTransmitterManager: NSObject, CBCentralManagerDelegate, CBPerip
     }
 
     var shortTransmitterName: String? {
-        if let activePlugin = activePlugin {
-            return type(of:activePlugin).shortTransmitterName
-        }
-        return nil
+        activePluginType?.shortTransmitterName
     }
 
     static let bt_log = OSLog(subsystem: "com.LibreMonitor", category: "MiaoMiaoManager")
@@ -195,13 +191,11 @@ final class LibreTransmitterManager: NSObject, CBCentralManagerDelegate, CBPerip
         guard centralManager.state == .poweredOn else {
             return
         }
-        //        print(centralManager.debugDescription)
-        if centralManager.state == .poweredOn {
-            os_log("Before scan for MiaoMiao while central manager state %{public}@", log: Self.bt_log, type: .default, String(describing: centralManager.state.rawValue))
+        os_log("Before scan for MiaoMiao while central manager state %{public}@", log: Self.bt_log, type: .default, String(describing: centralManager.state.rawValue))
 
-            centralManager.scanForPeripherals(withServices: nil, options: nil)
-            state = .Scanning
-        }
+        centralManager.scanForPeripherals(withServices: nil, options: nil)
+        state = .Scanning
+
     }
 
     private func connect(force forceConnect: Bool = false) {
@@ -217,7 +211,22 @@ final class LibreTransmitterManager: NSObject, CBCentralManagerDelegate, CBPerip
 
         if let peripheral = peripheral {
             peripheral.delegate = self
-            if let plugin = getTransmitterPlugin(for: peripheral) {
+
+            var needsNewPluginInstance = false
+
+            if let activePlugin = self.activePlugin {
+                if activePlugin.canSupportPeripheral(peripheral) {
+                    //when reaching this part,
+                    //we are sure the peripheral is reconnecting and therefore needs reset
+                    activePlugin.reset()
+                } else {
+                    needsNewPluginInstance.toggle()
+                }
+            } else {
+                needsNewPluginInstance.toggle()
+            }
+            if needsNewPluginInstance,
+                let plugin = LibreTransmitters.getSupportedPlugins(peripheral)?.first {
                 self.activePlugin = plugin.init(delegate: self)
                 
             }
@@ -382,7 +391,7 @@ final class LibreTransmitterManager: NSObject, CBCentralManagerDelegate, CBPerip
         if let services = peripheral.services {
             for service in services {
 
-                let toDiscover : [CBUUID] = [writeCharachteristicUUID, notifyCharacteristicUUID].compactMap{ $0 }
+                let toDiscover = [writeCharachteristicUUID, notifyCharacteristicUUID].compactMap{ $0 }
 
                 os_log("Will discover : %{public}@ Characteristics for service", log: Self.bt_log, type: .default, String(describing:toDiscover.count), String(describing: service.debugDescription))
 
@@ -495,7 +504,12 @@ final class LibreTransmitterManager: NSObject, CBCentralManagerDelegate, CBPerip
         self.delegate = nil
         os_log("dabear:: miaomiaomanager deinit called")
     }
+
+
 }
+
+
+
 
 extension LibreTransmitterManager {
     public var manufacturer: String {
@@ -518,6 +532,7 @@ extension LibreTransmitterManager {
         )
     }
 }
+
 
 
 
