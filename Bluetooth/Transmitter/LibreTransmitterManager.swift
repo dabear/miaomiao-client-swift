@@ -488,11 +488,9 @@ final class LibreTransmitterManager: NSObject, CBCentralManagerDelegate, CBPerip
     // Miaomiao specific commands
 
     func requestData() {
-        guard let peripheral = peripheral else {
-            return
-        }
 
-        if let writeCharacteristic = writeCharacteristic {
+        if let peripheral = peripheral,
+            let writeCharacteristic = writeCharacteristic {
             self.activePlugin?.requestData(writeCharacteristics: writeCharacteristic, peripheral: peripheral)
 
         }
@@ -513,10 +511,7 @@ final class LibreTransmitterManager: NSObject, CBCentralManagerDelegate, CBPerip
 
 extension LibreTransmitterManager {
     public var manufacturer: String {
-        guard let plugin = self.activePlugin else {
-            return "n/a"
-        }
-        return type(of: plugin).manufacturerer
+        activePluginType?.manufacturerer ?? "n/a"
     }
 
     var device: HKDevice? {

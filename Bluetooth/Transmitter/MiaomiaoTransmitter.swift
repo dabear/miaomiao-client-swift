@@ -190,13 +190,8 @@ class MiaoMiaoTransmitter: LibreTransmitter{
     }
 
     class var smallImage: UIImage? {
-
         UIImage(named: "miaomiao-small", in: Bundle.current, compatibleWith: nil)
     }
-
-    
-
-
 
 
     class var shortTransmitterName: String {

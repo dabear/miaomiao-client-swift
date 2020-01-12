@@ -12,16 +12,10 @@ fileprivate let prefix = "no-bjorninge-mm"
 enum AppMetaData {
 
     static var allProperties : String {
-        if let dict = Bundle.current.infoDictionary {
-            return dict.compactMap {
-                guard $0.key.starts(with: prefix) else {
-                    return nil
-                }
-                return "\($0.key): \($0.value)"
+        Bundle.current.infoDictionary?.compactMap {
+            $0.key.starts(with: prefix) ? "\($0.key): \($0.value)" : nil
+        }.joined(separator: "\n") ?? "none"
 
-            }.joined(separator: "\n")
-        }
-        return "none"
     }
 
 
