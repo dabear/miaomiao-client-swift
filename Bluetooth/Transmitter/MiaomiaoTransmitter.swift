@@ -181,6 +181,7 @@ extension MiaoMiaoResponseState: CustomStringConvertible {
 }
 
 class MiaoMiaoTransmitter: LibreTransmitter{
+
     func reset() {
         rxBuffer.resetAllBytes()
     }
@@ -214,7 +215,8 @@ class MiaoMiaoTransmitter: LibreTransmitter{
         peripheral.name?.lowercased().starts(with: "miaomiao") ?? false
 
     }
-    required init(delegate: LibreTransmitterDelegate) {
+    required init(delegate: LibreTransmitterDelegate, advertisementData: [String : Any]?) {
+        //advertisementData is unknown for the miaomiao
         self.delegate = delegate
     }
 
@@ -296,7 +298,7 @@ class MiaoMiaoTransmitter: LibreTransmitter{
 
         metadata = LibreTransmitterMetadata(hardware: String(describing: rxBuffer[16...17].hexEncodedString()),
                                            firmware: String(describing: rxBuffer[14...15].hexEncodedString()),
-                                           battery: Int(rxBuffer[13]))
+                                           battery: Int(rxBuffer[13]), macAddress: nil)
 
         sensorData = SensorData(uuid: Data(rxBuffer.subdata(in: 5..<13)), bytes: [UInt8](rxBuffer.subdata(in: 18..<362)), date: Date())
 

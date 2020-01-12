@@ -41,6 +41,46 @@ class BubbleTransmitter: MiaoMiaoTransmitter{
         rxBuffer.resetAllBytes()
     }
 
+
+    func deviceFromAdvertisementData(advertisementData: [String: Any]? ) {
+
+        guard let data = advertisementData?["kCBAdvDataManufacturerData"] as? Data else {
+            return
+        }
+        var mac = ""
+        for i in 0 ..< 6 {
+            mac += data.subdata(in: (7 - i)..<(8 - i)).hexEncodedString().uppercased()
+            if i != 5 {
+                mac += ":"
+            }
+        }
+
+        guard  data.count >= 12 else {
+            return
+        }
+
+        let fSub1 = Data.init(repeating: data[8], count: 1)
+        let fSub2 = Data.init(repeating: data[9], count: 1)
+        let firmware = Float("\(fSub1.hexEncodedString()).\(fSub2.hexEncodedString())")?.description
+
+        let hSub1 = Data.init(repeating: data[10], count: 1)
+        let hSub2 = Data.init(repeating: data[11], count: 1)
+
+        let hardware = Float("\(hSub1.hexEncodedString()).\(hSub2.hexEncodedString())")?.description
+
+        print("got bubbledevice \(mac) with firmware \(firmware), and hardware \(hardware)")
+
+
+    }
+
+    required init(delegate: LibreTransmitterDelegate, advertisementData: [String : Any]?) {
+        //advertisementData is unknown for the miaomiao
+
+        super.init(delegate: delegate, advertisementData: advertisementData)
+        //self.delegate = delegate
+        deviceFromAdvertisementData(advertisementData: advertisementData)
+    }
+
     override func requestData(writeCharacteristics: CBCharacteristic, peripheral: CBPeripheral) {
         print("dabear:: bubbleRequestData")
         rxBuffer.resetAllBytes()
@@ -60,7 +100,7 @@ class BubbleTransmitter: MiaoMiaoTransmitter{
            let hardware = value[2].description + ".0"
            let firmware = value[1].description + ".0"
            let battery = Int(value[4])
-           metadata = .init(hardware: hardware, firmware: firmware, battery: battery)
+           metadata = .init(hardware: hardware, firmware: firmware, battery: battery, macAddress: "")
 
            print("dabear:: Got bubbledevice: \(metadata)")
            if let writeCharacteristic = writeCharacteristic {

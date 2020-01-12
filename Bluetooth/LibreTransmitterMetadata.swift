@@ -18,14 +18,17 @@ public struct LibreTransmitterMetadata: CustomStringConvertible {
     // battery level String
     let batteryString: String
 
-    init(hardware: String, firmware: String, battery: Int) {
+    let macAddress: String?
+
+    init(hardware: String, firmware: String, battery: Int, macAddress: String?) {
         self.hardware = hardware
         self.firmware = firmware
         self.battery = battery
         self.batteryString = "\(battery) %"
+        self.macAddress = macAddress
     }
 
     public var description: String {
-         "Hardware: \(hardware), firmware: \(firmware), battery: \(batteryString)"
+         "Hardware: \(hardware), firmware: \(firmware), battery: \(batteryString), macAddress: \(macAddress)"
     }
 }

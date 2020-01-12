@@ -198,7 +198,7 @@ final class LibreTransmitterManager: NSObject, CBCentralManagerDelegate, CBPerip
 
     }
 
-    private func connect(force forceConnect: Bool = false) {
+    private func connect(force forceConnect: Bool = false, advertisementData: [String: Any]?) {
         dispatchPrecondition(condition: .onQueue(managerQueue))
         os_log("Connect while state %{public}@", log: Self.bt_log, type: .default, String(describing: state.rawValue))
         if centralManager.isScanning {
@@ -227,7 +227,7 @@ final class LibreTransmitterManager: NSObject, CBCentralManagerDelegate, CBPerip
             }
             if needsNewPluginInstance,
                 let plugin = LibreTransmitters.getSupportedPlugins(peripheral)?.first {
-                self.activePlugin = plugin.init(delegate: self)
+                self.activePlugin = plugin.init(delegate: self,advertisementData: advertisementData)
                 
             }
             centralManager.connect(peripheral, options: nil)
@@ -308,7 +308,7 @@ final class LibreTransmitterManager: NSObject, CBCentralManagerDelegate, CBPerip
                 os_log("Did connect to preselected %{public}@ with identifier %{public}@,", log: Self.bt_log, type: .default, String(describing: peripheral.name), String(describing: peripheral.identifier.uuidString))
                 self.peripheral = peripheral
 
-                self.connect(force: true)
+                self.connect(force: true, advertisementData: nil)
             } else {
                 os_log("Did not connect to %{public}@ with identifier %{public}@, because another device with identifier %{public}@ was selected", log: Self.bt_log, type: .default, String(describing: peripheral.name), String(describing: peripheral.identifier.uuidString), preselected)
             }
@@ -354,7 +354,7 @@ final class LibreTransmitterManager: NSObject, CBCentralManagerDelegate, CBPerip
         DispatchQueue.global(qos: .utility).async { [weak self] in
             Thread.sleep(forTimeInterval: seconds)
             self?.managerQueue.sync {
-                self?.connect()
+                self?.connect(advertisementData: nil)
             }
         }
     }

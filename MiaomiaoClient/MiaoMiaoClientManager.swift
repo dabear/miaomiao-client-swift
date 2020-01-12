@@ -364,11 +364,8 @@ extension MiaoMiaoClientManager {
 
     //cannot be called from managerQueue
     public var sensorFooterChecksums: String {
-        if let crc = proxy?.OnQueue_sensorData?.footerCrc.byteSwapped {
-
-            return  "\(crc)"
-        }
-        return  "n/a"
+        (proxy?.OnQueue_sensorData?.footerCrc.byteSwapped).map(String.init)
+            ?? "n/a"
     }
 
     //cannot be called from managerQueue
@@ -387,10 +384,7 @@ extension MiaoMiaoClientManager {
 
     //cannot be called from managerQueue
     public var battery: String {
-        if let bat = proxy?.OnQueue_metadata?.batteryString {
-            return "\(bat)"
-        }
-        return "n/a"
+        proxy?.OnQueue_metadata?.batteryString ?? "n/a"
     }
 
     public func getDeviceType() -> String {

@@ -21,7 +21,7 @@ public protocol LibreTransmitter {
 
 
     var delegate: LibreTransmitterDelegate? {get set}
-    init(delegate: LibreTransmitterDelegate )
+    init(delegate: LibreTransmitterDelegate, advertisementData: [String : Any]? )
     func requestData(writeCharacteristics: CBCharacteristic, peripheral: CBPeripheral)
     func updateValueForNotifyCharacteristics(_ value: Data, peripheral: CBPeripheral,  writeCharacteristic: CBCharacteristic?)
 
