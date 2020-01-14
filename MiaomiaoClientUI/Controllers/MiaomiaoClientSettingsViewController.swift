@@ -298,8 +298,18 @@ public class MiaomiaoClientSettingsViewController: UITableViewController, SubVie
 
                 cell.detailTextLabel?.text = cgmManager?.getDeviceType()
             case .bridgeIdentifer:
-                cell.textLabel?.text = LocalizedString("Bridge Identifer", comment: "Title Bridge Identifier")
-                cell.detailTextLabel?.text = UserDefaults.standard.preSelectedDevice
+                // On ios the mac address of the peripheral is generally not available.
+                // However, some devices broadcast their mac address in
+                // the advertisement data.
+                if let mac = cgmManager?.metaData?.macAddress {
+
+                    cell.textLabel?.text = LocalizedString("Mac", comment: "Title for the Transmitter Mac Address")
+                    cell.detailTextLabel?.text = mac
+
+                } else {
+                    cell.textLabel?.text = LocalizedString("Identifer", comment: "Title for the Transmitter Identifier")
+                    cell.detailTextLabel?.text = UserDefaults.standard.preSelectedDevice
+                }
             }
 
             return cell
@@ -629,7 +639,7 @@ public class MiaomiaoClientSettingsViewController: UITableViewController, SubVie
                     let team = bundleSeedID() ?? "Unknown???!"
                     let msg = "To activate dangermode, please input your team identifier. It is important that you take an active choice here, so don't copy/paste but type it in correctly. Your team identifer is: \(team)"
 
-                    let controller = InputAlertController(msg, title: "Activate danger mode", inputPlaceholder: "Enter your team identifer") { [weak self] isOk, controller in
+                    let controller = InputAlertController(msg, title: "Activate danger mode", inputPlaceholder: "Confirm your team identifer") { [weak self] isOk, controller in
                         self?.dangerModeActivation(isOk, controller: controller)
                     }
                     self.presentStatus(controller)

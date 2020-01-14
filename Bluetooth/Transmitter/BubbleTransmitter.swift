@@ -43,12 +43,12 @@ class BubbleTransmitter: MiaoMiaoTransmitter{
 
     private var hardware : String? = ""
     private var firmware : String? = ""
-    private var macAddress : String? = ""
+    private var mac : String? = ""
 
     func deviceFromAdvertisementData(advertisementData: [String: Any]? ) {
 
         print("dabear: deviceFromAdvertisementData is ")
-        debugPrint(deviceFromAdvertisementData)
+        debugPrint(advertisementData)
 
         guard let data = advertisementData?["kCBAdvDataManufacturerData"] as? Data else {
             return
@@ -61,7 +61,7 @@ class BubbleTransmitter: MiaoMiaoTransmitter{
             }
         }
 
-        self.macAddress = mac
+        self.mac = mac
 
         guard  data.count >= 12 else {
             return
@@ -108,7 +108,7 @@ class BubbleTransmitter: MiaoMiaoTransmitter{
            //let hardware = value[2].description + ".0"
            //let firmware = value[1].description + ".0"
            let battery = Int(value[4])
-           metadata = .init(hardware: hardware ?? "unknown", firmware: firmware ?? "unknown", battery: battery, macAddress: self.macAddress)
+           metadata = .init(hardware: hardware ?? "unknown", firmware: firmware ?? "unknown", battery: battery, macAddress: self.mac)
 
            print("dabear:: Got bubbledevice: \(metadata)")
            if let writeCharacteristic = writeCharacteristic {

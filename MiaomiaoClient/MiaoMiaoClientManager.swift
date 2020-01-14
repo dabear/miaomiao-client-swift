@@ -348,6 +348,10 @@ extension MiaoMiaoClientManager {
         proxy?.OnQueue_identifer?.uuidString ?? "n/a"
     }
 
+    public var metaData : LibreTransmitterMetadata? {
+        proxy?.OnQueue_metadata
+    }
+
     //cannot be called from managerQueue
     public var connectionState: String {
         proxy?.connectionStateString ?? "n/a"
