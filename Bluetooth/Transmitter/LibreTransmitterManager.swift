@@ -312,7 +312,7 @@ final class LibreTransmitterManager: NSObject, CBCentralManagerDelegate, CBPerip
                 os_log("Did connect to preselected %{public}@ with identifier %{public}@,", log: Self.bt_log, type: .default, String(describing: peripheral.name), String(describing: peripheral.identifier.uuidString))
                 self.peripheral = peripheral
 
-                self.connect(force: true, advertisementData: nil)
+                self.connect(force: true, advertisementData: advertisementData)
             } else {
                 os_log("Did not connect to %{public}@ with identifier %{public}@, because another device with identifier %{public}@ was selected", log: Self.bt_log, type: .default, String(describing: peripheral.name), String(describing: peripheral.identifier.uuidString), preselected)
             }

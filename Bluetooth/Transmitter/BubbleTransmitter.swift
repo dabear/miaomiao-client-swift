@@ -44,6 +44,9 @@ class BubbleTransmitter: MiaoMiaoTransmitter{
 
     func deviceFromAdvertisementData(advertisementData: [String: Any]? ) {
 
+        print("dabear: deviceFromAdvertisementData is ")
+        debugPrint(deviceFromAdvertisementData)
+
         guard let data = advertisementData?["kCBAdvDataManufacturerData"] as? Data else {
             return
         }
