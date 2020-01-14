@@ -90,7 +90,7 @@ enum NotificationHelper {
             NSLog("dabear:: sending noBridgeSelected")
 
             let content = UNMutableNotificationContent()
-            content.title = "No Libre Bridge Selected"
+            content.title = "No Libre Transmitter Selected"
             content.body = "Delete CGMManager and start anew. Your libreoopweb credentials will be preserved"
 
             addRequest(identifier: Identifiers.noBridgeSelected, content: content)

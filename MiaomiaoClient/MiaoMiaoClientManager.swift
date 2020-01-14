@@ -59,7 +59,7 @@ public final class MiaoMiaoClientManager: CGMManager, LibreTransmitterDelegate {
             "lastConnected: \(String(describing: lastConnected))",
             "Connection state: \(connectionState)",
             "Sensor state: \(sensorStateDescription)",
-            "Bridge battery: \(battery)",
+            "transmitterbattery: \(battery)",
             "Metainfo::\n \(AppMetaData.allProperties)",
             ""
         ].joined(separator: "\n")
