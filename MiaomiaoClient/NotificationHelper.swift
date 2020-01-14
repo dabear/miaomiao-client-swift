@@ -251,16 +251,16 @@ enum NotificationHelper {
         }
     }
 
-    public static func sendSensorNotDetectedNotificationIfNeeded(noSensor: Bool) {
+    public static func sendSensorNotDetectedNotificationIfNeeded(noSensor: Bool, devicename:String) {
         guard UserDefaults.standard.mmAlertNoSensorDetected && noSensor else {
             NSLog("not sending noSensorDetected notification")
             return
         }
 
-        sendSensorNotDetectedNotification()
+        sendSensorNotDetectedNotification(devicename: devicename)
     }
 
-    private static func sendSensorNotDetectedNotification() {
+    private static func sendSensorNotDetectedNotification(devicename:String) {
         ensureCanSendNotification { ensured in
             guard ensured else {
                 NSLog("dabear:: not sending noSensorDetected notification")
@@ -270,7 +270,7 @@ enum NotificationHelper {
 
             let content = UNMutableNotificationContent()
             content.title = "No Sensor Detected"
-            content.body = "This might be an intermittent problem, but please check that your miaomiao is tightly secured over your sensor"
+            content.body = "This might be an intermittent problem, but please check that your \(devicename) is tightly secured over your sensor"
 
             addRequest(identifier: Identifiers.noSensorDetected, content: content)
         }
@@ -356,18 +356,18 @@ enum NotificationHelper {
         if let earlier = lastBatteryWarning {
             let earlierplus = earlier.addingTimeInterval(mins)
             if earlierplus < now {
-                sendLowBatteryNotification(batteryPercentage: device.batteryString)
+                sendLowBatteryNotification(batteryPercentage: device.batteryString, deviceName: device.name)
                 lastBatteryWarning = now
             } else {
                 NSLog("Device battery is running low, but lastBatteryWarning Notification was sent less than 45 minutes ago, aborting. earlierplus: \(earlierplus), now: \(now)")
             }
         } else {
-            sendLowBatteryNotification(batteryPercentage: device.batteryString)
+            sendLowBatteryNotification(batteryPercentage: device.batteryString, deviceName: device.name)
             lastBatteryWarning = now
         }
     }
 
-    private static func sendLowBatteryNotification(batteryPercentage: String) {
+    private static func sendLowBatteryNotification(batteryPercentage: String, deviceName: String) {
         ensureCanSendNotification { ensured in
             guard ensured else {
                 NSLog("dabear:: not sending LowBattery notification")
@@ -377,7 +377,7 @@ enum NotificationHelper {
 
             let content = UNMutableNotificationContent()
             content.title = "Low Battery"
-            content.body = "Battery is running low (\(batteryPercentage)), consider charging your miaomiao device as soon as possible"
+            content.body = "Battery is running low (\(batteryPercentage)), consider charging your \(deviceName) device as soon as possible"
 
             content.sound = .default
 

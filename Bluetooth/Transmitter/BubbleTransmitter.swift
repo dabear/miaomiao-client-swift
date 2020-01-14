@@ -108,7 +108,7 @@ class BubbleTransmitter: MiaoMiaoTransmitter{
            //let hardware = value[2].description + ".0"
            //let firmware = value[1].description + ".0"
            let battery = Int(value[4])
-           metadata = .init(hardware: hardware ?? "unknown", firmware: firmware ?? "unknown", battery: battery, macAddress: self.mac)
+           metadata = .init(hardware: hardware ?? "unknown", firmware: firmware ?? "unknown", battery: battery, name: Self.shortTransmitterName, macAddress: self.mac)
 
            print("dabear:: Got bubbledevice: \(metadata)")
            if let writeCharacteristic = writeCharacteristic {

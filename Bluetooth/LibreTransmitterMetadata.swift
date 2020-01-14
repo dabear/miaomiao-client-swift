@@ -20,12 +20,15 @@ public struct LibreTransmitterMetadata: CustomStringConvertible {
 
     public let macAddress: String?
 
-    init(hardware: String, firmware: String, battery: Int, macAddress: String?) {
+    public let name: String
+
+    init(hardware: String, firmware: String, battery: Int, name:String, macAddress: String?) {
         self.hardware = hardware
         self.firmware = firmware
         self.battery = battery
         self.batteryString = "\(battery) %"
         self.macAddress = macAddress
+        self.name = name
     }
 
     public var description: String {
