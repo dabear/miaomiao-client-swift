@@ -41,6 +41,9 @@ class BubbleTransmitter: MiaoMiaoTransmitter{
         rxBuffer.resetAllBytes()
     }
 
+    private var hardware : String? = ""
+    private var firmware : String? = ""
+    private var macAddress : String? = ""
 
     func deviceFromAdvertisementData(advertisementData: [String: Any]? ) {
 
@@ -58,18 +61,20 @@ class BubbleTransmitter: MiaoMiaoTransmitter{
             }
         }
 
+        self.macAddress = mac
+
         guard  data.count >= 12 else {
             return
         }
 
         let fSub1 = Data.init(repeating: data[8], count: 1)
         let fSub2 = Data.init(repeating: data[9], count: 1)
-        let firmware = Float("\(fSub1.hexEncodedString()).\(fSub2.hexEncodedString())")?.description
+        self.firmware = Float("\(fSub1.hexEncodedString()).\(fSub2.hexEncodedString())")?.description
 
         let hSub1 = Data.init(repeating: data[10], count: 1)
         let hSub2 = Data.init(repeating: data[11], count: 1)
 
-        let hardware = Float("\(hSub1.hexEncodedString()).\(hSub2.hexEncodedString())")?.description
+        self.hardware = Float("\(hSub1.hexEncodedString()).\(hSub2.hexEncodedString())")?.description
 
         print("got bubbledevice \(mac) with firmware \(firmware), and hardware \(hardware)")
 
@@ -100,10 +105,10 @@ class BubbleTransmitter: MiaoMiaoTransmitter{
         }
         switch bubbleResponseState {
         case .bubbleInfo:
-           let hardware = value[2].description + ".0"
-           let firmware = value[1].description + ".0"
+           //let hardware = value[2].description + ".0"
+           //let firmware = value[1].description + ".0"
            let battery = Int(value[4])
-           metadata = .init(hardware: hardware, firmware: firmware, battery: battery, macAddress: "")
+           metadata = .init(hardware: hardware ?? "unknown", firmware: firmware ?? "unknown", battery: battery, macAddress: self.macAddress)
 
            print("dabear:: Got bubbledevice: \(metadata)")
            if let writeCharacteristic = writeCharacteristic {
