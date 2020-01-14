@@ -138,8 +138,9 @@ class BubbleTransmitter: MiaoMiaoTransmitter{
         print("dabear:: bubbleHandleCompleteMessage raw data: \([UInt8](rxBuffer))")
         sensorData = SensorData(uuid: rxBuffer.subdata(in: 0..<8), bytes: [UInt8](data), date: Date())
 
-
+        print("dabear:: bubble got sensordata \(sensorData) and metadata \(metadata), delegate is \(delegate)")
         if let sensorData = sensorData, let metadata = metadata {
+
             delegate?.libreTransmitterDidUpdate(with: sensorData, and: metadata)
         }
 

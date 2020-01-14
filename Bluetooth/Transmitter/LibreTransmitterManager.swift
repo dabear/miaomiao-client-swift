@@ -39,15 +39,18 @@ public protocol LibreTransmitterDelegate: class {
 final class LibreTransmitterManager: NSObject, CBCentralManagerDelegate, CBPeripheralDelegate, LibreTransmitterDelegate {
     func libreTransmitterStateChanged(_ state: BluetoothmanagerState) {
 
+        os_log("libreTransmitterStateChanged delegating", log: Self.bt_log)
+
         dispatchToDelegate { manager in
-            manager.libreTransmitterStateChanged(state)
+           manager.delegate?.libreTransmitterStateChanged(state)
         }
     }
 
     func libreTransmitterReceivedMessage(_ messageIdentifier: UInt16, txFlags: UInt8, payloadData: Data) {
 
+        os_log("libreTransmitterReceivedMessage delegating", log: Self.bt_log)
         dispatchToDelegate { manager in
-            manager.libreTransmitterReceivedMessage(messageIdentifier, txFlags: txFlags, payloadData: payloadData)
+            manager.delegate?.libreTransmitterReceivedMessage(messageIdentifier, txFlags: txFlags, payloadData: payloadData)
         }
     }
 
@@ -55,8 +58,9 @@ final class LibreTransmitterManager: NSObject, CBCentralManagerDelegate, CBPerip
         self.metadata = Device
         self.sensorData = sensorData
 
+        os_log("libreTransmitterDidUpdate delegating", log: Self.bt_log)
         dispatchToDelegate { manager in
-            manager.libreTransmitterDidUpdate(with: sensorData, and: Device)
+            manager.delegate?.libreTransmitterDidUpdate(with: sensorData, and: Device)
         }
     }
 
@@ -135,7 +139,7 @@ final class LibreTransmitterManager: NSObject, CBCentralManagerDelegate, CBPerip
         didSet {
             dispatchToDelegate { manager in
                 // Help delegate initialize by sending current state directly after delegate assignment
-                manager.libreTransmitterStateChanged(self.state)
+                self.delegate?.libreTransmitterStateChanged(self.state)
             }
 
 
