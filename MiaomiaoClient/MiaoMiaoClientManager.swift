@@ -48,7 +48,8 @@ public final class MiaoMiaoClientManager: CGMManager, LibreTransmitterDelegate {
 
 
     public var device: HKDevice? {
-         proxy?.OnQueue_device
+         //proxy?.OnQueue_device
+        proxy?.viaManagerQueue.device
     }
 
   
@@ -348,54 +349,62 @@ public final class MiaoMiaoClientManager: CGMManager, LibreTransmitterDelegate {
 extension MiaoMiaoClientManager {
     //cannot be called from managerQueue
     public var identifier: String {
-        proxy?.OnQueue_identifer?.uuidString ?? "n/a"
+        //proxy?.OnQueue_identifer?.uuidString ?? "n/a"
+        proxy?.viaManagerQueue.identifier?.uuidString ?? "n/a"
     }
 
     public var metaData : LibreTransmitterMetadata? {
-        proxy?.OnQueue_metadata
+        //proxy?.OnQueue_metadata
+         proxy?.viaManagerQueue.metadata
     }
 
     //cannot be called from managerQueue
     public var connectionState: String {
-        proxy?.connectionStateString ?? "n/a"
+        //proxy?.connectionStateString ?? "n/a"
+        proxy?.viaManagerQueue.connectionStateString ?? "n/a"
     }
     //cannot be called from managerQueue
     public var sensorSerialNumber: String {
-        proxy?.OnQueue_sensorData?.serialNumber ?? "n/a"
+        //proxy?.OnQueue_sensorData?.serialNumber ?? "n/a"
+        proxy?.viaManagerQueue.sensorData?.serialNumber ?? "n/a"
     }
 
     //cannot be called from managerQueue
     public var sensorAge: String {
-        proxy?.OnQueue_sensorData?.humanReadableSensorAge ?? "n/a"
+        //proxy?.OnQueue_sensorData?.humanReadableSensorAge ?? "n/a"
+        proxy?.viaManagerQueue.sensorData?.humanReadableSensorAge ?? "n/a"
     }
 
     //cannot be called from managerQueue
     public var sensorFooterChecksums: String {
-        (proxy?.OnQueue_sensorData?.footerCrc.byteSwapped).map(String.init)
+        //(proxy?.OnQueue_sensorData?.footerCrc.byteSwapped).map(String.init)
+        (proxy?.viaManagerQueue.sensorData?.footerCrc.byteSwapped).map(String.init)
+
             ?? "n/a"
     }
 
     //cannot be called from managerQueue
     public var sensorStateDescription: String {
-        proxy?.OnQueue_sensorData?.state.description ?? "n/a"
+        //proxy?.OnQueue_sensorData?.state.description ?? "n/a"
+        proxy?.viaManagerQueue.sensorData?.state.description ?? "n/a"
     }
     //cannot be called from managerQueue
     public var firmwareVersion: String {
-        proxy?.OnQueue_metadata?.firmware ?? "n/a"
+        proxy?.viaManagerQueue.metadata?.firmware ?? "n/a"
     }
 
     //cannot be called from managerQueue
     public var hardwareVersion: String {
-        proxy?.OnQueue_metadata?.hardware ?? "n/a"
+        proxy?.viaManagerQueue.metadata?.hardware ?? "n/a"
     }
 
     //cannot be called from managerQueue
     public var battery: String {
-        proxy?.OnQueue_metadata?.batteryString ?? "n/a"
+        proxy?.viaManagerQueue.metadata?.batteryString ?? "n/a"
     }
 
     public func getDeviceType() -> String {
-        proxy?.OnQueue_shortTransmitterName ?? "Unknown"
+        proxy?.viaManagerQueue.shortTransmitterName ?? "Unknown"
     }
     public func getSmallImage() -> UIImage? {
         proxy?.activePluginType?.smallImage ?? UIImage(named: "libresensor", in:  Bundle.current, compatibleWith: nil)

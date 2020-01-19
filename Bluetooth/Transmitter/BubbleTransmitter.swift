@@ -91,7 +91,7 @@ class BubbleTransmitter: MiaoMiaoTransmitter{
 
     override func requestData(writeCharacteristics: CBCharacteristic, peripheral: CBPeripheral) {
         print("dabear:: bubbleRequestData")
-        rxBuffer.resetAllBytes()
+        reset()
         //timer?.invalidate()
         print("-----set: ", writeCharacteristics)
         peripheral.writeValue(Data([0x00, 0x00, 0x05]), for: writeCharacteristics, type: .withResponse)
@@ -119,12 +119,12 @@ class BubbleTransmitter: MiaoMiaoTransmitter{
            rxBuffer.append(value.suffix(from: 4))
            if rxBuffer.count >= 352 {
                handleCompleteMessage()
-               rxBuffer.resetAllBytes()
+               reset()
            }
         case .noSensor:
             delegate?.libreTransmitterReceivedMessage(0x0000, txFlags: 0x34, payloadData: rxBuffer)
 
-           rxBuffer.resetAllBytes()
+           reset()
         case .serialNumber:
            rxBuffer.append(value.subdata(in: 2..<10))
         }

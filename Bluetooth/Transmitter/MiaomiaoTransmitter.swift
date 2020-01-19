@@ -246,7 +246,7 @@ class MiaoMiaoTransmitter: LibreTransmitter{
         // Therefore it also becomes important that once a message is fully received, the buffer is invalidated
         //
         guard let firstByte = rxBuffer.first, let miaoMiaoResponseState = MiaoMiaoResponseState(rawValue: firstByte) else {
-            rxBuffer.resetAllBytes()
+            reset()
             print("miaomiaoDidUpdateValueForNotifyCharacteristics did not undestand what to do (internal error")
             return
         }
@@ -260,7 +260,7 @@ class MiaoMiaoTransmitter: LibreTransmitter{
                 delegate?.libreTransmitterReceivedMessage(0x0000, txFlags: 0x28, payloadData: rxBuffer)
 
                 handleCompleteMessage()
-                rxBuffer.resetAllBytes()
+                reset()
             }
 
         case .newSensor: // 0x32: // A new sensor has been detected -> acknowledge to use sensor and reset buffer
@@ -268,12 +268,12 @@ class MiaoMiaoTransmitter: LibreTransmitter{
 
 
             confirmSensor(peripheral: peripheral, writeCharacteristics: writeCharacteristic)
-            rxBuffer.resetAllBytes()
+            reset()
         case .noSensor: // 0x34: // No sensor has been detected -> reset buffer (and wait for new data to arrive)
 
             delegate?.libreTransmitterReceivedMessage(0x0000, txFlags: 0x34, payloadData: rxBuffer)
 
-            rxBuffer.resetAllBytes()
+           reset()
         case .frequencyChangedResponse: // 0xD1: // Success of fail for setting time intervall
 
             delegate?.libreTransmitterReceivedMessage(0x0000, txFlags: 0xD1, payloadData: rxBuffer)
@@ -287,7 +287,7 @@ class MiaoMiaoTransmitter: LibreTransmitter{
                     //os_log("Unkown response for setting time interval.", log: LibreTransmitterManager.bt_log, type: .default)
                 }
             }
-            rxBuffer.resetAllBytes()
+            reset()
         }
     }
 
@@ -296,9 +296,12 @@ class MiaoMiaoTransmitter: LibreTransmitter{
             return
         }
 
-        metadata = LibreTransmitterMetadata(hardware: String(describing: rxBuffer[16...17].hexEncodedString()),
-                                           firmware: String(describing: rxBuffer[14...15].hexEncodedString()),
-                                           battery: Int(rxBuffer[13]), name:Self.shortTransmitterName, macAddress: nil)
+        metadata = LibreTransmitterMetadata(
+            hardware: String(describing: rxBuffer[16...17].hexEncodedString()),
+            firmware: String(describing: rxBuffer[14...15].hexEncodedString()),
+            battery: Int(rxBuffer[13]),
+            name: Self.shortTransmitterName,
+            macAddress: nil)
 
         sensorData = SensorData(uuid: Data(rxBuffer.subdata(in: 5..<13)), bytes: [UInt8](rxBuffer.subdata(in: 18..<362)), date: Date())
 

@@ -34,6 +34,7 @@
 		270C266D226A2F8E005B27F3 /* HKUnit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4325E9CE210E6A0A00969CE5 /* HKUnit.swift */; };
 		270C266F226A5A6E005B27F3 /* GlucoseSchedules.swift in Sources */ = {isa = PBXBuildFile; fileRef = 270C266E226A5A6E005B27F3 /* GlucoseSchedules.swift */; };
 		270C2670226A5A6E005B27F3 /* GlucoseSchedules.swift in Sources */ = {isa = PBXBuildFile; fileRef = 270C266E226A5A6E005B27F3 /* GlucoseSchedules.swift */; };
+		27167A0323D3C6510033BFBE /* QueuedPropertyAccess.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27167A0223D3C6510033BFBE /* QueuedPropertyAccess.swift */; };
 		271EDF1F22EB103B00E1C8B3 /* ExtendingAuthController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 271EDF1E22EB103B00E1C8B3 /* ExtendingAuthController.swift */; };
 		271EDF2322EC6F0A00E1C8B3 /* AnnotatedSubtitleCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 271EDF2222EC6F0A00E1C8B3 /* AnnotatedSubtitleCell.swift */; };
 		271EDF2622EC755D00E1C8B3 /* UserDefaults+Bluetooth.swift in Sources */ = {isa = PBXBuildFile; fileRef = 271EDF2422EC739F00E1C8B3 /* UserDefaults+Bluetooth.swift */; };
@@ -188,6 +189,7 @@
 		270C26682269E6B7005B27F3 /* schedule-icon48.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "schedule-icon48.jpg"; sourceTree = "<group>"; };
 		270C266B226A24AB005B27F3 /* icons8-schedule-50.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icons8-schedule-50.png"; sourceTree = "<group>"; };
 		270C266E226A5A6E005B27F3 /* GlucoseSchedules.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlucoseSchedules.swift; sourceTree = "<group>"; };
+		27167A0223D3C6510033BFBE /* QueuedPropertyAccess.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QueuedPropertyAccess.swift; sourceTree = "<group>"; };
 		271EDF1E22EB103B00E1C8B3 /* ExtendingAuthController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtendingAuthController.swift; sourceTree = "<group>"; };
 		271EDF2022EB63B100E1C8B3 /* BluetoothSearch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BluetoothSearch.swift; sourceTree = "<group>"; };
 		271EDF2222EC6F0A00E1C8B3 /* AnnotatedSubtitleCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnnotatedSubtitleCell.swift; sourceTree = "<group>"; };
@@ -410,6 +412,7 @@
 				271EDF2022EB63B100E1C8B3 /* BluetoothSearch.swift */,
 				2729D676221F421C0030E1B8 /* LibreTransmitterMetadata.swift */,
 				272BF9C8233D3F5A00AD38AA /* MiaomiaoTestMessage.swift */,
+				27167A0223D3C6510033BFBE /* QueuedPropertyAccess.swift */,
 			);
 			path = Bluetooth;
 			sourceTree = "<group>";
@@ -1040,6 +1043,7 @@
 				27C335B82165667300CF0868 /* LibreGlucose.swift in Sources */,
 				27E3C3A2222EEDCD0036AAC7 /* DerivedAlgorithmParameters.swift in Sources */,
 				2729D69C221F44670030E1B8 /* SensorSerialNumber.swift in Sources */,
+				27167A0323D3C6510033BFBE /* QueuedPropertyAccess.swift in Sources */,
 				27408E592370D8C1002C71C8 /* TimeIntervalExtensions.swift in Sources */,
 				27CFAB5622496CBB006DEFE3 /* DoubleExtensions.swift in Sources */,
 				43AB51362133177800B3D58D /* LocalizedString.swift in Sources */,

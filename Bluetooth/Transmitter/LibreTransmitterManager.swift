@@ -130,7 +130,7 @@ final class LibreTransmitterManager: NSObject, CBCentralManagerDelegate, CBPerip
            dispatchToDelegate { manager in
 
                 // Help delegate initialize by sending current state directly after delegate assignment
-                self.delegate?.libreTransmitterStateChanged(self.state)
+                manager.delegate?.libreTransmitterStateChanged(self.state)
             }
         }
     }
@@ -139,7 +139,7 @@ final class LibreTransmitterManager: NSObject, CBCentralManagerDelegate, CBPerip
         didSet {
             dispatchToDelegate { manager in
                 // Help delegate initialize by sending current state directly after delegate assignment
-                self.delegate?.libreTransmitterStateChanged(self.state)
+                manager.delegate?.libreTransmitterStateChanged(self.state)
             }
 
 
@@ -174,6 +174,8 @@ final class LibreTransmitterManager: NSObject, CBCentralManagerDelegate, CBPerip
         //self.state.rawValue )
 
     }
+
+    lazy var viaManagerQueue = QueuedPropertyAccess(self, dispatchQueue: managerQueue)
 
     // MARK: - Methods
 
@@ -489,10 +491,8 @@ final class LibreTransmitterManager: NSObject, CBCentralManagerDelegate, CBPerip
         os_log("Did Write value %{public}@ for characteristic %{public}@", log: Self.bt_log, type: .default, String(characteristic.value.debugDescription), String(characteristic.debugDescription))
     }
 
-    // Miaomiao specific commands
 
     func requestData() {
-
         if let peripheral = peripheral,
             let writeCharacteristic = writeCharacteristic {
             self.activePlugin?.requestData(writeCharacteristics: writeCharacteristic, peripheral: peripheral)
@@ -535,7 +535,7 @@ extension LibreTransmitterManager {
 
 
 
-
+/*
 
 //these are extensions to return properties (for inspection on the main ui) that exist on the queue only
 extension LibreTransmitterManager {
@@ -590,3 +590,5 @@ extension LibreTransmitterManager {
         }
     }
 }
+
+ */
