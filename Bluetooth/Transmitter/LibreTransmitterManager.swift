@@ -112,14 +112,11 @@ final class LibreTransmitterManager: NSObject, CBCentralManagerDelegate, CBPerip
         activePluginType?.serviceUUID.map { $0.value }
     }
     fileprivate var writeCharachteristicUUID : CBUUID? {
-        activePluginType?.writeCharachteristic?.value
+        activePluginType?.writeCharacteristic?.value
     }
     fileprivate var notifyCharacteristicUUID : CBUUID? {
-        activePluginType?.notifyCharachteristic?.value
+        activePluginType?.notifyCharacteristic?.value
     }
-
-    var BLEScanDuration = 3.0
-    weak var timer: Timer?
 
     var delegate: LibreTransmitterDelegate? {
         didSet {
@@ -154,26 +151,7 @@ final class LibreTransmitterManager: NSObject, CBCentralManagerDelegate, CBPerip
         }
     }
 
-    private func syncOnManagerQueue<T>( _ closure :@escaping  (_ aself: LibreTransmitterManager?) -> T?) -> T? {
-        var ret: T?
 
-        managerQueue.sync { [weak self, closure] in
-            ret = closure(self)
-        }
-
-        return ret
-    }
-
-    /*public var connectionStateString: String? {
-        dispatchPrecondition(condition: .notOnQueue(managerQueue))
-
-        return syncOnManagerQueue({ manager  in
-            return manager?.state.rawValue
-        })
-
-        //self.state.rawValue )
-
-    }*/
 
     lazy var viaManagerQueue = QueuedPropertyAccess(self, dispatchQueue: managerQueue)
 
@@ -305,7 +283,7 @@ final class LibreTransmitterManager: NSObject, CBCentralManagerDelegate, CBPerip
          return
          }*/
         guard peripheral.name?.lowercased() != nil else {
-            os_log("discovered peripheral had no name, returning: %{public}@", log: Self.bt_log, type: .default, String(describing: peripheral.identifier.uuidString))
+            //os_log("discovered peripheral had no name, returning: %{public}@", log: Self.bt_log, type: .default, String(describing: peripheral.identifier.uuidString))
             return
         }
 

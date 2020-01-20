@@ -15,8 +15,8 @@ public protocol LibreTransmitter {
     static var manufacturerer: String {get}
     static func canSupportPeripheral(_ peripheral:CBPeripheral)->Bool
 
-    static var writeCharachteristic: UUIDContainer? {get set}
-    static var notifyCharachteristic: UUIDContainer? {get set}
+    static var writeCharacteristic: UUIDContainer? {get set}
+    static var notifyCharacteristic: UUIDContainer? {get set}
     static var serviceUUID: [UUIDContainer] {get set}
 
 
