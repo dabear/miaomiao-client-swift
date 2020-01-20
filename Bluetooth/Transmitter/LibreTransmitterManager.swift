@@ -141,6 +141,10 @@ final class LibreTransmitterManager: NSObject, CBCentralManagerDelegate, CBPerip
 
         }
     }
+    public var connectionStateString: String {
+        dispatchPrecondition(condition: .onQueue(managerQueue))
+        return self.state.rawValue
+    }
 
     public func dispatchToDelegate( _ closure :@escaping  (_ aself: LibreTransmitterManager) -> Void ) {
         delegateQueue.async { [weak self] in
@@ -160,7 +164,7 @@ final class LibreTransmitterManager: NSObject, CBCentralManagerDelegate, CBPerip
         return ret
     }
 
-    public var connectionStateString: String? {
+    /*public var connectionStateString: String? {
         dispatchPrecondition(condition: .notOnQueue(managerQueue))
 
         return syncOnManagerQueue({ manager  in
@@ -169,7 +173,7 @@ final class LibreTransmitterManager: NSObject, CBCentralManagerDelegate, CBPerip
 
         //self.state.rawValue )
 
-    }
+    }*/
 
     lazy var viaManagerQueue = QueuedPropertyAccess(self, dispatchQueue: managerQueue)
 
