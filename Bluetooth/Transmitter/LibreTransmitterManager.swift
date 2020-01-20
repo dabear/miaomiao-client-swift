@@ -107,10 +107,6 @@ final class LibreTransmitterManager: NSObject, CBCentralManagerDelegate, CBPerip
     private let managerQueue = DispatchQueue(label: "no.bjorninge.bluetoothManagerQueue", qos: .utility)
     private let delegateQueue = DispatchQueue(label: "no.bjorninge.delegateQueue", qos: .utility)
 
-    /*
-    fileprivate let serviceUUIDs: [CBUUID]? = [CBUUID(string: "6E400001-B5A3-F393-E0A9-E50E24DCCA9E")]
-    fileprivate let writeCharachteristicUUID = CBUUID(string: "6E400002-B5A3-F393-E0A9-E50E24DCCA9E")
-    fileprivate let notifyCharacteristicUUID = CBUUID(string: "6E400003-B5A3-F393-E0A9-E50E24DCCA9E")*/
 
     fileprivate var serviceUUIDs: [CBUUID]? {
         activePluginType?.serviceUUID.map { $0.value }

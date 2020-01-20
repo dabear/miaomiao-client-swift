@@ -23,6 +23,7 @@ enum NotificationHelper {
         case noBridgeSelected = "no.bjorninge.miaomiao.noBridgeSelected-notification"
         case bluetoothPoweredOff = "no.bjorninge.miaomiao.bluetoothPoweredOff-notification"
         case invalidChecksum = "no.bjorninge.miaomiao.invalidChecksum-notification"
+        case calibrationOngoing = "no.bjorninge.miaomiao.calibration-notification"
     }
 
     private static var glucoseFormatterMgdl: QuantityFormatter = {
@@ -251,6 +252,25 @@ enum NotificationHelper {
         }
     }
 
+    public static func sendCalibrationNotification(_ calibrationMessage:String) {
+        ensureCanSendNotification { ensured in
+            guard ensured else {
+                NSLog("dabear:: not sending sendCalibration notification")
+                return
+            }
+            NSLog("dabear:: sending sendCalibrationNotification")
+
+            let content = UNMutableNotificationContent()
+            content.sound = .default
+            content.title = "Extracting calibrationdata from sensor"
+            content.body = calibrationMessage
+
+            addRequest(identifier: Identifiers.calibrationOngoing,
+                       content: content,
+                       deleteOld: true)
+        }
+    }
+
     public static func sendSensorNotDetectedNotificationIfNeeded(noSensor: Bool, devicename:String) {
         guard UserDefaults.standard.mmAlertNoSensorDetected && noSensor else {
             NSLog("not sending noSensorDetected notification")
@@ -276,8 +296,8 @@ enum NotificationHelper {
         }
     }
 
-    public static func sendSensorChangeNotificationIfNeeded(hasChanged: Bool) {
-        guard UserDefaults.standard.mmAlertNewSensorDetected && hasChanged else {
+    public static func sendSensorChangeNotificationIfNeeded() {
+        guard UserDefaults.standard.mmAlertNewSensorDetected else {
             NSLog("not sending sendSensorChange notification ")
             return
         }

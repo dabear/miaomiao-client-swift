@@ -48,7 +48,7 @@ class BubbleTransmitter: MiaoMiaoTransmitter{
     func deviceFromAdvertisementData(advertisementData: [String: Any]? ) {
 
         print("dabear: deviceFromAdvertisementData is ")
-        debugPrint(advertisementData)
+        //debugPrint(advertisementData)
 
         guard let data = advertisementData?["kCBAdvDataManufacturerData"] as? Data else {
             return
@@ -147,8 +147,8 @@ class BubbleTransmitter: MiaoMiaoTransmitter{
         sensorData = SensorData(uuid: rxBuffer.subdata(in: 0..<8), bytes: [UInt8](data), date: Date())
 
         print("dabear:: bubble got sensordata \(sensorData) and metadata \(metadata), delegate is \(delegate)")
-        if let sensorData = sensorData, let metadata = metadata {
 
+        if let sensorData = sensorData, let metadata = metadata {
             delegate?.libreTransmitterDidUpdate(with: sensorData, and: metadata)
         }
 

@@ -202,9 +202,11 @@ public final class MiaoMiaoClientManager: CGMManager, LibreTransmitterDelegate {
             return
         }
 
+        NotificationHelper.sendCalibrationNotification("Calibrating sensor, please stand by!")
         calibrateSensor(accessToken: accessToken, site: url.absoluteString, sensordata: data) { [weak self] calibrationparams  in
             guard let params = calibrationparams else {
-                NSLog("dabear:: could not calibrate sensor, check libreoopweb permissions and internet connection")
+
+                NotificationHelper.sendCalibrationNotification("Could not calibrate sensor, check libreoopweb permissions and internet connection")
                 callback(LibreError.noCalibrationData, nil)
                 return
             }
@@ -212,13 +214,14 @@ public final class MiaoMiaoClientManager: CGMManager, LibreTransmitterDelegate {
             do {
                 try self?.keychain.setLibreCalibrationData(params)
             } catch {
-                NSLog("dabear:: could not save calibrationdata")
+                NotificationHelper.sendCalibrationNotification("Could not calibrate sensor, invalid calibrationdata")
                 callback(LibreError.invalidCalibrationData, nil)
                 return
             }
             //here we assume success, data is not changed,
             //and we trust that the remote endpoint returns correct data for the sensor
 
+            NotificationHelper.sendCalibrationNotification("Success!")
             callback(nil, self?.readingToGlucose(data, calibration: params))
         }
     }
@@ -251,7 +254,7 @@ public final class MiaoMiaoClientManager: CGMManager, LibreTransmitterDelegate {
         switch packet {
         case .newSensor:
             NSLog("dabear:: new libresensor detected")
-            NotificationHelper.sendSensorChangeNotificationIfNeeded(hasChanged: true)
+            NotificationHelper.sendSensorChangeNotificationIfNeeded()
         case .noSensor:
             NSLog("dabear:: no libresensor detected")
             NotificationHelper.sendSensorNotDetectedNotificationIfNeeded(noSensor: true, devicename: transmitterName)
