@@ -126,11 +126,11 @@ public class GlucoseSettingsTableViewController: UITableViewController, mmTextFi
     }
 
     override public func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        LocalizedString("Notification settings", comment: "The title text for the Notification settings")
+        LocalizedString("Glucose settings", comment: "The title text for the glucose settings")
     }
 
     override public func tableView(_ tableView: UITableView, titleForFooterInSection section: Int) -> String? {
-         nil
+        LocalizedString("Backfilling from trend will give display glucose values for each of the 16 last minutes. Loop is not optimized for dealing with this scenario", comment: "The title text for the glucose settings")
     }
 
     override public func tableView(_ tableView: UITableView, shouldHighlightRowAt indexPath: IndexPath) -> Bool {
