@@ -13,6 +13,7 @@ class QueuedPropertyAccess<U:AnyObject>{
     weak var anObj : U?
     weak var dispatchQueue: DispatchQueue!
     init(_ anObj:U, dispatchQueue:DispatchQueue) {
+        dispatchPrecondition(condition: .notOnQueue(dispatchQueue))
         self.anObj = anObj
         self.dispatchQueue = dispatchQueue
     }
