@@ -105,8 +105,9 @@ class BubbleTransmitter: MiaoMiaoTransmitter{
         }
         switch bubbleResponseState {
         case .bubbleInfo:
-           //let hardware = value[2].description + ".0"
-           //let firmware = value[1].description + ".0"
+            //let hardware = value[value.count-2].description + "." + value[value.count-1].description
+            //let firmware = value[2].description + "." + value[3].description
+           //let patchInfo = Data(Double(firmware)! < 1.35 ? value[3...8] : value[5...10])
            let battery = Int(value[4])
            metadata = .init(hardware: hardware ?? "unknown", firmware: firmware ?? "unknown", battery: battery, name: Self.shortTransmitterName, macAddress: self.mac)
 
