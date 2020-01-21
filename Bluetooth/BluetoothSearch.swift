@@ -16,6 +16,8 @@ protocol BluetoothSearchDelegate: class {
     func didDiscoverCompatibleDevice(_ device: CBPeripheral, allCompatibleDevices: [CBPeripheral])
 }
 
+//TODO: replace service and read/write characteristics with the ones from MiaoMiaoTransmitter/BubbleTransmitter
+// or remove contents of didDiscoverCharacteristicsFor etc
 final class BluetoothSearchManager: NSObject, CBCentralManagerDelegate, CBPeripheralDelegate {
     static let bt_log = OSLog(subsystem: "com.LibreMonitor", category: "BluetoothSearchManager")
 
@@ -40,13 +42,13 @@ final class BluetoothSearchManager: NSObject, CBCentralManagerDelegate, CBPeriph
         super.init()
         centralManager = CBCentralManager(delegate: self, queue: nil, options: nil)
         //        slipBuffer.delegate = self
-        os_log("BluetoothSearchManager init called ", log: BluetoothSearchManager.bt_log)
+        os_log("BluetoothSearchManager init called ", log: Self.bt_log)
     }
 
     func scanForCompatibleDevices() {
         //        print(centralManager.debugDescription)
         if centralManager.state == .poweredOn {
-            os_log("Before scan for MiaoMiao while central manager state %{public}@", log: BluetoothSearchManager.bt_log, type: .default, String(describing: centralManager.state.rawValue))
+            os_log("Before scan for MiaoMiao while central manager state %{public}@", log: Self.bt_log, type: .default, String(describing: centralManager.state.rawValue))
 
             centralManager.scanForPeripherals(withServices: nil, options: nil)
         }
@@ -65,11 +67,11 @@ final class BluetoothSearchManager: NSObject, CBCentralManagerDelegate, CBPeriph
     // MARK: - CBCentralManagerDelegate
 
     func centralManagerDidUpdateState(_ central: CBCentralManager) {
-        os_log("Central Manager did update state to %{public}@", log: BluetoothSearchManager.bt_log, type: .default, String(describing: central.state.rawValue))
+        os_log("Central Manager did update state to %{public}@", log: Self.bt_log, type: .default, String(describing: central.state.rawValue))
 
         switch central.state {
         case .poweredOff, .resetting, .unauthorized, .unknown, .unsupported:
-            os_log("Central Manager was either .poweredOff, .resetting, .unauthorized, .unknown, .unsupported: %{public}@", log: BluetoothSearchManager.bt_log, type: .default, String(describing: central.state))
+            os_log("Central Manager was either .poweredOff, .resetting, .unauthorized, .unknown, .unsupported: %{public}@", log: Self.bt_log, type: .default, String(describing: central.state))
         case .poweredOn:
                 //os_log("Central Manager was powered on, scanningformiaomiao: state: %{public}@", log: MiaoMiaoBluetoothManager.bt_log, type: .default, String(describing: state))
 
@@ -86,7 +88,8 @@ final class BluetoothSearchManager: NSObject, CBCentralManagerDelegate, CBPeriph
         }
 
 
-        if SupportedDevices.isSupported(peripheral) { //deviceNames.contains(name) {
+
+        if LibreTransmitters.isSupported(peripheral)  { 
 
             print("dabear:: did recognize device: \(name): \(peripheral.identifier)")
             self.addDiscoveredDevice(peripheral)
@@ -118,54 +121,54 @@ final class BluetoothSearchManager: NSObject, CBCentralManagerDelegate, CBPeriph
     // MARK: - CBPeripheralDelegate
 
     func peripheral(_ peripheral: CBPeripheral, didDiscoverServices error: Error?) {
-        os_log("Did discover services", log: BluetoothSearchManager.bt_log, type: .default)
+        os_log("Did discover services", log: Self.bt_log, type: .default)
         if let error = error {
-            os_log("Did discover services error: %{public}@", log: BluetoothSearchManager.bt_log, type: .error, "\(error.localizedDescription)")
+            os_log("Did discover services error: %{public}@", log: Self.bt_log, type: .error, "\(error.localizedDescription)")
         }
 
         if let services = peripheral.services {
             for service in services {
                 peripheral.discoverCharacteristics(nil, for: service)
 
-                os_log("Did discover service: %{public}@", log: BluetoothSearchManager.bt_log, type: .default, String(describing: service.debugDescription))
+                os_log("Did discover service: %{public}@", log: Self.bt_log, type: .default, String(describing: service.debugDescription))
             }
         }
     }
 
     func peripheral(_ peripheral: CBPeripheral, didDiscoverCharacteristicsFor service: CBService, error: Error?) {
-        os_log("Did discover characteristics for service %{public}@", log: BluetoothSearchManager.bt_log, type: .default, String(describing: peripheral.name))
+        os_log("Did discover characteristics for service %{public}@", log: Self.bt_log, type: .default, String(describing: peripheral.name))
 
         if let error = error {
-            os_log("Did discover characteristics for service error: %{public}@", log: BluetoothSearchManager.bt_log, type: .error, "\(error.localizedDescription)")
+            os_log("Did discover characteristics for service error: %{public}@", log: Self.bt_log, type: .error, "\(error.localizedDescription)")
         }
 
         if let characteristics = service.characteristics {
             for characteristic in characteristics {
-                os_log("Did discover characteristic: %{public}@", log: BluetoothSearchManager.bt_log, type: .default, String(describing: characteristic.debugDescription))
+                os_log("Did discover characteristic: %{public}@", log: Self.bt_log, type: .default, String(describing: characteristic.debugDescription))
 
                 if (characteristic.properties.intersection(.notify)) == .notify && characteristic.uuid == CBUUID(string: "6E400003-B5A3-F393-E0A9-E50E24DCCA9E") {
                     peripheral.setNotifyValue(true, for: characteristic)
-                    os_log("Set notify value for this characteristic", log: BluetoothSearchManager.bt_log, type: .default)
+                    os_log("Set notify value for this characteristic", log: Self.bt_log, type: .default)
                 }
                 if characteristic.uuid == CBUUID(string: "6E400002-B5A3-F393-E0A9-E50E24DCCA9E") {
                     //writeCharacteristic = characteristic
                 }
             }
         } else {
-            os_log("Discovered characteristics, but no characteristics listed. There must be some error.", log: BluetoothSearchManager.bt_log, type: .default)
+            os_log("Discovered characteristics, but no characteristics listed. There must be some error.", log: Self.bt_log, type: .default)
         }
     }
 
     func peripheral(_ peripheral: CBPeripheral, didUpdateNotificationStateFor characteristic: CBCharacteristic, error: Error?) {
-        os_log("Did update notification state for characteristic: %{public}@", log: BluetoothSearchManager.bt_log, type: .default, String(describing: characteristic.debugDescription))
+        os_log("Did update notification state for characteristic: %{public}@", log: Self.bt_log, type: .default, String(describing: characteristic.debugDescription))
     }
 
     func peripheral(_ peripheral: CBPeripheral, didUpdateValueFor characteristic: CBCharacteristic, error: Error?) {
-        os_log("Did update value for characteristic: %{public}@", log: BluetoothSearchManager.bt_log, type: .default, String(describing: characteristic.debugDescription))
+        os_log("Did update value for characteristic: %{public}@", log: Self.bt_log, type: .default, String(describing: characteristic.debugDescription))
     }
 
     func peripheral(_ peripheral: CBPeripheral, didWriteValueFor characteristic: CBCharacteristic, error: Error?) {
-        os_log("Did Write value %{public}@ for characteristic %{public}@", log: BluetoothSearchManager.bt_log, type: .default, String(characteristic.value.debugDescription), String(characteristic.debugDescription))
+        os_log("Did Write value %{public}@ for characteristic %{public}@", log: Self.bt_log, type: .default, String(characteristic.value.debugDescription), String(characteristic.debugDescription))
     }
 
     deinit {

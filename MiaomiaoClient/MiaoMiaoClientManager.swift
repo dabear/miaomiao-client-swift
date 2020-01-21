@@ -15,7 +15,7 @@ import UserNotifications
 import HealthKit
 import os.log
 
-public final class MiaoMiaoClientManager: CGMManager, LibreBluetoothManagerDelegate {
+public final class MiaoMiaoClientManager: CGMManager, LibreTransmitterDelegate {
     public var cgmManagerDelegate: CGMManagerDelegate? {
         get {
             return delegate.delegate
@@ -48,7 +48,8 @@ public final class MiaoMiaoClientManager: CGMManager, LibreBluetoothManagerDeleg
 
 
     public var device: HKDevice? {
-         proxy?.OnQueue_device
+         //proxy?.OnQueue_device
+        proxy?.viaManagerQueue.device
     }
 
   
@@ -59,13 +60,8 @@ public final class MiaoMiaoClientManager: CGMManager, LibreBluetoothManagerDeleg
             "lastConnected: \(String(describing: lastConnected))",
             "Connection state: \(connectionState)",
             "Sensor state: \(sensorStateDescription)",
-            "Bridge battery: \(battery)",
-            "git revision: \(AppMetadata.gitRevision)",
-            "git branch: \(AppMetadata.gitBranch)",
-            "git remote: \(AppMetadata.gitRemote)",
-            "sourcepath: \(AppMetadata.srcRoot)",
-            "build date: \(AppMetadata.buildDate)",
-            "xcode built revision: \(AppMetadata.xcodeVersion)",
+            "transmitterbattery: \(battery)",
+            "Metainfo::\n \(AppMetaData.allProperties)",
             ""
         ].joined(separator: "\n")
     }
@@ -160,7 +156,7 @@ public final class MiaoMiaoClientManager: CGMManager, LibreBluetoothManagerDeleg
         disconnect()
     }
 
-    private lazy var proxy: LibreBluetoothManager? = LibreBluetoothManager()
+    private lazy var proxy: LibreTransmitterManager? = LibreTransmitterManager()
 
     private func readingToGlucose(_ data: SensorData, calibration: DerivedAlgorithmParameters) -> [LibreGlucose] {
         let last16 = data.trendMeasurements(derivedAlgorithmParameterSet: calibration)
@@ -206,9 +202,11 @@ public final class MiaoMiaoClientManager: CGMManager, LibreBluetoothManagerDeleg
             return
         }
 
+        NotificationHelper.sendCalibrationNotification("Calibrating sensor, please stand by!")
         calibrateSensor(accessToken: accessToken, site: url.absoluteString, sensordata: data) { [weak self] calibrationparams  in
             guard let params = calibrationparams else {
-                NSLog("dabear:: could not calibrate sensor, check libreoopweb permissions and internet connection")
+
+                NotificationHelper.sendCalibrationNotification("Could not calibrate sensor, check libreoopweb permissions and internet connection")
                 callback(LibreError.noCalibrationData, nil)
                 return
             }
@@ -216,19 +214,20 @@ public final class MiaoMiaoClientManager: CGMManager, LibreBluetoothManagerDeleg
             do {
                 try self?.keychain.setLibreCalibrationData(params)
             } catch {
-                NSLog("dabear:: could not save calibrationdata")
+                NotificationHelper.sendCalibrationNotification("Could not calibrate sensor, invalid calibrationdata")
                 callback(LibreError.invalidCalibrationData, nil)
                 return
             }
             //here we assume success, data is not changed,
             //and we trust that the remote endpoint returns correct data for the sensor
 
+            NotificationHelper.sendCalibrationNotification("Success!")
             callback(nil, self?.readingToGlucose(data, calibration: params))
         }
     }
 
     //will be called on utility queue
-    public func libreBluetoothManagerPeripheralStateChanged(_ state: BluetoothmanagerState) {
+    public func libreTransmitterStateChanged(_ state: BluetoothmanagerState) {
         switch state {
         case .Connected:
             lastConnected = Date()
@@ -241,7 +240,7 @@ public final class MiaoMiaoClientManager: CGMManager, LibreBluetoothManagerDeleg
     }
 
     //will be called on utility queue
-    public func libreBluetoothManagerReceivedMessage(_ messageIdentifier: UInt16, txFlags: UInt8, payloadData: Data) {
+    public func libreTransmitterReceivedMessage(_ messageIdentifier: UInt16, txFlags: UInt8, payloadData: Data) {
         guard let packet = MiaoMiaoResponseState(rawValue: txFlags) else {
             // Incomplete package?
             // this would only happen if delegate is called manually with an unknown txFlags value
@@ -255,12 +254,12 @@ public final class MiaoMiaoClientManager: CGMManager, LibreBluetoothManagerDeleg
         switch packet {
         case .newSensor:
             NSLog("dabear:: new libresensor detected")
-            NotificationHelper.sendSensorChangeNotificationIfNeeded(hasChanged: true)
+            NotificationHelper.sendSensorChangeNotificationIfNeeded()
         case .noSensor:
             NSLog("dabear:: no libresensor detected")
-            NotificationHelper.sendSensorNotDetectedNotificationIfNeeded(noSensor: true)
+            NotificationHelper.sendSensorNotDetectedNotificationIfNeeded(noSensor: true, devicename: transmitterName)
         case .frequencyChangedResponse:
-            NSLog("dabear:: miaomiao readout interval has changed!")
+            NSLog("dabear:: transmitter readout interval has changed!")
 
         default:
             //we don't care about the rest!
@@ -270,9 +269,11 @@ public final class MiaoMiaoClientManager: CGMManager, LibreBluetoothManagerDeleg
         return
     }
 
+    var transmitterName = "Unknown device"
+
     //will be called on utility queue
-    public func libreBluetoothManagerDidUpdate(sensorData: SensorData, and Device: BluetoothBridgeMetaData) {
-        print("dabear:: got sensordata: \(sensorData), bytescount: \(sensorData.bytes.count), bytes: \(sensorData.bytes)")
+    public func libreTransmitterDidUpdate(with sensorData: SensorData, and Device: LibreTransmitterMetadata) {
+        print("dabear:: got sensordata: \(sensorData), bytescount: \( sensorData.bytes.count), bytes: \(sensorData.bytes)")
 
         NotificationHelper.sendLowBatteryNotificationIfNeeded(device: Device)
         NotificationHelper.sendInvalidSensorNotificationIfNeeded(sensorData: sensorData)
@@ -288,6 +289,7 @@ public final class MiaoMiaoClientManager: CGMManager, LibreBluetoothManagerDeleg
             os_log("dit not get sensordata with valid crcs")
             return
         }
+        transmitterName = Device.name
 
         guard sensorData.state == .ready || sensorData.state == .starting else {
             os_log("dabear:: got sensordata with valid crcs, but sensor is either expired or failed")
@@ -331,18 +333,13 @@ public final class MiaoMiaoClientManager: CGMManager, LibreBluetoothManagerDeleg
 
             self.latestBackfill = glucose.max { $0.startDate < $1.startDate }
 
-            if newGlucose.isEmpty {
-                NSLog("dabear:: handleGoodReading returned with no new data")
-                self.delegateQueue.async {
-                    self.cgmManagerDelegate?.cgmManager(self, didUpdateWith: .noData)
-                }
 
-            } else {
-                NSLog("dabear:: handleGoodReading returned with \(newGlucose.count) new glucose samples")
-                self.delegateQueue.async {
-                    self.cgmManagerDelegate?.cgmManager(self, didUpdateWith: .newData(newGlucose))
-                }
+            NSLog("dabear:: handleGoodReading returned with no new data")
+            self.delegateQueue.async {
+                self.cgmManagerDelegate?.cgmManager(self, didUpdateWith: newGlucose.isEmpty ? .noData : .newData(newGlucose))
             }
+
+
         }
     }
 }
@@ -355,59 +352,64 @@ public final class MiaoMiaoClientManager: CGMManager, LibreBluetoothManagerDeleg
 extension MiaoMiaoClientManager {
     //cannot be called from managerQueue
     public var identifier: String {
-        proxy?.OnQueue_identifer?.uuidString ?? "n/a"
+        //proxy?.OnQueue_identifer?.uuidString ?? "n/a"
+        proxy?.viaManagerQueue.identifier?.uuidString ?? "n/a"
+    }
+
+    public var metaData : LibreTransmitterMetadata? {
+        //proxy?.OnQueue_metadata
+         proxy?.viaManagerQueue.metadata
     }
 
     //cannot be called from managerQueue
     public var connectionState: String {
-        proxy?.connectionStateString ?? "n/a"
+        //proxy?.connectionStateString ?? "n/a"
+        proxy?.viaManagerQueue.connectionStateString ?? "n/a"
     }
     //cannot be called from managerQueue
     public var sensorSerialNumber: String {
-        proxy?.OnQueue_sensorData?.serialNumber ?? "n/a"
+        //proxy?.OnQueue_sensorData?.serialNumber ?? "n/a"
+        proxy?.viaManagerQueue.sensorData?.serialNumber ?? "n/a"
     }
 
     //cannot be called from managerQueue
     public var sensorAge: String {
-        proxy?.OnQueue_sensorData?.humanReadableSensorAge ?? "n/a"
+        //proxy?.OnQueue_sensorData?.humanReadableSensorAge ?? "n/a"
+        proxy?.viaManagerQueue.sensorData?.humanReadableSensorAge ?? "n/a"
     }
 
     //cannot be called from managerQueue
     public var sensorFooterChecksums: String {
-        if let crc = proxy?.OnQueue_sensorData?.footerCrc.byteSwapped {
-            //if let crc = MiaoMiaoClientManager.proxy?.sensorData?.footerCrc.byteSwapped {
-            return  "\(crc)"
-        }
-        return  "n/a"
+        //(proxy?.OnQueue_sensorData?.footerCrc.byteSwapped).map(String.init)
+        (proxy?.viaManagerQueue.sensorData?.footerCrc.byteSwapped).map(String.init)
+
+            ?? "n/a"
     }
 
     //cannot be called from managerQueue
     public var sensorStateDescription: String {
-        proxy?.OnQueue_sensorData?.state.description ?? "n/a"
+        //proxy?.OnQueue_sensorData?.state.description ?? "n/a"
+        proxy?.viaManagerQueue.sensorData?.state.description ?? "n/a"
     }
     //cannot be called from managerQueue
     public var firmwareVersion: String {
-        proxy?.OnQueue_metadata?.firmware ?? "n/a"
+        proxy?.viaManagerQueue.metadata?.firmware ?? "n/a"
     }
 
     //cannot be called from managerQueue
     public var hardwareVersion: String {
-        proxy?.OnQueue_metadata?.hardware ?? "n/a"
+        proxy?.viaManagerQueue.metadata?.hardware ?? "n/a"
     }
 
     //cannot be called from managerQueue
     public var battery: String {
-        if let bat = proxy?.OnQueue_metadata?.battery {
-            return "\(bat)%"
-        }
-        return "n/a"
+        proxy?.viaManagerQueue.metadata?.batteryString ?? "n/a"
     }
 
     public func getDeviceType() -> String {
-        proxy?.OnQueue_peripheral?.bridgeType?.name ?? "Unknown"
+        proxy?.viaManagerQueue.shortTransmitterName ?? "Unknown"
     }
     public func getSmallImage() -> UIImage? {
-        proxy?.OnQueue_peripheral?.smallImage ??
-        UIImage(named: "libresensor", in:  Bundle.current, compatibleWith: nil)
+        proxy?.activePluginType?.smallImage ?? UIImage(named: "libresensor", in:  Bundle.current, compatibleWith: nil)
     }
 }

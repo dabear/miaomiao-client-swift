@@ -7,39 +7,17 @@
 //
 
 import Foundation
-enum AppMetadata{
-    private static func getMeta<T>(key: String, default defaultValue: @autoclosure () -> T ) ->  T{
-        if let anObj = Bundle.current.object(forInfoDictionaryKey: key) as? T {
-            return anObj
-        }
-        return defaultValue()
+
+fileprivate let prefix = "no-bjorninge-mm"
+enum AppMetaData {
+
+    static var allProperties : String {
+        Bundle.current.infoDictionary?.compactMap {
+            $0.key.starts(with: prefix) ? "\($0.key): \($0.value)" : nil
+        }.joined(separator: "\n") ?? "none"
+
     }
 
-    private static func getMeta(key: String) ->  String{
-        getMeta(key: key, default: "unknown")
-    }
-
-    static var gitRevision: String {
-        getMeta(key: "no-bjorninge-mm-git-revision", default: "unknown")
-    }
-
-    static var gitBranch: String {
-        getMeta(key: "no-bjorninge-mm-git-branch", default: "unknown")
-    }
-
-    static var gitRemote: String {
-        getMeta(key: "no-bjorninge-mm-git-remote", default: "unknown")
-    }
-
-    static var srcRoot: String {
-        getMeta(key: "no-bjorninge-mm-srcroot", default: "unknown")
-    }
-    static var buildDate: String {
-        getMeta(key: "no-bjorninge-mm-build-date", default: "unknown")
-    }
-    static var xcodeVersion: String {
-        getMeta(key: "no-bjorninge-mm-xcode-version", default: "unknown")
-    }
 
 }
 
@@ -49,5 +27,3 @@ extension Bundle {
         return Bundle(for: Helper.self)
     }
 }
-
-

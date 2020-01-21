@@ -203,7 +203,7 @@ public class CalibrationEditTableViewController: UITableViewController, mmTextFi
         if section == Section.sync.rawValue {
             return nil
         }
-        return LocalizedString("Calibrations edit mode", comment: "The title text for the Notification settings")
+        return LocalizedString("Calibrations edit mode", comment: "The title text for the Calibrations edit mode")
     }
 
     override public func tableView(_ tableView: UITableView, titleForFooterInSection section: Int) -> String? {

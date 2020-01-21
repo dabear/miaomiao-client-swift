@@ -276,30 +276,40 @@ public class MiaomiaoClientSettingsViewController: UITableViewController, SubVie
 
             switch LatestBridgeInfoRow(rawValue: indexPath.row)! {
             case .battery:
-                cell.textLabel?.text = LocalizedString("Battery", comment: "Title describing bridge battery info")
+                cell.textLabel?.text = LocalizedString("Battery", comment: "Title describing transmitter battery level")
 
                 cell.detailTextLabel?.text = cgmManager?.battery
 
             case .firmware:
-                cell.textLabel?.text = LocalizedString("Firmware", comment: "Title describing bridge firmware info")
+                cell.textLabel?.text = LocalizedString("Firmware", comment: "Title describing transmitter firmware level")
 
                 cell.detailTextLabel?.text = cgmManager?.firmwareVersion
 
             case .hardware:
-                cell.textLabel?.text = LocalizedString("Hardware", comment: "Title describing bridge hardware info")
+                cell.textLabel?.text = LocalizedString("Hardware", comment: "Title describing the Transmitter hardware level")
 
                 cell.detailTextLabel?.text = cgmManager?.hardwareVersion
             case .connectionState:
-                cell.textLabel?.text = LocalizedString("Connection State", comment: "Title Bridge connection state")
+                cell.textLabel?.text = LocalizedString("Connection State", comment: "Title for the Transmitter Connection State")
 
                 cell.detailTextLabel?.text = cgmManager?.connectionState
             case .bridgeType:
-                cell.textLabel?.text = LocalizedString("Bridge Type", comment: "Title Bridge Type")
+                cell.textLabel?.text = LocalizedString("Transmitter Type", comment: "Title for the Transmitter Type")
 
                 cell.detailTextLabel?.text = cgmManager?.getDeviceType()
             case .bridgeIdentifer:
-                cell.textLabel?.text = LocalizedString("Bridge Identifer", comment: "Title Bridge Identifier")
-                cell.detailTextLabel?.text = UserDefaults.standard.preSelectedDevice
+                // On ios the mac address of the peripheral is generally not available.
+                // However, some devices broadcast their mac address in
+                // the advertisement data.
+                if let mac = cgmManager?.metaData?.macAddress {
+
+                    cell.textLabel?.text = LocalizedString("Mac", comment: "Title for the Transmitter Mac Address")
+                    cell.detailTextLabel?.text = mac
+
+                } else {
+                    cell.textLabel?.text = LocalizedString("Identifer", comment: "Title for the Transmitter Identifier")
+                    cell.detailTextLabel?.text = UserDefaults.standard.preSelectedDevice
+                }
             }
 
             return cell
@@ -469,9 +479,9 @@ public class MiaomiaoClientSettingsViewController: UITableViewController, SubVie
         case .delete:
             return nil
         case .latestBridgeInfo:
-            return LocalizedString("Latest Bridge info", comment: "Section title for latest bridge info")
+            return LocalizedString("Transmitter info", comment: "Section title for transmitter info")
         case .latestCalibrationData:
-            return LocalizedString("Latest Autocalibration Parameters", comment: "Section title for latest bridge info")
+            return LocalizedString("Latest Autocalibration Parameters", comment: "Section title for latest calibrationdata")
 
         case .advanced:
             return LocalizedString("Advanced", comment: "Advanced Section")
@@ -629,7 +639,7 @@ public class MiaomiaoClientSettingsViewController: UITableViewController, SubVie
                     let team = bundleSeedID() ?? "Unknown???!"
                     let msg = "To activate dangermode, please input your team identifier. It is important that you take an active choice here, so don't copy/paste but type it in correctly. Your team identifer is: \(team)"
 
-                    let controller = InputAlertController(msg, title: "Activate danger mode", inputPlaceholder: "Enter your team identifer") { [weak self] isOk, controller in
+                    let controller = InputAlertController(msg, title: "Activate danger mode", inputPlaceholder: "Confirm your team identifer") { [weak self] isOk, controller in
                         self?.dangerModeActivation(isOk, controller: controller)
                     }
                     self.presentStatus(controller)

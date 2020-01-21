@@ -23,6 +23,7 @@ enum NotificationHelper {
         case noBridgeSelected = "no.bjorninge.miaomiao.noBridgeSelected-notification"
         case bluetoothPoweredOff = "no.bjorninge.miaomiao.bluetoothPoweredOff-notification"
         case invalidChecksum = "no.bjorninge.miaomiao.invalidChecksum-notification"
+        case calibrationOngoing = "no.bjorninge.miaomiao.calibration-notification"
     }
 
     private static var glucoseFormatterMgdl: QuantityFormatter = {
@@ -90,7 +91,7 @@ enum NotificationHelper {
             NSLog("dabear:: sending noBridgeSelected")
 
             let content = UNMutableNotificationContent()
-            content.title = "No Libre Bridge Selected"
+            content.title = "No Libre Transmitter Selected"
             content.body = "Delete CGMManager and start anew. Your libreoopweb credentials will be preserved"
 
             addRequest(identifier: Identifiers.noBridgeSelected, content: content)
@@ -251,16 +252,35 @@ enum NotificationHelper {
         }
     }
 
-    public static func sendSensorNotDetectedNotificationIfNeeded(noSensor: Bool) {
+    public static func sendCalibrationNotification(_ calibrationMessage:String) {
+        ensureCanSendNotification { ensured in
+            guard ensured else {
+                NSLog("dabear:: not sending sendCalibration notification")
+                return
+            }
+            NSLog("dabear:: sending sendCalibrationNotification")
+
+            let content = UNMutableNotificationContent()
+            content.sound = .default
+            content.title = "Extracting calibrationdata from sensor"
+            content.body = calibrationMessage
+
+            addRequest(identifier: Identifiers.calibrationOngoing,
+                       content: content,
+                       deleteOld: true)
+        }
+    }
+
+    public static func sendSensorNotDetectedNotificationIfNeeded(noSensor: Bool, devicename:String) {
         guard UserDefaults.standard.mmAlertNoSensorDetected && noSensor else {
             NSLog("not sending noSensorDetected notification")
             return
         }
 
-        sendSensorNotDetectedNotification()
+        sendSensorNotDetectedNotification(devicename: devicename)
     }
 
-    private static func sendSensorNotDetectedNotification() {
+    private static func sendSensorNotDetectedNotification(devicename:String) {
         ensureCanSendNotification { ensured in
             guard ensured else {
                 NSLog("dabear:: not sending noSensorDetected notification")
@@ -270,14 +290,14 @@ enum NotificationHelper {
 
             let content = UNMutableNotificationContent()
             content.title = "No Sensor Detected"
-            content.body = "This might be an intermittent problem, but please check that your miaomiao is tightly secured over your sensor"
+            content.body = "This might be an intermittent problem, but please check that your \(devicename) is tightly secured over your sensor"
 
             addRequest(identifier: Identifiers.noSensorDetected, content: content)
         }
     }
 
-    public static func sendSensorChangeNotificationIfNeeded(hasChanged: Bool) {
-        guard UserDefaults.standard.mmAlertNewSensorDetected && hasChanged else {
+    public static func sendSensorChangeNotificationIfNeeded() {
+        guard UserDefaults.standard.mmAlertNewSensorDetected else {
             NSLog("not sending sendSensorChange notification ")
             return
         }
@@ -339,7 +359,7 @@ enum NotificationHelper {
 
     private static var lastBatteryWarning: Date?
 
-    public static func sendLowBatteryNotificationIfNeeded(device: BluetoothBridgeMetaData) {
+    public static func sendLowBatteryNotificationIfNeeded(device: LibreTransmitterMetadata) {
         guard UserDefaults.standard.mmAlertLowBatteryWarning else {
             NSLog("mmAlertLowBatteryWarning toggle was not enabled, not sending low notification")
             return
@@ -356,18 +376,18 @@ enum NotificationHelper {
         if let earlier = lastBatteryWarning {
             let earlierplus = earlier.addingTimeInterval(mins)
             if earlierplus < now {
-                sendLowBatteryNotification(batteryPercentage: device.batteryString)
+                sendLowBatteryNotification(batteryPercentage: device.batteryString, deviceName: device.name)
                 lastBatteryWarning = now
             } else {
                 NSLog("Device battery is running low, but lastBatteryWarning Notification was sent less than 45 minutes ago, aborting. earlierplus: \(earlierplus), now: \(now)")
             }
         } else {
-            sendLowBatteryNotification(batteryPercentage: device.batteryString)
+            sendLowBatteryNotification(batteryPercentage: device.batteryString, deviceName: device.name)
             lastBatteryWarning = now
         }
     }
 
-    private static func sendLowBatteryNotification(batteryPercentage: String) {
+    private static func sendLowBatteryNotification(batteryPercentage: String, deviceName: String) {
         ensureCanSendNotification { ensured in
             guard ensured else {
                 NSLog("dabear:: not sending LowBattery notification")
@@ -377,7 +397,7 @@ enum NotificationHelper {
 
             let content = UNMutableNotificationContent()
             content.title = "Low Battery"
-            content.body = "Battery is running low (\(batteryPercentage)), consider charging your miaomiao device as soon as possible"
+            content.body = "Battery is running low (\(batteryPercentage)), consider charging your \(deviceName) device as soon as possible"
 
             content.sound = .default
 

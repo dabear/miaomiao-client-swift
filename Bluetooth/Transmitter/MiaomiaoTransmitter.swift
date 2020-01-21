@@ -1,5 +1,5 @@
 //
-//  LibreBluetoothManager+Miaomiao.swift
+//  MiaomiaoTransmitter.swift
 //  MiaomiaoClient
 //
 //  Created by Bjørn Inge Berg on 01/08/2019.
@@ -156,11 +156,9 @@
 //          a) 0xD101 Success
 //          b) 0xD100 Fail
 
-import CoreBluetooth
 import Foundation
-import os.log
+import CoreBluetooth
 import UIKit
-
 public enum MiaoMiaoResponseState: UInt8 {
     case dataPacketReceived = 0x28
     case newSensor = 0x32
@@ -182,44 +180,63 @@ extension MiaoMiaoResponseState: CustomStringConvertible {
     }
 }
 
-//miaomiao support
-extension LibreBluetoothManager {
-    func miaomiaoHandleCompleteMessage() {
-        guard rxBuffer.count >= 363 else {
-            return
-        }
+class MiaoMiaoTransmitter: LibreTransmitter{
 
-        metadata = BluetoothBridgeMetaData(hardware: String(describing: rxBuffer[16...17].hexEncodedString()),
-                                           firmware: String(describing: rxBuffer[14...15].hexEncodedString()),
-                                           battery: Int(rxBuffer[13]))
-
-        sensorData = SensorData(uuid: Data(rxBuffer.subdata(in: 5..<13)), bytes: [UInt8](rxBuffer.subdata(in: 18..<362)), date: Date())
-
-        dispatchToDelegate { manager in
-            guard let metadata = manager.metadata, let sensorData = manager.sensorData else {
-                return
-            }
-
-            // Inform delegate that new data is available
-            manager.delegate?.libreBluetoothManagerDidUpdate(sensorData: sensorData, and: metadata)
-        }
+    func reset() {
+        rxBuffer.resetAllBytes()
     }
 
-    func miaomiaoRequestData(writeCharacteristics: CBCharacteristic, peripheral: CBPeripheral) {
-        miaomiaoConfirmSensor(peripheral: peripheral)
-        rxBuffer.resetAllBytes()
+    class var manufacturerer: String {
+        "Tomato"
+    }
 
+    class var smallImage: UIImage? {
+        UIImage(named: "miaomiao-small", in: Bundle.current, compatibleWith: nil)
+    }
+
+
+    class var shortTransmitterName: String {
+        "miaomiao"
+    }
+
+    static var writeCharacteristic: UUIDContainer? = "6E400002-B5A3-F393-E0A9-E50E24DCCA9E"
+    static var notifyCharacteristic: UUIDContainer? = "6E400003-B5A3-F393-E0A9-E50E24DCCA9E"
+    static var serviceUUID: [UUIDContainer] = ["6E400001-B5A3-F393-E0A9-E50E24DCCA9E"]
+
+    weak var delegate: LibreTransmitterDelegate?
+
+
+    private var rxBuffer = Data()
+    private var sensorData : SensorData?
+    private var metadata: LibreTransmitterMetadata?
+
+    class func canSupportPeripheral(_ peripheral:CBPeripheral)-> Bool{
+        peripheral.name?.lowercased().starts(with: "miaomiao") ?? false
+
+    }
+    required init(delegate: LibreTransmitterDelegate, advertisementData: [String : Any]?) {
+        //advertisementData is unknown for the miaomiao
+        self.delegate = delegate
+    }
+
+    func requestData(writeCharacteristics: CBCharacteristic, peripheral: CBPeripheral) {
+
+        confirmSensor(peripheral: peripheral, writeCharacteristics: writeCharacteristics)
+        rxBuffer.resetAllBytes()
         print("dabear: miaomiaoRequestData")
 
         peripheral.writeValue(Data([0xF0]), for: writeCharacteristics, type: .withResponse)
+
+      
     }
 
-    func miaomiaoDidUpdateValueForNotifyCharacteristics(_ value: Data, peripheral: CBPeripheral) {
+
+    func updateValueForNotifyCharacteristics(_ value: Data, peripheral: CBPeripheral, writeCharacteristic: CBCharacteristic?) {
         rxBuffer.append(value)
 
-        os_log("Appended value with length %{public}@, buffer length is: %{public}@", log: LibreBluetoothManager.bt_log, type: .default, String(describing: value.count), String(describing: rxBuffer.count))
+        //os_log("Appended value with length %{public}@, buffer length is: %{public}@", log: LibreTransmitterManager.bt_log, type: .default, String(describing: value.count), String(describing: rxBuffer.count))
 
-        os_log("rxBuffer.first is: %{public}@, value.first is: %{public}@", log: LibreBluetoothManager.bt_log, type: .default, String(describing: rxBuffer.first), String(describing: value.first))
+        //os_log("rxBuffer.first is: %{public}@, value.first is: %{public}@", log: LibreTransmitterManager.bt_log, type: .default, String(describing: rxBuffer.first), String(describing: value.first))
 
         // When spreading a message over multiple telegrams, the miaomiao protocol
         // does not repeat that initial byte
@@ -228,7 +245,7 @@ extension LibreBluetoothManager {
         // Therefore it also becomes important that once a message is fully received, the buffer is invalidated
         //
         guard let firstByte = rxBuffer.first, let miaoMiaoResponseState = MiaoMiaoResponseState(rawValue: firstByte) else {
-            rxBuffer.resetAllBytes()
+            reset()
             print("miaomiaoDidUpdateValueForNotifyCharacteristics did not undestand what to do (internal error")
             return
         }
@@ -237,50 +254,74 @@ extension LibreBluetoothManager {
         case .dataPacketReceived: // 0x28: // data received, append to buffer and inform delegate if end reached
 
             if rxBuffer.count >= 363, let last = rxBuffer.last, last == 0x29 {
-                os_log("Buffer complete, inform delegate.", log: LibreBluetoothManager.bt_log, type: .default)
-                dispatchToDelegate { manager in
-                    manager.delegate?.libreBluetoothManagerReceivedMessage(0x0000, txFlags: 0x28, payloadData: manager.rxBuffer)
-                }
+                //os_log("Buffer complete, inform delegate.", log: LibreTransmitterManager.bt_log, type: .default)
+
+                delegate?.libreTransmitterReceivedMessage(0x0000, txFlags: 0x28, payloadData: rxBuffer)
+
                 handleCompleteMessage()
-                rxBuffer.resetAllBytes()
+                reset()
             }
 
         case .newSensor: // 0x32: // A new sensor has been detected -> acknowledge to use sensor and reset buffer
-            dispatchToDelegate { manager in
-                manager.delegate?.libreBluetoothManagerReceivedMessage(0x0000, txFlags: 0x32, payloadData: manager.rxBuffer)
-            }
-            miaomiaoConfirmSensor(peripheral: peripheral)
-            rxBuffer.resetAllBytes()
+            delegate?.libreTransmitterReceivedMessage(0x0000, txFlags: 0x32, payloadData: rxBuffer)
+
+
+            confirmSensor(peripheral: peripheral, writeCharacteristics: writeCharacteristic)
+            reset()
         case .noSensor: // 0x34: // No sensor has been detected -> reset buffer (and wait for new data to arrive)
-            dispatchToDelegate { manager in
-                manager.delegate?.libreBluetoothManagerReceivedMessage(0x0000, txFlags: 0x34, payloadData: manager.rxBuffer)
-            }
-            rxBuffer.resetAllBytes()
+
+            delegate?.libreTransmitterReceivedMessage(0x0000, txFlags: 0x34, payloadData: rxBuffer)
+
+           reset()
         case .frequencyChangedResponse: // 0xD1: // Success of fail for setting time intervall
-            dispatchToDelegate {manager in
-                manager.delegate?.libreBluetoothManagerReceivedMessage(0x0000, txFlags: 0xD1, payloadData: manager.rxBuffer)
-            }
+
+            delegate?.libreTransmitterReceivedMessage(0x0000, txFlags: 0xD1, payloadData: rxBuffer)
+
             if value.count >= 2 {
                 if value[2] == 0x01 {
-                    os_log("Success setting time interval.", log: LibreBluetoothManager.bt_log, type: .default)
+                    //os_log("Success setting time interval.", log: LibreTransmitterManager.bt_log, type: .default)
                 } else if value[2] == 0x00 {
-                    os_log("Failure setting time interval.", log: LibreBluetoothManager.bt_log, type: .default)
+                    //os_log("Failure setting time interval.", log: LibreTransmitterManager.bt_log, type: .default)
                 } else {
-                    os_log("Unkown response for setting time interval.", log: LibreBluetoothManager.bt_log, type: .default)
+                    //os_log("Unkown response for setting time interval.", log: LibreTransmitterManager.bt_log, type: .default)
                 }
             }
-            rxBuffer.resetAllBytes()
+            reset()
         }
     }
 
-    // Confirm (to replace) the sensor. Iif a new sensor is detected and shall be used, send this command (0xD301)
-    func miaomiaoConfirmSensor(peripheral: CBPeripheral) {
-        print("confirming new sensor")
-        if let writeCharacteristic = writeCharacteristic {
-            print("confirmed new sensor")
-            peripheral.writeValue(Data([0xD3, 0x01]), for: writeCharacteristic, type: .withResponse)
-        } else {
-            print("could not confirm new sensor")
+    func handleCompleteMessage() {
+        guard rxBuffer.count >= 363 else {
+            return
         }
+
+        metadata = LibreTransmitterMetadata(
+            hardware: String(describing: rxBuffer[16...17].hexEncodedString()),
+            firmware: String(describing: rxBuffer[14...15].hexEncodedString()),
+            battery: Int(rxBuffer[13]),
+            name: Self.shortTransmitterName,
+            macAddress: nil)
+
+        sensorData = SensorData(uuid: Data(rxBuffer.subdata(in: 5..<13)), bytes: [UInt8](rxBuffer.subdata(in: 18..<362)), date: Date())
+
+
+
+       if let sensorData = sensorData, let metadata = metadata {
+            delegate?.libreTransmitterDidUpdate(with: sensorData, and: metadata)
+        }
+
     }
+
+
+    // Confirm (to replace) the sensor. Iif a new sensor is detected and shall be used, send this command (0xD301)
+    func confirmSensor(peripheral: CBPeripheral, writeCharacteristics:CBCharacteristic?) {
+        guard let writeCharacteristics = writeCharacteristics else {
+            print("could not confirm sensor")
+            return
+        }
+        print("confirming new sensor")
+        peripheral.writeValue(Data([0xD3, 0x01]), for: writeCharacteristics, type: .withResponse)
+
+    }
+
 }

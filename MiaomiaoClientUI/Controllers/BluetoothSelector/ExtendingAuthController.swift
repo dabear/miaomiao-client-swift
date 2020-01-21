@@ -85,7 +85,7 @@ public class ExtendingAuthController: NSObject, UITableViewDataSource, UITableVi
             return nil // source.tableView(tableView, titleForHeaderInSection: section)
         }
 
-        return "Libre Bluetooth Devices\nSelec which LIbre Bridge device you want to connect to"
+        return "Libre Bluetooth Devices\nSelec which Libre transmitter you want to connect to"
     }
 
     public func tableView(_ tableView: UITableView, titleForFooterInSection section: Int) -> String? {
@@ -171,9 +171,11 @@ public class ExtendingAuthController: NSObject, UITableViewDataSource, UITableVi
             cell.tag = 1
             cell.annotation = device
             selectIfannotatedCellMatchesPreSelection(cell)
-            print("rendering device image in gui \(device.smallImage) for device \(device.name)")
-            if let image = device.smallImage {
-                cell.imageView!.image = image
+
+            
+
+            if let pluginType =  LibreTransmitters.getSupportedPlugins(device)?.first {
+                cell.imageView!.image = pluginType.smallImage
             }
         } else {
             //won't happen
