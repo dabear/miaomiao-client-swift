@@ -8,17 +8,13 @@
 
 import Foundation
 
-fileprivate let prefix = "no-bjorninge-mm"
+private let prefix = "no-bjorninge-mm"
 enum AppMetaData {
-
-    static var allProperties : String {
+    static var allProperties: String {
         Bundle.current.infoDictionary?.compactMap {
             $0.key.starts(with: prefix) ? "\($0.key): \($0.value)" : nil
         }.joined(separator: "\n") ?? "none"
-
     }
-
-
 }
 
 extension Bundle {

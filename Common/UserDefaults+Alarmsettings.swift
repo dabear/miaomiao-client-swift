@@ -160,7 +160,7 @@ extension UserDefaults {
             object(forKey: Key.mmSnoozedUntil.rawValue) as? Date
         }
         set {
-            set (newValue, forKey: Key.mmSnoozedUntil.rawValue)
+            set(newValue, forKey: Key.mmSnoozedUntil.rawValue)
         }
     }
     var glucoseSchedules: GlucoseScheduleList? {

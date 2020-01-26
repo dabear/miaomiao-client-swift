@@ -104,8 +104,6 @@ class AlarmTimeInputRangeCell: UITableViewCell, UITextFieldDelegate {
     }
 
     func textFieldDidEndEditing(_ textField: UITextField) {
-        
-
         switch textField {
         case minValueTextField:
             minValue = textField.text ?? "defaulta"

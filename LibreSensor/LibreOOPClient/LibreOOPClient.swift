@@ -349,7 +349,7 @@ class LibreOOPClient {
 
                 if let result = response.result, result.status == "complete" {
                     print("calibration  ready")
-                    var params : DerivedAlgorithmParameters?
+                    var params: DerivedAlgorithmParameters?
 
                     params = DerivedAlgorithmParameters(slope_slope: result.slopeSlope ?? 0, slope_offset: result.slopeOffset ?? 0, offset_slope: result.offsetSlope ?? 0, offset_offset: result.offsetOffset ?? 0, isValidForFooterWithReverseCRCs: Int(result.isValidForFooterWithReverseCRCs!), extraSlope: 1.0, extraOffset: 0.0)
 
@@ -373,7 +373,7 @@ class LibreOOPClient {
         var files: [URL] = []
         var assoc = [String: String]()
         guard var dir = fm.urls(for: .documentDirectory, in: .userDomainMask).first else {
-            print ("cannot construct url dir")
+            print("cannot construct url dir")
             return nil
         }
 

@@ -6,10 +6,10 @@
 //  Copyright © 2019 Mark Wilson. All rights reserved.
 //
 
+import CoreBluetooth
 import Foundation
 import MiaomiaoClient
 import UIKit
-import CoreBluetooth
 private var foo: ExtendingAuthController!
 
 // This will only work if original controller keeps a somewhat static amount of sections
@@ -172,9 +172,7 @@ public class ExtendingAuthController: NSObject, UITableViewDataSource, UITableVi
             cell.annotation = device
             selectIfannotatedCellMatchesPreSelection(cell)
 
-            
-
-            if let pluginType =  LibreTransmitters.getSupportedPlugins(device)?.first {
+            if let pluginType = LibreTransmitters.getSupportedPlugins(device)?.first {
                 cell.imageView!.image = pluginType.smallImage
             }
         } else {

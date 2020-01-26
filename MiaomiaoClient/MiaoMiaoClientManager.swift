@@ -43,16 +43,11 @@ public final class MiaoMiaoClientManager: CGMManager, LibreTransmitterDelegate {
 
     public var managedDataInterval: TimeInterval?
 
-   
-
-
-
     public var device: HKDevice? {
          //proxy?.OnQueue_device
         proxy?.viaManagerQueue.device
     }
 
-  
     public var debugDescription: String {
         [
             "## MiaomiaoClientManager",
@@ -205,7 +200,6 @@ public final class MiaoMiaoClientManager: CGMManager, LibreTransmitterDelegate {
         NotificationHelper.sendCalibrationNotification("Calibrating sensor, please stand by!")
         calibrateSensor(accessToken: accessToken, site: url.absoluteString, sensordata: data) { [weak self] calibrationparams  in
             guard let params = calibrationparams else {
-
                 NotificationHelper.sendCalibrationNotification("Could not calibrate sensor, check libreoopweb permissions and internet connection")
                 callback(LibreError.noCalibrationData, nil)
                 return
@@ -333,13 +327,10 @@ public final class MiaoMiaoClientManager: CGMManager, LibreTransmitterDelegate {
 
             self.latestBackfill = glucose.max { $0.startDate < $1.startDate }
 
-
             NSLog("dabear:: handleGoodReading returned with no new data")
             self.delegateQueue.async {
                 self.cgmManagerDelegate?.cgmManager(self, didUpdateWith: newGlucose.isEmpty ? .noData : .newData(newGlucose))
             }
-
-
         }
     }
 }
@@ -356,7 +347,7 @@ extension MiaoMiaoClientManager {
         proxy?.viaManagerQueue.identifier?.uuidString ?? "n/a"
     }
 
-    public var metaData : LibreTransmitterMetadata? {
+    public var metaData: LibreTransmitterMetadata? {
         //proxy?.OnQueue_metadata
          proxy?.viaManagerQueue.metadata
     }
@@ -410,6 +401,6 @@ extension MiaoMiaoClientManager {
         proxy?.viaManagerQueue.shortTransmitterName ?? "Unknown"
     }
     public func getSmallImage() -> UIImage? {
-        proxy?.activePluginType?.smallImage ?? UIImage(named: "libresensor", in:  Bundle.current, compatibleWith: nil)
+        proxy?.activePluginType?.smallImage ?? UIImage(named: "libresensor", in: Bundle.current, compatibleWith: nil)
     }
 }

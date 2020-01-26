@@ -105,7 +105,7 @@ public class SnoozeTableViewController: UITableViewController, UIPickerViewDataS
         self.tableView.rowHeight = 44
         tableView.contentInset = UIEdgeInsets.zero
         self.automaticallyAdjustsScrollViewInsets = false
-        
+
         tableView.tableFooterView = UIView()
         tableView.tableHeaderView = UIView()
     }
@@ -225,7 +225,7 @@ public class SnoozeTableViewController: UITableViewController, UIPickerViewDataS
     override public func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         switch SnoozeRow(rawValue: indexPath.row)! {
         case .snoozeButton:
-            print ("snoozebutton clicked")
+            print("snoozebutton clicked")
             let pickerRow = pickerView.selectedRow(inComponent: 0)
             let interval = pickerTimes[pickerRow]!
             let snoozeFor = formatter.string(from: interval)!
@@ -240,7 +240,7 @@ public class SnoozeTableViewController: UITableViewController, UIPickerViewDataS
             //tableView.reloadData()
 
         case .snoozePicker:
-            print ("snoozepicker clicked")
+            print("snoozepicker clicked")
         case .description:
             print("snooze description clicked")
         }

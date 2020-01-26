@@ -156,8 +156,8 @@
 //          a) 0xD101 Success
 //          b) 0xD100 Fail
 
-import Foundation
 import CoreBluetooth
+import Foundation
 import UIKit
 public enum MiaoMiaoResponseState: UInt8 {
     case dataPacketReceived = 0x28
@@ -180,8 +180,7 @@ extension MiaoMiaoResponseState: CustomStringConvertible {
     }
 }
 
-class MiaoMiaoTransmitter: LibreTransmitter{
-
+class MiaoMiaoTransmitter: LibreTransmitter {
     func reset() {
         rxBuffer.resetAllBytes()
     }
@@ -194,7 +193,6 @@ class MiaoMiaoTransmitter: LibreTransmitter{
         UIImage(named: "miaomiao-small", in: Bundle.current, compatibleWith: nil)
     }
 
-
     class var shortTransmitterName: String {
         "miaomiao"
     }
@@ -205,31 +203,25 @@ class MiaoMiaoTransmitter: LibreTransmitter{
 
     weak var delegate: LibreTransmitterDelegate?
 
-
     private var rxBuffer = Data()
-    private var sensorData : SensorData?
+    private var sensorData: SensorData?
     private var metadata: LibreTransmitterMetadata?
 
-    class func canSupportPeripheral(_ peripheral:CBPeripheral)-> Bool{
+    class func canSupportPeripheral(_ peripheral: CBPeripheral) -> Bool {
         peripheral.name?.lowercased().starts(with: "miaomiao") ?? false
-
     }
-    required init(delegate: LibreTransmitterDelegate, advertisementData: [String : Any]?) {
+    required init(delegate: LibreTransmitterDelegate, advertisementData: [String: Any]?) {
         //advertisementData is unknown for the miaomiao
         self.delegate = delegate
     }
 
     func requestData(writeCharacteristics: CBCharacteristic, peripheral: CBPeripheral) {
-
         confirmSensor(peripheral: peripheral, writeCharacteristics: writeCharacteristics)
         rxBuffer.resetAllBytes()
         print("dabear: miaomiaoRequestData")
 
         peripheral.writeValue(Data([0xF0]), for: writeCharacteristics, type: .withResponse)
-
-      
     }
-
 
     func updateValueForNotifyCharacteristics(_ value: Data, peripheral: CBPeripheral, writeCharacteristic: CBCharacteristic?) {
         rxBuffer.append(value)
@@ -264,7 +256,6 @@ class MiaoMiaoTransmitter: LibreTransmitter{
 
         case .newSensor: // 0x32: // A new sensor has been detected -> acknowledge to use sensor and reset buffer
             delegate?.libreTransmitterReceivedMessage(0x0000, txFlags: 0x32, payloadData: rxBuffer)
-
 
             confirmSensor(peripheral: peripheral, writeCharacteristics: writeCharacteristic)
             reset()
@@ -304,24 +295,18 @@ class MiaoMiaoTransmitter: LibreTransmitter{
 
         sensorData = SensorData(uuid: Data(rxBuffer.subdata(in: 5..<13)), bytes: [UInt8](rxBuffer.subdata(in: 18..<362)), date: Date())
 
-
-
        if let sensorData = sensorData, let metadata = metadata {
             delegate?.libreTransmitterDidUpdate(with: sensorData, and: metadata)
         }
-
     }
 
-
     // Confirm (to replace) the sensor. Iif a new sensor is detected and shall be used, send this command (0xD301)
-    func confirmSensor(peripheral: CBPeripheral, writeCharacteristics:CBCharacteristic?) {
+    func confirmSensor(peripheral: CBPeripheral, writeCharacteristics: CBCharacteristic?) {
         guard let writeCharacteristics = writeCharacteristics else {
             print("could not confirm sensor")
             return
         }
         print("confirming new sensor")
         peripheral.writeValue(Data([0xD3, 0x01]), for: writeCharacteristics, type: .withResponse)
-
     }
-
 }

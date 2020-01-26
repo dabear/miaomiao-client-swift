@@ -22,7 +22,7 @@ public struct LibreTransmitterMetadata: CustomStringConvertible {
 
     public let name: String
 
-    init(hardware: String, firmware: String, battery: Int, name:String, macAddress: String?) {
+    init(hardware: String, firmware: String, battery: Int, name: String, macAddress: String?) {
         self.hardware = hardware
         self.firmware = firmware
         self.battery = battery

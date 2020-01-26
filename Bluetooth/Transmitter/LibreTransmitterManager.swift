@@ -24,9 +24,6 @@ public enum BluetoothmanagerState: String {
     case powerOff = "powerOff"
 }
 
-
-
-
 public protocol LibreTransmitterDelegate: class {
     // Can happen on any queue
     func libreTransmitterStateChanged(_ state: BluetoothmanagerState)
@@ -35,10 +32,8 @@ public protocol LibreTransmitterDelegate: class {
     func libreTransmitterDidUpdate(with sensorData: SensorData, and Device: LibreTransmitterMetadata)
 }
 
-
 final class LibreTransmitterManager: NSObject, CBCentralManagerDelegate, CBPeripheralDelegate, LibreTransmitterDelegate {
     func libreTransmitterStateChanged(_ state: BluetoothmanagerState) {
-
         os_log("libreTransmitterStateChanged delegating", log: Self.bt_log)
 
         dispatchToDelegate { manager in
@@ -47,7 +42,6 @@ final class LibreTransmitterManager: NSObject, CBCentralManagerDelegate, CBPerip
     }
 
     func libreTransmitterReceivedMessage(_ messageIdentifier: UInt16, txFlags: UInt8, payloadData: Data) {
-
         os_log("libreTransmitterReceivedMessage delegating", log: Self.bt_log)
         dispatchToDelegate { manager in
             manager.delegate?.libreTransmitterReceivedMessage(messageIdentifier, txFlags: txFlags, payloadData: payloadData)
@@ -68,7 +62,6 @@ final class LibreTransmitterManager: NSObject, CBCentralManagerDelegate, CBPerip
     private var wantsToTerminate = false
     //private var lastConnectedIdentifier : String?
 
-
     var activePlugin: LibreTransmitter? {
         didSet {
             print("dabear:: activePlugin changed from \(oldValue) to \(activePlugin)")
@@ -76,7 +69,7 @@ final class LibreTransmitterManager: NSObject, CBCentralManagerDelegate, CBPerip
     }
 
     var activePluginType: LibreTransmitter.Type? {
-        if let activePlugin =  activePlugin {
+        if let activePlugin = activePlugin {
             return type(of: activePlugin)
         }
         return nil
@@ -100,31 +93,25 @@ final class LibreTransmitterManager: NSObject, CBCentralManagerDelegate, CBPerip
         return peripheral?.identifier
     }
 
-   
-
-
-
     private let managerQueue = DispatchQueue(label: "no.bjorninge.bluetoothManagerQueue", qos: .utility)
     private let delegateQueue = DispatchQueue(label: "no.bjorninge.delegateQueue", qos: .utility)
-
 
     fileprivate var serviceUUIDs: [CBUUID]? {
         activePluginType?.serviceUUID.map { $0.value }
     }
-    fileprivate var writeCharachteristicUUID : CBUUID? {
+    fileprivate var writeCharachteristicUUID: CBUUID? {
         activePluginType?.writeCharacteristic?.value
     }
-    fileprivate var notifyCharacteristicUUID : CBUUID? {
+    fileprivate var notifyCharacteristicUUID: CBUUID? {
         activePluginType?.notifyCharacteristic?.value
     }
 
-    var delegate: LibreTransmitterDelegate? {
+    weak var delegate: LibreTransmitterDelegate? {
         didSet {
            dispatchToDelegate { manager in
-
                 // Help delegate initialize by sending current state directly after delegate assignment
                 manager.delegate?.libreTransmitterStateChanged(self.state)
-            }
+           }
         }
     }
 
@@ -134,8 +121,6 @@ final class LibreTransmitterManager: NSObject, CBCentralManagerDelegate, CBPerip
                 // Help delegate initialize by sending current state directly after delegate assignment
                 manager.delegate?.libreTransmitterStateChanged(self.state)
             }
-
-
         }
     }
     public var connectionStateString: String {
@@ -150,8 +135,6 @@ final class LibreTransmitterManager: NSObject, CBCentralManagerDelegate, CBPerip
             }
         }
     }
-
-
 
     lazy var viaManagerQueue = QueuedPropertyAccess(self, dispatchQueue: managerQueue)
 
@@ -179,7 +162,6 @@ final class LibreTransmitterManager: NSObject, CBCentralManagerDelegate, CBPerip
 
         centralManager.scanForPeripherals(withServices: nil, options: nil)
         state = .Scanning
-
     }
 
     private func connect(force forceConnect: Bool = false, advertisementData: [String: Any]?) {
@@ -211,8 +193,7 @@ final class LibreTransmitterManager: NSObject, CBCentralManagerDelegate, CBPerip
             }
             if needsNewPluginInstance,
                 let plugin = LibreTransmitters.getSupportedPlugins(peripheral)?.first {
-                self.activePlugin = plugin.init(delegate: self,advertisementData: advertisementData)
-                
+                self.activePlugin = plugin.init(delegate: self, advertisementData: advertisementData)
             }
             centralManager.connect(peripheral, options: nil)
             state = .Connecting
@@ -374,17 +355,15 @@ final class LibreTransmitterManager: NSObject, CBCentralManagerDelegate, CBPerip
 
         if let services = peripheral.services {
             for service in services {
+                let toDiscover = [writeCharachteristicUUID, notifyCharacteristicUUID].compactMap { $0 }
 
-                let toDiscover = [writeCharachteristicUUID, notifyCharacteristicUUID].compactMap{ $0 }
-
-                os_log("Will discover : %{public}@ Characteristics for service", log: Self.bt_log, type: .default, String(describing:toDiscover.count), String(describing: service.debugDescription))
+                os_log("Will discover : %{public}@ Characteristics for service", log: Self.bt_log, type: .default, String(describing: toDiscover.count), String(describing: service.debugDescription))
 
                 if !toDiscover.isEmpty {
                     peripheral.discoverCharacteristics(toDiscover, for: service)
 
                     os_log("Did discover service: %{public}@", log: Self.bt_log, type: .default, String(describing: service.debugDescription))
                 }
-
             }
         }
     }
@@ -456,10 +435,7 @@ final class LibreTransmitterManager: NSObject, CBCentralManagerDelegate, CBPerip
             os_log("Characteristic update error: %{public}@", log: Self.bt_log, type: .error, "\(error.localizedDescription)")
         } else {
             if characteristic.uuid == notifyCharacteristicUUID, let value = characteristic.value {
-
                 self.activePlugin?.updateValueForNotifyCharacteristics(value, peripheral: peripheral, writeCharacteristic: writeCharacteristic)
-
-
             }
         }
     }
@@ -469,27 +445,19 @@ final class LibreTransmitterManager: NSObject, CBCentralManagerDelegate, CBPerip
         os_log("Did Write value %{public}@ for characteristic %{public}@", log: Self.bt_log, type: .default, String(characteristic.value.debugDescription), String(characteristic.debugDescription))
     }
 
-
     func requestData() {
         if let peripheral = peripheral,
             let writeCharacteristic = writeCharacteristic {
             self.activePlugin?.requestData(writeCharacteristics: writeCharacteristic, peripheral: peripheral)
-
         }
     }
-
 
     deinit {
         self.activePlugin = nil
         self.delegate = nil
         os_log("dabear:: miaomiaomanager deinit called")
     }
-
-
 }
-
-
-
 
 extension LibreTransmitterManager {
     public var manufacturer: String {

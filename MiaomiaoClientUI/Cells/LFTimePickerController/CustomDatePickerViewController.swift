@@ -45,7 +45,6 @@ class CustomDatePickerViewController: UIViewController {
         self.navigationItem.leftBarButtonItem = cancelButton
         self.navigationItem.prompt = "Schedule"
 
-
         self.pickerView.backgroundColor = .MMSystemBackground
         self.pickerView.reloadAllComponents()
         self.pickerView.fixInView(self.view)

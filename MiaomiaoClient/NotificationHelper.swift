@@ -252,7 +252,7 @@ enum NotificationHelper {
         }
     }
 
-    public static func sendCalibrationNotification(_ calibrationMessage:String) {
+    public static func sendCalibrationNotification(_ calibrationMessage: String) {
         ensureCanSendNotification { ensured in
             guard ensured else {
                 NSLog("dabear:: not sending sendCalibration notification")
@@ -271,7 +271,7 @@ enum NotificationHelper {
         }
     }
 
-    public static func sendSensorNotDetectedNotificationIfNeeded(noSensor: Bool, devicename:String) {
+    public static func sendSensorNotDetectedNotificationIfNeeded(noSensor: Bool, devicename: String) {
         guard UserDefaults.standard.mmAlertNoSensorDetected && noSensor else {
             NSLog("not sending noSensorDetected notification")
             return
@@ -280,7 +280,7 @@ enum NotificationHelper {
         sendSensorNotDetectedNotification(devicename: devicename)
     }
 
-    private static func sendSensorNotDetectedNotification(devicename:String) {
+    private static func sendSensorNotDetectedNotification(devicename: String) {
         ensureCanSendNotification { ensured in
             guard ensured else {
                 NSLog("dabear:: not sending noSensorDetected notification")

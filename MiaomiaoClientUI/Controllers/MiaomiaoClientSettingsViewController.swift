@@ -302,10 +302,8 @@ public class MiaomiaoClientSettingsViewController: UITableViewController, SubVie
                 // However, some devices broadcast their mac address in
                 // the advertisement data.
                 if let mac = cgmManager?.metaData?.macAddress {
-
                     cell.textLabel?.text = LocalizedString("Mac", comment: "Title for the Transmitter Mac Address")
                     cell.detailTextLabel?.text = mac
-
                 } else {
                     cell.textLabel?.text = LocalizedString("Identifer", comment: "Title for the Transmitter Identifier")
                     cell.detailTextLabel?.text = UserDefaults.standard.preSelectedDevice
@@ -526,7 +524,7 @@ public class MiaomiaoClientSettingsViewController: UITableViewController, SubVie
                 NSLog("dabear:: confirmed: cgmmanagerwantsdeletion")
                 if let cgmManager = self.cgmManager {
                     cgmManager.disconnect()
-                    
+
                     /*let confirmVC = UIAlertController(cgmDeletionHandler: {
                         self.cgmManager.notifyDelegateOfDeletion {
                             DispatchQueue.main.async {
@@ -540,16 +538,8 @@ public class MiaomiaoClientSettingsViewController: UITableViewController, SubVie
                             self.complete()
                             self.cgmManager = nil
                         }
-
-
                     }
-
-
-
-
                 }
-
-
             })
 
             present(confirmVC, animated: true) {

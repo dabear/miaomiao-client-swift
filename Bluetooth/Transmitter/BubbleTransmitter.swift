@@ -6,8 +6,8 @@
 //  Copyright © 2020 Mark Wilson. All rights reserved.
 //
 
-import Foundation
 import CoreBluetooth
+import Foundation
 import UIKit
 
 public enum BubbleResponseType: UInt8 {
@@ -20,7 +20,7 @@ public enum BubbleResponseType: UInt8 {
 // The Bubble uses the same serviceUUID,
 // writeCharachteristic and notifyCharachteristic
 // as the MiaoMiao, but different byte sequences
-class BubbleTransmitter: MiaoMiaoTransmitter{
+class BubbleTransmitter: MiaoMiaoTransmitter {
     override class var shortTransmitterName: String {
         "bubble"
     }
@@ -29,11 +29,10 @@ class BubbleTransmitter: MiaoMiaoTransmitter{
     }
 
     override class var smallImage: UIImage? {
-
         return UIImage(named: "bubble", in: Bundle.current, compatibleWith: nil)
     }
 
-    override static func canSupportPeripheral(_ peripheral:CBPeripheral)->Bool{
+    override static func canSupportPeripheral(_ peripheral: CBPeripheral) -> Bool {
         peripheral.name?.lowercased().starts(with: "bubble") ?? false
     }
 
@@ -41,12 +40,11 @@ class BubbleTransmitter: MiaoMiaoTransmitter{
         rxBuffer.resetAllBytes()
     }
 
-    private var hardware : String? = ""
-    private var firmware : String? = ""
-    private var mac : String? = ""
+    private var hardware: String? = ""
+    private var firmware: String? = ""
+    private var mac: String? = ""
 
     func deviceFromAdvertisementData(advertisementData: [String: Any]? ) {
-
         print("dabear: deviceFromAdvertisementData is ")
         //debugPrint(advertisementData)
 
@@ -67,21 +65,19 @@ class BubbleTransmitter: MiaoMiaoTransmitter{
             return
         }
 
-        let fSub1 = Data.init(repeating: data[8], count: 1)
-        let fSub2 = Data.init(repeating: data[9], count: 1)
+        let fSub1 = Data(repeating: data[8], count: 1)
+        let fSub2 = Data(repeating: data[9], count: 1)
         self.firmware = Float("\(fSub1.hexEncodedString()).\(fSub2.hexEncodedString())")?.description
 
-        let hSub1 = Data.init(repeating: data[10], count: 1)
-        let hSub2 = Data.init(repeating: data[11], count: 1)
+        let hSub1 = Data(repeating: data[10], count: 1)
+        let hSub2 = Data(repeating: data[11], count: 1)
 
         self.hardware = Float("\(hSub1.hexEncodedString()).\(hSub2.hexEncodedString())")?.description
 
         print("got bubbledevice \(mac) with firmware \(firmware), and hardware \(hardware)")
-
-
     }
 
-    required init(delegate: LibreTransmitterDelegate, advertisementData: [String : Any]?) {
+    required init(delegate: LibreTransmitterDelegate, advertisementData: [String: Any]?) {
         //advertisementData is unknown for the miaomiao
 
         super.init(delegate: delegate, advertisementData: advertisementData)
@@ -95,8 +91,6 @@ class BubbleTransmitter: MiaoMiaoTransmitter{
         //timer?.invalidate()
         print("-----set: ", writeCharacteristics)
         peripheral.writeValue(Data([0x00, 0x00, 0x05]), for: writeCharacteristics, type: .withResponse)
-
-
     }
     override func updateValueForNotifyCharacteristics(_ value: Data, peripheral: CBPeripheral, writeCharacteristic: CBCharacteristic?) {
         print("dabear:: bubbleDidUpdateValueForNotifyCharacteristics")
@@ -131,9 +125,8 @@ class BubbleTransmitter: MiaoMiaoTransmitter{
         }
     }
 
-
     private var rxBuffer = Data()
-    private var sensorData : SensorData?
+    private var sensorData: SensorData?
     private var metadata: LibreTransmitterMetadata?
 
     override func handleCompleteMessage() {
@@ -152,8 +145,5 @@ class BubbleTransmitter: MiaoMiaoTransmitter{
         if let sensorData = sensorData, let metadata = metadata {
             delegate?.libreTransmitterDidUpdate(with: sensorData, and: metadata)
         }
-
-
     }
-
 }

@@ -12,12 +12,10 @@ import Foundation
 extension UserDefaults {
     private enum Key: String {
         case bluetoothDeviceUUIDString = "no.bjorninge.bluetoothDeviceUUIDString"
-
     }
 
     public var preSelectedDevice: String? {
         get {
-            
             if let astr = string(forKey: Key.bluetoothDeviceUUIDString.rawValue) {
                 return astr.count > 0 ? astr : nil
             }
@@ -29,8 +27,6 @@ extension UserDefaults {
             } else {
                 removeObject(forKey: Key.bluetoothDeviceUUIDString.rawValue)
             }
-
         }
-
     }
 }

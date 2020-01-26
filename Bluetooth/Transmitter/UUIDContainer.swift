@@ -6,9 +6,9 @@
 //  Copyright © 2020 Mark Wilson. All rights reserved.
 //
 
-import Foundation
 import CoreBluetooth
-public struct UUIDContainer: ExpressibleByStringLiteral{
+import Foundation
+public struct UUIDContainer: ExpressibleByStringLiteral {
     var value: CBUUID
 
     init(value: CBUUID) {
@@ -17,6 +17,4 @@ public struct UUIDContainer: ExpressibleByStringLiteral{
     public init(stringLiteral value: String) {
         self.value = CBUUID(string: value)
     }
-
-
 }
