@@ -82,7 +82,7 @@ enum NotificationHelper {
         }
     }
 
-    public static func sendNoBridgeSelectedNotification() {
+    public static func sendNoTransmitterSelectedNotification() {
         ensureCanSendNotification { ensured in
             guard ensured else {
                 NSLog("dabear:: not sending noBridgeSelected notification")

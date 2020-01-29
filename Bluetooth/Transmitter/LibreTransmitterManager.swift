@@ -30,9 +30,21 @@ public protocol LibreTransmitterDelegate: class {
     func libreTransmitterReceivedMessage(_ messageIdentifier: UInt16, txFlags: UInt8, payloadData: Data)
     // Will always happen on managerQueue
     func libreTransmitterDidUpdate(with sensorData: SensorData, and Device: LibreTransmitterMetadata)
+
+    func noLibreTransmitterSelected()
+}
+
+extension LibreTransmitterDelegate {
+    func noLibreTransmitterSelected() {}
 }
 
 final class LibreTransmitterManager: NSObject, CBCentralManagerDelegate, CBPeripheralDelegate, LibreTransmitterDelegate {
+    func noLibreTransmitterSelected() {
+        dispatchToDelegate { manager in
+            manager.delegate?.noLibreTransmitterSelected()
+        }
+    }
+
     func libreTransmitterStateChanged(_ state: BluetoothmanagerState) {
         os_log("libreTransmitterStateChanged delegating", log: Self.bt_log)
 
@@ -256,17 +268,6 @@ final class LibreTransmitterManager: NSObject, CBCentralManagerDelegate, CBPerip
 
         os_log("Did discover peripheral while state %{public}@ with name: %{public}@, wantstoterminate?:  %d", log: Self.bt_log, type: .default, String(describing: state.rawValue), String(describing: peripheral.name), self.wantsToTerminate)
 
-        /*
-         if peripheral.name == deviceName {
-         
-         self.peripheral = peripheral
-         connect()
-         return
-         }*/
-        guard peripheral.name?.lowercased() != nil else {
-            //os_log("discovered peripheral had no name, returning: %{public}@", log: Self.bt_log, type: .default, String(describing: peripheral.identifier.uuidString))
-            return
-        }
 
         if let preselected = UserDefaults.standard.preSelectedDevice {
             if peripheral.identifier.uuidString == preselected {
@@ -280,7 +281,7 @@ final class LibreTransmitterManager: NSObject, CBCentralManagerDelegate, CBPerip
 
             return
         } else {
-            NotificationHelper.sendNoBridgeSelectedNotification()
+            self.noLibreTransmitterSelected()
         }
     }
 

@@ -16,6 +16,10 @@ import HealthKit
 import os.log
 
 public final class MiaoMiaoClientManager: CGMManager, LibreTransmitterDelegate {
+    public func noLibreTransmitterSelected() {
+        NotificationHelper.sendNoTransmitterSelectedNotification()
+    }
+    
     public var cgmManagerDelegate: CGMManagerDelegate? {
         get {
             return delegate.delegate

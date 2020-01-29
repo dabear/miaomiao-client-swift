@@ -21,6 +21,7 @@ class QueuedPropertyAccess<U: AnyObject> {
     subscript<T>(dynamicMember keyPath: KeyPath<U, T>) -> T {
         //We need to store an Optional<Optional<T>> (nested optional) here
         //unwrapping this is ok as long as the dispatchqueue assigns a result to the variable
+        
         var result: T?
 
         dispatchQueue.sync {
@@ -32,6 +33,23 @@ class QueuedPropertyAccess<U: AnyObject> {
         if (result as? Self) === self {
             fatalError("self reference not allowed")
         }
+        /*
+
+         This generic subscript will be similar to the
+         following examples and all examples unwrap successfully:
+
+        var bar : String? = "bar"
+        var foo : Optional<Optional<String>> = bar
+        foo!
+
+        var bar : String? = nil
+        var foo : Optional<Optional<String>> = bar
+        foo!
+
+        var bar : String? = nil
+        var foo : Optional<String> = bar
+        foo!
+        */
 
         return result!
     }
