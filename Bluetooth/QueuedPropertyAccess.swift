@@ -21,7 +21,7 @@ class QueuedPropertyAccess<U: AnyObject> {
     subscript<T>(dynamicMember keyPath: KeyPath<U, T>) -> T {
         //We need to store an Optional<Optional<T>> (nested optional) here
         //unwrapping this is ok as long as the dispatchqueue assigns a result to the variable
-        
+
         var result: T?
 
         dispatchQueue.sync {

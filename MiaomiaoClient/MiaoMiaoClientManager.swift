@@ -19,7 +19,7 @@ public final class MiaoMiaoClientManager: CGMManager, LibreTransmitterDelegate {
     public func noLibreTransmitterSelected() {
         NotificationHelper.sendNoTransmitterSelectedNotification()
     }
-    
+
     public var cgmManagerDelegate: CGMManagerDelegate? {
         get {
             return delegate.delegate
@@ -331,7 +331,7 @@ public final class MiaoMiaoClientManager: CGMManager, LibreTransmitterDelegate {
 
             self.latestBackfill = glucose.max { $0.startDate < $1.startDate }
 
-            NSLog("dabear:: handleGoodReading returned with no new data")
+            NSLog("dabear:: handleGoodReading returned with \(newGlucose.count) entries")
             self.delegateQueue.async {
                 self.cgmManagerDelegate?.cgmManager(self, didUpdateWith: newGlucose.isEmpty ? .noData : .newData(newGlucose))
             }
