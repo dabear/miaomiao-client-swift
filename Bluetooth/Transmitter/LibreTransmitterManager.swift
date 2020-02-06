@@ -260,24 +260,27 @@ final class LibreTransmitterManager: NSObject, CBCentralManagerDelegate, CBPerip
                 central.stopScan()
             }
         case .poweredOn:
+
+            if state == .DisconnectingDueToButtonPress {
+                os_log("Central Manager was powered on but sensorstate was DisconnectingDueToButtonPress:  %{public}@", log: Self.bt_log, type: .default, String(describing: central.state))
+                return
+            }
+
+            //not sure if needed, but can be helpful when state is restored
             if let peripheral = peripheral, delegate != nil {
-             // do not scan if already connected
+                // do not scan if already connected
                 switch peripheral.state {
                 case .disconnected, .disconnecting:
                     self.connect(advertisementData: nil)
-                    return
                 case .connected:
                     peripheral.discoverServices(serviceUUIDs) // good practice to just discover the services, needed
-                    return
                 default:
-                print("already connected")
+                        print("already connected")
                 }
-            }
-            if state == .DisconnectingDueToButtonPress {
-                os_log("Central Manager was powered on but sensorstate was DisconnectingDueToButtonPress:  %{public}@", log: Self.bt_log, type: .default, String(describing: central.state))
             } else {
-                os_log("Central Manager was powered on, scanningformiaomiao: state: %{public}@", log: Self.bt_log, type: .default, String(describing: state))
-                scanForDevices() // power was switched on, while app is running -> reconnect.
+                 os_log("Central Manager was powered on, scanningformiaomiao: state: %{public}@", log: Self.bt_log, type: .default, String(describing: state))
+                 scanForDevices() // power was switched on, while app is running -> reconnect.
+
             }
         @unknown default:
             fatalError("libre bluetooth state unhandled")
@@ -285,10 +288,16 @@ final class LibreTransmitterManager: NSObject, CBCentralManagerDelegate, CBPerip
     }
 
     func centralManager(_ central: CBCentralManager, willRestoreState dict: [String: Any]) {
+        dispatchPrecondition(condition: .onQueue(managerQueue))
         os_log("Central Manager will restore state to %{public}@", log: Self.bt_log, type: .default, String(describing: dict.debugDescription))
 
-        if self.peripheral != nil {
+        guard self.peripheral == nil else {
             os_log("Central Manager tried to restore state while already connected", log: Self.bt_log, type: .default)
+            return
+        }
+
+        guard let preselected = UserDefaults.standard.preSelectedDevice else {
+            os_log("Central Manager tried to restore state but no device was preselected", log: Self.bt_log, type: .default)
             return
         }
 
@@ -297,32 +306,34 @@ final class LibreTransmitterManager: NSObject, CBCentralManagerDelegate, CBPerip
             return
         }
 
-        for peripheral in peripherals {
-            guard let preselected = UserDefaults.standard.preSelectedDevice, peripheral.identifier.uuidString == preselected else {
-                continue
-            }
-
-            self.peripheral = peripheral
-            peripheral.delegate = self
-            switch peripheral.state {
-            case .disconnected, .disconnecting:
-                state = .Disconnected
-                if let plugin = LibreTransmitters.getSupportedPlugins(peripheral)?.first {
-                    self.activePlugin = plugin.init(delegate: self, advertisementData: nil)
-                    self.connect(advertisementData: nil)
-                }
-
-            case .connecting:
-                state = .Connecting
-            case .connected:
-                state = .Connected
-                peripheral.discoverServices(serviceUUIDs) // good practice to just discover the services, needed
-            @unknown default:
-                fatalError("Failed due to unkown default, Uwe!")
-            }
+        defer {
+            self.libreManagerDidRestoreState(found: peripherals, connected: self.peripheral)
         }
 
-        self.libreManagerDidRestoreState(found: peripherals, connected: self.peripheral)
+        let restorablePeripheral = peripherals.first(where: { $0.identifier.uuidString == preselected})
+
+
+        guard let peripheral = restorablePeripheral else {
+             os_log("Central Manager tried to restore state but no restorable peripheral was found", log: Self.bt_log, type: .default)
+            return
+        }
+
+        self.peripheral = peripheral
+        peripheral.delegate = self
+
+        switch peripheral.state {
+        case .disconnected, .disconnecting:
+            state = .Disconnected
+            self.connect(advertisementData: nil)
+        case .connecting:
+            state = .Connecting
+        case .connected:
+            state = .Connected
+            peripheral.discoverServices(serviceUUIDs) // good practice to just discover the services, needed
+        @unknown default:
+            fatalError("Failed due to unkown default, Uwe!")
+        }
+
     }
 
     func centralManager(_ central: CBCentralManager, didDiscover peripheral: CBPeripheral, advertisementData: [String: Any], rssi RSSI: NSNumber) {
