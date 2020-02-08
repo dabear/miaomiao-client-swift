@@ -24,6 +24,7 @@ enum NotificationHelper {
         case bluetoothPoweredOff = "no.bjorninge.miaomiao.bluetoothPoweredOff-notification"
         case invalidChecksum = "no.bjorninge.miaomiao.invalidChecksum-notification"
         case calibrationOngoing = "no.bjorninge.miaomiao.calibration-notification"
+        case restoredState = "no.bjorninge.miaomiao.state-notification"
     }
 
     private static var glucoseFormatterMgdl: QuantityFormatter = {
@@ -64,6 +65,22 @@ enum NotificationHelper {
         }
 
         return (glucoseUnit == HKUnit.milligramsPerDeciliter ? glucoseFormatterMgdl : glucoseFormatterMmol)
+    }
+
+    public static func sendRestoredStateNotification(msg: String) {
+        ensureCanSendNotification { ensured in
+            guard ensured else {
+                NSLog("dabear:: not sending sendRestoredState Notification")
+                return
+            }
+            NSLog("dabear:: sending RestoredStateNotification")
+
+            let content = UNMutableNotificationContent()
+            content.title = "State was restored"
+            content.body = msg
+
+            addRequest(identifier: Identifiers.restoredState, content: content)
+        }
     }
 
     public static func sendBluetoothPowerOffNotification() {

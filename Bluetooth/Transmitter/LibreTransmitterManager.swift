@@ -41,17 +41,18 @@ extension LibreTransmitterDelegate {
 }
 
 final class LibreTransmitterManager: NSObject, CBCentralManagerDelegate, CBPeripheralDelegate, LibreTransmitterDelegate {
+    func libreManagerDidRestoreState(found peripherals: [CBPeripheral], connected to: CBPeripheral?) {
+        dispatchToDelegate { manager in
+            manager.delegate?.libreManagerDidRestoreState(found: peripherals, connected: to)
+        }
+    }
+
     func noLibreTransmitterSelected() {
         dispatchToDelegate { manager in
             manager.delegate?.noLibreTransmitterSelected()
         }
     }
 
-    func libreManagerDidRestoreState(found peripherals: [CBPeripheral], connected to: CBPeripheral) {
-        dispatchToDelegate { manager in
-            manager.delegate?.libreManagerDidRestoreState(found: peripherals, connected: to)
-        }
-    }
 
     func libreTransmitterStateChanged(_ state: BluetoothmanagerState) {
         os_log("libreTransmitterStateChanged delegating", log: Self.bt_log)
@@ -195,37 +196,30 @@ final class LibreTransmitterManager: NSObject, CBCentralManagerDelegate, CBPerip
             return
         }
 
-        if let peripheral = peripheral {
+        if let peripheral = self.peripheral {
             peripheral.delegate = self
 
-            var needsNewPluginInstance = false
-
-            if let activePlugin = self.activePlugin {
-                if activePlugin.canSupportPeripheral(peripheral) {
-                    //when reaching this part,
-                    //we are sure the peripheral is reconnecting and therefore needs reset
-                    activePlugin.reset()
-                } else {
-                    needsNewPluginInstance.toggle()
-                }
-            } else {
-                needsNewPluginInstance.toggle()
-            }
-            if needsNewPluginInstance,
-                let plugin = LibreTransmitters.getSupportedPlugins(peripheral)?.first {
+            if activePlugin?.canSupportPeripheral(peripheral) == true {
+                //when reaching this part,
+                //we are sure the peripheral is reconnecting and therefore needs reset
+                activePlugin?.reset()
+            } else if let plugin = LibreTransmitters.getSupportedPlugins(peripheral)?.first {
                 self.activePlugin = plugin.init(delegate: self, advertisementData: advertisementData)
+
+                //only connect to devices we can support (i.e. devices that has a suitable plugin)
+                centralManager.connect(peripheral, options: nil)
+                state = .Connecting
             }
-            centralManager.connect(peripheral, options: nil)
-            state = .Connecting
+
         }
     }
 
     func disconnectManually() {
         dispatchPrecondition(condition: .notOnQueue(managerQueue))
-        os_log("Disconnect manually while state %{public}@", log: Self.bt_log, type: .default, String(describing: state.rawValue))
+        os_log("Disconnect manually while state %{public}@", log: Self.bt_log, type: .default, String(describing: self.state.rawValue))
 
         managerQueue.sync {
-            switch state {
+            switch self.state {
             case .Connected, .Connecting, .Notifying, .Scanning:
                 self.state = .DisconnectingDueToButtonPress  // to avoid reconnect in didDisconnetPeripheral
 
@@ -286,6 +280,7 @@ final class LibreTransmitterManager: NSObject, CBCentralManagerDelegate, CBPerip
             fatalError("libre bluetooth state unhandled")
         }
     }
+
 
     func centralManager(_ central: CBCentralManager, willRestoreState dict: [String: Any]) {
         dispatchPrecondition(condition: .onQueue(managerQueue))
@@ -519,10 +514,12 @@ final class LibreTransmitterManager: NSObject, CBCentralManagerDelegate, CBPerip
     }
 
     func requestData() {
-        if let peripheral = peripheral,
-            let writeCharacteristic = writeCharacteristic {
-            self.activePlugin?.requestData(writeCharacteristics: writeCharacteristic, peripheral: peripheral)
+       guard let peripheral = peripheral,
+            let writeCharacteristic = writeCharacteristic else{
+                return
         }
+        self.activePlugin?.requestData(writeCharacteristics: writeCharacteristic, peripheral: peripheral)
+
     }
 
     deinit {
