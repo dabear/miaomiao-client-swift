@@ -113,19 +113,12 @@ enum NotificationHelper {
 
     private static func ensureCanSendNotification(_ completion: @escaping () -> Void ) {
         UNUserNotificationCenter.current().getNotificationSettings { settings in
-            if #available (iOSApplicationExtension 12.0, *) {
-                guard settings.authorizationStatus == .authorized || settings.authorizationStatus == .provisional else {
-                    NSLog("dabear:: ensureCanSendNotification failed, authorization denied")
-                    return
-                }
-            } else {
-                // Fallback on earlier versions
-                guard settings.authorizationStatus == .authorized  else {
-                    NSLog("dabear:: ensureCanSendNotification failed, authorization denied")
 
-                    return
-                }
+            guard settings.authorizationStatus == .authorized || settings.authorizationStatus == .provisional else {
+                NSLog("dabear:: ensureCanSendNotification failed, authorization denied")
+                return
             }
+
             NSLog("dabear:: sending notification was allowed")
 
             completion()

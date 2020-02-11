@@ -331,8 +331,15 @@ public final class MiaoMiaoClientManager: CGMManager, LibreTransmitterDelegate {
                 return
             }
 
+            //we prefer to use local cached glucose value for the date to filter
+            //but that might not be available when loop is restarted for example
+            var startDate = self.latestBackfill?.startDate ?? self.cgmManagerDelegate?.startDateToFilterNewData(for: self)
+
+
             // add one second to startdate to make this an exclusive (non overlapping) match
-            let startDate = self.latestBackfill?.startDate.addingTimeInterval(1)
+            startDate = startDate?.addingTimeInterval(1)
+
+
             let device = self.proxy?.device
             let newGlucose = glucose.filterDateRange(startDate, nil).filter({ $0.isStateValid }).map { glucose -> NewGlucoseSample in
                 let syncId = "\(Int(glucose.startDate.timeIntervalSince1970))\(glucose.unsmoothedGlucose)"

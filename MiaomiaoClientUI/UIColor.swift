@@ -14,10 +14,4 @@ extension UIColor {
         return UIColor(red: 1, green: 59 / 255, blue: 48 / 255, alpha: 1)
     }
 
-    public static var MMSystemBackground: UIColor {
-        if #available(iOS 13, *) {
-            return .systemBackground
-        }
-        return UIColor(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
-    }
 }
