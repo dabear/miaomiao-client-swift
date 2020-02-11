@@ -127,6 +127,7 @@ enum NotificationHelper {
                 }
             }
             NSLog("dabear:: sending notification was allowed")
+
             completion()
         }
     }
