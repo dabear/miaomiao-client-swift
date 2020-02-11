@@ -31,6 +31,9 @@ extension LibreTransmitter {
     func canSupportPeripheral(_ peripheral: CBPeripheral) -> Bool {
         Self.canSupportPeripheral(peripheral)
     }
+    public var staticType: LibreTransmitter.Type {
+        Self.self
+    }
 }
 
 public enum LibreTransmitters {

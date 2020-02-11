@@ -12,9 +12,9 @@ import LoopKitUI
 import UIKit
 import UserNotifications
 
+import CoreBluetooth
 import HealthKit
 import os.log
-import CoreBluetooth
 
 public final class MiaoMiaoClientManager: CGMManager, LibreTransmitterDelegate {
     public func libreManagerDidRestoreState(found peripherals: [CBPeripheral], connected to: CBPeripheral?) {
@@ -27,7 +27,6 @@ public final class MiaoMiaoClientManager: CGMManager, LibreTransmitterDelegate {
     public func noLibreTransmitterSelected() {
         NotificationHelper.sendNoTransmitterSelectedNotification()
     }
-
 
     public var cgmManagerDelegate: CGMManagerDelegate? {
         get {
@@ -99,9 +98,9 @@ public final class MiaoMiaoClientManager: CGMManager, LibreTransmitterDelegate {
                 // this is because the old and new glucose values represent earlier readouts, while the trend buffer contains somewhat more jumpy (noisy) values.
                 let timediff = LibreGlucose.timeDifference(oldGlucose: oldValue, newGlucose: newValue)
                 NSLog("dabear:: timediff is \(timediff)")
-                let oldIsRecent = timediff <= TimeInterval.minutes(15)
+                let oldIsRecentEnough = timediff <= TimeInterval.minutes(15)
 
-                trend = oldIsRecent ? TrendArrowCalculations.GetGlucoseDirection(current: newValue, last: oldValue) : nil
+                trend = oldIsRecentEnough ? TrendArrowCalculations.GetGlucoseDirection(current: newValue, last: oldValue) : nil
 
                 self.sensorState = ConcreteSensorDisplayable(isStateValid: newValue.isStateValid, trendType: trend, isLocal: newValue.isLocal)
             } else {
@@ -110,7 +109,9 @@ public final class MiaoMiaoClientManager: CGMManager, LibreTransmitterDelegate {
             }
 
             NSLog("dabear:: sending glucose notification")
-            NotificationHelper.sendGlucoseNotitifcationIfNeeded(glucose: newValue, oldValue: oldValue, trend: trend)
+            NotificationHelper.sendGlucoseNotitifcationIfNeeded(glucose: newValue,
+                                                                oldValue: oldValue,
+                                                                trend: trend)
         }
     }
     public static var managerIdentifier = "DexMiaomiaoClient1"

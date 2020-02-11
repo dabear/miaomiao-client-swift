@@ -68,11 +68,7 @@ enum NotificationHelper {
     }
 
     public static func sendRestoredStateNotification(msg: String) {
-        ensureCanSendNotification { ensured in
-            guard ensured else {
-                NSLog("dabear:: not sending sendRestoredState Notification")
-                return
-            }
+        ensureCanSendNotification {
             NSLog("dabear:: sending RestoredStateNotification")
 
             let content = UNMutableNotificationContent()
@@ -84,11 +80,7 @@ enum NotificationHelper {
     }
 
     public static func sendBluetoothPowerOffNotification() {
-        ensureCanSendNotification { ensured in
-            guard ensured else {
-                NSLog("dabear:: not sending PowerOff notification")
-                return
-            }
+        ensureCanSendNotification {
             NSLog("dabear:: sending BluetoothPowerOffNotification")
 
             let content = UNMutableNotificationContent()
@@ -100,12 +92,8 @@ enum NotificationHelper {
     }
 
     public static func sendNoTransmitterSelectedNotification() {
-        ensureCanSendNotification { ensured in
-            guard ensured else {
-                NSLog("dabear:: not sending noBridgeSelected notification")
-                return
-            }
-            NSLog("dabear:: sending noBridgeSelected")
+        ensureCanSendNotification {
+            NSLog("dabear:: sending NoTransmitterSelectedNotification")
 
             let content = UNMutableNotificationContent()
             content.title = "No Libre Transmitter Selected"
@@ -116,34 +104,30 @@ enum NotificationHelper {
     }
 
     private static func ensureCanSendGlucoseNotification(_ completion: @escaping (_ unit: HKUnit) -> Void ) {
-        ensureCanSendNotification { ensured in
-            if !ensured {
-                return
-            }
+        ensureCanSendNotification {
             if let glucoseUnit = UserDefaults.standard.mmGlucoseUnit, GlucoseUnitIsSupported(unit: glucoseUnit) {
                 completion(glucoseUnit)
             }
         }
     }
 
-    private static func ensureCanSendNotification(_ completion: @escaping (_ canSend: Bool) -> Void ) {
+    private static func ensureCanSendNotification(_ completion: @escaping () -> Void ) {
         UNUserNotificationCenter.current().getNotificationSettings { settings in
             if #available (iOSApplicationExtension 12.0, *) {
                 guard settings.authorizationStatus == .authorized || settings.authorizationStatus == .provisional else {
                     NSLog("dabear:: ensureCanSendNotification failed, authorization denied")
-                    completion(false)
                     return
                 }
             } else {
                 // Fallback on earlier versions
                 guard settings.authorizationStatus == .authorized  else {
                     NSLog("dabear:: ensureCanSendNotification failed, authorization denied")
-                    completion(false)
+
                     return
                 }
             }
             NSLog("dabear:: sending notification was allowed")
-            completion(true)
+            completion()
         }
     }
 
@@ -156,12 +140,7 @@ enum NotificationHelper {
             return
         }
 
-        ensureCanSendNotification { ensured in
-            guard ensured else {
-                NSLog("dabear:: not sending InvalidChecksum notification due to permission problem")
-                return
-            }
-
+        ensureCanSendNotification {
             let content = UNMutableNotificationContent()
             content.title = "Invalid libre checksum"
             content.body = "Libre sensor was incorrectly read, CRCs were not valid"
@@ -210,13 +189,14 @@ enum NotificationHelper {
         center.add(request) { error in
             if let error = error {
                 NSLog("dabear:: unable to addNotificationRequest: \(error.localizedDescription)")
+                return
             }
+
+            NSLog("dabear:: sending \(identifier.rawValue) notification")
         }
     }
     private static func sendGlucoseNotitifcation(glucose: LibreGlucose, oldValue: LibreGlucose?, alarm: GlucoseScheduleAlarmResult = .none, isSnoozed: Bool = false, trend: GlucoseTrend?) {
         ensureCanSendGlucoseNotification { unit  in
-            NSLog("dabear:: sending glucose notification")
-
             guard let formatter = dynamicFormatter, let formatted = formatter.string(from: glucose.quantity, for: unit) else {
                 NSLog("dabear:: glucose unit formatter unsuccessful, aborting notification")
                 return
@@ -265,18 +245,14 @@ enum NotificationHelper {
                 content.body += ", \(trend)"
             }
 
-            addRequest(identifier: Identifiers.glucocoseNotifications, content: content, deleteOld: true)
+            addRequest(identifier: Identifiers.glucocoseNotifications,
+                       content: content,
+                       deleteOld: true)
         }
     }
 
     public static func sendCalibrationNotification(_ calibrationMessage: String) {
-        ensureCanSendNotification { ensured in
-            guard ensured else {
-                NSLog("dabear:: not sending sendCalibration notification")
-                return
-            }
-            NSLog("dabear:: sending sendCalibrationNotification")
-
+        ensureCanSendNotification {
             let content = UNMutableNotificationContent()
             content.sound = .default
             content.title = "Extracting calibrationdata from sensor"
@@ -298,13 +274,7 @@ enum NotificationHelper {
     }
 
     private static func sendSensorNotDetectedNotification(devicename: String) {
-        ensureCanSendNotification { ensured in
-            guard ensured else {
-                NSLog("dabear:: not sending noSensorDetected notification")
-                return
-            }
-            NSLog("dabear:: sending noSensorDetected")
-
+        ensureCanSendNotification {
             let content = UNMutableNotificationContent()
             content.title = "No Sensor Detected"
             content.body = "This might be an intermittent problem, but please check that your \(devicename) is tightly secured over your sensor"
@@ -322,13 +292,7 @@ enum NotificationHelper {
     }
 
     private static func sendSensorChangeNotification() {
-        ensureCanSendNotification { ensured in
-            guard ensured else {
-                NSLog("dabear:: not sending sensorChangeNotification notification")
-                return
-            }
-            NSLog("dabear:: sending sensorChangeNotification")
-
+        ensureCanSendNotification {
             let content = UNMutableNotificationContent()
             content.title = "New Sensor Detected"
             content.body = "Please wait up to 30 minutes before glucose readings are available!"
@@ -351,14 +315,7 @@ enum NotificationHelper {
     }
 
     private static func sendInvalidSensorNotification(sensorData: SensorData) {
-        ensureCanSendNotification { ensured in
-            guard ensured else {
-                NSLog("dabear:: not sending InvalidSensorNotification notification")
-                return
-            }
-
-            NSLog("dabear:: sending InvalidSensorNotification")
-
+        ensureCanSendNotification {
             let content = UNMutableNotificationContent()
             content.title = "Invalid Sensor Detected"
 
@@ -390,32 +347,26 @@ enum NotificationHelper {
         let now = Date()
         //only once per mins minute
         let mins = 60.0 * 120
-        if let earlier = lastBatteryWarning {
-            let earlierplus = earlier.addingTimeInterval(mins)
+        if let earlierplus = lastBatteryWarning?.addingTimeInterval(mins) {
             if earlierplus < now {
-                sendLowBatteryNotification(batteryPercentage: device.batteryString, deviceName: device.name)
+                sendLowBatteryNotification(batteryPercentage: device.batteryString,
+                                           deviceName: device.name)
                 lastBatteryWarning = now
             } else {
                 NSLog("Device battery is running low, but lastBatteryWarning Notification was sent less than 45 minutes ago, aborting. earlierplus: \(earlierplus), now: \(now)")
             }
         } else {
-            sendLowBatteryNotification(batteryPercentage: device.batteryString, deviceName: device.name)
+            sendLowBatteryNotification(batteryPercentage: device.batteryString,
+                                       deviceName: device.name)
             lastBatteryWarning = now
         }
     }
 
     private static func sendLowBatteryNotification(batteryPercentage: String, deviceName: String) {
-        ensureCanSendNotification { ensured in
-            guard ensured else {
-                NSLog("dabear:: not sending LowBattery notification")
-                return
-            }
-            NSLog("dabear:: sending LowBattery notification")
-
+        ensureCanSendNotification {
             let content = UNMutableNotificationContent()
             content.title = "Low Battery"
             content.body = "Battery is running low (\(batteryPercentage)), consider charging your \(deviceName) device as soon as possible"
-
             content.sound = .default
 
             addRequest(identifier: Identifiers.lowBattery, content: content)
@@ -438,6 +389,7 @@ enum NotificationHelper {
         let now = Date()
         //only once per 6 hours
         let min45 = 60.0 * 60 * 6
+
         if let earlier = lastSensorExpireAlert {
             if earlier.addingTimeInterval(min45) < now {
                 sendSensorExpireAlert(sensorData: sensorData)
@@ -452,13 +404,7 @@ enum NotificationHelper {
     }
 
     private static func sendSensorExpireAlert(sensorData: SensorData) {
-        ensureCanSendNotification { ensured in
-            guard ensured else {
-                NSLog("dabear:: not sending SensorExpireAlert notification")
-                return
-            }
-            NSLog("dabear:: sending SensorExpireAlert notification")
-
+        ensureCanSendNotification {
             let content = UNMutableNotificationContent()
             content.title = "Sensor Ending Soon"
             content.body = "Current Sensor is Ending soon! Sensor Age: \(sensorData.humanReadableSensorAge)"

@@ -53,7 +53,6 @@ final class LibreTransmitterManager: NSObject, CBCentralManagerDelegate, CBPerip
         }
     }
 
-
     func libreTransmitterStateChanged(_ state: BluetoothmanagerState) {
         os_log("libreTransmitterStateChanged delegating", log: Self.bt_log)
 
@@ -90,10 +89,7 @@ final class LibreTransmitterManager: NSObject, CBCentralManagerDelegate, CBPerip
     }
 
     var activePluginType: LibreTransmitter.Type? {
-        if let activePlugin = activePlugin {
-            return type(of: activePlugin)
-        }
-        return nil
+        activePlugin?.staticType
     }
 
     var shortTransmitterName: String? {
@@ -210,7 +206,6 @@ final class LibreTransmitterManager: NSObject, CBCentralManagerDelegate, CBPerip
                 centralManager.connect(peripheral, options: nil)
                 state = .Connecting
             }
-
         }
     }
 
@@ -281,7 +276,6 @@ final class LibreTransmitterManager: NSObject, CBCentralManagerDelegate, CBPerip
         }
     }
 
-
     func centralManager(_ central: CBCentralManager, willRestoreState dict: [String: Any]) {
         dispatchPrecondition(condition: .onQueue(managerQueue))
         os_log("Central Manager will restore state to %{public}@", log: Self.bt_log, type: .default, String(describing: dict.debugDescription))
@@ -305,8 +299,7 @@ final class LibreTransmitterManager: NSObject, CBCentralManagerDelegate, CBPerip
             self.libreManagerDidRestoreState(found: peripherals, connected: self.peripheral)
         }
 
-        let restorablePeripheral = peripherals.first(where: { $0.identifier.uuidString == preselected})
-
+        let restorablePeripheral = peripherals.first(where: { $0.identifier.uuidString == preselected })
 
         guard let peripheral = restorablePeripheral else {
              os_log("Central Manager tried to restore state but no restorable peripheral was found", log: Self.bt_log, type: .default)
@@ -328,7 +321,6 @@ final class LibreTransmitterManager: NSObject, CBCentralManagerDelegate, CBPerip
         @unknown default:
             fatalError("Failed due to unkown default, Uwe!")
         }
-
     }
 
     func centralManager(_ central: CBCentralManager, didDiscover peripheral: CBPeripheral, advertisementData: [String: Any], rssi RSSI: NSNumber) {
@@ -515,11 +507,10 @@ final class LibreTransmitterManager: NSObject, CBCentralManagerDelegate, CBPerip
 
     func requestData() {
        guard let peripheral = peripheral,
-            let writeCharacteristic = writeCharacteristic else{
+            let writeCharacteristic = writeCharacteristic else {
                 return
         }
         self.activePlugin?.requestData(writeCharacteristics: writeCharacteristic, peripheral: peripheral)
-
     }
 
     deinit {
