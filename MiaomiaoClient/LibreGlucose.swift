@@ -23,6 +23,10 @@ public struct LibreGlucose {
     public static func timeDifference(oldGlucose: LibreGlucose, newGlucose: LibreGlucose) -> TimeInterval {
         newGlucose.startDate.timeIntervalSince(oldGlucose.startDate)
     }
+
+    public var syncId : String {
+        "\(Int(self.startDate.timeIntervalSince1970))\(self.unsmoothedGlucose)"
+    }
 }
 
 extension LibreGlucose: GlucoseValue {

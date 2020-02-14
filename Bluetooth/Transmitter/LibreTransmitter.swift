@@ -38,7 +38,7 @@ extension LibreTransmitter {
 
 extension Array where Array.Element == LibreTransmitter.Type {
     func getServicesForDiscovery() -> [CBUUID] {
-        return self.flatMap {
+        self.flatMap {
             return $0.serviceUUID.map { $0.value}
         }.removingDuplicates()
     }

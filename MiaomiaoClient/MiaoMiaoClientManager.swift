@@ -285,8 +285,6 @@ public final class MiaoMiaoClientManager: CGMManager, LibreTransmitterDelegate {
 
         NotificationHelper.sendLowBatteryNotificationIfNeeded(device: Device)
         NotificationHelper.sendInvalidSensorNotificationIfNeeded(sensorData: sensorData)
-        NotificationHelper.sendSensorExpireAlertIfNeeded(sensorData: sensorData)
-
         NotificationHelper.sendInvalidChecksumIfDeveloper(sensorData)
 
         guard sensorData.hasValidCRCs else {
@@ -297,6 +295,9 @@ public final class MiaoMiaoClientManager: CGMManager, LibreTransmitterDelegate {
             os_log("dit not get sensordata with valid crcs")
             return
         }
+
+        NotificationHelper.sendSensorExpireAlertIfNeeded(sensorData: sensorData)
+
         transmitterName = Device.name
 
         guard sensorData.state == .ready || sensorData.state == .starting else {
@@ -341,9 +342,15 @@ public final class MiaoMiaoClientManager: CGMManager, LibreTransmitterDelegate {
 
 
             let device = self.proxy?.device
-            let newGlucose = glucose.filterDateRange(startDate, nil).filter({ $0.isStateValid }).map { glucose -> NewGlucoseSample in
-                let syncId = "\(Int(glucose.startDate.timeIntervalSince1970))\(glucose.unsmoothedGlucose)"
-                return NewGlucoseSample(date: glucose.startDate, quantity: glucose.quantity, isDisplayOnly: false, syncIdentifier: syncId, device: device)
+            let newGlucose = glucose
+                .filterDateRange(startDate, nil)
+                .filter({ $0.isStateValid })
+                .map {
+                NewGlucoseSample(date: $0.startDate,
+                                 quantity: $0.quantity,
+                                 isDisplayOnly: false,
+                                 syncIdentifier: $0.syncId,
+                                 device: device)
             }
 
             self.latestBackfill = glucose.max { $0.startDate < $1.startDate }
