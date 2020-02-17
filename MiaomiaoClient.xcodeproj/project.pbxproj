@@ -6,20 +6,6 @@
 	objectVersion = 46;
 	objects = {
 
-/* Begin PBXAggregateTarget section */
-		43A8EC75210E653B00A81379 /* Cartfile */ = {
-			isa = PBXAggregateTarget;
-			buildConfigurationList = 43A8EC76210E653C00A81379 /* Build configuration list for PBXAggregateTarget "Cartfile" */;
-			buildPhases = (
-				43A8EC79210E654300A81379 /* Build Carthage Dependencies */,
-			);
-			dependencies = (
-			);
-			name = Cartfile;
-			productName = Cartfile;
-		};
-/* End PBXAggregateTarget section */
-
 /* Begin PBXBuildFile section */
 		2701478A227B53AB0013C9E3 /* miaomiao-small.png in Resources */ = {isa = PBXBuildFile; fileRef = 27014789227B53AB0013C9E3 /* miaomiao-small.png */; };
 		2701478B227B584B0013C9E3 /* miaomiao-small.png in Resources */ = {isa = PBXBuildFile; fileRef = 27014789227B53AB0013C9E3 /* miaomiao-small.png */; };
@@ -91,7 +77,6 @@
 		27CBEB552261DF9D004F7BF5 /* AlarmTimeInputRangeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27CBEB542261DF9C004F7BF5 /* AlarmTimeInputRangeCell.swift */; };
 		27CBEB5C2261E1E6004F7BF5 /* AlarmTimeInputRangeCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 27CBEB5B2261E1E0004F7BF5 /* AlarmTimeInputRangeCell.xib */; };
 		27CFAB52223EA0B2006DEFE3 /* MiaomiaoClient.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 432B0E881CDFC3C50045347B /* MiaomiaoClient.framework */; };
-		27CFAB53223EA4A7006DEFE3 /* LoopKitUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 272DFE6D223E909500FBE2CB /* LoopKitUI.framework */; };
 		27CFAB5522496C7A006DEFE3 /* DoubleExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27CFAB5422496C7A006DEFE3 /* DoubleExtensions.swift */; };
 		27CFAB5622496CBB006DEFE3 /* DoubleExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27CFAB5422496C7A006DEFE3 /* DoubleExtensions.swift */; };
 		27CFAB59224977B9006DEFE3 /* GlucoseSmoothing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27CFAB5722497744006DEFE3 /* GlucoseSmoothing.swift */; };
@@ -141,20 +126,6 @@
 			proxyType = 1;
 			remoteGlobalIDString = 432B0E871CDFC3C50045347B;
 			remoteInfo = MiaomiaoClient;
-		};
-		4325E9D6210E714B00969CE5 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 432B0E7F1CDFC3C50045347B /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 43A8EC75210E653B00A81379;
-			remoteInfo = Cartfile;
-		};
-		4325E9D8210E715200969CE5 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 432B0E7F1CDFC3C50045347B /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 43A8EC75210E653B00A81379;
-			remoteInfo = Cartfile;
 		};
 		432B0E941CDFC3C50045347B /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -329,7 +300,6 @@
 			files = (
 				43A8EC95210E67B000A81379 /* HealthKit.framework in Frameworks */,
 				272DFE71223E909E00FBE2CB /* LoopKit.framework in Frameworks */,
-				27CFAB53223EA4A7006DEFE3 /* LoopKitUI.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -763,7 +733,6 @@
 			buildRules = (
 			);
 			dependencies = (
-				4325E9D7210E714B00969CE5 /* PBXTargetDependency */,
 			);
 			name = MiaomiaoClient;
 			productName = MiaomiaoClient;
@@ -801,7 +770,6 @@
 			buildRules = (
 			);
 			dependencies = (
-				4325E9D9210E715200969CE5 /* PBXTargetDependency */,
 			);
 			name = MiaomiaoClientUI;
 			productName = MiaomiaoClientUI;
@@ -838,10 +806,6 @@
 						DevelopmentTeam = L28K36YETG;
 						LastSwiftMigration = 1120;
 					};
-					43A8EC75210E653B00A81379 = {
-						CreatedOnToolsVersion = 9.4.1;
-						ProvisioningStyle = Automatic;
-					};
 					43A8EC81210E664300A81379 = {
 						CreatedOnToolsVersion = 9.4.1;
 						LastSwiftMigration = 1130;
@@ -874,7 +838,6 @@
 				432B0E871CDFC3C50045347B /* MiaomiaoClient */,
 				432B0E911CDFC3C50045347B /* MiaomiaoClientTests */,
 				43A8EC81210E664300A81379 /* MiaomiaoClientUI */,
-				43A8EC75210E653B00A81379 /* Cartfile */,
 				2795404B2165502600D657E5 /* clitester */,
 				27249309232F03E400AFE86A /* test-lint */,
 			);
@@ -985,20 +948,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\n\"${SRCROOT}/Scripts/capture-build-details.sh\"\n";
-		};
-		43A8EC79210E654300A81379 /* Build Carthage Dependencies */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Build Carthage Dependencies";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "if [ -f $PROJECT_DIR/.gitmodules ]; then\n    echo \"Skipping checkout due to presence of .gitmodules file\"\n    if [ $ACTION = \"install\" ]; then\n        echo \"You're installing: Make sure to keep all submodules up-to-date and run carthage build after changes.\"\n    fi\nelse\n    echo \"Bootstrapping carthage dependencies\"\n    /usr/local/bin/carthage bootstrap --project-directory \"$SRCROOT\" --cache-builds\nfi\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -1127,16 +1076,6 @@
 			isa = PBXTargetDependency;
 			target = 432B0E871CDFC3C50045347B /* MiaomiaoClient */;
 			targetProxy = 277FE8E02165606D001ACE55 /* PBXContainerItemProxy */;
-		};
-		4325E9D7210E714B00969CE5 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 43A8EC75210E653B00A81379 /* Cartfile */;
-			targetProxy = 4325E9D6210E714B00969CE5 /* PBXContainerItemProxy */;
-		};
-		4325E9D9210E715200969CE5 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 43A8EC75210E653B00A81379 /* Cartfile */;
-			targetProxy = 4325E9D8210E715200969CE5 /* PBXContainerItemProxy */;
 		};
 		432B0E951CDFC3C50045347B /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -1520,22 +1459,6 @@
 			};
 			name = Release;
 		};
-		43A8EC77210E653C00A81379 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CODE_SIGN_STYLE = Automatic;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-			};
-			name = Debug;
-		};
-		43A8EC78210E653C00A81379 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CODE_SIGN_STYLE = Automatic;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-			};
-			name = Release;
-		};
 		43A8EC88210E664300A81379 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -1649,15 +1572,6 @@
 			buildConfigurations = (
 				432B0EA01CDFC3C50045347B /* Debug */,
 				432B0EA11CDFC3C50045347B /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		43A8EC76210E653C00A81379 /* Build configuration list for PBXAggregateTarget "Cartfile" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				43A8EC77210E653C00A81379 /* Debug */,
-				43A8EC78210E653C00A81379 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
