@@ -177,17 +177,22 @@ final class LibreTransmitterManager: NSObject, CBCentralManagerDelegate, CBPerip
         }
         os_log("Before scan for MiaoMiao while central manager state %{public}@", log: Self.bt_log, type: .default, String(describing: centralManager.state.rawValue))
 
-        //this will search for all peripherals
-        //centralManager.scanForPeripherals(withServices: nil, options: nil)
-        //this will not. Here we optimize by scanning only for relevant services
-        //let services = LibreTransmitters.all.getServicesForDiscovery()
+        let scanForAllServices = true
 
+        //this will search for all peripherals. Guaranteed to work
+        if scanForAllServices {
+            os_log("Scanning for all services:", log: Self.bt_log, type: .default)
+            centralManager.scanForPeripherals(withServices: nil, options: nil)
 
-        //os_log("Scanning for services: %{public}@", log: Self.bt_log, type: .default, String(describing: services.map { $0.uuidString} ))
-        //centralManager.scanForPeripherals(withServices: services, options: nil)
+        } else {
+            // This is what we should have done
+            // Here we optimize by scanning only for relevant services
+            // However, this doesn't work correctly with both miaomiao and bubble
+            let services = LibreTransmitters.all.getServicesForDiscovery()
+            os_log("Scanning for specific services: %{public}@", log: Self.bt_log, type: .default, String(describing: services.map { $0.uuidString} ))
 
-        os_log("Scanning for all services:", log: Self.bt_log, type: .default)
-        centralManager.scanForPeripherals(withServices: nil, options: nil)
+        }
+
         state = .Scanning
     }
 
@@ -265,13 +270,33 @@ final class LibreTransmitterManager: NSObject, CBCentralManagerDelegate, CBPerip
                 return
             }
 
+
             //not sure if needed, but can be helpful when state is restored
             if let peripheral = peripheral, delegate != nil {
                 // do not scan if already connected
                 switch peripheral.state {
+
                 case .disconnected, .disconnecting:
+                    os_log("Central Manager was powered on, peripheral state is disconnecting" , log: Self.bt_log, type: .default)
                     self.connect(advertisementData: nil)
                 case .connected:
+                    os_log("Central Manager was powered on, peripheral state is connected, renewing plugin" , log: Self.bt_log, type: .default)
+
+
+                    // This is necessary
+                    // Normally the connect() method would have set the correct plugin,
+                    // however when we hit this path, it is likely a state restoration
+                    if self.activePlugin == nil || self.activePlugin?.canSupportPeripheral(peripheral) == false {
+
+                        let plugin = LibreTransmitters.getSupportedPlugins(peripheral)?.first
+                        self.activePlugin = plugin?.init(delegate: self, advertisementData: nil)
+
+                        os_log("Central Manager was powered on, peripheral state is connected, stopping scan" , log: Self.bt_log, type: .default)
+                        if central.isScanning {
+                            central.stopScan()
+                        }
+                    }
+
                     peripheral.discoverServices(serviceUUIDs) // good practice to just discover the services, needed
                 default:
                         print("already connected")
@@ -312,22 +337,31 @@ final class LibreTransmitterManager: NSObject, CBCentralManagerDelegate, CBPerip
         let restorablePeripheral = peripherals.first(where: { $0.identifier.uuidString == preselected })
 
         guard let peripheral = restorablePeripheral else {
-             os_log("Central Manager tried to restore state but no restorable peripheral was found", log: Self.bt_log, type: .default)
+
             return
         }
 
         self.peripheral = peripheral
         peripheral.delegate = self
 
+
         switch peripheral.state {
+
         case .disconnected, .disconnecting:
+            os_log("Central Manager tried to restore state from disconnected peripheral", log: Self.bt_log, type: .default)
             state = .Disconnected
             self.connect(advertisementData: nil)
         case .connecting:
+            os_log("Central Manager tried to restore state from connecting peripheral", log: Self.bt_log, type: .default)
             state = .Connecting
         case .connected:
-            state = .Connected
-            peripheral.discoverServices(serviceUUIDs) // good practice to just discover the services, needed
+            os_log("Central Manager tried to restore state from connected peripheral, letting centralManagerDidUpdateState() do the rest of the job", log: Self.bt_log, type: .default)
+            //the idea here is to let centralManagerDidUpdateState() do the heavy lifting
+            // after all, we did assign the periheral.delegate to self earlier
+
+            //that means the following is not necessary:
+            //state = .Connected
+            //peripheral.discoverServices(serviceUUIDs) // good practice to just discover the services, needed
         @unknown default:
             fatalError("Failed due to unkown default, Uwe!")
         }
@@ -427,7 +461,7 @@ final class LibreTransmitterManager: NSObject, CBCentralManagerDelegate, CBPerip
             for service in services {
                 let toDiscover = [writeCharachteristicUUID, notifyCharacteristicUUID].compactMap { $0 }
 
-                os_log("Will discover : %{public}@ Characteristics for service", log: Self.bt_log, type: .default, String(describing: toDiscover.count), String(describing: service.debugDescription))
+                os_log("Will discover : %{public}@ Characteristics for service  %{public}@", log: Self.bt_log, type: .default, String(describing: toDiscover.count), String(describing: service.debugDescription))
 
                 if !toDiscover.isEmpty {
                     peripheral.discoverCharacteristics(toDiscover, for: service)
