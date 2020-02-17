@@ -334,7 +334,10 @@ public final class MiaoMiaoClientManager: CGMManager, LibreTransmitterDelegate {
 
             //we prefer to use local cached glucose value for the date to filter
             //but that might not be available when loop is restarted for example
-            var startDate = self.latestBackfill?.startDate ?? self.cgmManagerDelegate?.startDateToFilterNewData(for: self)
+            var startDate = self.latestBackfill?.startDate
+
+            //todo: consider adding this back, but then we must change queue to delegatequeue as well
+            //?? self.cgmManagerDelegate?.startDateToFilterNewData(for: self)
 
 
             // add one second to startdate to make this an exclusive (non overlapping) match

@@ -180,11 +180,14 @@ final class LibreTransmitterManager: NSObject, CBCentralManagerDelegate, CBPerip
         //this will search for all peripherals
         //centralManager.scanForPeripherals(withServices: nil, options: nil)
         //this will not. Here we optimize by scanning only for relevant services
-        let services = LibreTransmitters.all.getServicesForDiscovery()
+        //let services = LibreTransmitters.all.getServicesForDiscovery()
 
 
-        os_log("Scanning for services: %{public}@", log: Self.bt_log, type: .default, String(describing: services.map { $0.uuidString} ))
-        centralManager.scanForPeripherals(withServices: services, options: nil)
+        //os_log("Scanning for services: %{public}@", log: Self.bt_log, type: .default, String(describing: services.map { $0.uuidString} ))
+        //centralManager.scanForPeripherals(withServices: services, options: nil)
+
+        os_log("Scanning for all services:", log: Self.bt_log, type: .default)
+        centralManager.scanForPeripherals(withServices: nil, options: nil)
         state = .Scanning
     }
 
