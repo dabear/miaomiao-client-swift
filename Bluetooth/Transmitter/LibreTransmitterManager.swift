@@ -22,6 +22,7 @@ public enum BluetoothmanagerState: String {
     case Connected = "Connected"
     case Notifying = "Notifying"
     case powerOff = "powerOff"
+    case UnknownDevice = "UnknownDevice"
 }
 
 public protocol LibreTransmitterDelegate: class {
@@ -213,13 +214,21 @@ final class LibreTransmitterManager: NSObject, CBCentralManagerDelegate, CBPerip
             if activePlugin?.canSupportPeripheral(peripheral) == true {
                 //when reaching this part,
                 //we are sure the peripheral is reconnecting and therefore needs reset
+                os_log("Connecting to known device with known plugin", log: Self.bt_log, type: .default)
+
                 activePlugin?.reset()
+
+                centralManager.connect(peripheral, options: nil)
+                state = .Connecting
             } else if let plugin = LibreTransmitters.getSupportedPlugins(peripheral)?.first {
                 self.activePlugin = plugin.init(delegate: self, advertisementData: advertisementData)
 
+                os_log("Connecting to new device with known plugin", log: Self.bt_log, type: .default)
                 //only connect to devices we can support (i.e. devices that has a suitable plugin)
                 centralManager.connect(peripheral, options: nil)
                 state = .Connecting
+            } else {
+                state = .UnknownDevice
             }
         }
     }
