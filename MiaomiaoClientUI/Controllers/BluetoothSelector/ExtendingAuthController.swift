@@ -82,10 +82,10 @@ public class ExtendingAuthController: NSObject, UITableViewDataSource, UITableVi
 
     public func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         guard isExtendedSection(section: section) else {
-            return nil // source.tableView(tableView, titleForHeaderInSection: section)
+             return nil // source.tableView(tableView, titleForHeaderInSection: section)
         }
 
-        return "Libre Bluetooth Devices\nSelec which Libre transmitter you want to connect to"
+        return "Libre Bluetooth Devices\nSelect which Libre transmitter you want to connect to"
     }
 
     public func tableView(_ tableView: UITableView, titleForFooterInSection section: Int) -> String? {

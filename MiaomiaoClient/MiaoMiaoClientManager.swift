@@ -332,12 +332,17 @@ public final class MiaoMiaoClientManager: CGMManager, LibreTransmitterDelegate {
                 return
             }
 
-            //we prefer to use local cached glucose value for the date to filter
-            //but that might not be available when loop is restarted for example
+            //We prefer to use local cached glucose value for the date to filter
             var startDate = self.latestBackfill?.startDate
 
-            //todo: consider adding this back, but then we must change queue to delegatequeue as well
-            //?? self.cgmManagerDelegate?.startDateToFilterNewData(for: self)
+            //
+            // but that might not be available when loop is restarted for example
+            //
+            if startDate == nil {
+                self.delegateQueue.sync {
+                    startDate = self.cgmManagerDelegate?.startDateToFilterNewData(for: self)
+                }
+            }
 
 
             // add one second to startdate to make this an exclusive (non overlapping) match
@@ -347,7 +352,7 @@ public final class MiaoMiaoClientManager: CGMManager, LibreTransmitterDelegate {
             let device = self.proxy?.device
             let newGlucose = glucose
                 .filterDateRange(startDate, nil)
-                .filter({ $0.isStateValid })
+                .filter { $0.isStateValid }
                 .map {
                 NewGlucoseSample(date: $0.startDate,
                                  quantity: $0.quantity,

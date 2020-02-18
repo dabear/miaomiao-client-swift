@@ -16,8 +16,7 @@ protocol BluetoothSearchDelegate: class {
     func didDiscoverCompatibleDevice(_ device: CBPeripheral, allCompatibleDevices: [CBPeripheral])
 }
 
-//TODO: replace service and read/write characteristics with the ones from MiaoMiaoTransmitter/BubbleTransmitter
-// or remove contents of didDiscoverCharacteristicsFor etc
+
 final class BluetoothSearchManager: NSObject, CBCentralManagerDelegate, CBPeripheralDelegate {
     static let bt_log = OSLog(subsystem: "com.LibreMonitor", category: "BluetoothSearchManager")
 
