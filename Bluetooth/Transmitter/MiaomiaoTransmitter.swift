@@ -217,7 +217,7 @@ class MiaoMiaoTransmitter: LibreTransmitter {
 
     func requestData(writeCharacteristics: CBCharacteristic, peripheral: CBPeripheral) {
         confirmSensor(peripheral: peripheral, writeCharacteristics: writeCharacteristics)
-        rxBuffer.resetAllBytes()
+        reset()
         print("dabear: miaomiaoRequestData")
 
         peripheral.writeValue(Data([0xF0]), for: writeCharacteristics, type: .withResponse)
@@ -263,7 +263,7 @@ class MiaoMiaoTransmitter: LibreTransmitter {
 
             delegate?.libreTransmitterReceivedMessage(0x0000, txFlags: 0x34, payloadData: rxBuffer)
 
-           reset()
+            reset()
         case .frequencyChangedResponse: // 0xD1: // Success of fail for setting time intervall
 
             delegate?.libreTransmitterReceivedMessage(0x0000, txFlags: 0xD1, payloadData: rxBuffer)

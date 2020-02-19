@@ -279,6 +279,8 @@ final class LibreTransmitterManager: NSObject, CBCentralManagerDelegate, CBPerip
                 return
             }
 
+            os_log("Central Manager was powered on" , log: Self.bt_log, type: .default)
+
 
             //not sure if needed, but can be helpful when state is restored
             if let peripheral = peripheral, delegate != nil {
@@ -288,8 +290,8 @@ final class LibreTransmitterManager: NSObject, CBCentralManagerDelegate, CBPerip
                 case .disconnected, .disconnecting:
                     os_log("Central Manager was powered on, peripheral state is disconnecting" , log: Self.bt_log, type: .default)
                     self.connect(advertisementData: nil)
-                case .connected:
-                    os_log("Central Manager was powered on, peripheral state is connected, renewing plugin" , log: Self.bt_log, type: .default)
+                case .connected, .connecting:
+                    os_log("Central Manager was powered on, peripheral state is connected/connecting, renewing plugin" , log: Self.bt_log, type: .default)
 
 
                     // This is necessary
@@ -300,7 +302,7 @@ final class LibreTransmitterManager: NSObject, CBCentralManagerDelegate, CBPerip
                         let plugin = LibreTransmitters.getSupportedPlugins(peripheral)?.first
                         self.activePlugin = plugin?.init(delegate: self, advertisementData: nil)
 
-                        os_log("Central Manager was powered on, peripheral state is connected, stopping scan" , log: Self.bt_log, type: .default)
+                        os_log("Central Manager was powered on, peripheral state is connected/connecting, stopping scan" , log: Self.bt_log, type: .default)
                         if central.isScanning {
                             central.stopScan()
                         }
@@ -461,7 +463,7 @@ final class LibreTransmitterManager: NSObject, CBCentralManagerDelegate, CBPerip
 
     func peripheral(_ peripheral: CBPeripheral, didDiscoverServices error: Error?) {
         dispatchPrecondition(condition: .onQueue(managerQueue))
-        os_log("Did discover services", log: Self.bt_log, type: .default)
+        os_log("Did discover services. is plugin nil? %{public}@", log: Self.bt_log, type: .default, (activePlugin == nil ? "nil" : "not nil") )
         if let error = error {
             os_log("Did discover services error: %{public}@", log: Self.bt_log, type: .error, "\(error.localizedDescription)")
         }

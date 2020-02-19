@@ -134,69 +134,44 @@ public class CalibrationEditTableViewController: UITableViewController, mmTextFi
             cell.textLabel?.text = LocalizedString("Save calibrations", comment: "The title for Save calibration")
             return cell
         }
+        let cell = tableView.dequeueIdentifiableCell(cell: MMTextFieldViewCell2.self, for: indexPath)
+        cell.tag = indexPath.row
+        cell.delegate = self
 
         switch CalibrationDataInfoRow(rawValue: indexPath.row)! {
         case .offsetoffset:
-            let cell = tableView.dequeueIdentifiableCell(cell: MMTextFieldViewCell2.self, for: indexPath)
-            cell.tag = indexPath.row
+
             cell.textInput?.text = String(newParams?.offset_offset ?? 0)
             cell.titleLabel.text = NSLocalizedString("offsetoffset", comment: "The title text for offsetoffset calibration setting")
-            cell.delegate = self
-
-            return cell
 
         case .offsetslope:
-            let cell = tableView.dequeueIdentifiableCell(cell: MMTextFieldViewCell2.self, for: indexPath)
-            cell.tag = indexPath.row
             cell.textInput?.text = String(newParams?.offset_slope ?? 0)
             cell.titleLabel.text = NSLocalizedString("offsetslope", comment: "The title text for offsetslope calibration setting")
-            cell.delegate = self
 
-            return cell
         case .slopeoffset:
-           let cell = tableView.dequeueIdentifiableCell(cell: MMTextFieldViewCell2.self, for: indexPath)
-            cell.tag = indexPath.row
             cell.textInput?.text = String(newParams?.slope_offset ?? 0)
             cell.titleLabel.text = NSLocalizedString("slopeoffset", comment: "The title text for slopeoffset calibration setting")
-            cell.delegate = self
-            return cell
         case .slopeslope:
-            let cell = tableView.dequeueIdentifiableCell(cell: MMTextFieldViewCell2.self, for: indexPath)
-
-            cell.tag = indexPath.row
             cell.textInput?.text = String(newParams?.slope_slope ?? 0)
             cell.titleLabel.text = NSLocalizedString("slopeslope", comment: "The title text for slopeslope calibration setting")
-            cell.delegate = self
-            return cell
 
         case .isValidForFooterWithCRCs:
-            let cell = tableView.dequeueIdentifiableCell(cell: MMTextFieldViewCell2.self, for: indexPath)
-
-            cell.tag = indexPath.row
-
             cell.textInput?.text = String(newParams?.isValidForFooterWithReverseCRCs ?? 0)
 
             cell.titleLabel.text = NSLocalizedString("IsValidForFooter", comment: "The title for the footer crc checksum linking these calibration values to this particular sensor")
-            cell.delegate = self
-            cell.isEnabled = false
-            return cell
-        case .extraoffset:
-            let cell = tableView.dequeueIdentifiableCell(cell: MMTextFieldViewCell2.self, for: indexPath)
 
-            cell.tag = indexPath.row
+            cell.isEnabled = false
+        case .extraoffset:
             cell.textInput?.text = String(newParams?.extraOffset ?? 0)
             cell.titleLabel.text = NSLocalizedString("extraOffset", comment: "The title text for extra offset calibration setting")
-            cell.delegate = self
-            return cell
-        case .extraslope:
-            let cell = tableView.dequeueIdentifiableCell(cell: MMTextFieldViewCell2.self, for: indexPath)
 
-            cell.tag = indexPath.row
+        case .extraslope:
             cell.textInput?.text = String(newParams?.extraSlope ?? 0)
             cell.titleLabel.text = NSLocalizedString("extraSlope", comment: "The title text for extra slope calibration setting")
-            cell.delegate = self
-            return cell
+
         }
+
+        return cell
     }
 
     override public func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {

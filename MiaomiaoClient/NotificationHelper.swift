@@ -403,7 +403,7 @@ enum NotificationHelper {
             content.title = "Sensor Ending Soon"
             content.body = "Current Sensor is Ending soon! Sensor Age: \(sensorData.humanReadableSensorAge)"
 
-            addRequest(identifier: Identifiers.sensorExpire, content: content)
+            addRequest(identifier: Identifiers.sensorExpire, content: content, deleteOld: true)
         }
     }
 }
