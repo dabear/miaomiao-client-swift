@@ -223,8 +223,29 @@ class MiaoMiaoTransmitter: LibreTransmitter {
         peripheral.writeValue(Data([0xF0]), for: writeCharacteristics, type: .withResponse)
     }
 
+    private var lastNotifyUpdate: Date?
     func updateValueForNotifyCharacteristics(_ value: Data, peripheral: CBPeripheral, writeCharacteristic: CBCharacteristic?) {
+
+
+        let now = Date()
+
+        // We can expect the miaomiao to complete well within 5 seconds for all the telegrams combined in a session
+        // it is therefore reasonable to expect the time between one telegram
+        // to the other in the same session to be well within 6 seconds
+        // this path will be hit when a telegram for some reason is dropped
+        // in on session.
+        // By resetting here we ensure that the rxbuffer doesn't leak over into the next session
+        // Leaking over into the next session, is however not a problem for consitency as we always check the CRC's anyway
+        if let lastNotifyUpdate = self.lastNotifyUpdate, now > lastNotifyUpdate.addingTimeInterval(6) {
+            NSLog("dabear:: there hasn't been any traffic to  the \(Self.shortTransmitterName) plugin for more than 10 seconds, so we reset now")
+            reset()
+
+        }
+
+        self.lastNotifyUpdate = now
         rxBuffer.append(value)
+
+
 
         //os_log("Appended value with length %{public}@, buffer length is: %{public}@", log: LibreTransmitterManager.bt_log, type: .default, String(describing: value.count), String(describing: rxBuffer.count))
 
@@ -245,7 +266,7 @@ class MiaoMiaoTransmitter: LibreTransmitter {
         switch miaoMiaoResponseState {
         case .dataPacketReceived: // 0x28: // data received, append to buffer and inform delegate if end reached
 
-            if rxBuffer.count >= 363, let last = rxBuffer.last, last == 0x29 {
+            if rxBuffer.count >= 363 && rxBuffer.last == 0x29 {
                 //os_log("Buffer complete, inform delegate.", log: LibreTransmitterManager.bt_log, type: .default)
 
                 delegate?.libreTransmitterReceivedMessage(0x0000, txFlags: 0x28, payloadData: rxBuffer)
