@@ -41,9 +41,6 @@
 		2729D6A822248BDD0030E1B8 /* MiaoMiaoClientManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2729D6A722248BDD0030E1B8 /* MiaoMiaoClientManager.swift */; };
 		272BF9C32338044600AD38AA /* DataExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 272BF9C22338044600AD38AA /* DataExtensions.swift */; };
 		272BF9C9233D3F5A00AD38AA /* MiaomiaoTestMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 272BF9C8233D3F5A00AD38AA /* MiaomiaoTestMessage.swift */; };
-		272DFE6F223E909600FBE2CB /* LoopKitUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 272DFE6D223E909500FBE2CB /* LoopKitUI.framework */; };
-		272DFE71223E909E00FBE2CB /* LoopKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 272DFE70223E909E00FBE2CB /* LoopKit.framework */; };
-		272DFE72223E909E00FBE2CB /* LoopKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 272DFE70223E909E00FBE2CB /* LoopKit.framework */; };
 		272FAF08228CA590002D8064 /* SegmentViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 272FAF06228CA590002D8064 /* SegmentViewCell.swift */; };
 		272FAF09228CA590002D8064 /* SegmentViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 272FAF07228CA590002D8064 /* SegmentViewCell.xib */; };
 		27408E582370D3C3002C71C8 /* ConcreteSensorDisplayable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27408E572370D3C3002C71C8 /* ConcreteSensorDisplayable.swift */; };
@@ -76,7 +73,6 @@
 		27CBEB3F225FE5CB004F7BF5 /* AlarmSettingsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27CBEB3D225FE5CB004F7BF5 /* AlarmSettingsTableViewController.swift */; };
 		27CBEB552261DF9D004F7BF5 /* AlarmTimeInputRangeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27CBEB542261DF9C004F7BF5 /* AlarmTimeInputRangeCell.swift */; };
 		27CBEB5C2261E1E6004F7BF5 /* AlarmTimeInputRangeCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 27CBEB5B2261E1E0004F7BF5 /* AlarmTimeInputRangeCell.xib */; };
-		27CFAB52223EA0B2006DEFE3 /* MiaomiaoClient.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 432B0E881CDFC3C50045347B /* MiaomiaoClient.framework */; };
 		27CFAB5522496C7A006DEFE3 /* DoubleExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27CFAB5422496C7A006DEFE3 /* DoubleExtensions.swift */; };
 		27CFAB5622496CBB006DEFE3 /* DoubleExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27CFAB5422496C7A006DEFE3 /* DoubleExtensions.swift */; };
 		27CFAB59224977B9006DEFE3 /* GlucoseSmoothing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27CFAB5722497744006DEFE3 /* GlucoseSmoothing.swift */; };
@@ -102,6 +98,10 @@
 		27E3C39C222EE9450036AAC7 /* LibreOOPResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27E3C397222EE9450036AAC7 /* LibreOOPResponse.swift */; };
 		27E3C39F222EE9A80036AAC7 /* LibreOOPWebExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27E3C39E222EE9A80036AAC7 /* LibreOOPWebExtensions.swift */; };
 		27E3C3A2222EEDCD0036AAC7 /* DerivedAlgorithmParameters.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27E3C3A1222EEDCD0036AAC7 /* DerivedAlgorithmParameters.swift */; };
+		27F09EEC23FF2FBF00722EB4 /* LoopKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 27F09EE823FF2E0D00722EB4 /* LoopKit.framework */; };
+		27F09EEF23FF303B00722EB4 /* LoopKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 27F09EE823FF2E0D00722EB4 /* LoopKit.framework */; };
+		27F09EF023FF303B00722EB4 /* LoopKitUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 27F09EEA23FF2E0D00722EB4 /* LoopKitUI.framework */; };
+		27F09EF123FF303B00722EB4 /* MiaomiaoClient.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 432B0E881CDFC3C50045347B /* MiaomiaoClient.framework */; };
 		4325E9CF210E6A0A00969CE5 /* HKUnit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4325E9CE210E6A0A00969CE5 /* HKUnit.swift */; };
 		4325E9D3210E6ADA00969CE5 /* IdentifiableClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4325E9D2210E6ADA00969CE5 /* IdentifiableClass.swift */; };
 		4325E9D5210E6B4400969CE5 /* UIColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4325E9D4210E6B4300969CE5 /* UIColor.swift */; };
@@ -181,8 +181,6 @@
 		2729D6A722248BDD0030E1B8 /* MiaoMiaoClientManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MiaoMiaoClientManager.swift; sourceTree = "<group>"; };
 		272BF9C22338044600AD38AA /* DataExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataExtensions.swift; sourceTree = "<group>"; };
 		272BF9C8233D3F5A00AD38AA /* MiaomiaoTestMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MiaomiaoTestMessage.swift; sourceTree = "<group>"; };
-		272DFE6D223E909500FBE2CB /* LoopKitUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = LoopKitUI.framework; path = ../../Build/iOS/LoopKitUI.framework; sourceTree = "<group>"; };
-		272DFE70223E909E00FBE2CB /* LoopKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = LoopKit.framework; path = ../../Build/iOS/LoopKit.framework; sourceTree = "<group>"; };
 		272FAF06228CA590002D8064 /* SegmentViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SegmentViewCell.swift; sourceTree = "<group>"; };
 		272FAF07228CA590002D8064 /* SegmentViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SegmentViewCell.xib; sourceTree = "<group>"; };
 		27408E572370D3C3002C71C8 /* ConcreteSensorDisplayable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConcreteSensorDisplayable.swift; sourceTree = "<group>"; };
@@ -238,6 +236,8 @@
 		27E3C397222EE9450036AAC7 /* LibreOOPResponse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LibreOOPResponse.swift; sourceTree = "<group>"; };
 		27E3C39E222EE9A80036AAC7 /* LibreOOPWebExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LibreOOPWebExtensions.swift; sourceTree = "<group>"; };
 		27E3C3A1222EEDCD0036AAC7 /* DerivedAlgorithmParameters.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DerivedAlgorithmParameters.swift; sourceTree = "<group>"; };
+		27F09EE823FF2E0D00722EB4 /* LoopKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = LoopKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		27F09EEA23FF2E0D00722EB4 /* LoopKitUI.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = LoopKitUI.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		4325E9CE210E6A0A00969CE5 /* HKUnit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HKUnit.swift; sourceTree = "<group>"; };
 		4325E9D2210E6ADA00969CE5 /* IdentifiableClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IdentifiableClass.swift; sourceTree = "<group>"; };
 		4325E9D4210E6B4300969CE5 /* UIColor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIColor.swift; sourceTree = "<group>"; };
@@ -299,7 +299,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				43A8EC95210E67B000A81379 /* HealthKit.framework in Frameworks */,
-				272DFE71223E909E00FBE2CB /* LoopKit.framework in Frameworks */,
+				27F09EEC23FF2FBF00722EB4 /* LoopKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -315,9 +315,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				27CFAB52223EA0B2006DEFE3 /* MiaomiaoClient.framework in Frameworks */,
-				272DFE6F223E909600FBE2CB /* LoopKitUI.framework in Frameworks */,
-				272DFE72223E909E00FBE2CB /* LoopKit.framework in Frameworks */,
+				27F09EEF23FF303B00722EB4 /* LoopKit.framework in Frameworks */,
+				27F09EF023FF303B00722EB4 /* LoopKitUI.framework in Frameworks */,
+				27F09EF123FF303B00722EB4 /* MiaomiaoClient.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -609,8 +609,8 @@
 		43A8EC7A210E661300A81379 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				272DFE70223E909E00FBE2CB /* LoopKit.framework */,
-				272DFE6D223E909500FBE2CB /* LoopKitUI.framework */,
+				27F09EE823FF2E0D00722EB4 /* LoopKit.framework */,
+				27F09EEA23FF2E0D00722EB4 /* LoopKitUI.framework */,
 				43A8EC94210E67B000A81379 /* HealthKit.framework */,
 			);
 			name = Frameworks;
