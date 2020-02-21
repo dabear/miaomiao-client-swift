@@ -15,7 +15,8 @@ prefix="no-bjorninge-mm"
 
 if [ -e .git ]; then
   rev=$(git rev-parse HEAD)
-  plutil -replace $prefix-git-revision -string ${rev} "${plist}"
+  dirty=$([[ -z $(git status -s) ]] || echo '-dirty')
+  plutil -replace $prefix-git-revision -string "${rev}${dirty}" "${plist}"
   
   branch=$(git branch | grep \* | cut -d ' ' -f2-)
   plutil -replace $prefix-git-branch -string "${branch}" "${plist}"
