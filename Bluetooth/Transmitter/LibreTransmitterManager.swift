@@ -198,6 +198,11 @@ final class LibreTransmitterManager: NSObject, CBCentralManagerDelegate, CBPerip
         state = .Scanning
     }
 
+    private func reset() {
+        os_log("manager is resetting the activeplugin ", log: Self.bt_log, type: .default)
+        self.activePlugin?.reset()
+    }
+
     private func connect(force forceConnect: Bool = false, advertisementData: [String: Any]?) {
         dispatchPrecondition(condition: .onQueue(managerQueue))
         os_log("Connect while state %{public}@", log: Self.bt_log, type: .default, String(describing: state.rawValue))
@@ -217,7 +222,7 @@ final class LibreTransmitterManager: NSObject, CBCentralManagerDelegate, CBPerip
                 //we are sure the peripheral is reconnecting and therefore needs reset
                 os_log("Connecting to known device with known plugin", log: Self.bt_log, type: .default)
 
-                activePlugin?.reset()
+                self.reset()
 
                 centralManager.connect(peripheral, options: nil)
                 state = .Connecting
@@ -429,7 +434,7 @@ final class LibreTransmitterManager: NSObject, CBCentralManagerDelegate, CBPerip
         state = .DelayedReconnect
 
         os_log("Will reconnect peripheral in  %{public}@ seconds", log: Self.bt_log, type: .default, String(describing: seconds))
-        activePlugin?.reset()
+        self.reset()
         // attempt to avoid IOS killing app because of cpu usage.
         // postpone connecting for x seconds
         DispatchQueue.global(qos: .utility).async { [weak self] in
@@ -537,7 +542,7 @@ final class LibreTransmitterManager: NSObject, CBCentralManagerDelegate, CBPerip
         if let error = error {
             os_log("Peripheral did update notification state for characteristic: %{public}@ with error", log: Self.bt_log, type: .error, "\(error.localizedDescription)")
         } else {
-            activePlugin?.reset()
+            self.reset()
             requestData()
         }
         state = .Notifying
@@ -554,12 +559,12 @@ final class LibreTransmitterManager: NSObject, CBCentralManagerDelegate, CBPerip
         // it is therefore reasonable to expect the time between one telegram
         // to the other in the same session to be well within 6 seconds
         // this path will be hit when a telegram for some reason is dropped
-        // in on session.
+        // in a session. Or that the user disconnecting and reconnecting during a transmission
         // By resetting here we ensure that the rxbuffer doesn't leak over into the next session
         // Leaking over into the next session, is however not a problem for consitency as we always check the CRC's anyway
         if let lastNotifyUpdate = self.lastNotifyUpdate, now > lastNotifyUpdate.addingTimeInterval(6) {
             NSLog("dabear:: there hasn't been any traffic to  the \(self.activePluginType?.shortTransmitterName) plugin for more than 10 seconds, so we reset now")
-            self.activePlugin?.reset()
+            self.reset()
 
         }
 
