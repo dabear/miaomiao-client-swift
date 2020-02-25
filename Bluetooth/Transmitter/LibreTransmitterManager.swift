@@ -87,6 +87,7 @@ final class LibreTransmitterManager: NSObject, CBCentralManagerDelegate, CBPerip
         didSet {
             print("dabear:: activePlugin changed from \(oldValue) to \(activePlugin)")
         }
+        
     }
 
     var activePluginType: LibreTransmitter.Type? {
@@ -541,10 +542,29 @@ final class LibreTransmitterManager: NSObject, CBCentralManagerDelegate, CBPerip
         }
         state = .Notifying
     }
-
+    
+    private var lastNotifyUpdate: Date?
     func peripheral(_ peripheral: CBPeripheral, didUpdateValueFor characteristic: CBCharacteristic, error: Error?) {
         dispatchPrecondition(condition: .onQueue(managerQueue))
         os_log("Did update value for characteristic: %{public}@", log: Self.bt_log, type: .default, String(describing: characteristic.debugDescription))
+
+        let now = Date()
+
+        // We can expect thedevices to complete well within 5 seconds for all the telegrams combined in a session
+        // it is therefore reasonable to expect the time between one telegram
+        // to the other in the same session to be well within 6 seconds
+        // this path will be hit when a telegram for some reason is dropped
+        // in on session.
+        // By resetting here we ensure that the rxbuffer doesn't leak over into the next session
+        // Leaking over into the next session, is however not a problem for consitency as we always check the CRC's anyway
+        if let lastNotifyUpdate = self.lastNotifyUpdate, now > lastNotifyUpdate.addingTimeInterval(6) {
+            NSLog("dabear:: there hasn't been any traffic to  the \(self.activePluginType?.shortTransmitterName) plugin for more than 10 seconds, so we reset now")
+            self.activePlugin?.reset()
+
+        }
+
+        self.lastNotifyUpdate = now
+        
 
         if let error = error {
             os_log("Characteristic update error: %{public}@", log: Self.bt_log, type: .error, "\(error.localizedDescription)")
