@@ -83,7 +83,8 @@ final class LibreTransmitterManager: NSObject, CBCentralManagerDelegate, CBPerip
     private var wantsToTerminate = false
     //private var lastConnectedIdentifier : String?
 
-    var activePlugin: LibreTransmitter? {
+    @LogNilAccess(logger: LibreTransmitterManager.bt_log, logmsg: "activePlugin was nil")
+    var activePlugin: LibreTransmitter? = nil {
         didSet {
             print("dabear:: activePlugin changed from \(oldValue) to \(activePlugin)")
         }
@@ -575,6 +576,9 @@ final class LibreTransmitterManager: NSObject, CBCentralManagerDelegate, CBPerip
             os_log("Characteristic update error: %{public}@", log: Self.bt_log, type: .error, "\(error.localizedDescription)")
         } else {
             if characteristic.uuid == notifyCharacteristicUUID, let value = characteristic.value {
+                if self.activePlugin == nil {
+                    os_log("Characteristic update error: activeplugin was nil", log: Self.bt_log, type: .error)
+                }
                 self.activePlugin?.updateValueForNotifyCharacteristics(value, peripheral: peripheral, writeCharacteristic: writeCharacteristic)
             }
         }

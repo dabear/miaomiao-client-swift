@@ -45,6 +45,7 @@
 		272FAF09228CA590002D8064 /* SegmentViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 272FAF07228CA590002D8064 /* SegmentViewCell.xib */; };
 		27408E582370D3C3002C71C8 /* ConcreteSensorDisplayable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27408E572370D3C3002C71C8 /* ConcreteSensorDisplayable.swift */; };
 		27408E592370D8C1002C71C8 /* TimeIntervalExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27E0968E22A9AD6F00B3164D /* TimeIntervalExtensions.swift */; };
+		2747CA0E2407DFC100F0A1D8 /* LogNilAccess.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2747CA0D2407DFC000F0A1D8 /* LogNilAccess.swift */; };
 		274DF85222A5AEA400BFAFFE /* AlertControllers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 274DF85122A5AEA400BFAFFE /* AlertControllers.swift */; };
 		275C3D99229AA88200E27439 /* MMSwitchTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 275C3D94229AA69C00E27439 /* MMSwitchTableViewCell.swift */; };
 		275C3D9A229AA88500E27439 /* MMSwitchTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 275C3D95229AA69C00E27439 /* MMSwitchTableViewCell.xib */; };
@@ -184,6 +185,7 @@
 		272FAF06228CA590002D8064 /* SegmentViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SegmentViewCell.swift; sourceTree = "<group>"; };
 		272FAF07228CA590002D8064 /* SegmentViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SegmentViewCell.xib; sourceTree = "<group>"; };
 		27408E572370D3C3002C71C8 /* ConcreteSensorDisplayable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConcreteSensorDisplayable.swift; sourceTree = "<group>"; };
+		2747CA0D2407DFC000F0A1D8 /* LogNilAccess.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogNilAccess.swift; sourceTree = "<group>"; };
 		274DF85122A5AEA400BFAFFE /* AlertControllers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertControllers.swift; sourceTree = "<group>"; };
 		275C3D94229AA69C00E27439 /* MMSwitchTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MMSwitchTableViewCell.swift; sourceTree = "<group>"; };
 		275C3D95229AA69C00E27439 /* MMSwitchTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MMSwitchTableViewCell.xib; sourceTree = "<group>"; };
@@ -593,6 +595,7 @@
 				2729D6A722248BDD0030E1B8 /* MiaoMiaoClientManager.swift */,
 				275C3DA2229FCED400E27439 /* NotificationHelper.swift */,
 				27408E572370D3C3002C71C8 /* ConcreteSensorDisplayable.swift */,
+				2747CA0D2407DFC000F0A1D8 /* LogNilAccess.swift */,
 			);
 			path = MiaomiaoClient;
 			sourceTree = "<group>";
@@ -993,6 +996,7 @@
 				27E3C3A2222EEDCD0036AAC7 /* DerivedAlgorithmParameters.swift in Sources */,
 				2729D69C221F44670030E1B8 /* SensorSerialNumber.swift in Sources */,
 				27167A0323D3C6510033BFBE /* QueuedPropertyAccess.swift in Sources */,
+				2747CA0E2407DFC100F0A1D8 /* LogNilAccess.swift in Sources */,
 				27408E592370D8C1002C71C8 /* TimeIntervalExtensions.swift in Sources */,
 				27CFAB5622496CBB006DEFE3 /* DoubleExtensions.swift in Sources */,
 				43AB51362133177800B3D58D /* LocalizedString.swift in Sources */,
