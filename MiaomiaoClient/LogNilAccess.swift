@@ -30,8 +30,6 @@ extension Optional: AnyOptional{
         self.init(wrappedValue: initialValue, logger: logger, logmsg: nil)
     }
 
-
-
     var wrappedValue: V {
         get {
             if (value as? AnyOptional)?.isNil == true {
