@@ -211,10 +211,10 @@ public final class MiaoMiaoClientManager: CGMManager, LibreTransmitterDelegate {
             return
         }
 
-        NotificationHelper.sendCalibrationNotification("Calibrating sensor, please stand by!")
+        NotificationHelper.sendCalibrationNotification(.starting)
         calibrateSensor(accessToken: accessToken, site: url.absoluteString, sensordata: data) { [weak self] calibrationparams  in
             guard let params = calibrationparams else {
-                NotificationHelper.sendCalibrationNotification("Could not calibrate sensor, check libreoopweb permissions and internet connection")
+                NotificationHelper.sendCalibrationNotification(.noCalibration)
                 callback(LibreError.noCalibrationData, nil)
                 return
             }
@@ -222,14 +222,14 @@ public final class MiaoMiaoClientManager: CGMManager, LibreTransmitterDelegate {
             do {
                 try self?.keychain.setLibreCalibrationData(params)
             } catch {
-                NotificationHelper.sendCalibrationNotification("Could not calibrate sensor, invalid calibrationdata")
+                NotificationHelper.sendCalibrationNotification(.invalidCalibrationData)
                 callback(LibreError.invalidCalibrationData, nil)
                 return
             }
             //here we assume success, data is not changed,
             //and we trust that the remote endpoint returns correct data for the sensor
 
-            NotificationHelper.sendCalibrationNotification("Success!")
+            NotificationHelper.sendCalibrationNotification(.success)
             callback(nil, self?.readingToGlucose(data, calibration: params))
         }
     }

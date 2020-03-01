@@ -245,12 +245,20 @@ enum NotificationHelper {
         }
     }
 
-    public static func sendCalibrationNotification(_ calibrationMessage: String) {
+    enum CalibrationMessage: String {
+        case starting = "Calibrating sensor, please stand by!"
+        case noCalibration = "Could not calibrate sensor, check libreoopweb permissions and internet connection"
+        case invalidCalibrationData = "Could not calibrate sensor, invalid calibrationdata"
+        case success = "Success!"
+    }
+
+    public static func sendCalibrationNotification(_ calibrationMessage: CalibrationMessage) {
+
         ensureCanSendNotification {
             let content = UNMutableNotificationContent()
             content.sound = .default
             content.title = "Extracting calibrationdata from sensor"
-            content.body = calibrationMessage
+            content.body = calibrationMessage.rawValue
 
             addRequest(identifier: Identifiers.calibrationOngoing,
                        content: content,
