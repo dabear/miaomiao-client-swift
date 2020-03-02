@@ -41,7 +41,7 @@ extension LibreGlucose: GlucoseValue {
 
 extension LibreGlucose: SensorDisplayable {
     public var isStateValid: Bool {
-        glucose >= 39
+        glucose >= 1
     }
 
     public var trendType: GlucoseTrend? {
