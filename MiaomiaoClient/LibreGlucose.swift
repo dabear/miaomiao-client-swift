@@ -2,9 +2,6 @@
 //  MiaomiaoClient.h
 //  MiaomiaoClient
 //
-//  Created by Mark Wilson on 5/7/16.
-//  Copyright © 2016 Mark Wilson. All rights reserved.
-//
 
 import Foundation
 import HealthKit

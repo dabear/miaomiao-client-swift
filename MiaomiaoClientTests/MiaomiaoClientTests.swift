@@ -3,7 +3,7 @@
 //  MiaomiaoClientTests
 //
 //  Created by Nathan Racklyeft on 5/8/16.
-//  Copyright © 2016 Mark Wilson. All rights reserved.
+//  Copyright © 2016 Bjørn Inge Berg. All rights reserved.
 //
 
 import XCTest

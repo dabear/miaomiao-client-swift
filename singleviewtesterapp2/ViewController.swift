@@ -4,7 +4,7 @@
 //
 //  Created by Bjørn Inge Berg on 04.10.2018.
 // swiftlint:disable:next file_header
-//  Copyright © 2018 Mark Wilson. All rights reserved.
+//  Copyright © 2018 Bjørn Inge Berg. All rights reserved.
 //
 
 import MiaomiaoClient

@@ -3,7 +3,7 @@
 //  MiaomiaoClient
 //
 //  Created by Bjørn Inge Berg on 05/03/2019.
-//  Copyright © 2019 Mark Wilson. All rights reserved.
+//  Copyright © 2019 Bjørn Inge Berg. All rights reserved.
 //
 
 import Foundation
