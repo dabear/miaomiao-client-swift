@@ -33,7 +33,7 @@ public enum LibreError: Error {
         case .invalidAutoCalibrationCredentials:
             return "Invalid Auto Calibration Credentials"
         case .encryptedSensor:
-            return "Encrypted and unsupported libre sensor detected."
+            return "Encrypted or unsupported libre sensor detected."
         }
     }
 }

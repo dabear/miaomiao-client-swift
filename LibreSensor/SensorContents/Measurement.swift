@@ -72,81 +72,24 @@ struct Measurement {
 //        self.oopGlucose = oopSlope * Double(rawGlucose) + oopOffset
 
         self.temperatureAlgorithmParameterSet = derivedAlgorithmParameterSet
-        if let derivedAlgorithmParameterSet = self.temperatureAlgorithmParameterSet {
-            self.oopSlope = derivedAlgorithmParameterSet.slope_slope * Double(rawTemperature) + derivedAlgorithmParameterSet.offset_slope
-            self.oopOffset = derivedAlgorithmParameterSet.slope_offset * Double(rawTemperature) + derivedAlgorithmParameterSet.offset_offset
-            //        self.oopSlope = slope_slope * Double(rawTemperature) + slope_offset
-            //        self.oopOffset = offset_slope * Double(rawTemperature) + offset_offset
-            let oopGlucose = oopSlope * Double(rawGlucose) + oopOffset
-            //self.temperatureAlgorithmGlucose = oopGlucose
-            // Final correction, if sensor values are very low and need to be compensated
-            self.temperatureAlgorithmGlucose = oopGlucose * derivedAlgorithmParameterSet.extraSlope + derivedAlgorithmParameterSet.extraOffset
-        } else {
+        guard let derivedAlgorithmParameterSet = self.temperatureAlgorithmParameterSet else {
             self.oopSlope = 0
             self.oopOffset = 0
             self.temperatureAlgorithmGlucose = 0
+            return
         }
 
-        //print(self.description)
+        self.oopSlope = derivedAlgorithmParameterSet.slope_slope * Double(rawTemperature) + derivedAlgorithmParameterSet.offset_slope
+        self.oopOffset = derivedAlgorithmParameterSet.slope_offset * Double(rawTemperature) + derivedAlgorithmParameterSet.offset_offset
+        //        self.oopSlope = slope_slope * Double(rawTemperature) + slope_offset
+        //        self.oopOffset = offset_slope * Double(rawTemperature) + offset_offset
+        let oopGlucose = oopSlope * Double(rawGlucose) + oopOffset
+        //self.temperatureAlgorithmGlucose = oopGlucose
+        // Final correction, if sensor values are very low and need to be compensated
+        self.temperatureAlgorithmGlucose = oopGlucose * derivedAlgorithmParameterSet.extraSlope + derivedAlgorithmParameterSet.extraOffset
+
     }
 
-//
-//
-//    private func slopefunc(raw_temp: Int) -> Double{
-//
-//        return self.params.slope_slope * Double(raw_temp) + self.params.offset_slope
-//        // rawglucose 7124: 0.1130434605
-//        //0.00001562292 * 7124 + 0.0017457784869033700
-//
-//        // rawglucose 5816: 0.0926086812
-//        //0.00001562292 * 5816 + 0.0017457784869033700
-//    }
-//
-//    private func offsetfunc(raw_temp: Int) -> Double{
-//        return self.params.slope_offset  * Double(raw_temp) + self.params.offset_offset
-//        //rawglucose 7124: -21.1304349
-//        //-0.00023267185 * 7124 + -19.4728806406
-//        // rawglucose 5816: -20.8261001202
-//        //-0.00023267185 * 5816 + -19.4728806406
-//    }
-//
-//
-//    public func GetGlucoseValue(from_raw_glucose raw_glucose: Int, raw_temp: Int) -> Double{
-//        return self.slopefunc(raw_temp: raw_temp) * Double(raw_glucose) + self.offsetfunc(raw_temp: raw_temp)
-//    }
-
-//    func temp1() -> Double {
-//        let anInt = (Int(self.bytes[4] & 0x3F) << 8) + Int(self.bytes[5])
-//        return 0.5 * (-273.16 + sqrt(abs(273.16*273.16 + 4.0 * Double(anInt))))
-//    }
-//    func temp2() -> Double {
-//        let anInt = (Int(self.bytes[4] & 0x3F) << 8) + Int(self.bytes[3])
-//        return 0.5 * (-273.16 + sqrt(abs(273.16*273.16 + 4.0 * Double(anInt))))
-//    }
-//
-//    // Gitter
-//    func temp3() -> Double {
-//        let anInt = (Int(self.bytes[4] & 0x3F) << 8) + Int(self.bytes[5])
-//        return 22.22 * log(311301.0/(11.44 * Double(anInt)))
-//    }
-//    //Pierre Vandevenne 1
-//    func temp4() -> Double {
-//        let anInt = 16384 - (Int(self.bytes[4] & 0x3F) << 8) + Int(self.bytes[5])
-//
-//        let a = 1.0
-//        let b = 273.0
-//        let c = -Double(anInt)
-//        let d = (b*b) - (4*a*c)
-//        let res = -b + sqrt( d ) / (2*a)
-//        return  abs(res*0.0027689+9.53)
-//    }
-//
-//    // Pierre Vandevenne 2
-//    func temp5() -> Double {
-//        let anInt = 16383 - (Int(self.bytes[4] & 0x3F) << 8) + Int(self.bytes[5])
-//        return  abs(Double(anInt)*0.0027689+9.53)
-//    }
-//    Temp = 22.22 * log(311301/NTC)
 
     var description: String {
         var aString = String("Glucose: \(glucose) (mg/dl), date:  \(date), slope: \(slope), offset: \(offset), rawGlucose: \(rawGlucose), rawTemperature: \(rawTemperature), bytes: \(bytes) \n")
@@ -155,6 +98,6 @@ struct Measurement {
         aString.append("oopGlucose: \(temperatureAlgorithmGlucose) (mg/dl)" )
 
         return aString
-//        return String("Glucose: \(glucose) (mg/dl), date:  \(date), slope: \(slope), offset: \(offset), rawGlucose: \(rawGlucose), rawTemperature: \(rawTemperature), bytes: \(bytes)  /n oop: slope_slope = " )
+
     }
 }

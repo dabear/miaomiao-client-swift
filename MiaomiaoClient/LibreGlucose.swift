@@ -41,6 +41,9 @@ extension LibreGlucose: GlucoseValue {
 
 extension LibreGlucose: SensorDisplayable {
     public var isStateValid: Bool {
+        // We know that the official libre algorithm doesn't produce values
+        // below 39. However, both the raw sensor contents and the derived algorithm
+        // supports values down to 0 without issues. A bit uncertain if nightscout and loop will work with values below 1, so we restrict this to 1
         glucose >= 1
     }
 
