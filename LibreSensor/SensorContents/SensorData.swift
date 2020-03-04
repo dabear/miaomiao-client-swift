@@ -10,7 +10,7 @@ import Foundation
 
 /// Structure for data from Freestyle Libre sensor
 /// To be initialized with the bytes as read via nfc. Provides all derived data.
-public struct SensorData {
+public struct SensorData:Codable {
     /// Parameters for the temperature compensation algorithm
     //let temperatureAlgorithmParameterSet: TemperatureAlgorithmParameters?
 

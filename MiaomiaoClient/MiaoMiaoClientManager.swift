@@ -60,6 +60,17 @@ public final class MiaoMiaoClientManager: CGMManager, LibreTransmitterDelegate {
         proxy?.viaManagerQueue.device
     }
 
+    private func getPersistedSensorDataForDebug() -> String{
+        guard let data = UserDefaults.standard.queuedSensorData else {
+            return "nil"
+        }
+
+        return data.array.map {
+            "SensorData(uuid: \"0123\".data(using: .ascii)!, bytes: \($0.bytes))!"
+        }
+        .joined(separator: ",\n")
+    }
+
     public var debugDescription: String {
         [
             "## MiaomiaoClientManager",
@@ -68,7 +79,8 @@ public final class MiaoMiaoClientManager: CGMManager, LibreTransmitterDelegate {
             "Connection state: \(connectionState)",
             "Sensor state: \(sensorStateDescription)",
             "transmitterbattery: \(battery)",
-            "Metainfo::\n \(AppMetaData.allProperties)",
+            "SensorData: \(getPersistedSensorDataForDebug())",
+            "Metainfo::\n\(AppMetaData.allProperties)",
             ""
         ].joined(separator: "\n")
     }
@@ -279,6 +291,19 @@ public final class MiaoMiaoClientManager: CGMManager, LibreTransmitterDelegate {
 
     var transmitterName = "Unknown device"
 
+    func tryPersistSensorData(with sensorData: SensorData) {
+
+        guard UserDefaults.standard.shouldPersistSensorData else {
+            return
+        }
+
+        //yeah, we really really need to persist any changes right away
+        var data  = UserDefaults.standard.queuedSensorData ?? LimitedQueue<SensorData>()
+        data.enqueue(sensorData)
+        UserDefaults.standard.queuedSensorData = data
+
+    }
+
     //will be called on utility queue
     public func libreTransmitterDidUpdate(with sensorData: SensorData, and Device: LibreTransmitterMetadata) {
         print("dabear:: got sensordata: \(sensorData), bytescount: \( sensorData.bytes.count), bytes: \(sensorData.bytes)")
@@ -286,6 +311,8 @@ public final class MiaoMiaoClientManager: CGMManager, LibreTransmitterDelegate {
         NotificationHelper.sendLowBatteryNotificationIfNeeded(device: Device)
         NotificationHelper.sendInvalidSensorNotificationIfNeeded(sensorData: sensorData)
         NotificationHelper.sendInvalidChecksumIfDeveloper(sensorData)
+
+        tryPersistSensorData(with: sensorData)
 
         guard sensorData.hasValidCRCs else {
             self.delegateQueue.async {

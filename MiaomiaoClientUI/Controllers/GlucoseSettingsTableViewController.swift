@@ -67,6 +67,7 @@ public class GlucoseSettingsTableViewController: UITableViewController, mmTextFi
         case syncToNs
         case backfillFromHistory
         case backfillFromTrend
+        case persistRawSensorDataForDebugging
 
         static let count = GlucoseSettings.allCases.count
     }
@@ -97,6 +98,15 @@ public class GlucoseSettingsTableViewController: UITableViewController, mmTextFi
         UserDefaults.standard.mmBackfillFromHistory = sender.isOn
     }
 
+    @objc
+    private func persistSensorDataChanged(_ sender: UISwitch) {
+        print("persistSensorDataChanged changed to \(sender.isOn)")
+        UserDefaults.standard.shouldPersistSensorData = sender.isOn
+        if !sender.isOn {
+            UserDefaults.standard.queuedSensorData = nil
+        }
+    }
+
     override public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let switchCell = tableView.dequeueIdentifiableCell(cell: MMSwitchTableViewCell.self, for: indexPath)
 
@@ -119,6 +129,13 @@ public class GlucoseSettingsTableViewController: UITableViewController, mmTextFi
             switchCell.titleLabel?.text = NSLocalizedString("Sync to Nightscout", comment: "The title text for the sync to nightscout setting")
 
             switchCell.toggleIsSelected?.addTarget(self, action: #selector(syncToNsChanged(_:)), for: .valueChanged)
+        case .persistRawSensorDataForDebugging:
+            switchCell.toggleIsSelected?.isOn = UserDefaults.standard.shouldPersistSensorData
+            //switchCell.titleLabel?.text = "test"
+
+            switchCell.titleLabel?.text = NSLocalizedString("Persist sensordata in Issue Report", comment: "Persist sensordata in Issue Report")
+
+            switchCell.toggleIsSelected?.addTarget(self, action:#selector(persistSensorDataChanged(_:)), for: .valueChanged)
         }
 
         switchCell.contentView.layoutMargins.left = tableView.separatorInset.left
