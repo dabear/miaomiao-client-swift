@@ -123,7 +123,7 @@ public final class MiaoMiaoClientManager: CGMManager, LibreTransmitterDelegate {
 
                 trend = oldIsRecentEnough ? TrendArrowCalculations.GetGlucoseTrend(current: newValue, last: oldValue) : nil
 
-                self.sensorState = ConcreteSensorDisplayable(isStateValid: newValue.isStateValid, trendType: trend, isLocal: newValue.isLocal)
+                self.sensorState = ConcreteSensorDisplayable(isStateValid: newValue.isStateValid, trendType: trend, isLocal: true)
 
             } else {
                 //could consider setting this to ConcreteSensorDisplayable with trendtype GlucoseTrend.flat, but that would be kinda lying

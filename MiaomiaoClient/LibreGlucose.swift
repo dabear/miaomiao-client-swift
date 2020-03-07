@@ -13,9 +13,10 @@ public struct LibreGlucose {
     public var glucose: UInt16 {
         UInt16(glucoseDouble.rounded())
     }
-    public var trend: UInt8
+    //trend is deprecated here, it should only be calculated once in latestbackfill
+    //public var trend: UInt8
     public let timestamp: Date
-    public let collector: String?
+    //public let collector: String?
 
     public static func timeDifference(oldGlucose: LibreGlucose, newGlucose: LibreGlucose) -> TimeInterval {
         newGlucose.startDate.timeIntervalSince(oldGlucose.startDate)
@@ -23,6 +24,13 @@ public struct LibreGlucose {
 
     public var syncId : String {
         "\(Int(self.startDate.timeIntervalSince1970))\(self.unsmoothedGlucose)"
+    }
+
+    public var isStateValid: Bool {
+        // We know that the official libre algorithm doesn't produce values
+        // below 39. However, both the raw sensor contents and the derived algorithm
+        // supports values down to 0 without issues. A bit uncertain if nightscout and loop will work with values below 1, so we restrict this to 1
+        glucose >= 1
     }
 }
 
@@ -36,22 +44,6 @@ extension LibreGlucose: GlucoseValue {
     }
 }
 
-extension LibreGlucose: SensorDisplayable {
-    public var isStateValid: Bool {
-        // We know that the official libre algorithm doesn't produce values
-        // below 39. However, both the raw sensor contents and the derived algorithm
-        // supports values down to 0 without issues. A bit uncertain if nightscout and loop will work with values below 1, so we restrict this to 1
-        glucose >= 1
-    }
-
-    public var trendType: GlucoseTrend? {
-        GlucoseTrend(rawValue: Int(trend))
-    }
-
-    public var isLocal: Bool {
-        true
-    }
-}
 
 extension LibreGlucose {
     static func fromHistoryMeasurements(_ measurements: [Measurement]) -> [LibreGlucose] {
@@ -63,7 +55,10 @@ extension LibreGlucose {
                 continue
             }
 
-            let glucose = LibreGlucose(unsmoothedGlucose: historical.temperatureAlgorithmGlucose, glucoseDouble: historical.temperatureAlgorithmGlucose, trend: UInt8(GlucoseTrend.flat.rawValue), timestamp: historical.date, collector: "Unknown")
+            let glucose = LibreGlucose(
+                unsmoothedGlucose: historical.temperatureAlgorithmGlucose,
+                glucoseDouble: historical.temperatureAlgorithmGlucose,
+                timestamp: historical.date)
             arr.append(glucose)
         }
 
@@ -84,7 +79,10 @@ extension LibreGlucose {
             // trend arrows on each libreglucose value is not needed
             // instead we calculate it once when latestbackfill is set, which in turn sets
             // the sensordisplayable property
-            let glucose = LibreGlucose(unsmoothedGlucose: trend.temperatureAlgorithmGlucose, glucoseDouble: 0.0, trend: UInt8(GlucoseTrend.flat.rawValue), timestamp: trend.date, collector: "Unknown")
+            let glucose = LibreGlucose(
+                unsmoothedGlucose: trend.temperatureAlgorithmGlucose,
+                glucoseDouble: 0.0,
+                timestamp: trend.date)
             arr.append(glucose)
         }
         //NSLog("dabear:: glucose samples before smoothing: \(String(describing: origarr))")

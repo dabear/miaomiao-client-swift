@@ -115,7 +115,7 @@ public class MiaomiaoClientSettingsViewController: UITableViewController, SubVie
     private enum LatestReadingRow: Int, CaseIterable {
         case glucose
         case date
-        case trend
+       // case trend
         case footerChecksum
     }
 
@@ -251,11 +251,11 @@ public class MiaomiaoClientSettingsViewController: UITableViewController, SubVie
                 } else {
                     cell.detailTextLabel?.text = SettingsTableViewCell.NoValueString
                 }
-            case .trend:
+            /*case .trend:
                 cell.textLabel?.text = LocalizedString("Trend", comment: "Title describing glucose trend")
 
                 cell.detailTextLabel?.text = glucose?.trendType?.localizedDescription ?? SettingsTableViewCell.NoValueString
-
+            */
             case .footerChecksum:
                 cell.textLabel?.text = LocalizedString("Sensor Footer checksum", comment: "Title describing Sensor footer reverse checksum")
 

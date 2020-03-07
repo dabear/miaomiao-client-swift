@@ -228,7 +228,10 @@ enum NotificationHelper {
                 } else {
                     diff = abs(diff)
 
-                    let asObj = LibreGlucose(unsmoothedGlucose: diff, glucoseDouble: diff, trend: 0, timestamp: Date(), collector: nil)
+                    let asObj = LibreGlucose(
+                        unsmoothedGlucose: diff,
+                        glucoseDouble: diff,
+                        timestamp: Date())
                     if let formattedDiff = formatter.string(from: asObj.quantity, for: unit) {
                         content.body += ", " + sign + formattedDiff
                     }
