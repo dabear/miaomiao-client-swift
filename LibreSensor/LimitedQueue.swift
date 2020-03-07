@@ -11,7 +11,7 @@ import MiaomiaoClient
 
 public struct LimitedQueue<T:Codable>: Codable{
   public var array  = [T]()
-  var limit: Int = 10   
+  var limit: Int = 10
 
   mutating func enqueue(_ element: T) {
     while array.count >= limit {

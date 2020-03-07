@@ -32,7 +32,7 @@ extension LibreGlucose: GlucoseValue {
     }
 
     public var quantity: HKQuantity {
-         HKQuantity(unit: .milligramsPerDeciliter, doubleValue: Double(glucose))
+        .init(unit: .milligramsPerDeciliter, doubleValue: Double(glucose))
     }
 }
 
@@ -63,7 +63,7 @@ extension LibreGlucose {
                 continue
             }
 
-            let glucose = LibreGlucose(unsmoothedGlucose: historical.temperatureAlgorithmGlucose, glucoseDouble: historical.temperatureAlgorithmGlucose, trend: UInt8(GlucoseTrend.flat.rawValue), timestamp: historical.date, collector: "MiaoMiao")
+            let glucose = LibreGlucose(unsmoothedGlucose: historical.temperatureAlgorithmGlucose, glucoseDouble: historical.temperatureAlgorithmGlucose, trend: UInt8(GlucoseTrend.flat.rawValue), timestamp: historical.date, collector: "Unknown")
             arr.append(glucose)
         }
 
@@ -71,43 +71,41 @@ extension LibreGlucose {
     }
 
     static func fromTrendMeasurements(_ measurements: [Measurement], returnAll: Bool) -> [LibreGlucose] {
-        var origarr = [LibreGlucose]()
+        var arr = [LibreGlucose]()
 
+        var shouldSmoothGlucose = true
         for trend in measurements {
-            let glucose = LibreGlucose(unsmoothedGlucose: trend.temperatureAlgorithmGlucose, glucoseDouble: 0.0, trend: UInt8(GlucoseTrend.flat.rawValue), timestamp: trend.date, collector: "MiaoMiao")
-            origarr.append(glucose)
+            // if sensor is ripped off body while transmitter is attached, values below 1 might be created
+            // this will also disable smoothing for sensors started less than 16 minuttes ago
+            if trend.temperatureAlgorithmGlucose < 1 {
+                shouldSmoothGlucose = false
+                continue
+            }
+            // trend arrows on each libreglucose value is not needed
+            // instead we calculate it once when latestbackfill is set, which in turn sets
+            // the sensordisplayable property
+            let glucose = LibreGlucose(unsmoothedGlucose: trend.temperatureAlgorithmGlucose, glucoseDouble: 0.0, trend: UInt8(GlucoseTrend.flat.rawValue), timestamp: trend.date, collector: "Unknown")
+            arr.append(glucose)
         }
         //NSLog("dabear:: glucose samples before smoothing: \(String(describing: origarr))")
-        var arr: [LibreGlucose]
-        arr = CalculateSmothedData5Points(origtrends: origarr)
 
-        for i in 0 ..< arr.count {
-            var trend = arr[i]
-            //we know that the array "always" (almost) will contain 16 entries
-            //the last five entries will get a trend arrow of flat, because it's not computable when we don't have
-            //more entries in the array to base it on
-            let arrow = TrendArrowCalculations.GetGlucoseDirection(current: trend, last: arr[safe: i + 5])
-            arr[i].trend = UInt8(arrow.rawValue)
-            //NSLog("Date: \(trend.timestamp), before: \(trend.unsmoothedGlucose), after: \(trend.glucose), arrow: \(trend.trend)")
+        if shouldSmoothGlucose {
+            arr = CalculateSmothedData5Points(origtrends: arr)
+        } else {
+            for i in 0 ..< arr.count {
+                arr[i].glucoseDouble = arr[i].unsmoothedGlucose
+            }
         }
 
-        if returnAll {
-            return arr
-        }
 
-        if let first = arr.first {
+
+        if !returnAll, let first = arr.first {
             return [first]
         }
 
-        return [LibreGlucose]()
-        /*
-        var filtered = [LibreGlucose]()
-        for elm in arr.enumerated() where elm.offset % 5 == 0 {
-            filtered.append(elm.element)
-        }
+        return arr
 
-        //NSLog("dabear:: glucose samples after smoothing: \(String(describing: arr))")
-        return filtered
-         */
+
+
     }
 }

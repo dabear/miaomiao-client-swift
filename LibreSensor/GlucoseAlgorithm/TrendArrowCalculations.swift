@@ -27,7 +27,7 @@ enum TrendArrowCalculations {
         return calculateSlope(current: current, last: last) * 60_000
     }
 
-    static func GetGlucoseDirection(current: LibreGlucose?, last: LibreGlucose?) -> GlucoseTrend {
+    static func GetGlucoseTrend(current: LibreGlucose?, last: LibreGlucose?) -> GlucoseTrend {
         //NSLog("GetGlucoseDirection:: current:\(current), last: \(last)")
         guard let current = current, let last = last else {
             return  .flat
