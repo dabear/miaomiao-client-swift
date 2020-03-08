@@ -77,7 +77,6 @@
 		27CFAB5522496C7A006DEFE3 /* DoubleExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27CFAB5422496C7A006DEFE3 /* DoubleExtensions.swift */; };
 		27CFAB5622496CBB006DEFE3 /* DoubleExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27CFAB5422496C7A006DEFE3 /* DoubleExtensions.swift */; };
 		27CFAB59224977B9006DEFE3 /* GlucoseSmoothing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27CFAB5722497744006DEFE3 /* GlucoseSmoothing.swift */; };
-		27CFAB5C224AA93E006DEFE3 /* TrendArrowCalculations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27CFAB5A224AA8D1006DEFE3 /* TrendArrowCalculations.swift */; };
 		27CFAB5E224AB265006DEFE3 /* CollectionExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27CFAB5D224AB265006DEFE3 /* CollectionExtensions.swift */; };
 		27CFAB5F224AB27B006DEFE3 /* CollectionExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27CFAB5D224AB265006DEFE3 /* CollectionExtensions.swift */; };
 		27D0DA6B2231CBB7007BBB2C /* DateExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27D0DA6A2231CBB7007BBB2C /* DateExtensions.swift */; };
@@ -219,7 +218,6 @@
 		27CBEB5B2261E1E0004F7BF5 /* AlarmTimeInputRangeCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AlarmTimeInputRangeCell.xib; sourceTree = "<group>"; };
 		27CFAB5422496C7A006DEFE3 /* DoubleExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DoubleExtensions.swift; sourceTree = "<group>"; };
 		27CFAB5722497744006DEFE3 /* GlucoseSmoothing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlucoseSmoothing.swift; sourceTree = "<group>"; };
-		27CFAB5A224AA8D1006DEFE3 /* TrendArrowCalculations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrendArrowCalculations.swift; sourceTree = "<group>"; };
 		27CFAB5D224AB265006DEFE3 /* CollectionExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionExtensions.swift; sourceTree = "<group>"; };
 		27D0DA6A2231CBB7007BBB2C /* DateExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateExtensions.swift; sourceTree = "<group>"; };
 		27E0968022A6E9AB00B3164D /* SnoozeView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SnoozeView.xib; sourceTree = "<group>"; };
@@ -497,7 +495,6 @@
 			children = (
 				27E3C3A1222EEDCD0036AAC7 /* DerivedAlgorithmParameters.swift */,
 				27CFAB5722497744006DEFE3 /* GlucoseSmoothing.swift */,
-				27CFAB5A224AA8D1006DEFE3 /* TrendArrowCalculations.swift */,
 			);
 			path = GlucoseAlgorithm;
 			sourceTree = "<group>";
@@ -986,7 +983,6 @@
 				4325E9CF210E6A0A00969CE5 /* HKUnit.swift in Sources */,
 				27CFAB59224977B9006DEFE3 /* GlucoseSmoothing.swift in Sources */,
 				27E3C39A222EE9450036AAC7 /* LibreOOPClient.swift in Sources */,
-				27CFAB5C224AA93E006DEFE3 /* TrendArrowCalculations.swift in Sources */,
 				272BF9C9233D3F5A00AD38AA /* MiaomiaoTestMessage.swift in Sources */,
 				2729D69F221F44670030E1B8 /* SensorState.swift in Sources */,
 				27408E582370D3C3002C71C8 /* ConcreteSensorDisplayable.swift in Sources */,

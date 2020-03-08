@@ -31,6 +31,7 @@ extension Optional: AnyOptional {
 
     var wrappedValue: V {
         get {
+            
             if (value as? AnyOptional)?.isNil == true {
                 os_log(.debug, log: self.logger, self.logmsg ?? "value was nil")
             }

@@ -117,7 +117,7 @@ enum NotificationHelper {
             content.title = "Invalid libre checksum"
             content.body = "Libre sensor was incorrectly read, CRCs were not valid"
 
-            addRequest(identifier: Identifiers.invalidChecksum, content: content)
+            addRequest(identifier: .invalidChecksum, content: content)
         }
     }
 

@@ -120,7 +120,7 @@ public final class MiaoMiaoClientManager: CGMManager, LibreTransmitterDelegate {
                 NSLog("dabear:: timediff is \(timediff)")
                 let oldIsRecentEnough = timediff <= TimeInterval.minutes(15)
 
-                trend = oldIsRecentEnough ? TrendArrowCalculations.GetGlucoseTrend(current: newValue, last: oldValue) : nil
+                trend = oldIsRecentEnough ? newValue.GetGlucoseTrend(last: oldValue) : nil
 
                 self.sensorState = ConcreteSensorDisplayable(isStateValid: newValue.isStateValid, trendType: trend, isLocal: true)
             } else {
