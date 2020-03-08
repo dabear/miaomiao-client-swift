@@ -27,17 +27,7 @@ enum NotificationHelper {
         case restoredState = "no.bjorninge.miaomiao.state-notification"
     }
 
-    private static var glucoseFormatterMgdl: QuantityFormatter = {
-        let formatter = QuantityFormatter()
-        formatter.setPreferredNumberFormatter(for: HKUnit.milligramsPerDeciliter)
-        return formatter
-    }()
 
-    private static var glucoseFormatterMmol: QuantityFormatter = {
-        let formatter = QuantityFormatter()
-        formatter.setPreferredNumberFormatter(for: HKUnit.millimolesPerLiter)
-        return formatter
-    }()
 
     public static func vibrateIfNeeded(count: Int = 3) {
         if UserDefaults.standard.mmGlucoseAlarmsVibrate {
@@ -58,14 +48,7 @@ enum NotificationHelper {
         [HKUnit.milligramsPerDeciliter, HKUnit.millimolesPerLiter].contains(unit)
     }
 
-    public static var dynamicFormatter: QuantityFormatter? {
-        guard let glucoseUnit = UserDefaults.standard.mmGlucoseUnit else {
-            NSLog("dabear:: glucose unit was not recognized, aborting")
-            return nil
-        }
 
-        return (glucoseUnit == HKUnit.milligramsPerDeciliter ? glucoseFormatterMgdl : glucoseFormatterMmol)
-    }
 
     public static func sendRestoredStateNotification(msg: String) {
         ensureCanSendNotification {
@@ -190,14 +173,12 @@ enum NotificationHelper {
         }
     }
     private static func sendGlucoseNotitifcation(glucose: LibreGlucose, oldValue: LibreGlucose?, alarm: GlucoseScheduleAlarmResult = .none, isSnoozed: Bool = false, trend: GlucoseTrend?) {
-        ensureCanSendGlucoseNotification { unit  in
-            guard let formatter = dynamicFormatter, let formatted = formatter.string(from: glucose.quantity, for: unit) else {
-                NSLog("dabear:: glucose unit formatter unsuccessful, aborting notification")
-                return
-            }
-            let content = UNMutableNotificationContent()
+        ensureCanSendGlucoseNotification { _ in
 
-            var titles: [String] = []
+            let content = UNMutableNotificationContent()
+            let glucoseDesc = glucose.description
+            var titles = [String]()
+            var body = [String]()
             switch alarm {
             case .none:
                 titles.append("Glucose")
@@ -209,40 +190,26 @@ enum NotificationHelper {
 
             if isSnoozed {
                 titles.append("(Snoozed)")
-            } else if  alarm.isAlarming() {
+            } else if alarm.isAlarming() {
                 content.sound = .default
                 vibrateIfNeeded()
             }
-            titles.append(formatted)
+            titles.append(glucoseDesc)
 
-            content.title = titles.joined(separator: " ")
-            content.body = "Glucose: \(formatted)"
+
+            body.append("Glucose: \(glucoseDesc)")
 
             if let oldValue = oldValue {
-                //these are just calculations so I can use the convenience of the glucoseformatter
-                var diff = glucose.glucoseDouble - oldValue.glucoseDouble
-                let sign = diff < 0 ? "-" : "+"
-
-                if diff == 0 {
-                    content.body += ", \(sign) 0"
-                } else {
-                    diff = abs(diff)
-
-                    let asObj = LibreGlucose(
-                        unsmoothedGlucose: diff,
-                        glucoseDouble: diff,
-                        timestamp: Date())
-                    if let formattedDiff = formatter.string(from: asObj.quantity, for: unit) {
-                        content.body += ", " + sign + formattedDiff
-                    }
-                }
+                body.append( LibreGlucose.glucoseDiffDesc(oldValue: oldValue, newValue: glucose))
             }
 
             if let trend = trend?.localizedDescription {
-                content.body += ", \(trend)"
+                body.append("\(trend)")
             }
 
-            addRequest(identifier: Identifiers.glucocoseNotifications,
+            content.title = titles.joined(separator: " ")
+            content.body = body.joined(separator: ", ")
+            addRequest(identifier: .glucocoseNotifications,
                        content: content,
                        deleteOld: true)
         }
@@ -263,7 +230,7 @@ enum NotificationHelper {
             content.title = "Extracting calibrationdata from sensor"
             content.body = calibrationMessage.rawValue
 
-            addRequest(identifier: Identifiers.calibrationOngoing,
+            addRequest(identifier: .calibrationOngoing,
                        content: content,
                        deleteOld: true)
         }
@@ -284,7 +251,7 @@ enum NotificationHelper {
             content.title = "No Sensor Detected"
             content.body = "This might be an intermittent problem, but please check that your \(devicename) is tightly secured over your sensor"
 
-            addRequest(identifier: Identifiers.noSensorDetected, content: content)
+            addRequest(identifier: .noSensorDetected, content: content)
         }
     }
 
@@ -302,7 +269,7 @@ enum NotificationHelper {
             content.title = "New Sensor Detected"
             content.body = "Please wait up to 30 minutes before glucose readings are available!"
 
-            addRequest(identifier: Identifiers.sensorChange, content: content)
+            addRequest(identifier: .sensorChange, content: content)
             //content.sound = UNNotificationSound.
 
         }
@@ -332,7 +299,7 @@ enum NotificationHelper {
 
             content.sound = .default
 
-            addRequest(identifier: Identifiers.invalidSensor, content: content)
+            addRequest(identifier: .invalidSensor, content: content)
         }
     }
 
@@ -374,7 +341,7 @@ enum NotificationHelper {
             content.body = "Battery is running low (\(batteryPercentage)), consider charging your \(deviceName) device as soon as possible"
             content.sound = .default
 
-            addRequest(identifier: Identifiers.lowBattery, content: content)
+            addRequest(identifier: .lowBattery, content: content)
         }
     }
 
@@ -414,7 +381,7 @@ enum NotificationHelper {
             content.title = "Sensor Ending Soon"
             content.body = "Current Sensor is Ending soon! Sensor Age: \(sensorData.humanReadableSensorAge)"
 
-            addRequest(identifier: Identifiers.sensorExpire, content: content, deleteOld: true)
+            addRequest(identifier: .sensorExpire, content: content, deleteOld: true)
         }
     }
 }

@@ -40,8 +40,69 @@ extension LibreGlucose: GlucoseValue {
     }
 
     public var quantity: HKQuantity {
-        .init(unit: .milligramsPerDeciliter, doubleValue: Double(glucose))
+        .init(unit: .milligramsPerDeciliter, doubleValue: glucoseDouble)
     }
+}
+
+extension LibreGlucose {
+
+    public var description : String{
+        guard let glucoseUnit = UserDefaults.standard.mmGlucoseUnit, let formatter = LibreGlucose.dynamicFormatter, let formatted = formatter.string(from: self.quantity, for: glucoseUnit) else {
+            NSLog("dabear:: glucose unit was not recognized, aborting")
+            return "Unknown"
+        }
+
+        return formatted
+
+    }
+    private static var glucoseFormatterMgdl: QuantityFormatter = {
+        let formatter = QuantityFormatter()
+        formatter.setPreferredNumberFormatter(for: HKUnit.milligramsPerDeciliter)
+        return formatter
+    }()
+
+    private static var glucoseFormatterMmol: QuantityFormatter = {
+        let formatter = QuantityFormatter()
+        formatter.setPreferredNumberFormatter(for: HKUnit.millimolesPerLiter)
+        return formatter
+    }()
+
+    public static var dynamicFormatter: QuantityFormatter? {
+        guard let glucoseUnit = UserDefaults.standard.mmGlucoseUnit else {
+            NSLog("dabear:: glucose unit was not recognized, aborting")
+            return nil
+        }
+
+        return (glucoseUnit == HKUnit.milligramsPerDeciliter ? glucoseFormatterMgdl : glucoseFormatterMmol)
+    }
+
+    public static func glucoseDiffDesc(oldValue: Self, newValue: Self)  -> String{
+        guard let glucoseUnit = UserDefaults.standard.mmGlucoseUnit else {
+            NSLog("dabear:: glucose unit was not recognized, aborting")
+            return "Unknown"
+        }
+
+        var stringValue = [String]()
+
+        var diff = newValue.glucoseDouble - oldValue.glucoseDouble
+        let sign = diff < 0 ? "-" : "+"
+
+        if diff == 0 {
+            stringValue.append( "\(sign) 0")
+        } else {
+            diff = abs(diff)
+            let asObj = LibreGlucose(
+                unsmoothedGlucose: diff,
+                glucoseDouble: diff,
+                timestamp: Date())
+            if let formatted = dynamicFormatter?.string(from: asObj.quantity, for: glucoseUnit) {
+                stringValue.append( "\(sign) \(formatted)")
+            }
+        }
+
+        return stringValue.joined(separator: ",")
+    }
+
 }
 
 
