@@ -88,7 +88,6 @@ final class LibreTransmitterManager: NSObject, CBCentralManagerDelegate, CBPerip
         didSet {
             print("dabear:: activePlugin changed from \(oldValue) to \(activePlugin)")
         }
-        
     }
 
     var activePluginType: LibreTransmitter.Type? {
@@ -186,14 +185,12 @@ final class LibreTransmitterManager: NSObject, CBCentralManagerDelegate, CBPerip
         if scanForAllServices {
             os_log("Scanning for all services:", log: Self.bt_log, type: .default)
             centralManager.scanForPeripherals(withServices: nil, options: nil)
-
         } else {
             // This is what we should have done
             // Here we optimize by scanning only for relevant services
             // However, this doesn't work correctly with both miaomiao and bubble
             let services = LibreTransmitters.all.getServicesForDiscovery()
-            os_log("Scanning for specific services: %{public}@", log: Self.bt_log, type: .default, String(describing: services.map { $0.uuidString} ))
-
+            os_log("Scanning for specific services: %{public}@", log: Self.bt_log, type: .default, String(describing: services.map { $0.uuidString }))
         }
 
         state = .Scanning
@@ -286,30 +283,26 @@ final class LibreTransmitterManager: NSObject, CBCentralManagerDelegate, CBPerip
                 return
             }
 
-            os_log("Central Manager was powered on" , log: Self.bt_log, type: .default)
-
+            os_log("Central Manager was powered on", log: Self.bt_log, type: .default)
 
             //not sure if needed, but can be helpful when state is restored
             if let peripheral = peripheral, delegate != nil {
                 // do not scan if already connected
                 switch peripheral.state {
-
                 case .disconnected, .disconnecting:
-                    os_log("Central Manager was powered on, peripheral state is disconnecting" , log: Self.bt_log, type: .default)
+                    os_log("Central Manager was powered on, peripheral state is disconnecting", log: Self.bt_log, type: .default)
                     self.connect(advertisementData: nil)
                 case .connected, .connecting:
-                    os_log("Central Manager was powered on, peripheral state is connected/connecting, renewing plugin" , log: Self.bt_log, type: .default)
-
+                    os_log("Central Manager was powered on, peripheral state is connected/connecting, renewing plugin", log: Self.bt_log, type: .default)
 
                     // This is necessary
                     // Normally the connect() method would have set the correct plugin,
                     // however when we hit this path, it is likely a state restoration
                     if self.activePlugin == nil || self.activePlugin?.canSupportPeripheral(peripheral) == false {
-
                         let plugin = LibreTransmitters.getSupportedPlugins(peripheral)?.first
                         self.activePlugin = plugin?.init(delegate: self, advertisementData: nil)
 
-                        os_log("Central Manager was powered on, peripheral state is connected/connecting, stopping scan" , log: Self.bt_log, type: .default)
+                        os_log("Central Manager was powered on, peripheral state is connected/connecting, stopping scan", log: Self.bt_log, type: .default)
                         if central.isScanning {
                             central.stopScan()
                         }
@@ -355,16 +348,13 @@ final class LibreTransmitterManager: NSObject, CBCentralManagerDelegate, CBPerip
         let restorablePeripheral = peripherals.first(where: { $0.identifier.uuidString == preselected })
 
         guard let peripheral = restorablePeripheral else {
-
             return
         }
 
         self.peripheral = peripheral
         peripheral.delegate = self
 
-
         switch peripheral.state {
-
         case .disconnected, .disconnecting:
             os_log("Central Manager tried to restore state from disconnected peripheral", log: Self.bt_log, type: .default)
             state = .Disconnected
@@ -548,7 +538,7 @@ final class LibreTransmitterManager: NSObject, CBCentralManagerDelegate, CBPerip
         }
         state = .Notifying
     }
-    
+
     private var lastNotifyUpdate: Date?
     func peripheral(_ peripheral: CBPeripheral, didUpdateValueFor characteristic: CBCharacteristic, error: Error?) {
         dispatchPrecondition(condition: .onQueue(managerQueue))
@@ -566,11 +556,9 @@ final class LibreTransmitterManager: NSObject, CBCentralManagerDelegate, CBPerip
         if let lastNotifyUpdate = self.lastNotifyUpdate, now > lastNotifyUpdate.addingTimeInterval(6) {
             NSLog("dabear:: there hasn't been any traffic to  the \(self.activePluginType?.shortTransmitterName) plugin for more than 10 seconds, so we reset now")
             self.reset()
-
         }
 
         self.lastNotifyUpdate = now
-        
 
         if let error = error {
             os_log("Characteristic update error: %{public}@", log: Self.bt_log, type: .error, "\(error.localizedDescription)")

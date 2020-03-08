@@ -60,7 +60,7 @@ public final class MiaoMiaoClientManager: CGMManager, LibreTransmitterDelegate {
         proxy?.viaManagerQueue.device
     }
 
-    private func getPersistedSensorDataForDebug() -> String{
+    private func getPersistedSensorDataForDebug() -> String {
         guard let data = UserDefaults.standard.queuedSensorData else {
             return "nil"
         }
@@ -114,7 +114,6 @@ public final class MiaoMiaoClientManager: CGMManager, LibreTransmitterDelegate {
             NSLog("dabear:: latestBackfill set, newvalue is \(newValue)")
 
             if let oldValue = oldValue {
-
                 // the idea here is to use the diff between the old and the new glucose to calculate slope and direction, rather than using trend from the glucose value.
                 // this is because the old and new glucose values represent earlier readouts, while the trend buffer contains somewhat more jumpy (noisy) values.
                 let timediff = LibreGlucose.timeDifference(oldGlucose: oldValue, newGlucose: newValue)
@@ -124,17 +123,11 @@ public final class MiaoMiaoClientManager: CGMManager, LibreTransmitterDelegate {
                 trend = oldIsRecentEnough ? TrendArrowCalculations.GetGlucoseTrend(current: newValue, last: oldValue) : nil
 
                 self.sensorState = ConcreteSensorDisplayable(isStateValid: newValue.isStateValid, trendType: trend, isLocal: true)
-
             } else {
                 //could consider setting this to ConcreteSensorDisplayable with trendtype GlucoseTrend.flat, but that would be kinda lying
                 self.sensorState = nil
             }
-
-
-
-
         }
-
     }
 
     public static var managerIdentifier = "DexMiaomiaoClient1"
@@ -303,16 +296,14 @@ public final class MiaoMiaoClientManager: CGMManager, LibreTransmitterDelegate {
     var transmitterName = "Unknown device"
 
     func tryPersistSensorData(with sensorData: SensorData) {
-
         guard UserDefaults.standard.shouldPersistSensorData else {
             return
         }
 
         //yeah, we really really need to persist any changes right away
-        var data  = UserDefaults.standard.queuedSensorData ?? LimitedQueue<SensorData>()
+        var data = UserDefaults.standard.queuedSensorData ?? LimitedQueue<SensorData>()
         data.enqueue(sensorData)
         UserDefaults.standard.queuedSensorData = data
-
     }
 
     //will be called on utility queue
@@ -382,10 +373,8 @@ public final class MiaoMiaoClientManager: CGMManager, LibreTransmitterDelegate {
                 }
             }
 
-
             // add one second to startdate to make this an exclusive (non overlapping) match
             startDate = startDate?.addingTimeInterval(1)
-
 
             let device = self.proxy?.device
             let newGlucose = glucose
@@ -397,7 +386,7 @@ public final class MiaoMiaoClientManager: CGMManager, LibreTransmitterDelegate {
                                  isDisplayOnly: false,
                                  syncIdentifier: $0.syncId,
                                  device: device)
-            }
+                }
 
             self.latestBackfill = glucose.max { $0.startDate < $1.startDate }
 

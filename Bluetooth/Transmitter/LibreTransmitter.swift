@@ -39,11 +39,10 @@ extension LibreTransmitter {
 extension Array where Array.Element == LibreTransmitter.Type {
     func getServicesForDiscovery() -> [CBUUID] {
         self.flatMap {
-            return $0.serviceUUID.map { $0.value}
+            return $0.serviceUUID.map { $0.value }
         }.removingDuplicates()
     }
 }
-
 
 public enum LibreTransmitters {
     public static var all: [LibreTransmitter.Type] {

@@ -168,7 +168,6 @@ public class CalibrationEditTableViewController: UITableViewController, mmTextFi
         case .extraslope:
             cell.textInput?.text = String(newParams?.extraSlope ?? 0)
             cell.titleLabel.text = NSLocalizedString("extraSlope", comment: "The title text for extra slope calibration setting")
-
         }
 
         return cell

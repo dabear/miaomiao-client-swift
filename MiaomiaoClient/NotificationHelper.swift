@@ -27,8 +27,6 @@ enum NotificationHelper {
         case restoredState = "no.bjorninge.miaomiao.state-notification"
     }
 
-
-
     public static func vibrateIfNeeded(count: Int = 3) {
         if UserDefaults.standard.mmGlucoseAlarmsVibrate {
             vibrate(times: count)
@@ -47,8 +45,6 @@ enum NotificationHelper {
     public static func GlucoseUnitIsSupported(unit: HKUnit) -> Bool {
         [HKUnit.milligramsPerDeciliter, HKUnit.millimolesPerLiter].contains(unit)
     }
-
-
 
     public static func sendRestoredStateNotification(msg: String) {
         ensureCanSendNotification {
@@ -96,7 +92,6 @@ enum NotificationHelper {
 
     private static func ensureCanSendNotification(_ completion: @escaping () -> Void ) {
         UNUserNotificationCenter.current().getNotificationSettings { settings in
-
             guard settings.authorizationStatus == .authorized || settings.authorizationStatus == .provisional else {
                 NSLog("dabear:: ensureCanSendNotification failed, authorization denied")
                 return
@@ -174,7 +169,6 @@ enum NotificationHelper {
     }
     private static func sendGlucoseNotitifcation(glucose: LibreGlucose, oldValue: LibreGlucose?, alarm: GlucoseScheduleAlarmResult = .none, isSnoozed: Bool = false, trend: GlucoseTrend?) {
         ensureCanSendGlucoseNotification { _ in
-
             let content = UNMutableNotificationContent()
             let glucoseDesc = glucose.description
             var titles = [String]()
@@ -195,7 +189,6 @@ enum NotificationHelper {
                 vibrateIfNeeded()
             }
             titles.append(glucoseDesc)
-
 
             body.append("Glucose: \(glucoseDesc)")
 
@@ -223,7 +216,6 @@ enum NotificationHelper {
     }
 
     public static func sendCalibrationNotification(_ calibrationMessage: CalibrationMessage) {
-
         ensureCanSendNotification {
             let content = UNMutableNotificationContent()
             content.sound = .default

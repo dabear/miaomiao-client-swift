@@ -8,23 +8,22 @@
 
 import Foundation
 import os.log
-fileprivate protocol AnyOptional{
+private protocol AnyOptional {
     var isNil: Bool { get }
 }
-extension Optional: AnyOptional{
+extension Optional: AnyOptional {
     var isNil: Bool { self == nil }
 }
 
 @propertyWrapper struct LogNilAccess<V> {
     var value: V
     weak var logger: OSLog!
-    var logmsg : StaticString?
+    var logmsg: StaticString?
 
     init(wrappedValue initialValue: V, logger: OSLog, logmsg: StaticString?) {
         self.value = initialValue
         self.logger = logger
-        self.logmsg  = logmsg
-
+        self.logmsg = logmsg
     }
     init(wrappedValue initialValue: V, logger: OSLog) {
         self.init(wrappedValue: initialValue, logger: logger, logmsg: nil)

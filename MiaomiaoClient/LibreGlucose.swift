@@ -22,7 +22,7 @@ public struct LibreGlucose {
         newGlucose.startDate.timeIntervalSince(oldGlucose.startDate)
     }
 
-    public var syncId : String {
+    public var syncId: String {
         "\(Int(self.startDate.timeIntervalSince1970))\(self.unsmoothedGlucose)"
     }
 
@@ -45,15 +45,13 @@ extension LibreGlucose: GlucoseValue {
 }
 
 extension LibreGlucose {
-
-    public var description : String{
+    public var description: String {
         guard let glucoseUnit = UserDefaults.standard.mmGlucoseUnit, let formatter = LibreGlucose.dynamicFormatter, let formatted = formatter.string(from: self.quantity, for: glucoseUnit) else {
             NSLog("dabear:: glucose unit was not recognized, aborting")
             return "Unknown"
         }
 
         return formatted
-
     }
     private static var glucoseFormatterMgdl: QuantityFormatter = {
         let formatter = QuantityFormatter()
@@ -76,7 +74,7 @@ extension LibreGlucose {
         return (glucoseUnit == HKUnit.milligramsPerDeciliter ? glucoseFormatterMgdl : glucoseFormatterMmol)
     }
 
-    public static func glucoseDiffDesc(oldValue: Self, newValue: Self)  -> String{
+    public static func glucoseDiffDesc(oldValue: Self, newValue: Self) -> String {
         guard let glucoseUnit = UserDefaults.standard.mmGlucoseUnit else {
             NSLog("dabear:: glucose unit was not recognized, aborting")
             return "Unknown"
@@ -102,9 +100,7 @@ extension LibreGlucose {
 
         return stringValue.joined(separator: ",")
     }
-
 }
-
 
 extension LibreGlucose {
     static func fromHistoryMeasurements(_ measurements: [Measurement]) -> [LibreGlucose] {
@@ -156,15 +152,10 @@ extension LibreGlucose {
             }
         }
 
-
-
         if !returnAll, let first = arr.first {
             return [first]
         }
 
         return arr
-
-
-
     }
 }

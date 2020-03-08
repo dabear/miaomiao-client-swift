@@ -135,7 +135,7 @@ public class GlucoseSettingsTableViewController: UITableViewController, mmTextFi
 
             switchCell.titleLabel?.text = NSLocalizedString("Persist sensordata in Issue Report", comment: "Persist sensordata in Issue Report")
 
-            switchCell.toggleIsSelected?.addTarget(self, action:#selector(persistSensorDataChanged(_:)), for: .valueChanged)
+            switchCell.toggleIsSelected?.addTarget(self, action: #selector(persistSensorDataChanged(_:)), for: .valueChanged)
         }
 
         switchCell.contentView.layoutMargins.left = tableView.separatorInset.left

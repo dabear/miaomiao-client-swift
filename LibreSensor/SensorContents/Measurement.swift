@@ -87,9 +87,7 @@ struct Measurement {
         //self.temperatureAlgorithmGlucose = oopGlucose
         // Final correction, if sensor values are very low and need to be compensated
         self.temperatureAlgorithmGlucose = oopGlucose * derivedAlgorithmParameterSet.extraSlope + derivedAlgorithmParameterSet.extraOffset
-
     }
-
 
     var description: String {
         var aString = String("Glucose: \(glucose) (mg/dl), date:  \(date), slope: \(slope), offset: \(offset), rawGlucose: \(rawGlucose), rawTemperature: \(rawTemperature), bytes: \(bytes) \n")
@@ -98,6 +96,5 @@ struct Measurement {
         aString.append("oopGlucose: \(temperatureAlgorithmGlucose) (mg/dl)" )
 
         return aString
-
     }
 }

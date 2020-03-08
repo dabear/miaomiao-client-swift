@@ -223,13 +223,8 @@ class MiaoMiaoTransmitter: LibreTransmitter {
         peripheral.writeValue(Data([0xF0]), for: writeCharacteristics, type: .withResponse)
     }
 
-    
     func updateValueForNotifyCharacteristics(_ value: Data, peripheral: CBPeripheral, writeCharacteristic: CBCharacteristic?) {
-
-
-        
         rxBuffer.append(value)
-
 
         //os_log("Appended value with length %{public}@, buffer length is: %{public}@", log: LibreTransmitterManager.bt_log, type: .default, String(describing: value.count), String(describing: rxBuffer.count))
 

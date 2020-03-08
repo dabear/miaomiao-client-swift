@@ -9,7 +9,7 @@
 import Foundation
 import MiaomiaoClient
 
-public struct LimitedQueue<T:Codable>: Codable{
+public struct LimitedQueue<T: Codable>: Codable {
   public var array  = [T]()
   var limit: Int = 10
 
@@ -54,7 +54,7 @@ extension UserDefaults {
         }
         set {
             let encoder = JSONEncoder()
-            if let val = newValue , let encoded = try? encoder.encode(val) {
+            if let val = newValue, let encoded = try? encoder.encode(val) {
                 set(encoded, forKey: Key.queuedSensorData.rawValue)
             } else {
                 removeObject(forKey: Key.queuedSensorData.rawValue)
@@ -62,4 +62,3 @@ extension UserDefaults {
         }
     }
 }
-
