@@ -133,7 +133,7 @@ public class GlucoseSettingsTableViewController: UITableViewController, mmTextFi
             switchCell.toggleIsSelected?.isOn = UserDefaults.standard.shouldPersistSensorData
             //switchCell.titleLabel?.text = "test"
 
-            switchCell.titleLabel?.text = NSLocalizedString("Persist sensordata in Issue Report", comment: "Persist sensordata in Issue Report")
+            switchCell.titleLabel?.text = NSLocalizedString("Issue Report with sensordata", comment: "Persist sensordata in Issue Report")
 
             switchCell.toggleIsSelected?.addTarget(self, action: #selector(persistSensorDataChanged(_:)), for: .valueChanged)
         }

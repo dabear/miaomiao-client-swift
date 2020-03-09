@@ -200,7 +200,7 @@ public final class MiaoMiaoClientManager: CGMManager, LibreTransmitterDelegate {
         //only care about the once per minute readings here, historical data will not be considered
 
         guard let data = data else {
-            callback(LibreError.noSensorData, nil)
+            callback(.noSensorData, nil)
             return
         }
 
@@ -223,7 +223,7 @@ public final class MiaoMiaoClientManager: CGMManager, LibreTransmitterDelegate {
 
         guard let (accessToken, url) = self.keychain.getAutoCalibrateWebCredentials() else {
             NSLog("dabear:: could not calibrate, accesstoken or url was nil")
-            callback(LibreError.invalidAutoCalibrationCredentials, nil)
+            callback(.invalidAutoCalibrationCredentials, nil)
             return
         }
 
@@ -231,7 +231,7 @@ public final class MiaoMiaoClientManager: CGMManager, LibreTransmitterDelegate {
         calibrateSensor(accessToken: accessToken, site: url.absoluteString, sensordata: data) { [weak self] calibrationparams  in
             guard let params = calibrationparams else {
                 NotificationHelper.sendCalibrationNotification(.noCalibration)
-                callback(LibreError.noCalibrationData, nil)
+                callback(.noCalibrationData, nil)
                 return
             }
 
@@ -239,7 +239,7 @@ public final class MiaoMiaoClientManager: CGMManager, LibreTransmitterDelegate {
                 try self?.keychain.setLibreCalibrationData(params)
             } catch {
                 NotificationHelper.sendCalibrationNotification(.invalidCalibrationData)
-                callback(LibreError.invalidCalibrationData, nil)
+                callback(.invalidCalibrationData, nil)
                 return
             }
             //here we assume success, data is not changed,
