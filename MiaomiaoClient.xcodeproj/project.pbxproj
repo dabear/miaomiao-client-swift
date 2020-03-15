@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 46;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -64,6 +64,13 @@
 		2791064623B96B07004B362F /* UIApplication+metadata.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2791064523B96B07004B362F /* UIApplication+metadata.swift */; };
 		2791064723B96B07004B362F /* UIApplication+metadata.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2791064523B96B07004B362F /* UIApplication+metadata.swift */; };
 		2795404F2165502600D657E5 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2795404E2165502600D657E5 /* main.swift */; };
+		27A42F3E241D05C60002611C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27A42F3D241D05C60002611C /* AppDelegate.swift */; };
+		27A42F40241D05C60002611C /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27A42F3F241D05C60002611C /* SceneDelegate.swift */; };
+		27A42F42241D05C60002611C /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27A42F41241D05C60002611C /* ContentView.swift */; };
+		27A42F44241D05CC0002611C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 27A42F43241D05CC0002611C /* Assets.xcassets */; };
+		27A42F47241D05CC0002611C /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 27A42F46241D05CC0002611C /* Preview Assets.xcassets */; };
+		27A42F4A241D05CC0002611C /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 27A42F48241D05CC0002611C /* LaunchScreen.storyboard */; };
+		27A42F51241D9D2E0002611C /* SwiftUICharts in Frameworks */ = {isa = PBXBuildFile; productRef = 27A42F50241D9D2E0002611C /* SwiftUICharts */; };
 		27A85D8723C6512A00F7FFC9 /* LibreTransmitter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27A85D8623C6512A00F7FFC9 /* LibreTransmitter.swift */; };
 		27A85D8923C6516300F7FFC9 /* UUIDContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27A85D8823C6516300F7FFC9 /* UUIDContainer.swift */; };
 		27A85D8B23C651B300F7FFC9 /* MiaomiaoTransmitter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27A85D8A23C651B300F7FFC9 /* MiaomiaoTransmitter.swift */; };
@@ -202,6 +209,14 @@
 		2791064523B96B07004B362F /* UIApplication+metadata.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIApplication+metadata.swift"; sourceTree = "<group>"; };
 		2795404C2165502600D657E5 /* clitester */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = clitester; sourceTree = BUILT_PRODUCTS_DIR; };
 		2795404E2165502600D657E5 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
+		27A42F3B241D05C60002611C /* SwiftUITester.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SwiftUITester.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		27A42F3D241D05C60002611C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		27A42F3F241D05C60002611C /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
+		27A42F41241D05C60002611C /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		27A42F43241D05CC0002611C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		27A42F46241D05CC0002611C /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		27A42F49241D05CC0002611C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		27A42F4B241D05CC0002611C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		27A85D8623C6512A00F7FFC9 /* LibreTransmitter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibreTransmitter.swift; sourceTree = "<group>"; };
 		27A85D8823C6516300F7FFC9 /* UUIDContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UUIDContainer.swift; sourceTree = "<group>"; };
 		27A85D8A23C651B300F7FFC9 /* MiaomiaoTransmitter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MiaomiaoTransmitter.swift; sourceTree = "<group>"; };
@@ -294,6 +309,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				27C335B9216566C500CF0868 /* MiaomiaoClient.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		27A42F38241D05C60002611C /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				27A42F51241D9D2E0002611C /* SwiftUICharts in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -476,6 +499,28 @@
 			path = clitester;
 			sourceTree = "<group>";
 		};
+		27A42F3C241D05C60002611C /* SwiftUITester */ = {
+			isa = PBXGroup;
+			children = (
+				27A42F3D241D05C60002611C /* AppDelegate.swift */,
+				27A42F3F241D05C60002611C /* SceneDelegate.swift */,
+				27A42F41241D05C60002611C /* ContentView.swift */,
+				27A42F43241D05CC0002611C /* Assets.xcassets */,
+				27A42F48241D05CC0002611C /* LaunchScreen.storyboard */,
+				27A42F4B241D05CC0002611C /* Info.plist */,
+				27A42F45241D05CC0002611C /* Preview Content */,
+			);
+			path = SwiftUITester;
+			sourceTree = "<group>";
+		};
+		27A42F45241D05CC0002611C /* Preview Content */ = {
+			isa = PBXGroup;
+			children = (
+				27A42F46241D05CC0002611C /* Preview Assets.xcassets */,
+			);
+			path = "Preview Content";
+			sourceTree = "<group>";
+		};
 		27C335DF21667C7A00CF0868 /* singleviewtesterapp2 */ = {
 			isa = PBXGroup;
 			children = (
@@ -569,6 +614,7 @@
 				2795404D2165502600D657E5 /* clitester */,
 				27C335DF21667C7A00CF0868 /* singleviewtesterapp2 */,
 				2724930B232F03E500AFE86A /* test-lint */,
+				27A42F3C241D05C60002611C /* SwiftUITester */,
 				432B0E891CDFC3C50045347B /* Products */,
 				43A8EC7A210E661300A81379 /* Frameworks */,
 			);
@@ -582,6 +628,7 @@
 				43A8EC82210E664300A81379 /* MiaomiaoClientUI.framework */,
 				2795404C2165502600D657E5 /* clitester */,
 				2724930A232F03E400AFE86A /* test_lint.framework */,
+				27A42F3B241D05C60002611C /* SwiftUITester.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -724,6 +771,26 @@
 			productReference = 2795404C2165502600D657E5 /* clitester */;
 			productType = "com.apple.product-type.tool";
 		};
+		27A42F3A241D05C60002611C /* SwiftUITester */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 27A42F4E241D05CC0002611C /* Build configuration list for PBXNativeTarget "SwiftUITester" */;
+			buildPhases = (
+				27A42F37241D05C60002611C /* Sources */,
+				27A42F38241D05C60002611C /* Frameworks */,
+				27A42F39241D05C60002611C /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = SwiftUITester;
+			packageProductDependencies = (
+				27A42F50241D9D2E0002611C /* SwiftUICharts */,
+			);
+			productName = SwiftUITester;
+			productReference = 27A42F3B241D05C60002611C /* SwiftUITester.app */;
+			productType = "com.apple.product-type.application";
+		};
 		432B0E871CDFC3C50045347B /* MiaomiaoClient */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 432B0E9C1CDFC3C50045347B /* Build configuration list for PBXNativeTarget "MiaomiaoClient" */;
@@ -786,7 +853,7 @@
 		432B0E7F1CDFC3C50045347B /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 0940;
+				LastSwiftUpdateCheck = 1130;
 				LastUpgradeCheck = 1130;
 				ORGANIZATIONNAME = "Bjørn Inge Vikhammermo Berg";
 				TargetAttributes = {
@@ -799,6 +866,9 @@
 						CreatedOnToolsVersion = 9.4.1;
 						DevelopmentTeam = L28K36YETG;
 						ProvisioningStyle = Automatic;
+					};
+					27A42F3A241D05C60002611C = {
+						CreatedOnToolsVersion = 11.3;
 					};
 					432B0E871CDFC3C50045347B = {
 						CreatedOnToolsVersion = 7.3.1;
@@ -835,6 +905,9 @@
 				pl,
 			);
 			mainGroup = 432B0E7E1CDFC3C50045347B;
+			packageReferences = (
+				27A42F4F241D9D2E0002611C /* XCRemoteSwiftPackageReference "ChartView" */,
+			);
 			productRefGroup = 432B0E891CDFC3C50045347B /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -844,6 +917,7 @@
 				43A8EC81210E664300A81379 /* MiaomiaoClientUI */,
 				2795404B2165502600D657E5 /* clitester */,
 				27249309232F03E400AFE86A /* test-lint */,
+				27A42F3A241D05C60002611C /* SwiftUITester */,
 			);
 		};
 /* End PBXProject section */
@@ -853,6 +927,16 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		27A42F39241D05C60002611C /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				27A42F4A241D05CC0002611C /* LaunchScreen.storyboard in Resources */,
+				27A42F47241D05CC0002611C /* Preview Assets.xcassets in Resources */,
+				27A42F44241D05CC0002611C /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -968,6 +1052,16 @@
 			buildActionMask = 2147483647;
 			files = (
 				2795404F2165502600D657E5 /* main.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		27A42F37241D05C60002611C /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				27A42F3E241D05C60002611C /* AppDelegate.swift in Sources */,
+				27A42F40241D05C60002611C /* SceneDelegate.swift in Sources */,
+				27A42F42241D05C60002611C /* ContentView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1091,6 +1185,14 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
+		27A42F48241D05CC0002611C /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				27A42F49241D05CC0002611C /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
 		27C335E421667C7B00CF0868 /* Main.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -1164,7 +1266,11 @@
 				INFOPLIST_FILE = "test-lint/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 12.2;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = "no.bjorninge.SwiftLibreOOPWeb2.test-lint";
@@ -1196,7 +1302,11 @@
 				INFOPLIST_FILE = "test-lint/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 12.2;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = "no.bjorninge.SwiftLibreOOPWeb2.test-lint";
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
@@ -1244,6 +1354,64 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
 				SWIFT_VERSION = 4.0;
+			};
+			name = Release;
+		};
+		27A42F4C241D05CC0002611C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_ASSET_PATHS = "\"SwiftUITester/Preview Content\"";
+				DEVELOPMENT_TEAM = L28K36YETG;
+				ENABLE_PREVIEWS = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				INFOPLIST_FILE = SwiftUITester/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.2;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = no.bjorninge.SwiftUITester;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		27A42F4D241D05CC0002611C /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_ASSET_PATHS = "\"SwiftUITester/Preview Content\"";
+				DEVELOPMENT_TEAM = L28K36YETG;
+				ENABLE_PREVIEWS = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				INFOPLIST_FILE = SwiftUITester/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.2;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = no.bjorninge.SwiftUITester;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
 		};
@@ -1372,7 +1540,8 @@
 				);
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
-				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
 				VERSIONING_SYSTEM = "apple-generic";
@@ -1400,7 +1569,11 @@
 				);
 				INFOPLIST_FILE = MiaomiaoClient/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.mddub.MiaomiaoClient;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -1431,7 +1604,11 @@
 				GCC_OPTIMIZATION_LEVEL = 0;
 				INFOPLIST_FILE = MiaomiaoClient/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.mddub.MiaomiaoClient;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -1446,7 +1623,11 @@
 			buildSettings = {
 				DEVELOPMENT_TEAM = L28K36YETG;
 				INFOPLIST_FILE = MiaomiaoClientTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.mddub.MiaomiaoClientTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -1458,7 +1639,11 @@
 			buildSettings = {
 				DEVELOPMENT_TEAM = L28K36YETG;
 				INFOPLIST_FILE = MiaomiaoClientTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.mddub.MiaomiaoClientTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -1490,7 +1675,11 @@
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				INFOPLIST_FILE = MiaomiaoClientUI/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.loopkit.MiaomiaoClientUI;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
@@ -1525,7 +1714,11 @@
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				INFOPLIST_FILE = MiaomiaoClientUI/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.loopkit.MiaomiaoClientUI;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
@@ -1551,6 +1744,15 @@
 			buildConfigurations = (
 				279540512165502600D657E5 /* Debug */,
 				279540522165502600D657E5 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		27A42F4E241D05CC0002611C /* Build configuration list for PBXNativeTarget "SwiftUITester" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				27A42F4C241D05CC0002611C /* Debug */,
+				27A42F4D241D05CC0002611C /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -1592,6 +1794,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		27A42F4F241D9D2E0002611C /* XCRemoteSwiftPackageReference "ChartView" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/AppPear/ChartView";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.4.9;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		27A42F50241D9D2E0002611C /* SwiftUICharts */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 27A42F4F241D9D2E0002611C /* XCRemoteSwiftPackageReference "ChartView" */;
+			productName = SwiftUICharts;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 432B0E7F1CDFC3C50045347B /* Project object */;
 }

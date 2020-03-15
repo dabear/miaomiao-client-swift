@@ -16,11 +16,14 @@ public enum LibreError: Error {
     case expiredSensor
     case invalidAutoCalibrationCredentials
     case encryptedSensor
+    case noValidSensorData
 
     public var errorDescription: String {
         switch self {
         case .noSensorData:
             return "No sensor data present"
+        case .noValidSensorData:
+            return "No valid sensor data present, but sensor is running. Maybe due to sensor being off-body?"
 
         case .noCalibrationData:
             return "No calibration data present"

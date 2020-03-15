@@ -188,10 +188,13 @@ public final class MiaoMiaoClientManager: CGMManager, LibreTransmitterDelegate {
 
         var entries = LibreGlucose.fromTrendMeasurements(last16, returnAll: UserDefaults.standard.mmBackfillFromTrend)
 
+        let text = entries.map{ $0.description}.joined(separator: ",")
+        NSLog("dabear:: trend entries count: \(entries.count): \n \(text)" )
         if UserDefaults.standard.mmBackfillFromHistory {
             let history = data.historyMeasurements(derivedAlgorithmParameterSet: calibration)
             entries += LibreGlucose.fromHistoryMeasurements(history)
         }
+
 
         return entries
     }
@@ -306,6 +309,7 @@ public final class MiaoMiaoClientManager: CGMManager, LibreTransmitterDelegate {
         UserDefaults.standard.queuedSensorData = data
     }
 
+    private var countTimesWithoutData : Int = 0
     //will be called on utility queue
     public func libreTransmitterDidUpdate(with sensorData: SensorData, and Device: LibreTransmitterMetadata) {
         print("dabear:: got sensordata: \(sensorData), bytescount: \( sensorData.bytes.count), bytes: \(sensorData.bytes)")
@@ -388,11 +392,29 @@ public final class MiaoMiaoClientManager: CGMManager, LibreTransmitterDelegate {
                                  device: device)
                 }
 
-            self.latestBackfill = glucose.max { $0.startDate < $1.startDate }
+
+            if newGlucose.isEmpty {
+
+                self.countTimesWithoutData &+= 1
+            } else {
+                self.latestBackfill = glucose.max { $0.startDate < $1.startDate }
+                NSLog("dabear:: latestbackfill set to \(self.latestBackfill)")
+                self.countTimesWithoutData = 0
+            }
+
 
             NSLog("dabear:: handleGoodReading returned with \(newGlucose.count) entries")
             self.delegateQueue.async {
-                self.cgmManagerDelegate?.cgmManager(self, didUpdateWith: newGlucose.isEmpty ? .noData : .newData(newGlucose))
+                var result : CGMResult
+                // If several readings from a valid and running sensor come out empty,
+                // we have (with a large degree of confidence) a sensor that has been
+                // ripped off the body
+                if self.countTimesWithoutData > 1 {
+                    result = .error(LibreError.noValidSensorData)
+                } else {
+                    result = newGlucose.isEmpty ? .noData : .newData(newGlucose)
+                }
+                self.cgmManagerDelegate?.cgmManager(self, didUpdateWith: result)
             }
         }
     }

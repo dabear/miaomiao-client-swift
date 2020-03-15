@@ -32,7 +32,7 @@ enum NotificationHelper {
             vibrate(times: count)
         }
     }
-    private static func vibrate(times: Int) {
+		    private static func vibrate(times: Int) {
         guard times >= 0 else {
             return
         }
