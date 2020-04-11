@@ -17,6 +17,23 @@ public enum BubbleResponseType: UInt8 {
     case serialNumber = 192
 }
 
+extension BubbleResponseType {
+    var description : String{
+        switch self {
+        case .bubbleInfo:
+            return "bubbleinfo"
+        case .dataPacket:
+            return "datapacket"
+        case .noSensor:
+            return "nosensor"
+        case .serialNumber:
+            return "serialnumber"
+        default:
+            return "unknown"
+        }
+    }
+}
+
 // The Bubble uses the same serviceUUID,
 // writeCharachteristic and notifyCharachteristic
 // as the MiaoMiao, but different byte sequences
@@ -93,10 +110,12 @@ class BubbleTransmitter: MiaoMiaoTransmitter {
         peripheral.writeValue(Data([0x00, 0x00, 0x05]), for: writeCharacteristics, type: .withResponse)
     }
     override func updateValueForNotifyCharacteristics(_ value: Data, peripheral: CBPeripheral, writeCharacteristic: CBCharacteristic?) {
-        print("dabear:: bubbleDidUpdateValueForNotifyCharacteristics")
+        print("dabear:: bubbleDidUpdateValueForNotifyCharacteristics, firstbyte is: \(value.first)")
         guard let firstByte = value.first, let bubbleResponseState = BubbleResponseType(rawValue: firstByte) else {
            return
         }
+        print("dabear:: bubble responsestate is of type \(bubbleResponseState.description)")
+        print("dabear:: bubble value is: \(value.toDebugString())")
         switch bubbleResponseState {
         case .bubbleInfo:
             //let hardware = value[value.count-2].description + "." + value[value.count-1].description
@@ -112,6 +131,7 @@ class BubbleTransmitter: MiaoMiaoTransmitter {
            }
         case .dataPacket:
            rxBuffer.append(value.suffix(from: 4))
+           print("dabear:: aggregated datapacket is now of length: \(rxBuffer.count)")
            if rxBuffer.count >= 352 {
                handleCompleteMessage()
                reset()

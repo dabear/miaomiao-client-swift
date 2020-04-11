@@ -278,7 +278,7 @@ public class MiaomiaoClientSettingsViewController: UITableViewController, SubVie
             case .battery:
                 cell.textLabel?.text = LocalizedString("Battery", comment: "Title describing transmitter battery level")
 
-                cell.detailTextLabel?.text = cgmManager?.battery
+                cell.detailTextLabel?.text = cgmManager?.batteryString
 
             case .firmware:
                 cell.textLabel?.text = LocalizedString("Firmware", comment: "Title describing transmitter firmware level")
