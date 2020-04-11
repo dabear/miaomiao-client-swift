@@ -265,7 +265,7 @@ class LibreOOPClient {
             }
             let decoder = JSONDecoder()
             do {
-                print("data: \(data)")
+                //print("data: \(data)")
                 let response = try decoder.decode(CalibrationResponse.self, from: data)
                 if  response.error {
                     completion(nil, false, "error")

@@ -16,4 +16,6 @@ public struct ConcreteSensorDisplayable: SensorDisplayable {
     public var trendType: GlucoseTrend?
 
     public var isLocal: Bool
+
+    public var batteries : [(name: String, percentage: Int)]?
 }

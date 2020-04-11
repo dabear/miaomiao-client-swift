@@ -22,4 +22,8 @@ extension Data {
             result.append(Data.hexAlphabet[Int(value % 16)])
         }))
     }
+
+    func toDebugString() -> String{
+           self.map{ "\($0)"}.joined(separator: ", ")
+    }
 }

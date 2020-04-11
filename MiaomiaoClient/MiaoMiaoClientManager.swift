@@ -78,7 +78,7 @@ public final class MiaoMiaoClientManager: CGMManager, LibreTransmitterDelegate {
             "lastConnected: \(String(describing: lastConnected))",
             "Connection state: \(connectionState)",
             "Sensor state: \(sensorStateDescription)",
-            "transmitterbattery: \(battery)",
+            "transmitterbattery: \(batteryString)",
             "SensorData: \(getPersistedSensorDataForDebug())",
             "Metainfo::\n\(AppMetaData.allProperties)",
             ""
@@ -122,7 +122,12 @@ public final class MiaoMiaoClientManager: CGMManager, LibreTransmitterDelegate {
 
                 trend = oldIsRecentEnough ? newValue.GetGlucoseTrend(last: oldValue) : nil
 
-                self.sensorState = ConcreteSensorDisplayable(isStateValid: newValue.isStateValid, trendType: trend, isLocal: true)
+                var batteries : [(name: String, percentage: Int)]?
+                if let metaData = metaData, let battery = battery {
+                    batteries = [(name: metaData.name, percentage: battery)]
+                }
+
+                self.sensorState = ConcreteSensorDisplayable(isStateValid: newValue.isStateValid, trendType: trend, isLocal: true, batteries: batteries)
             } else {
                 //could consider setting this to ConcreteSensorDisplayable with trendtype GlucoseTrend.flat, but that would be kinda lying
                 self.sensorState = nil
@@ -478,8 +483,12 @@ extension MiaoMiaoClientManager {
     }
 
     //cannot be called from managerQueue
-    public var battery: String {
+    public var batteryString: String {
         proxy?.viaManagerQueue.metadata?.batteryString ?? "n/a"
+    }
+
+    public var battery: Int? {
+        proxy?.viaManagerQueue.metadata?.battery
     }
 
     public func getDeviceType() -> String {
