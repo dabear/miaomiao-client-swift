@@ -274,7 +274,7 @@ final class LibreTransmitterManager: NSObject, CBCentralManagerDelegate, CBPerip
             os_log("Central Manager was either .poweredOff, .resetting, .unauthorized, .unknown, .unsupported: %{public}@", log: Self.bt_log, type: .default, String(describing: central.state))
             state = .Unassigned
 
-            if let peripheral = self.peripheral {
+            if central.state == .resetting, let peripheral = self.peripheral {
                 central.cancelPeripheralConnection(peripheral)
                 self.peripheral = nil
             }
