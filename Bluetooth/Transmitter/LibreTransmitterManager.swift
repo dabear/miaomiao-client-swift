@@ -273,7 +273,12 @@ final class LibreTransmitterManager: NSObject, CBCentralManagerDelegate, CBPerip
         case .resetting, .unauthorized, .unknown, .unsupported:
             os_log("Central Manager was either .poweredOff, .resetting, .unauthorized, .unknown, .unsupported: %{public}@", log: Self.bt_log, type: .default, String(describing: central.state))
             state = .Unassigned
-            self.peripheral = nil
+
+            if let peripheral = self.peripheral {
+                central.cancelPeripheralConnection(peripheral)
+                self.peripheral = nil
+            }
+
             if central.isScanning {
                 central.stopScan()
             }
