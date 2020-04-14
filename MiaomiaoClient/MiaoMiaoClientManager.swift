@@ -24,6 +24,7 @@ public final class MiaoMiaoClientManager: CGMManager, LibreTransmitterDelegate {
         NotificationHelper.sendRestoredStateNotification(msg: msg)
     }
 
+
     public func noLibreTransmitterSelected() {
         NotificationHelper.sendNoTransmitterSelectedNotification()
     }
