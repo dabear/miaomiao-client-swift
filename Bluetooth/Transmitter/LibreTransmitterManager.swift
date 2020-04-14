@@ -275,6 +275,7 @@ final class LibreTransmitterManager: NSObject, CBCentralManagerDelegate, CBPerip
             state = .Unassigned
 
             if central.state == .resetting, let peripheral = self.peripheral {
+                os_log("Central Manager resetting, will cancel peripheral connection", log: Self.bt_log, type: .default)
                 central.cancelPeripheralConnection(peripheral)
                 self.peripheral = nil
             }
