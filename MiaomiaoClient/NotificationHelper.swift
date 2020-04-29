@@ -54,7 +54,7 @@ enum NotificationHelper {
             content.title = "State was restored"
             content.body = msg
 
-            addRequest(identifier: Identifiers.restoredState, content: content)
+            addRequest(identifier: .restoredState, content:  content )
         }
     }
 
@@ -66,7 +66,7 @@ enum NotificationHelper {
             content.title = "Bluetooth Power Off"
             content.body = "Please turn on Bluetooth"
 
-            addRequest(identifier: Identifiers.bluetoothPoweredOff, content: content)
+            addRequest(identifier: .bluetoothPoweredOff, content: content)
         }
     }
 
@@ -78,7 +78,7 @@ enum NotificationHelper {
             content.title = "No Libre Transmitter Selected"
             content.body = "Delete CGMManager and start anew. Your libreoopweb credentials will be preserved"
 
-            addRequest(identifier: Identifiers.noBridgeSelected, content: content)
+            addRequest(identifier: .noBridgeSelected, content: content)
         }
     }
 
@@ -215,12 +215,15 @@ enum NotificationHelper {
         case success = "Success!"
     }
 
+  
+
     public static func sendCalibrationNotification(_ calibrationMessage: CalibrationMessage) {
         ensureCanSendNotification {
             let content = UNMutableNotificationContent()
             content.sound = .default
             content.title = "Extracting calibrationdata from sensor"
             content.body = calibrationMessage.rawValue
+
 
             addRequest(identifier: .calibrationOngoing,
                        content: content,
