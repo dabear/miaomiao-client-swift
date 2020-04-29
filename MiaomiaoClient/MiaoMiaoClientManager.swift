@@ -66,10 +66,13 @@ public final class MiaoMiaoClientManager: CGMManager, LibreTransmitterDelegate {
             return "nil"
         }
 
+        let c =  self.calibrationData?.description ?? "no calibrationdata"
         return data.array.map {
             "SensorData(uuid: \"0123\".data(using: .ascii)!, bytes: \($0.bytes))!"
         }
         .joined(separator: ",\n")
+        + ",\n Calibrationdata: \(c)"
+
     }
 
     public var debugDescription: String {
