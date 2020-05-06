@@ -175,6 +175,7 @@ enum NotificationHelper {
             let glucoseDesc = glucose.description
             var titles = [String]()
             var body = [String]()
+            var body2 = [String]()
             switch alarm {
             case .none:
                 titles.append("Glucose")
@@ -212,12 +213,17 @@ enum NotificationHelper {
                 }
 
                 let battery = Double(UIDevice.current.batteryLevel * 100 ).roundTo(places: 1)
-                body.append("Phone: \(battery)%")
+                body2.append("Phone: \(battery)%")
             }
 
+            //these are texts that naturally fit on their own line in the body
+            var body2s = ""
+            if !body2.isEmpty {
+                body2s = "\n" + body2.joined(separator: "\n")
+            }
 
             content.title = titles.joined(separator: " ")
-            content.body = body.joined(separator: ", ")
+            content.body = body.joined(separator: ", ") + body2s
             addRequest(identifier: .glucocoseNotifications,
                        content: content,
                        deleteOld: true)
