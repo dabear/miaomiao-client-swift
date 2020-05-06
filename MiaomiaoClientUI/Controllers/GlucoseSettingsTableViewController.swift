@@ -67,6 +67,7 @@ public class GlucoseSettingsTableViewController: UITableViewController, mmTextFi
         case syncToNs
         case backfillFromHistory
         case backfillFromTrend
+        
         case persistRawSensorDataForDebugging
 
         static let count = GlucoseSettings.allCases.count

@@ -14,6 +14,7 @@ extension UserDefaults {
         case mmSyncToNS = "no.bjorninge.mmSyncToNs"
         case mmBackfillFromHistory = "no.bjorninge.mmBackfillFromHistory"
         case mmBackfillFromTrend = "no.bjorninge.mmBackfillFromTrend"
+        
     }
 
     var mmSyncToNs: Bool {
@@ -42,4 +43,5 @@ extension UserDefaults {
             set(newValue, forKey: Key.mmBackfillFromTrend.rawValue)
         }
     }
+
 }

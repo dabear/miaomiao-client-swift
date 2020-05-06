@@ -128,19 +128,21 @@ enum NotificationHelper {
 
         let shouldSendGlucoseAlternatingTimes = glucoseNotifyCalledCount != 0 && UserDefaults.standard.mmNotifyEveryXTimes != 0
 
-        let shouldSend = UserDefaults.standard.mmAlwaysDisplayGlucose || (shouldSendGlucoseAlternatingTimes && glucoseNotifyCalledCount % UserDefaults.standard.mmNotifyEveryXTimes == 0)
+        let shouldSend = UserDefaults.standard.mmAlwaysDisplayGlucose || glucoseNotifyCalledCount == 1 || (shouldSendGlucoseAlternatingTimes && glucoseNotifyCalledCount % UserDefaults.standard.mmNotifyEveryXTimes == 0)
 
         let schedules = UserDefaults.standard.glucoseSchedules
 
         let alarm = schedules?.getActiveAlarms(glucose.glucoseDouble) ?? .none
         let isSnoozed = GlucoseScheduleList.isSnoozed()
 
+        let shouldShowPhoneBattery = UserDefaults.standard.mmShowPhoneBattery
+
         NSLog("dabear:: glucose alarmtype is \(alarm)")
         // We always send glucose notifications when alarm is active,
         // even if glucose notifications are disabled in the UI
 
         if shouldSend || alarm.isAlarming() {
-            sendGlucoseNotitifcation(glucose: glucose, oldValue: oldValue, alarm: alarm, isSnoozed: isSnoozed, trend: trend)
+            sendGlucoseNotitifcation(glucose: glucose, oldValue: oldValue, alarm: alarm, isSnoozed: isSnoozed, trend: trend, showBatteryPercentage: shouldShowPhoneBattery)
         } else {
             NSLog("dabear:: not sending glucose, shouldSend and alarmIsActive was false")
             return
@@ -167,7 +169,7 @@ enum NotificationHelper {
             NSLog("dabear:: sending \(identifier.rawValue) notification")
         }
     }
-    private static func sendGlucoseNotitifcation(glucose: LibreGlucose, oldValue: LibreGlucose?, alarm: GlucoseScheduleAlarmResult = .none, isSnoozed: Bool = false, trend: GlucoseTrend?) {
+    private static func sendGlucoseNotitifcation(glucose: LibreGlucose, oldValue: LibreGlucose?, alarm: GlucoseScheduleAlarmResult = .none, isSnoozed: Bool = false, trend: GlucoseTrend?, showBatteryPercentage: Bool = false) {
         ensureCanSendGlucoseNotification { _ in
             let content = UNMutableNotificationContent()
             let glucoseDesc = glucose.description
@@ -182,6 +184,8 @@ enum NotificationHelper {
                 titles.append("HIGHALERT!")
             }
 
+
+
             if isSnoozed {
                 titles.append("(Snoozed)")
             } else if alarm.isAlarming() {
@@ -192,6 +196,7 @@ enum NotificationHelper {
 
             body.append("Glucose: \(glucoseDesc)")
 
+
             if let oldValue = oldValue {
                 body.append( LibreGlucose.glucoseDiffDesc(oldValue: oldValue, newValue: glucose))
             }
@@ -199,6 +204,17 @@ enum NotificationHelper {
             if let trend = trend?.localizedDescription {
                 body.append("\(trend)")
             }
+
+            if showBatteryPercentage {
+
+                if !UIDevice.current.isBatteryMonitoringEnabled {
+                    UIDevice.current.isBatteryMonitoringEnabled = true
+                }
+
+                let battery = Double(UIDevice.current.batteryLevel * 100 ).roundTo(places: 1)
+                body.append("Phone: \(battery)%")
+            }
+
 
             content.title = titles.joined(separator: " ")
             content.body = body.joined(separator: ", ")
