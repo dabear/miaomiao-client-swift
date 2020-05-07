@@ -71,6 +71,7 @@ public class NotificationsSettingsTableViewController: UITableViewController, mm
         case unit
         case glucoseVibrate
         case glucseAlarmsAlsoShowBattery
+        case glucoseAlarmsShowTransmitterBattery
 
         static let count = NotificationsSettingsRow.allCases.count
     }
@@ -108,6 +109,12 @@ public class NotificationsSettingsTableViewController: UITableViewController, mm
     private func glucseAlarmsAlsoShowBatteryChanged(_ sender: UISwitch) {
         print("glucseAlarmsAlsoShowBatteryChanged changed to \(sender.isOn)")
         UserDefaults.standard.mmShowPhoneBattery = sender.isOn
+    }
+
+    @objc
+    private func showTransmitterBatteryChanged(_ sender: UISwitch) {
+       print("showTransmitterBatteryChanged changed to \(sender.isOn)")
+       UserDefaults.standard.mmShowTransmitterBattery = sender.isOn
     }
 
 
@@ -268,6 +275,17 @@ public class NotificationsSettingsTableViewController: UITableViewController, mm
             switchCell.toggleIsSelected?.addTarget(self, action: #selector(glucseAlarmsAlsoShowBatteryChanged(_:)), for: .valueChanged)
             switchCell.contentView.layoutMargins.left = tableView.separatorInset.left
             return switchCell
+        case .glucoseAlarmsShowTransmitterBattery:
+            let switchCell = tableView.dequeueIdentifiableCell(cell: MMSwitchTableViewCell.self, for: indexPath)
+
+            switchCell.toggleIsSelected?.isOn = UserDefaults.standard.mmShowTransmitterBattery
+            //switchCell.titleLabel?.text = "test"
+
+            switchCell.titleLabel?.text = NSLocalizedString("Glucose Alarms Show Transmitter Battery", comment: "The title text for the Glucose Alarms Show Transmitter Battery notifications")
+
+            switchCell.toggleIsSelected?.addTarget(self, action: #selector(showTransmitterBatteryChanged(_:)), for: .valueChanged)
+            switchCell.contentView.layoutMargins.left = tableView.separatorInset.left
+            return switchCell
         }
     }
 
@@ -307,6 +325,8 @@ public class NotificationsSettingsTableViewController: UITableViewController, mm
             print("selected glucoseVibrate")
         case .glucseAlarmsAlsoShowBattery:
             print("selected glucseAlarmsAlsoShowBattery")
+        case .glucoseAlarmsShowTransmitterBattery:
+            print("selected glucoseAlarmsShowTransmitterBattery")
         }
 
         tableView.deselectRow(at: indexPath, animated: true)

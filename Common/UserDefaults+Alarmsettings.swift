@@ -26,6 +26,7 @@ extension UserDefaults {
         case mmSnoozedUntil = "no.bjorninge.mmSnoozedUntil"
         case mmDangerMode = "no.bjorninge.mmDangerModeActivated"
         case mmShowPhoneBattery = "no.bjorninge.mmShowPhoneBattery"
+        case mmShowTransmitterBattery = "no.bjorninge.mmShowTransmitterBattery"
 
 
     }
@@ -124,8 +125,17 @@ extension UserDefaults {
         }
     }
 
+    var mmShowTransmitterBattery: Bool {
+        get {
+            optionalBool(forKey: Key.mmShowTransmitterBattery.rawValue) ?? true
+        }
+        set {
+            set(newValue, forKey: Key.mmShowTransmitterBattery.rawValue)
+        }
+    }
+
     var allNotificationToggles: [Bool] {
-        [mmAlwaysDisplayGlucose, mmAlertLowBatteryWarning, mmAlertInvalidSensorDetected, mmAlertNewSensorDetected, mmAlertNoSensorDetected, mmAlertWillSoonExpire, mmGlucoseAlarmsVibrate, mmShowPhoneBattery]
+        [mmAlwaysDisplayGlucose, mmAlertLowBatteryWarning, mmAlertInvalidSensorDetected, mmAlertNewSensorDetected, mmAlertNoSensorDetected, mmAlertWillSoonExpire, mmGlucoseAlarmsVibrate, mmShowPhoneBattery, mmShowTransmitterBattery]
     }
 
     var dangerModeActivated: Bool {

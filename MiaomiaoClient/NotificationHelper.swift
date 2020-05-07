@@ -123,7 +123,7 @@ enum NotificationHelper {
 
     private static var glucoseNotifyCalledCount = 0
 
-    public static func sendGlucoseNotitifcationIfNeeded(glucose: LibreGlucose, oldValue: LibreGlucose?, trend: GlucoseTrend?) {
+    public static func sendGlucoseNotitifcationIfNeeded(glucose: LibreGlucose, oldValue: LibreGlucose?, trend: GlucoseTrend?, battery: String?) {
         glucoseNotifyCalledCount &+= 1
 
         let shouldSendGlucoseAlternatingTimes = glucoseNotifyCalledCount != 0 && UserDefaults.standard.mmNotifyEveryXTimes != 0
@@ -136,13 +136,14 @@ enum NotificationHelper {
         let isSnoozed = GlucoseScheduleList.isSnoozed()
 
         let shouldShowPhoneBattery = UserDefaults.standard.mmShowPhoneBattery
+        let transmitterBattery = UserDefaults.standard.mmShowTransmitterBattery && battery != nil ? battery : nil
 
         NSLog("dabear:: glucose alarmtype is \(alarm)")
         // We always send glucose notifications when alarm is active,
         // even if glucose notifications are disabled in the UI
 
         if shouldSend || alarm.isAlarming() {
-            sendGlucoseNotitifcation(glucose: glucose, oldValue: oldValue, alarm: alarm, isSnoozed: isSnoozed, trend: trend, showBatteryPercentage: shouldShowPhoneBattery)
+            sendGlucoseNotitifcation(glucose: glucose, oldValue: oldValue, alarm: alarm, isSnoozed: isSnoozed, trend: trend, showPhoneBattery: shouldShowPhoneBattery, transmitterBattery: transmitterBattery)
         } else {
             NSLog("dabear:: not sending glucose, shouldSend and alarmIsActive was false")
             return
@@ -169,7 +170,7 @@ enum NotificationHelper {
             NSLog("dabear:: sending \(identifier.rawValue) notification")
         }
     }
-    private static func sendGlucoseNotitifcation(glucose: LibreGlucose, oldValue: LibreGlucose?, alarm: GlucoseScheduleAlarmResult = .none, isSnoozed: Bool = false, trend: GlucoseTrend?, showBatteryPercentage: Bool = false) {
+    private static func sendGlucoseNotitifcation(glucose: LibreGlucose, oldValue: LibreGlucose?, alarm: GlucoseScheduleAlarmResult = .none, isSnoozed: Bool = false, trend: GlucoseTrend?, showPhoneBattery: Bool = false, transmitterBattery : String?) {
         ensureCanSendGlucoseNotification { _ in
             let content = UNMutableNotificationContent()
             let glucoseDesc = glucose.description
@@ -206,7 +207,7 @@ enum NotificationHelper {
                 body.append("\(trend)")
             }
 
-            if showBatteryPercentage {
+            if showPhoneBattery {
 
                 if !UIDevice.current.isBatteryMonitoringEnabled {
                     UIDevice.current.isBatteryMonitoringEnabled = true
@@ -214,6 +215,10 @@ enum NotificationHelper {
 
                 let battery = Double(UIDevice.current.batteryLevel * 100 ).roundTo(places: 1)
                 body2.append("Phone: \(battery)%")
+            }
+
+            if let transmitterBattery = transmitterBattery {
+                body2.append("Transmitter: \(transmitterBattery)")
             }
 
             //these are texts that naturally fit on their own line in the body

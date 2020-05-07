@@ -112,7 +112,8 @@ public final class MiaoMiaoClientManager: CGMManager, LibreTransmitterDelegate {
                 NSLog("dabear:: sending glucose notification")
                 NotificationHelper.sendGlucoseNotitifcationIfNeeded(glucose: newValue,
                                                                     oldValue: oldValue,
-                                                                    trend: trend)
+                                                                    trend: trend,
+                                                                    battery: batteryString)
             }
 
             NSLog("dabear:: latestBackfill set, newvalue is \(newValue)")
