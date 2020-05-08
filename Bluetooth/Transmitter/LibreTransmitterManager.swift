@@ -549,7 +549,7 @@ final class LibreTransmitterManager: NSObject, CBCentralManagerDelegate, CBPerip
     private var lastNotifyUpdate: Date?
     func peripheral(_ peripheral: CBPeripheral, didUpdateValueFor characteristic: CBCharacteristic, error: Error?) {
         dispatchPrecondition(condition: .onQueue(managerQueue))
-        os_log("Did update value for characteristic: %{public}@", log: Self.bt_log, type: .default, String(describing: characteristic.debugDescription))
+
 
         let now = Date()
 
@@ -565,6 +565,8 @@ final class LibreTransmitterManager: NSObject, CBCentralManagerDelegate, CBPerip
             self.reset()
         }
 
+        os_log("Did update value for characteristic: %{public}@", log: Self.bt_log, type: .default, String(describing: characteristic.debugDescription))
+        
         self.lastNotifyUpdate = now
 
         if let error = error {

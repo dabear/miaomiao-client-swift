@@ -24,6 +24,11 @@ public final class MiaoMiaoClientManager: CGMManager, LibreTransmitterDelegate {
         NotificationHelper.sendRestoredStateNotification(msg: msg)
     }
 
+    public var batteryLevel: Int? {
+        NSLog("dabear:: MiaoMiaoClientManager was asked to return battery: \(proxy?.viaManagerQueue.metadata?.battery)")
+        return proxy?.viaManagerQueue.metadata?.battery
+    }
+
 
     public func noLibreTransmitterSelected() {
         NotificationHelper.sendNoTransmitterSelectedNotification()
