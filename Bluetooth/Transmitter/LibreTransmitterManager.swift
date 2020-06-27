@@ -310,7 +310,7 @@ final class LibreTransmitterManager: NSObject, CBCentralManagerDelegate, CBPerip
                         self.activePlugin = plugin?.init(delegate: self, advertisementData: nil)
 
                         os_log("Central Manager was powered on, peripheral state is connected/connecting, stopping scan", log: Self.bt_log, type: .default)
-                        if central.isScanning {
+                        if central.isScanning && peripheral.state == .connected {
                             central.stopScan()
                         }
                     }
