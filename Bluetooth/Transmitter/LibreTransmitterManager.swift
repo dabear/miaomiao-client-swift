@@ -312,10 +312,19 @@ final class LibreTransmitterManager: NSObject, CBCentralManagerDelegate, CBPerip
                         os_log("Central Manager was powered on, peripheral state is connected/connecting, stopping scan", log: Self.bt_log, type: .default)
                         if central.isScanning && peripheral.state == .connected {
                             central.stopScan()
+
+                        }
+                        if peripheral.delegate == nil {
+                            os_log("Central Manager was powered on, peripheral delegate was nil", log: Self.bt_log, type: .default)
                         }
                     }
 
-                    peripheral.discoverServices(serviceUUIDs) // good practice to just discover the services, needed
+                    if let serviceUUIDs = serviceUUIDs, !serviceUUIDs.isEmpty {
+                        peripheral.discoverServices(serviceUUIDs) // good practice to just discover the services, needed
+                    } else {
+                         os_log("Central Manager was powered on, could not discover services", log: Self.bt_log, type: .default)
+                    }
+
                 default:
                         print("already connected")
                 }
