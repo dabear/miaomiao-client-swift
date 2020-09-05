@@ -60,7 +60,10 @@ struct Measurement {
         self.bytes = bytes
         self.byteString = bytes.reduce("", { $0 + String(format: "%02X", arguments: [$1]) })
         self.rawGlucose = (Int(bytes[1] & 0x1F) << 8) + Int(bytes[0]) // switched to 13 bit mask on 2018-03-15
-        self.rawTemperature = (Int(bytes[4] & 0x3F) << 8) + Int(bytes[3]) // 14 bit-mask for raw temperature
+
+        //self.rawTemperature = (Int(bytes[4] & 0x3F) << 8) + Int(bytes[3]) // 14 bit-mask for raw temperature
+        //raw temperature in libre FRAM is always stored in multiples of four
+        self.rawTemperature = SensorData.readBits(bytes, 0, 0x1a, 0xc) << 2
         self.slope = slope
         self.offset = offset
         self.glucose = offset + slope * Double(rawGlucose)

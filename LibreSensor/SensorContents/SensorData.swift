@@ -223,4 +223,27 @@ public struct SensorData: Codable {
     func bytesWithCorrectCRC() -> [UInt8] {
         Crc.bytesWithCorrectCRC(header) + Crc.bytesWithCorrectCRC(body) + Crc.bytesWithCorrectCRC(footer)
     }
+
+    /// Reads Libredata in bits converts and the result to int
+    ///
+    /// Makes it possible to read for example 7 bits from a 1 byte (8 bit) buffer.
+    /// Can be used to read botth FRAM and Libre2 Bluetooth buffer data . Buffer is expected to be unencrypted
+    /// - Returns: bits from buffer
+
+    static func readBits(_ buffer: [UInt8], _ byteOffset: Int, _ bitOffset: Int, _ bitCount: Int) -> Int {
+        guard (bitCount != 0) else {
+            return 0
+        }
+        var res  = 0
+        for i in stride(from: 0, to: bitCount, by: 1) {
+            let totalBitOffset = byteOffset * 8 + bitOffset + i
+            let abyte = Int(floor(Float(totalBitOffset) / 8))
+            let abit = totalBitOffset % 8
+            if (totalBitOffset >= 0 && ((buffer[abyte] >> abit) & 0x1) == 1) {
+                res = res | (1 << i)
+            }
+
+        }
+        return res
+    }
 }
