@@ -49,11 +49,11 @@ public enum LibreTransmitters {
         [MiaoMiaoTransmitter.self, BubbleTransmitter.self]
     }
     public static func isSupported(_ peripheral: CBPeripheral) -> Bool {
-        Self.getSupportedPlugins(peripheral)?.isEmpty == false
+        getSupportedPlugins(peripheral)?.isEmpty == false
     }
 
     public static func getSupportedPlugins(_ peripheral: CBPeripheral) -> [LibreTransmitter.Type]? {
-        Self.all.enumerated().compactMap {
+        all.enumerated().compactMap {
             $0.element.canSupportPeripheral(peripheral) ? $0.element : nil
         }
     }

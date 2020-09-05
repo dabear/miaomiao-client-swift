@@ -23,7 +23,7 @@ extension Data {
         }))
     }
 
-    func toDebugString() -> String{
-           self.map{ "\($0)"}.joined(separator: ", ")
+    func toDebugString() -> String {
+           self.map { "\($0)" }.joined(separator: ", ")
     }
 }

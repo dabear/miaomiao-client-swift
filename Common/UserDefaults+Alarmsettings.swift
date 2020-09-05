@@ -27,8 +27,6 @@ extension UserDefaults {
         case mmDangerMode = "no.bjorninge.mmDangerModeActivated"
         case mmShowPhoneBattery = "no.bjorninge.mmShowPhoneBattery"
         case mmShowTransmitterBattery = "no.bjorninge.mmShowTransmitterBattery"
-
-
     }
     /*
      case always

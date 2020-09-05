@@ -117,7 +117,6 @@ public class NotificationsSettingsTableViewController: UITableViewController, mm
        UserDefaults.standard.mmShowTransmitterBattery = sender.isOn
     }
 
-
     @objc
     private func sensorChangeEventChanged(_ sender: UISwitch) {
         print("sensorChangeEventChanged changed to \(sender.isOn)")

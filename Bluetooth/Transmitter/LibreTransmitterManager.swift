@@ -312,7 +312,6 @@ final class LibreTransmitterManager: NSObject, CBCentralManagerDelegate, CBPerip
                         os_log("Central Manager was powered on, peripheral state is connected/connecting, stopping scan", log: Self.bt_log, type: .default)
                         if central.isScanning && peripheral.state == .connected {
                             central.stopScan()
-
                         }
                         if peripheral.delegate == nil {
                             os_log("Central Manager was powered on, peripheral delegate was nil", log: Self.bt_log, type: .default)
@@ -559,7 +558,6 @@ final class LibreTransmitterManager: NSObject, CBCentralManagerDelegate, CBPerip
     func peripheral(_ peripheral: CBPeripheral, didUpdateValueFor characteristic: CBCharacteristic, error: Error?) {
         dispatchPrecondition(condition: .onQueue(managerQueue))
 
-
         let now = Date()
 
         // We can expect thedevices to complete well within 5 seconds for all the telegrams combined in a session
@@ -575,7 +573,7 @@ final class LibreTransmitterManager: NSObject, CBCentralManagerDelegate, CBPerip
         }
 
         os_log("Did update value for characteristic: %{public}@", log: Self.bt_log, type: .default, String(describing: characteristic.debugDescription))
-        
+
         self.lastNotifyUpdate = now
 
         if let error = error {

@@ -18,7 +18,7 @@ public enum BubbleResponseType: UInt8 {
 }
 
 extension BubbleResponseType {
-    var description : String{
+    var description: String {
         switch self {
         case .bubbleInfo:
             return "bubbleinfo"

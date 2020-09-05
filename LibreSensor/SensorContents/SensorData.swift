@@ -231,18 +231,17 @@ public struct SensorData: Codable {
     /// - Returns: bits from buffer
 
     static func readBits(_ buffer: [UInt8], _ byteOffset: Int, _ bitOffset: Int, _ bitCount: Int) -> Int {
-        guard (bitCount != 0) else {
+        guard bitCount != 0 else {
             return 0
         }
-        var res  = 0
+        var res = 0
         for i in stride(from: 0, to: bitCount, by: 1) {
             let totalBitOffset = byteOffset * 8 + bitOffset + i
             let abyte = Int(floor(Float(totalBitOffset) / 8))
             let abit = totalBitOffset % 8
-            if (totalBitOffset >= 0 && ((buffer[abyte] >> abit) & 0x1) == 1) {
+            if totalBitOffset >= 0 && ((buffer[abyte] >> abit) & 0x1) == 1 {
                 res = res | (1 << i)
             }
-
         }
         return res
     }

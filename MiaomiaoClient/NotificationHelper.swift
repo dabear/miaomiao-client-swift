@@ -54,7 +54,7 @@ enum NotificationHelper {
             content.title = "State was restored"
             content.body = msg
 
-            addRequest(identifier: .restoredState, content:  content )
+            addRequest(identifier: .restoredState, content: content )
         }
     }
 
@@ -170,7 +170,7 @@ enum NotificationHelper {
             NSLog("dabear:: sending \(identifier.rawValue) notification")
         }
     }
-    private static func sendGlucoseNotitifcation(glucose: LibreGlucose, oldValue: LibreGlucose?, alarm: GlucoseScheduleAlarmResult = .none, isSnoozed: Bool = false, trend: GlucoseTrend?, showPhoneBattery: Bool = false, transmitterBattery : String?) {
+    private static func sendGlucoseNotitifcation(glucose: LibreGlucose, oldValue: LibreGlucose?, alarm: GlucoseScheduleAlarmResult = .none, isSnoozed: Bool = false, trend: GlucoseTrend?, showPhoneBattery: Bool = false, transmitterBattery: String?) {
         ensureCanSendGlucoseNotification { _ in
             let content = UNMutableNotificationContent()
             let glucoseDesc = glucose.description
@@ -186,8 +186,6 @@ enum NotificationHelper {
                 titles.append("HIGHALERT!")
             }
 
-
-
             if isSnoozed {
                 titles.append("(Snoozed)")
             } else if alarm.isAlarming() {
@@ -198,7 +196,6 @@ enum NotificationHelper {
 
             body.append("Glucose: \(glucoseDesc)")
 
-
             if let oldValue = oldValue {
                 body.append( LibreGlucose.glucoseDiffDesc(oldValue: oldValue, newValue: glucose))
             }
@@ -208,7 +205,6 @@ enum NotificationHelper {
             }
 
             if showPhoneBattery {
-
                 if !UIDevice.current.isBatteryMonitoringEnabled {
                     UIDevice.current.isBatteryMonitoringEnabled = true
                 }
@@ -242,15 +238,12 @@ enum NotificationHelper {
         case success = "Success!"
     }
 
-  
-
     public static func sendCalibrationNotification(_ calibrationMessage: CalibrationMessage) {
         ensureCanSendNotification {
             let content = UNMutableNotificationContent()
             content.sound = .default
             content.title = "Extracting calibrationdata from sensor"
             content.body = calibrationMessage.rawValue
-
 
             addRequest(identifier: .calibrationOngoing,
                        content: content,

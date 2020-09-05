@@ -33,11 +33,9 @@ public struct LibreGlucose {
         glucose >= 1
     }
 
-    public func GetGlucoseTrend(last: Self) -> GlucoseTrend{
+    public func GetGlucoseTrend(last: Self) -> GlucoseTrend {
         Self.GetGlucoseTrend(current: self, last: last)
     }
-
-    
 }
 
 extension LibreGlucose: GlucoseValue {

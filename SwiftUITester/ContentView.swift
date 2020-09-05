@@ -9,11 +9,9 @@
 import SwiftUI
 import SwiftUICharts
 
-
 struct ContentView: View {
     var body: some View {
         TabView {
-
             MainContentView()
             .tabItem {
                 Text("Glucose")
@@ -25,7 +23,6 @@ struct ContentView: View {
                 Text("Settings")
                 Image(systemName: "list.dash")
             }
-
         }
     }
 }
@@ -36,7 +33,7 @@ struct MainContentView: View {
     var body: some View {
         VStack {
             Text("Glucose: \(glucose)")
-            LineView(data: [8,23,54,32,12,37,7,23,439], title: nil, legend: nil)
+            LineView(data: [8, 23, 54, 32, 12, 37, 7, 23, 439], title: nil, legend: nil)
         }
     }
 }
@@ -44,7 +41,6 @@ struct MainContentView: View {
 struct SettingsContentView: View {
     var body: some View {
         Text("Some Settings content view")
-
     }
 }
 
@@ -53,7 +49,3 @@ struct ContentView_Previews: PreviewProvider {
         ContentView()
     }
 }
-
-
-
-

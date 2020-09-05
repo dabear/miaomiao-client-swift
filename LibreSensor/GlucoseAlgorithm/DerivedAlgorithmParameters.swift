@@ -19,7 +19,6 @@ public struct DerivedAlgorithmParameters: Codable, CustomStringConvertible {
 
     public var description: String {
         "DerivedAlgorithmParameters(slope_slope: \(slope_slope), slope_offset: \(slope_offset), offset_slope: \(offset_slope), offset_offset: \(offset_offset), isValidForFooterWithReverseCRCs: \(isValidForFooterWithReverseCRCs), extraSlope: \(extraSlope)), extraOffset: \(extraOffset))"
-
     }
 
     public init(slope_slope: Double, slope_offset: Double, offset_slope: Double, offset_offset: Double, isValidForFooterWithReverseCRCs: Int, extraSlope: Double, extraOffset: Double) {
