@@ -76,6 +76,34 @@ public struct SensorData: Codable {
         }
         return false
     }
+    //how to use this in a sensible way is still unknown
+    struct CalibrationInfo {
+      var i1: Int
+      var i2: Int
+      var i3: Int
+      var negativei3 : Bool
+      var i4: Int
+      var i5: Int
+      var i6: Int
+
+    }
+
+
+    
+    var calibrationData : CalibrationInfo {
+      
+      let data = self.bytes
+      let i1 = readBits(data, 2, 0, 3)
+      let i2 = readBits(data, 2, 3, 0xa)
+      let i3 = readBits(data, 0x150, 0, 8)
+      let i4 = readBits(data, 0x150, 8, 0xe)
+      let negativei3 = readBits(data, 0x150, 0x21, 1) != 0
+      let i5 = readBits(data, 0x150, 0x28, 0xc) << 2
+      let i6 = readBits(data, 0x150, 0x34, 0xc) << 2
+        
+      return CalibrationInfo(i1: i1, i2: i2, i3: i3, negativei3: negativei3, i4: i4, i5: i5, i6: i6)
+
+    }
 
     var humanReadableSensorAge: String {
         let sensorStart = Calendar.current.date(byAdding: .minute, value: -self.minutesSinceStart, to: self.date)!
