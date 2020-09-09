@@ -32,6 +32,8 @@ public struct SensorData: Codable {
     let date: Date
     /// Minutes (approx) since start of sensor
     let minutesSinceStart: Int
+    /// Maximum time in Minutes he sensor can be worn before it expires
+    let maxMinutesWearTime: Int
     /// Index on the next block of trend data that the sensor will measure and store
     let nextTrendBlock: Int
     /// Index on the next block of history data that the sensor will create from trend data and store
@@ -55,6 +57,11 @@ public struct SensorData: Codable {
     /// Footer crc needed for checking integrity of SwiftLibreOOPWeb response
     var footerCrc: UInt16 {
         Crc.crc16(Array(footer.dropFirst(2)), seed: 0xffff)
+    }
+    
+    // the amount of minutes left before this sensor expires
+    var minutesLeft: Int {
+       maxMinutesWearTime - minutesSinceStart
     }
 
     /// Sensor state (ready, failure, starting etc.)
@@ -96,6 +103,7 @@ public struct SensorData: Codable {
         self.nextTrendBlock = Int(body[2])
         self.nextHistoryBlock = Int(body[3])
         self.minutesSinceStart = Int(body[293]) << 8 + Int(body[292])
+        self.maxMinutesWearTime = Int(footer[7]) << 8 + Int(footer[6])
 
         self.uuid = uuid
         self.serialNumber = SensorSerialNumber(withUID: uuid)?.serialNumber ?? "-"
