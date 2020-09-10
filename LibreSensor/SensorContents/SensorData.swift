@@ -91,17 +91,16 @@ public struct SensorData: Codable {
 
     
     var calibrationData : CalibrationInfo {
-      
-      let data = self.bytes
-      let i1 = readBits(data, 2, 0, 3)
-      let i2 = readBits(data, 2, 3, 0xa)
-      let i3 = readBits(data, 0x150, 0, 8)
-      let i4 = readBits(data, 0x150, 8, 0xe)
-      let negativei3 = readBits(data, 0x150, 0x21, 1) != 0
-      let i5 = readBits(data, 0x150, 0x28, 0xc) << 2
-      let i6 = readBits(data, 0x150, 0x34, 0xc) << 2
+        let data = self.bytes
+        let i1 = Self.readBits(data, 2, 0, 3)
+        let i2 = Self.readBits(data, 2, 3, 0xa)
+        let i3 = Self.readBits(data, 0x150, 0, 8)
+        let i4 = Self.readBits(data, 0x150, 8, 0xe)
+        let negativei3 = Self.readBits(data, 0x150, 0x21, 1) != 0
+        let i5 = Self.readBits(data, 0x150, 0x28, 0xc) << 2
+        let i6 = Self.readBits(data, 0x150, 0x34, 0xc) << 2
         
-      return CalibrationInfo(i1: i1, i2: i2, i3: i3, negativei3: negativei3, i4: i4, i5: i5, i6: i6)
+        return CalibrationInfo(i1: i1, i2: i2, i3: i3, negativei3: negativei3, i4: i4, i5: i5, i6: i6)
 
     }
 
