@@ -468,6 +468,11 @@ extension MiaoMiaoClientManager {
         proxy?.viaManagerQueue.sensorData?.humanReadableSensorAge ?? "n/a"
     }
 
+    public var sensorTimeLeft: String {
+        //proxy?.OnQueue_sensorData?.humanReadableSensorAge ?? "n/a"
+        proxy?.viaManagerQueue.sensorData?.humanReadableTimeLeft ?? "n/a"
+    }
+
     //cannot be called from managerQueue
     public var sensorFooterChecksums: String {
         //(proxy?.OnQueue_sensorData?.footerCrc.byteSwapped).map(String.init)

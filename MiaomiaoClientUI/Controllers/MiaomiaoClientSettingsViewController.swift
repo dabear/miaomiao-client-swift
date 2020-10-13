@@ -121,6 +121,7 @@ public class MiaomiaoClientSettingsViewController: UITableViewController, SubVie
 
     private enum LatestSensorInfoRow: Int, CaseIterable {
         case sensorAge
+        case sensorTimeLeft
         case sensorState
         case sensorSerialNumber
     }
@@ -413,6 +414,10 @@ public class MiaomiaoClientSettingsViewController: UITableViewController, SubVie
                 cell.textLabel?.text = LocalizedString("Sensor Serial", comment: "Title describing sensor serial")
 
                 cell.detailTextLabel?.text = isDemoMode ? "0M007DEMO1" :cgmManager?.sensorSerialNumber
+            case .sensorTimeLeft:
+                cell.textLabel?.text = LocalizedString("Sensor Time Left", comment: "Title describing sensor time left")
+
+                cell.detailTextLabel?.text = cgmManager?.sensorTimeLeft
             }
             return cell
         case .advanced:
