@@ -76,40 +76,67 @@ public struct SensorData: Codable {
         }
         return false
     }
+
+    var reverseFooterCRC: UInt16? {
+
+        let b0 = UInt16(self.footer[1])
+        let b1 = UInt16(self.footer[0])
+        return (b0 << 8) | UInt16(b1)
+    }
+
     //how to use this in a sensible way is still unknown
     struct CalibrationInfo {
       var i1: Int
       var i2: Int
-      var i3: Int
-      var negativei3 : Bool
-      var i4: Int
-      var i5: Int
-      var i6: Int
+      var i3: Double
+      var i4: Double
+      var i5: Double
+      var i6: Double
 
     }
 
 
-    
+    //static func readBits(_ buffer: [UInt8], _ byteOffset: Int, _ bitOffset: Int, _ bitCount: Int) -> Int {
+
     var calibrationData : CalibrationInfo {
         let data = self.bytes
         let i1 = Self.readBits(data, 2, 0, 3)
         let i2 = Self.readBits(data, 2, 3, 0xa)
-        let i3 = Self.readBits(data, 0x150, 0, 8)
-        let i4 = Self.readBits(data, 0x150, 8, 0xe)
+        let i3 = Double(Self.readBits(data, 0x150, 0, 8))
+        let i4 = Double(Self.readBits(data, 0x150, 8, 0xe))
         let negativei3 = Self.readBits(data, 0x150, 0x21, 1) != 0
-        let i5 = Self.readBits(data, 0x150, 0x28, 0xc) << 2
-        let i6 = Self.readBits(data, 0x150, 0x34, 0xc) << 2
+        let i5 = Double(Self.readBits(data, 0x150, 0x28, 0xc) << 2)
+        let i6 = Double(Self.readBits(data, 0x150, 0x34, 0xc) << 2)
         
-        return CalibrationInfo(i1: i1, i2: i2, i3: i3, negativei3: negativei3, i4: i4, i5: i5, i6: i6)
+        return CalibrationInfo(i1: i1, i2: i2, i3: negativei3 ? -i3 : i3 , i4: i4, i5: i5, i6: i6)
 
     }
+
+    fileprivate let aday = 86_400.0 //in seconds
 
     var humanReadableSensorAge: String {
-        let sensorStart = Calendar.current.date(byAdding: .minute, value: -self.minutesSinceStart, to: self.date)!
+        let days = TimeInterval(minutesSinceStart * 60) / aday
+        return String(format: "%.2f", days) + " day(s)"
 
-        return  sensorStart.timeIntervalSinceNow.stringDaysFromTimeInterval() +  " day(s)"
     }
 
+    var humanReadableTimeLeft: String {
+        let days = TimeInterval(minutesLeft * 60) / aday
+        return String(format: "%.2f", days) + " day(s)"
+    }
+
+
+
+    var toJson : String {
+        "[" + self.bytes.map{ String(format: "0x%02x", $0) }.joined(separator: ", ") + "]"
+    }
+    var toEcmaStatement : String {
+        "var someFRAM=" + self.toJson + ";"
+    }
+
+    init?(bytes: [UInt8], date: Date = Date()) {
+        self.init(uuid: Data(), bytes: bytes, date: date)
+    }
     init?(uuid: Data, bytes: [UInt8], date: Date = Date()) {
         guard bytes.count == numberOfBytes else {
             return nil
@@ -133,6 +160,7 @@ public struct SensorData: Codable {
         self.maxMinutesWearTime = Int(footer[7]) << 8 + Int(footer[6])
 
         self.uuid = uuid
+
         self.serialNumber = SensorSerialNumber(withUID: uuid)?.serialNumber ?? "-"
 
         //self.temperatureAlgorithmParameterSet = derivedAlgorithmParameterSet
@@ -262,7 +290,7 @@ public struct SensorData: Codable {
     /// Reads Libredata in bits converts and the result to int
     ///
     /// Makes it possible to read for example 7 bits from a 1 byte (8 bit) buffer.
-    /// Can be used to read botth FRAM and Libre2 Bluetooth buffer data . Buffer is expected to be unencrypted
+    /// Can be used to read both FRAM and Libre2 Bluetooth buffer data . Buffer is expected to be unencrypted
     /// - Returns: bits from buffer
 
     static func readBits(_ buffer: [UInt8], _ byteOffset: Int, _ bitOffset: Int, _ bitCount: Int) -> Int {
@@ -280,4 +308,18 @@ public struct SensorData: Codable {
         }
         return res
     }
+
+    static func writeBits(_ buffer: [UInt8], _ byteOffset: Int, _ bitOffset: Int, _ bitCount: Int, _ value: Int) -> [UInt8]{
+
+        var res = buffer; // Make a copy
+        for i in stride(from: 0, to: bitCount, by: 1) {
+            let totalBitOffset = byteOffset * 8 + bitOffset + i;
+            let byte = Int(floor(Double(totalBitOffset) / 8))
+            let bit = totalBitOffset % 8;
+            let bitValue = (value >> i) & 0x1;
+            res[byte] = (res[byte] & ~(1 << bit) | (UInt8(bitValue) << bit));
+        }
+        return res;
+    }
+
 }

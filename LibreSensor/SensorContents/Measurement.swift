@@ -8,8 +8,29 @@
 
 import Foundation
 
+protocol MeasurementProtocol {
+    var rawGlucose: Int { get }
+    /// The raw temperature as read from the sensor
+    var rawTemperature: Int { get }
+
+
+    var rawTemperatureAdjustment: Int { get }
+
+}
+
+struct SimplifiedMeasurement : MeasurementProtocol {
+    var rawGlucose: Int
+
+    var rawTemperature: Int
+
+    var rawTemperatureAdjustment: Int = 0
+
+
+}
+
+
 /// Structure for one glucose measurement including value, date and raw data bytes
-struct Measurement {
+struct Measurement : MeasurementProtocol{
     /// The date for this measurement
     let date: Date
     /// The minute counter for this measurement
@@ -22,6 +43,11 @@ struct Measurement {
     let rawGlucose: Int
     /// The raw temperature as read from the sensor
     let rawTemperature: Int
+
+
+    let rawTemperatureAdjustment: Int
+
+   
     /// slope to calculate glucose from raw value in (mg/dl)/raw
     let slope: Double
     /// glucose offset to be added in mg/dl
@@ -49,6 +75,11 @@ struct Measurement {
     ///
     let temperatureAlgorithmParameterSet: DerivedAlgorithmParameters?
 
+
+    
+
+
+
     ///
     /// - parameter bytes:  raw data bytes as read from the sensor
     /// - parameter slope:  slope to calculate glucose from raw value in (mg/dl)/raw
@@ -59,11 +90,18 @@ struct Measurement {
     init(bytes: [UInt8], slope: Double = 0.1, offset: Double = 0.0, counter: Int = 0, date: Date, derivedAlgorithmParameterSet: DerivedAlgorithmParameters? = nil) {
         self.bytes = bytes
         self.byteString = bytes.reduce("", { $0 + String(format: "%02X", arguments: [$1]) })
-        self.rawGlucose = (Int(bytes[1] & 0x1F) << 8) + Int(bytes[0]) // switched to 13 bit mask on 2018-03-15
+        //self.rawGlucose = (Int(bytes[1] & 0x1F) << 8) + Int(bytes[0]) // switched to 13 bit mask on 2018-03-15
+        self.rawGlucose = SensorData.readBits(bytes, 0, 0, 0xe)
+
 
         //self.rawTemperature = (Int(bytes[4] & 0x3F) << 8) + Int(bytes[3]) // 14 bit-mask for raw temperature
         //raw temperature in libre FRAM is always stored in multiples of four
         self.rawTemperature = SensorData.readBits(bytes, 0, 0x1a, 0xc) << 2
+
+        let temperatureAdjustment = (SensorData.readBits(bytes, 0, 0x26, 0x9) << 2)
+        let negativeAdjustment = SensorData.readBits(bytes, 0, 0x2f, 0x1) != 0;
+        self.rawTemperatureAdjustment = negativeAdjustment ? -temperatureAdjustment : temperatureAdjustment
+
         self.slope = slope
         self.offset = offset
         self.glucose = offset + slope * Double(rawGlucose)
