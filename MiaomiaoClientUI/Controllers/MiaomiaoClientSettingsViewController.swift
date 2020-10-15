@@ -136,12 +136,12 @@ public class MiaomiaoClientSettingsViewController: UITableViewController, SubVie
     }
 
     private enum LatestCalibrationDataInfoRow: Int, CaseIterable {
-        case slopeslope
-        case slopeoffset
-        case offsetslope
-        case offsetoffset
-        case extraSlope
-        case extraOffset
+        case i1
+        case i2
+        case i3
+        case i4
+        case i5
+        case i6
 
         case isValidForFooterWithCRCs
 
@@ -326,35 +326,35 @@ public class MiaomiaoClientSettingsViewController: UITableViewController, SubVie
              extraOffset
              */
             switch LatestCalibrationDataInfoRow(rawValue: indexPath.row)! {
-            case .slopeslope:
-                cell.textLabel?.text = LocalizedString("Slope_slope", comment: "Title describing calibrationdata slopeslope")
+            case .i1:
+                cell.textLabel?.text = LocalizedString("i1", comment: "Title describing i1 slopeslope")
 
                 if let data = data {
-                    cell.detailTextLabel?.text = "\(data.slope_slope.scientificStyle)"
+                    cell.detailTextLabel?.text = "\(data.i1)"
                 } else {
                     cell.detailTextLabel?.text = SettingsTableViewCell.NoValueString
                 }
-            case .slopeoffset:
-                cell.textLabel?.text = LocalizedString("Slope_offset", comment: "Title describing calibrationdata slopeoffset")
+            case .i2:
+                cell.textLabel?.text = LocalizedString("i2", comment: "Title describing calibrationdata i2")
 
                 if let data = data {
-                    cell.detailTextLabel?.text = "\(data.slope_offset.scientificStyle)"
+                    cell.detailTextLabel?.text = "\(data.i2)"
                 } else {
                     cell.detailTextLabel?.text = SettingsTableViewCell.NoValueString
                 }
-            case .offsetslope:
-                cell.textLabel?.text = LocalizedString("Offset_slope", comment: "Title describing calibrationdata offsetslope")
+            case .i3:
+                cell.textLabel?.text = LocalizedString("i3", comment: "Title describing calibrationdata i3")
 
                 if let data = data {
-                    cell.detailTextLabel?.text = "\(data.offset_slope.scientificStyle)"
+                    cell.detailTextLabel?.text = "\(data.i3)"
                 } else {
                     cell.detailTextLabel?.text = SettingsTableViewCell.NoValueString
                 }
-            case .offsetoffset:
-                cell.textLabel?.text = LocalizedString("Offset_offset", comment: "Title describing calibrationdata offsetoffset")
+            case .i4:
+                cell.textLabel?.text = LocalizedString("i4", comment: "Title describing calibrationdata i4")
 
                 if let data = data {
-                    cell.detailTextLabel?.text = "\(data.offset_offset.fourDecimals)"
+                    cell.detailTextLabel?.text = "\(data.i4)"
                 } else {
                     cell.detailTextLabel?.text = SettingsTableViewCell.NoValueString
                 }
@@ -379,19 +379,19 @@ public class MiaomiaoClientSettingsViewController: UITableViewController, SubVie
                 } else {
                     cell.detailTextLabel?.text = "Unavailable"
                 }
-            case .extraSlope:
-                cell.textLabel?.text = LocalizedString("Extra_slope", comment: "Title describing calibrationdata extra slope")
+            case .i5:
+                cell.textLabel?.text = LocalizedString("i5", comment: "Title describing calibrationdata i5")
 
                 if let data = data {
-                    cell.detailTextLabel?.text = "\(data.extraSlope)"
+                    cell.detailTextLabel?.text = "\(data.i5)"
                 } else {
                     cell.detailTextLabel?.text = SettingsTableViewCell.NoValueString
                 }
-            case .extraOffset:
-                cell.textLabel?.text = LocalizedString("Extra_offset", comment: "Title describing calibrationdata extra offset")
+            case .i6:
+                cell.textLabel?.text = LocalizedString("i6", comment: "Title describing calibrationdata i6")
 
                 if let data = data {
-                    cell.detailTextLabel?.text = "\(data.extraOffset)"
+                    cell.detailTextLabel?.text = "\(data.i6)"
                 } else {
                     cell.detailTextLabel?.text = SettingsTableViewCell.NoValueString
                 }
@@ -484,7 +484,7 @@ public class MiaomiaoClientSettingsViewController: UITableViewController, SubVie
         case .latestBridgeInfo:
             return LocalizedString("Transmitter info", comment: "Section title for transmitter info")
         case .latestCalibrationData:
-            return LocalizedString("Latest Autocalibration Parameters", comment: "Section title for latest calibrationdata")
+            return LocalizedString("Factory Calibration Parameters", comment: "Section title for Factory Calibration Parameters")
 
         case .advanced:
             return LocalizedString("Advanced", comment: "Advanced Section")
@@ -570,12 +570,12 @@ public class MiaomiaoClientSettingsViewController: UITableViewController, SubVie
 
             let confirmVC = UIAlertController(calibrateHandler: {
                 if let cgmManager = self.cgmManager {
-                    guard let (accessToken, url) = cgmManager.keychain.getAutoCalibrateWebCredentials() else {
+                    /*guard let (accessToken, url) = cgmManager.keychain.getAutoCalibrateWebCredentials() else {
                         NSLog("dabear:: could not calibrate, accesstoken or url was nil")
                         self.presentStatus(OKAlertController(LibreError.invalidAutoCalibrationCredentials.errorDescription, title: "Error"))
 
                         return
-                    }
+                    }*/
 
                     guard let data = cgmManager.lastValidSensorData else {
                         NSLog("No sensordata was present, unable to recalibrate!")
@@ -583,15 +583,17 @@ public class MiaomiaoClientSettingsViewController: UITableViewController, SubVie
 
                         return
                     }
-                    var params = data.getDerivedParametersFromCalibrationData()
+                    var params = data.calibrationData
 
                     do {
-                        try self.cgmManager?.keychain.setLibreCalibrationData(params)
+                        try self.cgmManager?.keychain.setLibreNativeCalibrationData(params)
                     } catch {
                         NSLog("dabear:: could not save calibrationdata")
                         self.presentOKStatusOnMain(LibreError.invalidCalibrationData.errorDescription, title: "Error")
                         return
                     }
+
+                    self.presentOKStatusOnMain("Calibration Success", title: "Calibration Status")
 
                     /*
                     calibrateSensor(accessToken: accessToken, site: url.absoluteString, sensordata: data) { [weak self] calibrationparams  in

@@ -23,13 +23,13 @@ public class CalibrationEditTableViewController: UITableViewController, mmTextFi
 
     public weak var disappearDelegate: SubViewControllerWillDisappear?
 
-    private var newParams: DerivedAlgorithmParameters?
+    private var newParams: SensorData.CalibrationInfo?
 
     public init(cgmManager: MiaoMiaoClientManager?) {
         self.cgmManager = cgmManager
         super.init(style: .grouped)
 
-        newParams = cgmManager?.keychain.getLibreCalibrationData()
+        newParams = cgmManager?.keychain.getLibreNativeCalibrationData()
 
         // for testing only
 
@@ -59,12 +59,12 @@ public class CalibrationEditTableViewController: UITableViewController, mmTextFi
     }
 
     private enum CalibrationDataInfoRow: Int {
-        case slopeslope
-        case slopeoffset
-        case offsetslope
-        case offsetoffset
-        case extraoffset
-        case extraslope
+        case i1
+        case i2
+        case i3
+        case i4
+        case i5
+        case i6
         case isValidForFooterWithCRCs
 
         static let count = 7
@@ -98,30 +98,30 @@ public class CalibrationEditTableViewController: UITableViewController, mmTextFi
     */
 
     func mmTextFieldViewCellDidUpdateValue(_ cell: MMTextFieldViewCell2, value: String?) {
-        if let value = value, let numVal = Double(value) {
+        if let value = value, let numVal = Double(value), let intVal=Int(value) {
             switch CalibrationDataInfoRow(rawValue: cell.tag)! {
             case .isValidForFooterWithCRCs:
                 //this should not happen as crc can not change
 
                 print("isValidForFooterWithCRCs was updated: \(numVal)")
-            case .slopeslope:
-                newParams?.slope_slope = numVal
-                print("slopeslope was updated: \(numVal)")
-            case .slopeoffset:
-                newParams?.slope_offset = numVal
-                print("slopeoffset was updated: \(numVal)")
-            case .offsetslope:
-                newParams?.offset_slope = numVal
-                print("offsetslope was updated: \(numVal)")
-            case .offsetoffset:
-                newParams?.offset_offset = numVal
-                print("offsetoffset was updated: \(numVal)")
-            case .extraoffset:
-                newParams?.extraOffset = numVal
-                print("extraoffset was updated: \(numVal)")
-            case .extraslope:
-                newParams?.extraSlope = numVal
-                print("extraslope was updated: \(numVal)")
+            case .i1:
+                newParams?.i1 = intVal
+                print("i1 was updated: \(numVal)")
+            case .i2:
+                newParams?.i2 = intVal
+                print("i2 was updated: \(numVal)")
+            case .i3:
+                newParams?.i3 = numVal
+                print("i3 was updated: \(numVal)")
+            case .i4:
+                newParams?.i4 = numVal
+                print("i4 was updated: \(numVal)")
+            case .i5:
+                newParams?.i5 = numVal
+                print("i5 was updated: \(numVal)")
+            case .i6:
+                newParams?.i6 = numVal
+                print("i6 was updated: \(numVal)")
             }
         }
     }
@@ -139,21 +139,21 @@ public class CalibrationEditTableViewController: UITableViewController, mmTextFi
         cell.delegate = self
 
         switch CalibrationDataInfoRow(rawValue: indexPath.row)! {
-        case .offsetoffset:
+        case .i1:
 
-            cell.textInput?.text = String(newParams?.offset_offset ?? 0)
-            cell.titleLabel.text = NSLocalizedString("offsetoffset", comment: "The title text for offsetoffset calibration setting")
+            cell.textInput?.text = String(newParams?.i1 ?? 0)
+            cell.titleLabel.text = NSLocalizedString("i1", comment: "The title text for i1 calibration setting")
 
-        case .offsetslope:
-            cell.textInput?.text = String(newParams?.offset_slope ?? 0)
-            cell.titleLabel.text = NSLocalizedString("offsetslope", comment: "The title text for offsetslope calibration setting")
+        case .i2:
+            cell.textInput?.text = String(newParams?.i2 ?? 0)
+            cell.titleLabel.text = NSLocalizedString("i2", comment: "The title text for i2 calibration setting")
 
-        case .slopeoffset:
-            cell.textInput?.text = String(newParams?.slope_offset ?? 0)
-            cell.titleLabel.text = NSLocalizedString("slopeoffset", comment: "The title text for slopeoffset calibration setting")
-        case .slopeslope:
-            cell.textInput?.text = String(newParams?.slope_slope ?? 0)
-            cell.titleLabel.text = NSLocalizedString("slopeslope", comment: "The title text for slopeslope calibration setting")
+        case .i3:
+            cell.textInput?.text = String(newParams?.i3 ?? 0)
+            cell.titleLabel.text = NSLocalizedString("i4", comment: "The title text for i4 calibration setting")
+        case .i4:
+            cell.textInput?.text = String(newParams?.i4 ?? 0)
+            cell.titleLabel.text = NSLocalizedString("i4", comment: "The title text for i4 calibration setting")
 
         case .isValidForFooterWithCRCs:
             cell.textInput?.text = String(newParams?.isValidForFooterWithReverseCRCs ?? 0)
@@ -161,13 +161,13 @@ public class CalibrationEditTableViewController: UITableViewController, mmTextFi
             cell.titleLabel.text = NSLocalizedString("IsValidForFooter", comment: "The title for the footer crc checksum linking these calibration values to this particular sensor")
 
             cell.isEnabled = false
-        case .extraoffset:
-            cell.textInput?.text = String(newParams?.extraOffset ?? 0)
-            cell.titleLabel.text = NSLocalizedString("extraOffset", comment: "The title text for extra offset calibration setting")
+        case .i5:
+            cell.textInput?.text = String(newParams?.i5 ?? 0)
+            cell.titleLabel.text = NSLocalizedString("i5", comment: "The title text for extra i5 calibration setting")
 
-        case .extraslope:
-            cell.textInput?.text = String(newParams?.extraSlope ?? 0)
-            cell.titleLabel.text = NSLocalizedString("extraSlope", comment: "The title text for extra slope calibration setting")
+        case .i6:
+            cell.textInput?.text = String(newParams?.i6 ?? 0)
+            cell.titleLabel.text = NSLocalizedString("i6", comment: "The title text for extra i6 calibration setting")
         }
 
         return cell
@@ -193,21 +193,21 @@ public class CalibrationEditTableViewController: UITableViewController, mmTextFi
         switch  Section(rawValue: indexPath.section)! {
         case .CalibrationDataInfoRow:
             switch CalibrationDataInfoRow(rawValue: indexPath.row)! {
-            case .slopeslope:
-                print("slopeslope clicked")
-            case .slopeoffset:
-                print("slopeoffset clicked")
+            case .i1:
+                print("i1 clicked")
+            case .i2:
+                print("i2 clicked")
 
-            case .offsetslope:
-                print("offsetslope clicked")
-            case .offsetoffset:
-                print("offsetoffset clicked")
+            case .i3:
+                print("i3 clicked")
+            case .i4:
+                print("i4 clicked")
             case .isValidForFooterWithCRCs:
                 print("isValidForFooterWithCRCs clicked")
-            case .extraoffset:
-                print("extraoffset clicked")
-            case .extraslope:
-                print("extraslope clicked")
+            case .i5:
+                print("i5 clicked")
+            case .i6:
+                print("i6 clicked")
             }
         case .sync:
             print("calibration save clicked")
@@ -216,7 +216,7 @@ public class CalibrationEditTableViewController: UITableViewController, mmTextFi
 
             if let params = newParams {
                 do {
-                    try self.cgmManager?.keychain.setLibreCalibrationData(params)
+                    try self.cgmManager?.keychain.setLibreNativeCalibrationData(params)
                     isSaved = true
                 } catch {
                     print("error: \(error.localizedDescription)")

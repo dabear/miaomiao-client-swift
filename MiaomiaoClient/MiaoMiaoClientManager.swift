@@ -182,8 +182,8 @@ public final class MiaoMiaoClientManager: CGMManager, LibreTransmitterDelegate {
         proxy?.delegate = self
     }
 
-    public var calibrationData: DerivedAlgorithmParameters? {
-        keychain.getLibreCalibrationData()
+    public var calibrationData: SensorData.CalibrationInfo? {
+        keychain.getLibreNativeCalibrationData()
     }
 
     public func disconnect() {
@@ -201,8 +201,8 @@ public final class MiaoMiaoClientManager: CGMManager, LibreTransmitterDelegate {
 
     private lazy var proxy: LibreTransmitterManager? = LibreTransmitterManager()
 
-    private func readingToGlucose(_ data: SensorData, calibration: DerivedAlgorithmParameters) -> [LibreGlucose] {
-        let last16 = data.trendMeasurements(derivedAlgorithmParameterSet: calibration)
+    private func readingToGlucose(_ data: SensorData, calibration: SensorData.CalibrationInfo) -> [LibreGlucose] {
+        let last16 = data.trendMeasurements(derivedAlgorithmParameterSet: nil)
 
         /*var entries = LibreGlucose.fromTrendMeasurements(last16, returnAll: UserDefaults.standard.mmBackfillFromTrend)
 
@@ -213,15 +213,15 @@ public final class MiaoMiaoClientManager: CGMManager, LibreTransmitterDelegate {
             entries += LibreGlucose.fromHistoryMeasurements(history)
         }*/
 
-        let calibrationData = data.calibrationData
+        //let calibrationData = data.calibrationData
 
-        var entries = LibreGlucose.fromTrendMeasurements(last16, nativeCalibrationData: calibrationData, returnAll: UserDefaults.standard.mmBackfillFromTrend)
+        var entries = LibreGlucose.fromTrendMeasurements(last16, nativeCalibrationData: calibration, returnAll: UserDefaults.standard.mmBackfillFromTrend)
 
         let text = entries.map { $0.description }.joined(separator: ",")
         NSLog("dabear:: trend entries count: \(entries.count): \n \(text)" )
         if UserDefaults.standard.mmBackfillFromHistory {
-            let history = data.historyMeasurements(derivedAlgorithmParameterSet: calibration)
-            entries += LibreGlucose.fromHistoryMeasurements(history, nativeCalibrationData:calibrationData)
+            let history = data.historyMeasurements(derivedAlgorithmParameterSet: nil)
+            entries += LibreGlucose.fromHistoryMeasurements(history, nativeCalibrationData:calibration)
         }
 
         return entries
@@ -235,7 +235,7 @@ public final class MiaoMiaoClientManager: CGMManager, LibreTransmitterDelegate {
             return
         }
 
-        let calibrationdata = keychain.getLibreCalibrationData()
+        let calibrationdata = keychain.getLibreNativeCalibrationData()
 
         if let calibrationdata = calibrationdata {
             NSLog("dabear:: calibrationdata loaded")
@@ -252,22 +252,20 @@ public final class MiaoMiaoClientManager: CGMManager, LibreTransmitterDelegate {
             NSLog("dabear:: calibrationdata was nil")
         }
 
+        /*
         guard let (accessToken, url) = self.keychain.getAutoCalibrateWebCredentials() else {
             NSLog("dabear:: could not calibrate, accesstoken or url was nil")
             callback(.invalidAutoCalibrationCredentials, nil)
             return
-        }
+        }*/
 
-        NotificationHelper.sendCalibrationNotification(.starting)
-        calibrateSensor(accessToken: accessToken, site: url.absoluteString, sensordata: data) { [weak self] calibrationparams  in
-            guard let params = calibrationparams else {
-                NotificationHelper.sendCalibrationNotification(.noCalibration)
-                callback(.noCalibrationData, nil)
-                return
-            }
+        //NotificationHelper.sendCalibrationNotification(.starting)
+
+        calibrateSensor(sensordata: data) { [weak self] calibrationparams  in
+
 
             do {
-                try self?.keychain.setLibreCalibrationData(params)
+                try self?.keychain.setLibreNativeCalibrationData(calibrationparams)
             } catch {
                 NotificationHelper.sendCalibrationNotification(.invalidCalibrationData)
                 callback(.invalidCalibrationData, nil)
@@ -277,7 +275,7 @@ public final class MiaoMiaoClientManager: CGMManager, LibreTransmitterDelegate {
             //and we trust that the remote endpoint returns correct data for the sensor
 
             NotificationHelper.sendCalibrationNotification(.success)
-            callback(nil, self?.readingToGlucose(data, calibration: params))
+            callback(nil, self?.readingToGlucose(data, calibration: calibrationparams))
         }
     }
 

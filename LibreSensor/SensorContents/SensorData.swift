@@ -85,20 +85,36 @@ public struct SensorData: Codable {
     }
 
     //how to use this in a sensible way is still unknown
-    struct CalibrationInfo {
-      var i1: Int
-      var i2: Int
-      var i3: Double
-      var i4: Double
-      var i5: Double
-      var i6: Double
+    public struct CalibrationInfo : Codable, CustomStringConvertible {
+        public init(i1: Int, i2: Int, i3: Double, i4: Double, i5: Double, i6: Double, isValidForFooterWithReverseCRCs: Int) {
+            self.i1 = i1
+            self.i2 = i2
+            self.i3 = i3
+            self.i4 = i4
+            self.i5 = i5
+            self.i6 = i6
+            self.isValidForFooterWithReverseCRCs = isValidForFooterWithReverseCRCs
+        }
+
+      public var i1: Int
+      public var i2: Int
+      public var i3: Double
+      public var i4: Double
+      public var i5: Double
+      public var i6: Double
+
+      public var isValidForFooterWithReverseCRCs: Int
+
+      public var description: String {
+            "CalibrationInfo(i1: \(i1), i2: \(i2), i3: \(i3), i4: \(i4), isValidForFooterWithReverseCRCs: \(isValidForFooterWithReverseCRCs), i5: \(i5)), i6: \(i6))"
+      }
 
     }
 
 
     //static func readBits(_ buffer: [UInt8], _ byteOffset: Int, _ bitOffset: Int, _ bitCount: Int) -> Int {
 
-    var calibrationData : CalibrationInfo {
+    public var calibrationData : CalibrationInfo {
         let data = self.bytes
         let i1 = Self.readBits(data, 2, 0, 3)
         let i2 = Self.readBits(data, 2, 3, 0xa)
@@ -108,7 +124,7 @@ public struct SensorData: Codable {
         let i5 = Double(Self.readBits(data, 0x150, 0x28, 0xc) << 2)
         let i6 = Double(Self.readBits(data, 0x150, 0x34, 0xc) << 2)
         
-        return CalibrationInfo(i1: i1, i2: i2, i3: negativei3 ? -i3 : i3 , i4: i4, i5: i5, i6: i6)
+        return CalibrationInfo(i1: i1, i2: i2, i3: negativei3 ? -i3 : i3 , i4: i4, i5: i5, i6: i6, isValidForFooterWithReverseCRCs: Int(self.footerCrc.byteSwapped))
 
     }
 
