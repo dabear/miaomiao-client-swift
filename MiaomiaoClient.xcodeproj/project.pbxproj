@@ -89,10 +89,6 @@
 		27CFAB5E224AB265006DEFE3 /* CollectionExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27CFAB5D224AB265006DEFE3 /* CollectionExtensions.swift */; };
 		27CFAB5F224AB27B006DEFE3 /* CollectionExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27CFAB5D224AB265006DEFE3 /* CollectionExtensions.swift */; };
 		27D0DA6B2231CBB7007BBB2C /* DateExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27D0DA6A2231CBB7007BBB2C /* DateExtensions.swift */; };
-		27E0968122A6E9AB00B3164D /* SnoozeView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 27E0968022A6E9AB00B3164D /* SnoozeView.xib */; };
-		27E0968422A6EFCD00B3164D /* SnoozeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27E0968322A6EFCD00B3164D /* SnoozeView.swift */; };
-		27E0968622A6F64800B3164D /* SnoozeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27E0968522A6F64800B3164D /* SnoozeViewController.swift */; };
-		27E0968A22A9768800B3164D /* SnoozeTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27E0968822A9768800B3164D /* SnoozeTableViewController.swift */; };
 		27E0968D22A9806200B3164D /* CGFLoat+Double.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27E0968C22A9806200B3164D /* CGFLoat+Double.swift */; };
 		27E0968F22A9AD6F00B3164D /* TimeIntervalExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27E0968E22A9AD6F00B3164D /* TimeIntervalExtensions.swift */; };
 		27E0969122B2A89D00B3164D /* CalibrationEditTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27E0969022B2A89D00B3164D /* CalibrationEditTableViewController.swift */; };
@@ -239,10 +235,6 @@
 		27CFAB5722497744006DEFE3 /* GlucoseSmoothing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlucoseSmoothing.swift; sourceTree = "<group>"; };
 		27CFAB5D224AB265006DEFE3 /* CollectionExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionExtensions.swift; sourceTree = "<group>"; };
 		27D0DA6A2231CBB7007BBB2C /* DateExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateExtensions.swift; sourceTree = "<group>"; };
-		27E0968022A6E9AB00B3164D /* SnoozeView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SnoozeView.xib; sourceTree = "<group>"; };
-		27E0968322A6EFCD00B3164D /* SnoozeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SnoozeView.swift; sourceTree = "<group>"; };
-		27E0968522A6F64800B3164D /* SnoozeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SnoozeViewController.swift; sourceTree = "<group>"; };
-		27E0968822A9768800B3164D /* SnoozeTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SnoozeTableViewController.swift; sourceTree = "<group>"; };
 		27E0968C22A9806200B3164D /* CGFLoat+Double.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CGFLoat+Double.swift"; sourceTree = "<group>"; };
 		27E0968E22A9AD6F00B3164D /* TimeIntervalExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeIntervalExtensions.swift; sourceTree = "<group>"; };
 		27E0969022B2A89D00B3164D /* CalibrationEditTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CalibrationEditTableViewController.swift; sourceTree = "<group>"; };
@@ -475,12 +467,12 @@
 			path = LFTimePickerController;
 			sourceTree = "<group>";
 		};
-		2777F4E925385C6600E5944F /* SwiftUI */ = {
+		2777F4E925385C6600E5944F /* SwiftUIViews */ = {
 			isa = PBXGroup;
 			children = (
 				2777F53425385EA200E5944F /* SwiftSnoozeView.swift */,
 			);
-			path = SwiftUI;
+			path = SwiftUIViews;
 			sourceTree = "<group>";
 		};
 		277CC0FC23BE937A00E83556 /* Transmitter */ = {
@@ -595,25 +587,6 @@
 			path = Controllers;
 			sourceTree = "<group>";
 		};
-		27E0968222A6ED5200B3164D /* Views */ = {
-			isa = PBXGroup;
-			children = (
-				27E0968722A9765300B3164D /* SnoozeTableViewController */,
-				27E0968022A6E9AB00B3164D /* SnoozeView.xib */,
-				27E0968322A6EFCD00B3164D /* SnoozeView.swift */,
-				27E0968522A6F64800B3164D /* SnoozeViewController.swift */,
-			);
-			path = Views;
-			sourceTree = "<group>";
-		};
-		27E0968722A9765300B3164D /* SnoozeTableViewController */ = {
-			isa = PBXGroup;
-			children = (
-				27E0968822A9768800B3164D /* SnoozeTableViewController.swift */,
-			);
-			path = SnoozeTableViewController;
-			sourceTree = "<group>";
-		};
 		432B0E7E1CDFC3C50045347B = {
 			isa = PBXGroup;
 			children = (
@@ -683,8 +656,7 @@
 		43A8EC83210E664300A81379 /* MiaomiaoClientUI */ = {
 			isa = PBXGroup;
 			children = (
-				2777F4E925385C6600E5944F /* SwiftUI */,
-				27E0968222A6ED5200B3164D /* Views */,
+				2777F4E925385C6600E5944F /* SwiftUIViews */,
 				27E0967F22A6E1C300B3164D /* Controllers */,
 				274DF85322A6E12B00BFAFFE /* Cells */,
 				270C26672269E67A005B27F3 /* Graphics */,
@@ -988,7 +960,6 @@
 				43AB511B21330D1400B3D58D /* Localizable.strings in Resources */,
 				271EDF3B22F23A0800E1C8B3 /* libresensor.png in Resources */,
 				270C26662269E611005B27F3 /* icons8-slide-up-50.png in Resources */,
-				27E0968122A6E9AB00B3164D /* SnoozeView.xib in Resources */,
 				275C3D9A229AA88500E27439 /* MMSwitchTableViewCell.xib in Resources */,
 				27E0969422B2C4D700B3164D /* MMTextFieldViewCell2.xib in Resources */,
 				2701478A227B53AB0013C9E3 /* miaomiao-small.png in Resources */,
@@ -1146,10 +1117,8 @@
 				276A870E235F875D0055AFFA /* UserDefaults+GlucoseSettings.swift in Sources */,
 				4325E9D5210E6B4400969CE5 /* UIColor.swift in Sources */,
 				27E0969122B2A89D00B3164D /* CalibrationEditTableViewController.swift in Sources */,
-				27E0968622A6F64800B3164D /* SnoozeViewController.swift in Sources */,
 				271EDF3322F0946400E1C8B3 /* BluetoothSearch.swift in Sources */,
 				27E0969B22B94D4400B3164D /* CustomDatePickerViewController.swift in Sources */,
-				27E0968422A6EFCD00B3164D /* SnoozeView.swift in Sources */,
 				43A8EC97210E680100A81379 /* ShareService+UI.swift in Sources */,
 				275C3D99229AA88200E27439 /* MMSwitchTableViewCell.swift in Sources */,
 				27E0969822B94CAD00B3164D /* CustomDatePicker.swift in Sources */,
@@ -1162,7 +1131,6 @@
 				27CFAB5522496C7A006DEFE3 /* DoubleExtensions.swift in Sources */,
 				27CBEB3F225FE5CB004F7BF5 /* AlarmSettingsTableViewController.swift in Sources */,
 				276A8708235B06190055AFFA /* TableViewExtensions.swift in Sources */,
-				27E0968A22A9768800B3164D /* SnoozeTableViewController.swift in Sources */,
 				2701478D2281FA4A0013C9E3 /* NotificationsSettingsTableViewController.swift in Sources */,
 				27E0969522B2C4D700B3164D /* MMTextFieldViewCell2.swift in Sources */,
 				272FAF08228CA590002D8064 /* SegmentViewCell.swift in Sources */,
