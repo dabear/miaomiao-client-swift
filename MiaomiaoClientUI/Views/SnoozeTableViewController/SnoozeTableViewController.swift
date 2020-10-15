@@ -102,12 +102,12 @@ public class SnoozeTableViewController: UITableViewController, UIPickerViewDataS
         tableView.register(MMSwitchTableViewCell.nib(), forCellReuseIdentifier: MMSwitchTableViewCell.className)
 
         tableView.register(MMTextFieldViewCell.nib(), forCellReuseIdentifier: MMTextFieldViewCell.className)
-        self.tableView.rowHeight = 44
-        tableView.contentInset = UIEdgeInsets.zero
-        self.automaticallyAdjustsScrollViewInsets = false
+        //self.tableView.rowHeight = 44
+        //tableView.contentInset = UIEdgeInsets.zero
+        //self.automaticallyAdjustsScrollViewInsets = false
 
-        tableView.tableFooterView = UIView()
-        tableView.tableHeaderView = UIView()
+        //tableView.tableFooterView = UIView()
+        //tableView.tableHeaderView = UIView()
     }
 
     private enum SnoozeRow: Int, CaseIterable {
@@ -124,26 +124,31 @@ public class SnoozeTableViewController: UITableViewController, UIPickerViewDataS
     }
 
     override public func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        SnoozeRow.count
+        1//SnoozeRow.count
     }
 
     override public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = UITableViewCell(style: .default, reuseIdentifier: "DefaultCell")
 
-        switch SnoozeRow(rawValue: indexPath.row)! {
+
+        /*switch SnoozeRow(rawValue: indexPath.row)! {
         case .snoozeButton:
             cell.textLabel?.textAlignment = .center
             cell.textLabel?.text = LocalizedString("Click to Snooze Alerts", comment: "Title of cell to snooze active alarms")
             return cell
-        case .snoozePicker:
+        case .snoozePicker:*/
             let height = tableView.rectForRow(at: indexPath).height
-            let pickerView = UIPickerView(frame: CGRect(x: 0, y: 0, width: tableView.frame.width, height: height))
+            let pickerView = UIPickerView(frame: CGRect(x: 0, y: 0, width: tableView.frame.width, height: height ))
 
+            //let pickerView = UIPickerView()
             self.pickerView = pickerView
 
             cell.addSubview(pickerView)
 
-            pickerView.fixInView(cell)
+
+
+            //pickerView.fixInView(cell)
+            //cell.bringSubviewToFront(pickerView)
             pickerView.dataSource = self
             pickerView.delegate = self
 
@@ -154,7 +159,7 @@ public class SnoozeTableViewController: UITableViewController, UIPickerViewDataS
             }
 
             return cell
-        case .description:
+        /*case .description:
             cell.textLabel?.textAlignment = .center
             cell.textLabel!.numberOfLines = 0
 
@@ -181,7 +186,7 @@ public class SnoozeTableViewController: UITableViewController, UIPickerViewDataS
             }
 
             cell.textLabel?.text = [celltext, snoozeDescription].joined(separator: ", ")
-        }
+        }*/
         return cell
     }
 
@@ -203,7 +208,7 @@ public class SnoozeTableViewController: UITableViewController, UIPickerViewDataS
         CGFloat.leastNormalMagnitude
     }
     override public func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        switch SnoozeRow(rawValue: indexPath.row)! {
+        /*switch SnoozeRow(rawValue: indexPath.row)! {
         case .snoozePicker:
 
            // let count =  Double(SnoozeRow.count - 1 )// -1 to exclude this row
@@ -211,11 +216,15 @@ public class SnoozeTableViewController: UITableViewController, UIPickerViewDataS
             let otherHeights = tableView.rectForRow(at: IndexPath(row: SnoozeRow.snoozeButton.rawValue, section: indexPath.section)).height +
             tableView.rectForRow(at: IndexPath(row: SnoozeRow.description.rawValue, section: indexPath.section)).height
 
-            return tableView.frame.size.height - otherHeights - tableView.sectionHeaderHeight - tableView.sectionFooterHeight - tableView.adjustedContentInset.top
+            return tableView.frame.size.height - otherHeights - tableView.sectionHeaderHeight - tableView.sectionFooterHeight - tableView.adjustedContentInset.top + 5
 
         default:
             return tableView.rowHeight
-        }
+        }*/
+
+        return tableView.frame.size.height + 5
+
+
     }
 
     override public func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
@@ -223,6 +232,9 @@ public class SnoozeTableViewController: UITableViewController, UIPickerViewDataS
     }
 
     override public func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+        return
+
         switch SnoozeRow(rawValue: indexPath.row)! {
         case .snoozeButton:
             print("snoozebutton clicked")

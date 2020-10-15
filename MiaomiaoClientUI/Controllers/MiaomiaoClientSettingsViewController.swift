@@ -583,7 +583,17 @@ public class MiaomiaoClientSettingsViewController: UITableViewController, SubVie
 
                         return
                     }
+                    var params = data.getDerivedParametersFromCalibrationData()
 
+                    do {
+                        try self.cgmManager?.keychain.setLibreCalibrationData(params)
+                    } catch {
+                        NSLog("dabear:: could not save calibrationdata")
+                        self.presentOKStatusOnMain(LibreError.invalidCalibrationData.errorDescription, title: "Error")
+                        return
+                    }
+
+                    /*
                     calibrateSensor(accessToken: accessToken, site: url.absoluteString, sensordata: data) { [weak self] calibrationparams  in
                         guard let params = calibrationparams else {
                             NSLog("dabear:: could not calibrate sensor, check libreoopweb permissions and internet connection")
@@ -602,7 +612,7 @@ public class MiaomiaoClientSettingsViewController: UITableViewController, SubVie
                         }
 
                         self?.presentOKStatusOnMain("Calibration success!", title: "Success")
-                    }
+                    }*/
                 }
             })
 
@@ -648,9 +658,12 @@ public class MiaomiaoClientSettingsViewController: UITableViewController, SubVie
         case .snooze:
             print("Snooze called")
 
-            let controller = SnoozeTableViewController(manager: self.cgmManager)
+            //let controller = SnoozeTableViewController(manager: self.cgmManager)
 
-            show(controller, sender: nil)
+            let container = SwiftSnoozeView.asHostedViewController(manager: self.cgmManager)
+
+            self.show(container, sender: nil)
+            //present(controller, sender: nil)
             tableView.deselectRow(at: indexPath, animated: true)
         }
     }

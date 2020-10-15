@@ -56,6 +56,8 @@
 		276A870C235F841D0055AFFA /* GlucoseSettingsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 276A870B235F841D0055AFFA /* GlucoseSettingsTableViewController.swift */; };
 		276A870E235F875D0055AFFA /* UserDefaults+GlucoseSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 276A870D235F875D0055AFFA /* UserDefaults+GlucoseSettings.swift */; };
 		276A870F235F8CAC0055AFFA /* UserDefaults+GlucoseSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 276A870D235F875D0055AFFA /* UserDefaults+GlucoseSettings.swift */; };
+		2777F4DA253613C900E5944F /* GlucoseFromRaw.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2777F4D9253613C900E5944F /* GlucoseFromRaw.swift */; };
+		2777F53525385EA200E5944F /* SwiftSnoozeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2777F53425385EA200E5944F /* SwiftSnoozeView.swift */; };
 		277DAD0D226B970300422ADA /* UserDefaults+Alarmsettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 277DAD0C226B970300422ADA /* UserDefaults+Alarmsettings.swift */; };
 		277DAD0E226B971A00422ADA /* UserDefaults+Alarmsettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 277DAD0C226B970300422ADA /* UserDefaults+Alarmsettings.swift */; };
 		277DAD12226C9FA800422ADA /* DateExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27D0DA6A2231CBB7007BBB2C /* DateExtensions.swift */; };
@@ -203,6 +205,8 @@
 		276A8707235B06190055AFFA /* TableViewExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewExtensions.swift; sourceTree = "<group>"; };
 		276A870B235F841D0055AFFA /* GlucoseSettingsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GlucoseSettingsTableViewController.swift; sourceTree = "<group>"; };
 		276A870D235F875D0055AFFA /* UserDefaults+GlucoseSettings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UserDefaults+GlucoseSettings.swift"; sourceTree = "<group>"; };
+		2777F4D9253613C900E5944F /* GlucoseFromRaw.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GlucoseFromRaw.swift; sourceTree = "<group>"; };
+		2777F53425385EA200E5944F /* SwiftSnoozeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftSnoozeView.swift; sourceTree = "<group>"; };
 		277DAD0C226B970300422ADA /* UserDefaults+Alarmsettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserDefaults+Alarmsettings.swift"; sourceTree = "<group>"; };
 		277DAD13226CACF300422ADA /* MessagePassing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessagePassing.swift; sourceTree = "<group>"; };
 		2791063E23B960AF004B362F /* capture-build-details.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = "capture-build-details.sh"; sourceTree = "<group>"; };
@@ -471,6 +475,14 @@
 			path = LFTimePickerController;
 			sourceTree = "<group>";
 		};
+		2777F4E925385C6600E5944F /* SwiftUI */ = {
+			isa = PBXGroup;
+			children = (
+				2777F53425385EA200E5944F /* SwiftSnoozeView.swift */,
+			);
+			path = SwiftUI;
+			sourceTree = "<group>";
+		};
 		277CC0FC23BE937A00E83556 /* Transmitter */ = {
 			isa = PBXGroup;
 			children = (
@@ -538,6 +550,7 @@
 		27D043FA2330091600623B49 /* GlucoseAlgorithm */ = {
 			isa = PBXGroup;
 			children = (
+				2777F4D9253613C900E5944F /* GlucoseFromRaw.swift */,
 				27E3C3A1222EEDCD0036AAC7 /* DerivedAlgorithmParameters.swift */,
 				27CFAB5722497744006DEFE3 /* GlucoseSmoothing.swift */,
 			);
@@ -670,6 +683,7 @@
 		43A8EC83210E664300A81379 /* MiaomiaoClientUI */ = {
 			isa = PBXGroup;
 			children = (
+				2777F4E925385C6600E5944F /* SwiftUI */,
 				27E0968222A6ED5200B3164D /* Views */,
 				27E0967F22A6E1C300B3164D /* Controllers */,
 				274DF85322A6E12B00BFAFFE /* Cells */,
@@ -1086,6 +1100,7 @@
 				27E3C398222EE9450036AAC7 /* LibreOOPDefaults.swift in Sources */,
 				2791064623B96B07004B362F /* UIApplication+metadata.swift in Sources */,
 				277DAD0D226B970300422ADA /* UserDefaults+Alarmsettings.swift in Sources */,
+				2777F4DA253613C900E5944F /* GlucoseFromRaw.swift in Sources */,
 				27E3C393222EE2EC0036AAC7 /* Calibration.swift in Sources */,
 				27C335B82165667300CF0868 /* LibreGlucose.swift in Sources */,
 				27E3C3A2222EEDCD0036AAC7 /* DerivedAlgorithmParameters.swift in Sources */,
@@ -1125,6 +1140,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2777F53525385EA200E5944F /* SwiftSnoozeView.swift in Sources */,
 				276A870C235F841D0055AFFA /* GlucoseSettingsTableViewController.swift in Sources */,
 				43A8EC92210E676500A81379 /* MiaomiaoClientSettingsViewController.swift in Sources */,
 				276A870E235F875D0055AFFA /* UserDefaults+GlucoseSettings.swift in Sources */,

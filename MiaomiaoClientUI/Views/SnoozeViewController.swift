@@ -24,6 +24,7 @@ class SnoozeViewController: UIViewController {
             customView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor)
         ])
         self.customView = customView
+        self.view.bringSubviewToFront(customView)
     }
 
     override func viewDidLoad() {

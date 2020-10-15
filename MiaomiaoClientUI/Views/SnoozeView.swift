@@ -7,7 +7,7 @@
 //
 
 import UIKit
-class View: UIView {
+class LegacyView: UIView {
     init() {
         super.init(frame: .zero)
 
@@ -31,7 +31,7 @@ class View: UIView {
     }
 }
 
-class SnoozeView: View, UIPickerViewDataSource, UIPickerViewDelegate {
+class SnoozeView: LegacyView, UIPickerViewDataSource, UIPickerViewDelegate {
     // this is going to be our container object
     @IBOutlet weak var containerView: UIView!
 

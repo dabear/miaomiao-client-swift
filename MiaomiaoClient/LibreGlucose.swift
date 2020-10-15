@@ -155,7 +155,7 @@ extension LibreGlucose {
 }
 
 extension LibreGlucose {
-    static func fromHistoryMeasurements(_ measurements: [Measurement]) -> [LibreGlucose] {
+    static func fromHistoryMeasurements(_ measurements: [Measurement], nativeCalibrationData: SensorData.CalibrationInfo) -> [LibreGlucose] {
         var arr = [LibreGlucose]()
 
         for historical in measurements {
@@ -165,8 +165,10 @@ extension LibreGlucose {
             }
 
             let glucose = LibreGlucose(
-                unsmoothedGlucose: historical.temperatureAlgorithmGlucose,
-                glucoseDouble: historical.temperatureAlgorithmGlucose,
+                //unsmoothedGlucose: historical.temperatureAlgorithmGlucose,
+                //glucoseDouble: historical.temperatureAlgorithmGlucose,
+                unsmoothedGlucose: historical.roundedGlucoseValueFromRaw2(calibrationInfo: nativeCalibrationData),
+                glucoseDouble: historical.roundedGlucoseValueFromRaw2(calibrationInfo: nativeCalibrationData),
                 timestamp: historical.date)
             arr.append(glucose)
         }
@@ -174,7 +176,7 @@ extension LibreGlucose {
         return arr
     }
 
-    static func fromTrendMeasurements(_ measurements: [Measurement], returnAll: Bool) -> [LibreGlucose] {
+    static func fromTrendMeasurements(_ measurements: [Measurement], nativeCalibrationData: SensorData.CalibrationInfo, returnAll: Bool) -> [LibreGlucose] {
         var arr = [LibreGlucose]()
 
         var shouldSmoothGlucose = true
@@ -189,7 +191,8 @@ extension LibreGlucose {
             // instead we calculate it once when latestbackfill is set, which in turn sets
             // the sensordisplayable property
             let glucose = LibreGlucose(
-                unsmoothedGlucose: trend.temperatureAlgorithmGlucose,
+                //unsmoothedGlucose: trend.temperatureAlgorithmGlucose,
+                unsmoothedGlucose: trend.roundedGlucoseValueFromRaw2(calibrationInfo: nativeCalibrationData),
                 glucoseDouble: 0.0,
                 timestamp: trend.date)
             arr.append(glucose)

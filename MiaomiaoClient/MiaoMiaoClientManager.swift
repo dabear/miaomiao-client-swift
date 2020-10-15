@@ -204,13 +204,24 @@ public final class MiaoMiaoClientManager: CGMManager, LibreTransmitterDelegate {
     private func readingToGlucose(_ data: SensorData, calibration: DerivedAlgorithmParameters) -> [LibreGlucose] {
         let last16 = data.trendMeasurements(derivedAlgorithmParameterSet: calibration)
 
-        var entries = LibreGlucose.fromTrendMeasurements(last16, returnAll: UserDefaults.standard.mmBackfillFromTrend)
+        /*var entries = LibreGlucose.fromTrendMeasurements(last16, returnAll: UserDefaults.standard.mmBackfillFromTrend)
 
         let text = entries.map { $0.description }.joined(separator: ",")
         NSLog("dabear:: trend entries count: \(entries.count): \n \(text)" )
         if UserDefaults.standard.mmBackfillFromHistory {
             let history = data.historyMeasurements(derivedAlgorithmParameterSet: calibration)
             entries += LibreGlucose.fromHistoryMeasurements(history)
+        }*/
+
+        let calibrationData = data.calibrationData
+
+        var entries = LibreGlucose.fromTrendMeasurements(last16, nativeCalibrationData: calibrationData, returnAll: UserDefaults.standard.mmBackfillFromTrend)
+
+        let text = entries.map { $0.description }.joined(separator: ",")
+        NSLog("dabear:: trend entries count: \(entries.count): \n \(text)" )
+        if UserDefaults.standard.mmBackfillFromHistory {
+            let history = data.historyMeasurements(derivedAlgorithmParameterSet: calibration)
+            entries += LibreGlucose.fromHistoryMeasurements(history, nativeCalibrationData:calibrationData)
         }
 
         return entries
