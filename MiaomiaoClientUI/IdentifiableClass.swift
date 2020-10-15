@@ -18,7 +18,7 @@ extension IdentifiableClass {
         //NSStringFromClass(self).components(separatedBy: ".").last!
         String(describing: Self.self)
     }
-}
 
-extension SnoozeView: IdentifiableClass {}
+
+}
 extension UITableViewCell: IdentifiableClass { }
