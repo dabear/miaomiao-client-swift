@@ -98,7 +98,7 @@ public class MiaomiaoClientSettingsViewController: UITableViewController, SubVie
 
     private enum Section: Int, CaseIterable {
         case snooze
-        case authentication
+        //case authentication
         case latestReading
         case sensorInfo
         case latestBridgeInfo
@@ -162,8 +162,8 @@ public class MiaomiaoClientSettingsViewController: UITableViewController, SubVie
 
     override public func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         switch Section(rawValue: section)! {
-        case .authentication:
-            return 1
+        //case .authentication:
+        //    return 1
         case .latestReading:
             return LatestReadingRow.allCases.count
         case .sensorInfo:
@@ -220,7 +220,7 @@ public class MiaomiaoClientSettingsViewController: UITableViewController, SubVie
     // swiftlint:disable:next cyclomatic_complexity function_body_length
     override public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         switch Section(rawValue: indexPath.section)! {
-        case .authentication:
+        /*case .authentication:
             let cell = tableView.dequeueIdentifiableCell(cell: SettingsTableViewCell.self, for: indexPath)
 
             cell.textLabel?.text = LocalizedString("Calibration Settings", comment: "Title of cell to set credentials")
@@ -229,7 +229,7 @@ public class MiaomiaoClientSettingsViewController: UITableViewController, SubVie
             cell.detailTextLabel?.text = tokenLength > 0 ? "token set" : "token not set"
             cell.accessoryType = .disclosureIndicator
 
-            return cell
+            return cell*/
         case .latestReading:
 
             let cell = tableView.dequeueIdentifiableCell(cell: SettingsTableViewCell.self, for: indexPath)
@@ -473,7 +473,7 @@ public class MiaomiaoClientSettingsViewController: UITableViewController, SubVie
 
     override public func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         switch Section(rawValue: section)! {
-        case .authentication, .snooze:
+        case .snooze:
             return nil
         case .sensorInfo:
             return LocalizedString("Sensor Info", comment: "Section title for latest sensor info")
@@ -494,7 +494,7 @@ public class MiaomiaoClientSettingsViewController: UITableViewController, SubVie
     // swiftlint:disable:next cyclomatic_complexity function_body_length
     override public func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         switch Section(rawValue: indexPath.section)! {
-        case .authentication:
+        /*case .authentication:
             guard let service = cgmManager?.miaomiaoService else {
                 NSLog("dabear:: no miaomiaoservice?")
                 self.tableView.reloadRows(at: [indexPath], with: .none)
@@ -521,7 +521,7 @@ public class MiaomiaoClientSettingsViewController: UITableViewController, SubVie
                 //ExtendingAuthController.destroyExtension()
             }
 
-            show(vc, sender: nil)
+            show(vc, sender: nil)*/
         case .latestReading:
             tableView.deselectRow(at: indexPath, animated: true)
         case .delete:
