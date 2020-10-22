@@ -8,6 +8,7 @@
 import LoopKitUI
 import MiaomiaoClient
 
+/*
 public enum LibreOOPWebAzzure: String {
     case LibreOOPWebAzzure="https://libreoopweb.azurewebsites.net"
 }
@@ -31,3 +32,4 @@ extension MiaomiaoService: ServiceAuthenticationUI {
         ]
     }
 }
+*/

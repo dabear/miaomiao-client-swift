@@ -159,10 +159,7 @@ extension LibreGlucose {
         var arr = [LibreGlucose]()
 
         for historical in measurements {
-            guard historical.temperatureAlgorithmGlucose > 0 else {
-                print("dabear:: historical glucose not available, skipping: \(historical.temperatureAlgorithmGlucose)")
-                continue
-            }
+
 
             let glucose = LibreGlucose(
                 //unsmoothedGlucose: historical.temperatureAlgorithmGlucose,
@@ -170,7 +167,11 @@ extension LibreGlucose {
                 unsmoothedGlucose: historical.roundedGlucoseValueFromRaw2(calibrationInfo: nativeCalibrationData),
                 glucoseDouble: historical.roundedGlucoseValueFromRaw2(calibrationInfo: nativeCalibrationData),
                 timestamp: historical.date)
-            arr.append(glucose)
+
+            if glucose.glucoseDouble > 0 {
+                arr.append(glucose)
+            }
+
         }
 
         return arr
@@ -181,12 +182,8 @@ extension LibreGlucose {
 
         var shouldSmoothGlucose = true
         for trend in measurements {
-            // if sensor is ripped off body while transmitter is attached, values below 1 might be created
-            // this will also disable smoothing for sensors started less than 16 minuttes ago
-            if trend.temperatureAlgorithmGlucose < 1 {
-                shouldSmoothGlucose = false
-                continue
-            }
+
+
             // trend arrows on each libreglucose value is not needed
             // instead we calculate it once when latestbackfill is set, which in turn sets
             // the sensordisplayable property
@@ -195,7 +192,12 @@ extension LibreGlucose {
                 unsmoothedGlucose: trend.roundedGlucoseValueFromRaw2(calibrationInfo: nativeCalibrationData),
                 glucoseDouble: 0.0,
                 timestamp: trend.date)
-            arr.append(glucose)
+            // if sensor is ripped off body while transmitter is attached, values below 1 might be created
+            // this will also disable smoothing for sensors started less than 16 minuttes ago
+            if glucose.unsmoothedGlucose > 0 {
+                arr.append(glucose)
+            }
+
         }
         //NSLog("dabear:: glucose samples before smoothing: \(String(describing: origarr))")
 

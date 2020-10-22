@@ -39,6 +39,7 @@
 		2729D69C221F44670030E1B8 /* SensorSerialNumber.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2729D68E221F44670030E1B8 /* SensorSerialNumber.swift */; };
 		2729D69F221F44670030E1B8 /* SensorState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2729D68F221F44670030E1B8 /* SensorState.swift */; };
 		2729D6A822248BDD0030E1B8 /* MiaoMiaoClientManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2729D6A722248BDD0030E1B8 /* MiaoMiaoClientManager.swift */; };
+		272A0835253E067800600AC8 /* CBPeripheralExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 272A0834253E067800600AC8 /* CBPeripheralExtensions.swift */; };
 		272BF9C32338044600AD38AA /* DataExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 272BF9C22338044600AD38AA /* DataExtensions.swift */; };
 		272BF9C9233D3F5A00AD38AA /* MiaomiaoTestMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 272BF9C8233D3F5A00AD38AA /* MiaomiaoTestMessage.swift */; };
 		272FAF08228CA590002D8064 /* SegmentViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 272FAF06228CA590002D8064 /* SegmentViewCell.swift */; };
@@ -58,6 +59,7 @@
 		276A870F235F8CAC0055AFFA /* UserDefaults+GlucoseSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 276A870D235F875D0055AFFA /* UserDefaults+GlucoseSettings.swift */; };
 		2777F4DA253613C900E5944F /* GlucoseFromRaw.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2777F4D9253613C900E5944F /* GlucoseFromRaw.swift */; };
 		2777F53525385EA200E5944F /* SwiftSnoozeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2777F53425385EA200E5944F /* SwiftSnoozeView.swift */; };
+		2777F58C253B460600E5944F /* BluetoothSelection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2777F58B253B460600E5944F /* BluetoothSelection.swift */; };
 		277DAD0D226B970300422ADA /* UserDefaults+Alarmsettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 277DAD0C226B970300422ADA /* UserDefaults+Alarmsettings.swift */; };
 		277DAD0E226B971A00422ADA /* UserDefaults+Alarmsettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 277DAD0C226B970300422ADA /* UserDefaults+Alarmsettings.swift */; };
 		277DAD12226C9FA800422ADA /* DateExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27D0DA6A2231CBB7007BBB2C /* DateExtensions.swift */; };
@@ -98,11 +100,6 @@
 		27E0969B22B94D4400B3164D /* CustomDatePickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27E0969922B94D4400B3164D /* CustomDatePickerViewController.swift */; };
 		27E3C390222EDF560036AAC7 /* LibreError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27E3C38F222EDF560036AAC7 /* LibreError.swift */; };
 		27E3C393222EE2EC0036AAC7 /* Calibration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27E3C392222EE2EC0036AAC7 /* Calibration.swift */; };
-		27E3C398222EE9450036AAC7 /* LibreOOPDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27E3C395222EE9450036AAC7 /* LibreOOPDefaults.swift */; };
-		27E3C39A222EE9450036AAC7 /* LibreOOPClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27E3C396222EE9450036AAC7 /* LibreOOPClient.swift */; };
-		27E3C39C222EE9450036AAC7 /* LibreOOPResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27E3C397222EE9450036AAC7 /* LibreOOPResponse.swift */; };
-		27E3C39F222EE9A80036AAC7 /* LibreOOPWebExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27E3C39E222EE9A80036AAC7 /* LibreOOPWebExtensions.swift */; };
-		27E3C3A2222EEDCD0036AAC7 /* DerivedAlgorithmParameters.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27E3C3A1222EEDCD0036AAC7 /* DerivedAlgorithmParameters.swift */; };
 		27F09EEC23FF2FBF00722EB4 /* LoopKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 27F09EE823FF2E0D00722EB4 /* LoopKit.framework */; };
 		27F09EEF23FF303B00722EB4 /* LoopKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 27F09EE823FF2E0D00722EB4 /* LoopKit.framework */; };
 		27F09EF023FF303B00722EB4 /* LoopKitUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 27F09EEA23FF2E0D00722EB4 /* LoopKitUI.framework */; };
@@ -186,6 +183,7 @@
 		2729D68E221F44670030E1B8 /* SensorSerialNumber.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SensorSerialNumber.swift; sourceTree = "<group>"; };
 		2729D68F221F44670030E1B8 /* SensorState.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SensorState.swift; sourceTree = "<group>"; };
 		2729D6A722248BDD0030E1B8 /* MiaoMiaoClientManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MiaoMiaoClientManager.swift; sourceTree = "<group>"; };
+		272A0834253E067800600AC8 /* CBPeripheralExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CBPeripheralExtensions.swift; sourceTree = "<group>"; };
 		272BF9C22338044600AD38AA /* DataExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataExtensions.swift; sourceTree = "<group>"; };
 		272BF9C8233D3F5A00AD38AA /* MiaomiaoTestMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MiaomiaoTestMessage.swift; sourceTree = "<group>"; };
 		272FAF06228CA590002D8064 /* SegmentViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SegmentViewCell.swift; sourceTree = "<group>"; };
@@ -203,6 +201,7 @@
 		276A870D235F875D0055AFFA /* UserDefaults+GlucoseSettings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UserDefaults+GlucoseSettings.swift"; sourceTree = "<group>"; };
 		2777F4D9253613C900E5944F /* GlucoseFromRaw.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GlucoseFromRaw.swift; sourceTree = "<group>"; };
 		2777F53425385EA200E5944F /* SwiftSnoozeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftSnoozeView.swift; sourceTree = "<group>"; };
+		2777F58B253B460600E5944F /* BluetoothSelection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BluetoothSelection.swift; sourceTree = "<group>"; };
 		277DAD0C226B970300422ADA /* UserDefaults+Alarmsettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserDefaults+Alarmsettings.swift"; sourceTree = "<group>"; };
 		277DAD13226CACF300422ADA /* MessagePassing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessagePassing.swift; sourceTree = "<group>"; };
 		2791063E23B960AF004B362F /* capture-build-details.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = "capture-build-details.sh"; sourceTree = "<group>"; };
@@ -244,11 +243,6 @@
 		27E0969922B94D4400B3164D /* CustomDatePickerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomDatePickerViewController.swift; sourceTree = "<group>"; };
 		27E3C38F222EDF560036AAC7 /* LibreError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibreError.swift; sourceTree = "<group>"; };
 		27E3C392222EE2EC0036AAC7 /* Calibration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Calibration.swift; sourceTree = "<group>"; };
-		27E3C395222EE9450036AAC7 /* LibreOOPDefaults.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LibreOOPDefaults.swift; sourceTree = "<group>"; };
-		27E3C396222EE9450036AAC7 /* LibreOOPClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LibreOOPClient.swift; sourceTree = "<group>"; };
-		27E3C397222EE9450036AAC7 /* LibreOOPResponse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LibreOOPResponse.swift; sourceTree = "<group>"; };
-		27E3C39E222EE9A80036AAC7 /* LibreOOPWebExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LibreOOPWebExtensions.swift; sourceTree = "<group>"; };
-		27E3C3A1222EEDCD0036AAC7 /* DerivedAlgorithmParameters.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DerivedAlgorithmParameters.swift; sourceTree = "<group>"; };
 		27F09EE823FF2E0D00722EB4 /* LoopKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = LoopKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		27F09EEA23FF2E0D00722EB4 /* LoopKitUI.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = LoopKitUI.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		27FE3F05240F03A5003178B4 /* LimitedQueue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LimitedQueue.swift; sourceTree = "<group>"; };
@@ -412,7 +406,6 @@
 		2729D6A62220C1030030E1B8 /* LibreSensor */ = {
 			isa = PBXGroup;
 			children = (
-				27D043FC23300A1300623B49 /* LibreOOPClient */,
 				27D043FB233009B300623B49 /* SensorContents */,
 				27D043FA2330091600623B49 /* GlucoseAlgorithm */,
 				27E3C38F222EDF560036AAC7 /* LibreError.swift */,
@@ -471,6 +464,7 @@
 			isa = PBXGroup;
 			children = (
 				2777F53425385EA200E5944F /* SwiftSnoozeView.swift */,
+				2777F58B253B460600E5944F /* BluetoothSelection.swift */,
 			);
 			path = SwiftUIViews;
 			sourceTree = "<group>";
@@ -543,7 +537,6 @@
 			isa = PBXGroup;
 			children = (
 				2777F4D9253613C900E5944F /* GlucoseFromRaw.swift */,
-				27E3C3A1222EEDCD0036AAC7 /* DerivedAlgorithmParameters.swift */,
 				27CFAB5722497744006DEFE3 /* GlucoseSmoothing.swift */,
 			);
 			path = GlucoseAlgorithm;
@@ -559,17 +552,6 @@
 				2729D68B221F44660030E1B8 /* Measurement.swift */,
 			);
 			path = SensorContents;
-			sourceTree = "<group>";
-		};
-		27D043FC23300A1300623B49 /* LibreOOPClient */ = {
-			isa = PBXGroup;
-			children = (
-				27E3C39E222EE9A80036AAC7 /* LibreOOPWebExtensions.swift */,
-				27E3C396222EE9450036AAC7 /* LibreOOPClient.swift */,
-				27E3C395222EE9450036AAC7 /* LibreOOPDefaults.swift */,
-				27E3C397222EE9450036AAC7 /* LibreOOPResponse.swift */,
-			);
-			path = LibreOOPClient;
 			sourceTree = "<group>";
 		};
 		27E0967F22A6E1C300B3164D /* Controllers */ = {
@@ -688,6 +670,7 @@
 				271EDF2422EC739F00E1C8B3 /* UserDefaults+Bluetooth.swift */,
 				272BF9C22338044600AD38AA /* DataExtensions.swift */,
 				2791064523B96B07004B362F /* UIApplication+metadata.swift */,
+				272A0834253E067800600AC8 /* CBPeripheralExtensions.swift */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -868,7 +851,7 @@
 					};
 					43A8EC81210E664300A81379 = {
 						CreatedOnToolsVersion = 9.4.1;
-						LastSwiftMigration = 1130;
+						LastSwiftMigration = 1200;
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -1054,32 +1037,29 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				27E3C39F222EE9A80036AAC7 /* LibreOOPWebExtensions.swift in Sources */,
 				27CFAB5F224AB27B006DEFE3 /* CollectionExtensions.swift in Sources */,
 				27E3C390222EDF560036AAC7 /* LibreError.swift in Sources */,
 				27A85D8723C6512A00F7FFC9 /* LibreTransmitter.swift in Sources */,
 				27A85D8923C6516300F7FFC9 /* UUIDContainer.swift in Sources */,
 				4325E9CF210E6A0A00969CE5 /* HKUnit.swift in Sources */,
 				27CFAB59224977B9006DEFE3 /* GlucoseSmoothing.swift in Sources */,
-				27E3C39A222EE9450036AAC7 /* LibreOOPClient.swift in Sources */,
 				272BF9C9233D3F5A00AD38AA /* MiaomiaoTestMessage.swift in Sources */,
 				2729D69F221F44670030E1B8 /* SensorState.swift in Sources */,
 				27408E582370D3C3002C71C8 /* ConcreteSensorDisplayable.swift in Sources */,
 				27D0DA6B2231CBB7007BBB2C /* DateExtensions.swift in Sources */,
 				271EDF2622EC755D00E1C8B3 /* UserDefaults+Bluetooth.swift in Sources */,
 				27FE3F06240F03A5003178B4 /* LimitedQueue.swift in Sources */,
-				27E3C398222EE9450036AAC7 /* LibreOOPDefaults.swift in Sources */,
 				2791064623B96B07004B362F /* UIApplication+metadata.swift in Sources */,
 				277DAD0D226B970300422ADA /* UserDefaults+Alarmsettings.swift in Sources */,
 				2777F4DA253613C900E5944F /* GlucoseFromRaw.swift in Sources */,
 				27E3C393222EE2EC0036AAC7 /* Calibration.swift in Sources */,
 				27C335B82165667300CF0868 /* LibreGlucose.swift in Sources */,
-				27E3C3A2222EEDCD0036AAC7 /* DerivedAlgorithmParameters.swift in Sources */,
 				2729D69C221F44670030E1B8 /* SensorSerialNumber.swift in Sources */,
 				27167A0323D3C6510033BFBE /* QueuedPropertyAccess.swift in Sources */,
 				2747CA0E2407DFC100F0A1D8 /* LogNilAccess.swift in Sources */,
 				27408E592370D8C1002C71C8 /* TimeIntervalExtensions.swift in Sources */,
 				27CFAB5622496CBB006DEFE3 /* DoubleExtensions.swift in Sources */,
+				272A0835253E067800600AC8 /* CBPeripheralExtensions.swift in Sources */,
 				43AB51362133177800B3D58D /* LocalizedString.swift in Sources */,
 				2729D693221F44670030E1B8 /* Measurement.swift in Sources */,
 				2729D67B221F421F0030E1B8 /* LibreTransmitterManager.swift in Sources */,
@@ -1095,7 +1075,6 @@
 				277DAD14226CACF300422ADA /* MessagePassing.swift in Sources */,
 				276A870F235F8CAC0055AFFA /* UserDefaults+GlucoseSettings.swift in Sources */,
 				27A85D8D23C6520300F7FFC9 /* BubbleTransmitter.swift in Sources */,
-				27E3C39C222EE9450036AAC7 /* LibreOOPResponse.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1126,6 +1105,7 @@
 				270C265C22691253005B27F3 /* GlucoseAlarmInputCell.swift in Sources */,
 				43AB51372133177800B3D58D /* LocalizedString.swift in Sources */,
 				27CFAB5E224AB265006DEFE3 /* CollectionExtensions.swift in Sources */,
+				2777F58C253B460600E5944F /* BluetoothSelection.swift in Sources */,
 				27CBEB3C225FB3A7004F7BF5 /* NibLoadable.swift in Sources */,
 				277DAD15226CACF700422ADA /* MessagePassing.swift in Sources */,
 				27CFAB5522496C7A006DEFE3 /* DoubleExtensions.swift in Sources */,
@@ -1639,6 +1619,7 @@
 			buildSettings = {
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_WEAK = YES;
 				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
@@ -1668,6 +1649,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -1678,6 +1660,7 @@
 			buildSettings = {
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_WEAK = YES;
 				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;

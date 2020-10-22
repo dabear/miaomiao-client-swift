@@ -9,6 +9,7 @@ import LoopKit
 import LoopKitUI
 import MiaomiaoClient
 import UIKit
+import SwiftUI
 
 class MiaomiaoClientSetupViewController: UINavigationController, CGMManagerSetupViewController, CompletionNotifying {
     weak var completionDelegate: CompletionDelegate?
@@ -19,13 +20,19 @@ class MiaomiaoClientSetupViewController: UINavigationController, CGMManagerSetup
 
     lazy var cgmManager: MiaoMiaoClientManager? =  MiaoMiaoClientManager()
 
+    weak var deviceSelect : UIHostingController<BluetoothSelection>!
+
     init() {
-        let service = MiaomiaoService(keychainManager: KeychainManager())
-        let authVC = AuthenticationViewController(authentication: service)
-        ExtendingAuthController.addExtendedSection(source: authVC)
+        
+        //let service = MiaomiaoService(keychainManager: KeychainManager())
+        //let authVC = AuthenticationViewController(authentication: service)
+        //ExtendingAuthController.addExtendedSection(source: authVC)
 
-        super.init(rootViewController: authVC)
+        deviceSelect = BluetoothSelection.asHostedViewController()
 
+        super.init(rootViewController: deviceSelect)
+
+        /*
         authVC.authenticationObserver = {  service in
             //self?.cgmManager?.miaomiaoService = service
             NSLog("miaomiaoservice was setup")
@@ -38,14 +45,14 @@ class MiaomiaoClientSetupViewController: UINavigationController, CGMManagerSetup
             }
 
             return
-        }
+        }*/
         /*
         authVC.authenticationObserver = { [weak self] (service) in
             self?.cgmManager.miaomiaoService = service
         }
         */
-        authVC.navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(cancel))
-        authVC.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .save, target: self, action: #selector(save))
+        deviceSelect.navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(cancel))
+        deviceSelect.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .save, target: self, action: #selector(save))
     }
 
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
@@ -66,15 +73,21 @@ class MiaomiaoClientSetupViewController: UINavigationController, CGMManagerSetup
     private func cancel() {
         //setupDelegate?.cgmManagerSetupViewControllerDidCancel(self)
         completionDelegate?.completionNotifyingDidComplete(self)
-        ExtendingAuthController.destroyExtension()
+        //ExtendingAuthController.destroyExtension()
     }
 
     @objc
     private func save() {
         if let cgmManager = cgmManager {
             setupDelegate?.cgmManagerSetupViewController(self, didSetUpCGMManager: cgmManager)
+            var newDevice = deviceSelect.rootView.getNewDeviceId()
+            if let newDevice = newDevice {
+                print("dabear: Setupcontroller will set new device to \(newDevice)")
+                UserDefaults.standard.preSelectedDevice = newDevice
+            }
+
         }
         completionDelegate?.completionNotifyingDidComplete(self)
-        ExtendingAuthController.destroyExtension()
+        //ExtendingAuthController.destroyExtension()
     }
 }

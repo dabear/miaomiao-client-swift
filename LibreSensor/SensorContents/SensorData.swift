@@ -179,7 +179,6 @@ public struct SensorData: Codable {
 
         self.serialNumber = SensorSerialNumber(withUID: uuid)?.serialNumber ?? "-"
 
-        //self.temperatureAlgorithmParameterSet = derivedAlgorithmParameterSet
 
         guard 0 <= nextTrendBlock && nextTrendBlock < 16 && 0 <= nextHistoryBlock && nextHistoryBlock < 32 else {
             return nil
@@ -193,7 +192,7 @@ public struct SensorData: Codable {
     /// - parameter slope:  slope in (mg/dl)/ raw (NOT IN USE FOR DERIVEDALGO)
     ///
     /// - returns: Array of Measurements
-    func trendMeasurements(_ offset: Double = 0.0, slope: Double = 0.1, derivedAlgorithmParameterSet: DerivedAlgorithmParameters?) -> [Measurement] {
+    func trendMeasurements(_ offset: Double = 0.0, slope: Double = 0.1) -> [Measurement] {
         var measurements = [Measurement]()
         // Trend data is stored in body from byte 4 to byte 4+96=100 in units of 6 bytes. Index on data such that most recent block is first.
         for blockIndex in 0...15 {
@@ -204,7 +203,7 @@ public struct SensorData: Codable {
             let range = index..<index + 6
             let measurementBytes = Array(body[range])
             let measurementDate = date.addingTimeInterval(Double(-60 * blockIndex))
-            let measurement = Measurement(bytes: measurementBytes, slope: slope, offset: offset, date: measurementDate, derivedAlgorithmParameterSet: derivedAlgorithmParameterSet)
+            let measurement = Measurement(bytes: measurementBytes, slope: slope, offset: offset, date: measurementDate)
             measurements.append(measurement)
         }
         return measurements
@@ -270,7 +269,7 @@ public struct SensorData: Codable {
     /// - parameter slope:  slope in (mg/dl)/ raw
     ///
     /// - returns: Array of Measurements
-    func historyMeasurements(_ offset: Double = 0.0, slope: Double = 0.1, derivedAlgorithmParameterSet: DerivedAlgorithmParameters?) -> [Measurement] {
+    func historyMeasurements(_ offset: Double = 0.0, slope: Double = 0.1) -> [Measurement] {
         var measurements = [Measurement]()
         // History data is stored in body from byte 100 to byte 100+192-1=291 in units of 6 bytes. Index on data such that most recent block is first.
         for blockIndex in 0..<32 {
@@ -284,7 +283,7 @@ public struct SensorData: Codable {
 //            let measurementDate = dateOfMostRecentHistoryValue().addingTimeInterval(Double(-900 * blockIndex)) // 900 = 60 * 15
 //            let measurement = Measurement(bytes: measurementBytes, slope: slope, offset: offset, date: measurementDate)
             let (date, counter) = dateOfMostRecentHistoryValue()
-            let measurement = Measurement(bytes: measurementBytes, slope: slope, offset: offset, counter: counter - blockIndex * 15, date: date.addingTimeInterval(Double(-900 * blockIndex)), derivedAlgorithmParameterSet: derivedAlgorithmParameterSet) // 900 = 60 * 15
+            let measurement = Measurement(bytes: measurementBytes, slope: slope, offset: offset, counter: counter - blockIndex * 15, date: date.addingTimeInterval(Double(-900 * blockIndex))) // 900 = 60 * 15
 
             measurements.append(measurement)
         }

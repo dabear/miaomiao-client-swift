@@ -10,6 +10,7 @@ import Foundation
 import LoopKit
 import os.log
 
+/*
 // Encapsulates the Dexcom Share client service and its authentication
 public class MiaomiaoService: ServiceAuthentication {
     public var credentialValues: [String?]
@@ -105,3 +106,4 @@ extension MiaomiaoService {
         }
     }
 }
+*/

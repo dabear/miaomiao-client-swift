@@ -13,7 +13,7 @@ public protocol LibreTransmitter {
     static var shortTransmitterName: String { get }
     static var smallImage: UIImage? { get }
     static var manufacturerer: String { get }
-    static func canSupportPeripheral(_ peripheral: CBPeripheral) -> Bool
+    static func canSupportPeripheral(_ peripheral: PeripheralProtocol) -> Bool
 
     static var writeCharacteristic: UUIDContainer? { get set }
     static var notifyCharacteristic: UUIDContainer? { get set }
@@ -28,7 +28,7 @@ public protocol LibreTransmitter {
 }
 
 extension LibreTransmitter {
-    func canSupportPeripheral(_ peripheral: CBPeripheral) -> Bool {
+    func canSupportPeripheral(_ peripheral: PeripheralProtocol) -> Bool {
         Self.canSupportPeripheral(peripheral)
     }
     public var staticType: LibreTransmitter.Type {
@@ -52,7 +52,7 @@ public enum LibreTransmitters {
         getSupportedPlugins(peripheral)?.isEmpty == false
     }
 
-    public static func getSupportedPlugins(_ peripheral: CBPeripheral) -> [LibreTransmitter.Type]? {
+    public static func getSupportedPlugins(_ peripheral: PeripheralProtocol) -> [LibreTransmitter.Type]? {
         all.enumerated().compactMap {
             $0.element.canSupportPeripheral(peripheral) ? $0.element : nil
         }

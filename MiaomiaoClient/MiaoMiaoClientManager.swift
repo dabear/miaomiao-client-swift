@@ -97,7 +97,7 @@ public final class MiaoMiaoClientManager: CGMManager, LibreTransmitterDelegate {
         ].joined(separator: "\n")
     }
 
-    public var miaomiaoService: MiaomiaoService
+    //public var miaomiaoService: MiaomiaoService
 
     public func fetchNewDataIfNeeded(_ completion: @escaping (CGMResult) -> Void) {
         NSLog("dabear:: fetchNewDataIfNeeded called but we don't continue")
@@ -175,7 +175,7 @@ public final class MiaoMiaoClientManager: CGMManager, LibreTransmitterDelegate {
     public init() {
         lastConnected = nil
         //let isui = (self is CGMManagerUI)
-        self.miaomiaoService = MiaomiaoService(keychainManager: keychain)
+        //self.miaomiaoService = MiaomiaoService(keychainManager: keychain)
 
         os_log("dabear: MiaoMiaoClientManager will be created now")
         //proxy = MiaoMiaoBluetoothManager()
@@ -202,25 +202,15 @@ public final class MiaoMiaoClientManager: CGMManager, LibreTransmitterDelegate {
     private lazy var proxy: LibreTransmitterManager? = LibreTransmitterManager()
 
     private func readingToGlucose(_ data: SensorData, calibration: SensorData.CalibrationInfo) -> [LibreGlucose] {
-        let last16 = data.trendMeasurements(derivedAlgorithmParameterSet: nil)
+        let last16 = data.trendMeasurements()
 
-        /*var entries = LibreGlucose.fromTrendMeasurements(last16, returnAll: UserDefaults.standard.mmBackfillFromTrend)
-
-        let text = entries.map { $0.description }.joined(separator: ",")
-        NSLog("dabear:: trend entries count: \(entries.count): \n \(text)" )
-        if UserDefaults.standard.mmBackfillFromHistory {
-            let history = data.historyMeasurements(derivedAlgorithmParameterSet: calibration)
-            entries += LibreGlucose.fromHistoryMeasurements(history)
-        }*/
-
-        //let calibrationData = data.calibrationData
 
         var entries = LibreGlucose.fromTrendMeasurements(last16, nativeCalibrationData: calibration, returnAll: UserDefaults.standard.mmBackfillFromTrend)
 
         let text = entries.map { $0.description }.joined(separator: ",")
         NSLog("dabear:: trend entries count: \(entries.count): \n \(text)" )
         if UserDefaults.standard.mmBackfillFromHistory {
-            let history = data.historyMeasurements(derivedAlgorithmParameterSet: nil)
+            let history = data.historyMeasurements()
             entries += LibreGlucose.fromHistoryMeasurements(history, nativeCalibrationData:calibration)
         }
 
