@@ -11,22 +11,13 @@ import Foundation
 import MiaomiaoClient
 import os.log
 import UIKit
-import SwiftUI
 
+import Combine
 protocol BluetoothSearchDelegate: class {
     func didDiscoverCompatibleDevice(_ device: CBPeripheral, allCompatibleDevices: [CBPeripheral])
 }
 
-class ConcreteBluetoothSearchDelegate: BluetoothSearchDelegate {
 
-    @State public var allDevices = [CBPeripheral]()
-
-    func didDiscoverCompatibleDevice(_ device: CBPeripheral, allCompatibleDevices: [CBPeripheral]) {
-        allDevices = allCompatibleDevices
-    }
-
-
-}
 
 final class BluetoothSearchManager: NSObject, CBCentralManagerDelegate, CBPeripheralDelegate {
     static let bt_log = OSLog(subsystem: "com.LibreMonitor", category: "BluetoothSearchManager")
@@ -38,17 +29,21 @@ final class BluetoothSearchManager: NSObject, CBCentralManagerDelegate, CBPeriph
 
     private var discoveredDevices = [CBPeripheral]()
 
+    public let passThrough = PassthroughSubject<CBPeripheral, Never>()
+
     public func addDiscoveredDevice(_ device: CBPeripheral) {
         discoveredDevices.append(device)
         discoveredDevices.removeDuplicates()
-        discoverDelegate.didDiscoverCompatibleDevice(device, allCompatibleDevices: discoveredDevices)
+        discoverDelegate?.didDiscoverCompatibleDevice(device, allCompatibleDevices: discoveredDevices)
+        passThrough.send(device)
+
     }
 
     // MARK: - Methods
-    weak var discoverDelegate: BluetoothSearchDelegate!
+    weak var discoverDelegate: BluetoothSearchDelegate?
 
 
-    init(discoverDelegate: BluetoothSearchDelegate) {
+    init(discoverDelegate: BluetoothSearchDelegate?) {
         self.discoverDelegate = discoverDelegate
         super.init()
         centralManager = CBCentralManager(delegate: self, queue: nil, options: nil)

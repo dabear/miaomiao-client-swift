@@ -98,7 +98,7 @@ public class MiaomiaoClientSettingsViewController: UITableViewController, SubVie
 
     private enum Section: Int, CaseIterable {
         case snooze
-        //case authentication
+        case bluetoothDeviceSelect
         case latestReading
         case sensorInfo
         case latestBridgeInfo
@@ -162,8 +162,8 @@ public class MiaomiaoClientSettingsViewController: UITableViewController, SubVie
 
     override public func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         switch Section(rawValue: section)! {
-        //case .authentication:
-        //    return 1
+        case .bluetoothDeviceSelect:
+                return 1
         case .latestReading:
             return LatestReadingRow.allCases.count
         case .sensorInfo:
@@ -220,16 +220,13 @@ public class MiaomiaoClientSettingsViewController: UITableViewController, SubVie
     // swiftlint:disable:next cyclomatic_complexity function_body_length
     override public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         switch Section(rawValue: indexPath.section)! {
-        /*case .authentication:
+        case .bluetoothDeviceSelect:
             let cell = tableView.dequeueIdentifiableCell(cell: SettingsTableViewCell.self, for: indexPath)
 
-            cell.textLabel?.text = LocalizedString("Calibration Settings", comment: "Title of cell to set credentials")
-            let tokenLength = cgmManager?.miaomiaoService.accessToken?.count ?? 0
-
-            cell.detailTextLabel?.text = tokenLength > 0 ? "token set" : "token not set"
+            cell.textLabel?.text = LocalizedString("Bluetooth settings test", comment: "Bluetooth settings test")
             cell.accessoryType = .disclosureIndicator
 
-            return cell*/
+            return cell
         case .latestReading:
 
             let cell = tableView.dequeueIdentifiableCell(cell: SettingsTableViewCell.self, for: indexPath)
@@ -473,7 +470,7 @@ public class MiaomiaoClientSettingsViewController: UITableViewController, SubVie
 
     override public func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         switch Section(rawValue: section)! {
-        case .snooze:
+        case .snooze, .bluetoothDeviceSelect:
             return nil
         case .sensorInfo:
             return LocalizedString("Sensor Info", comment: "Section title for latest sensor info")
@@ -494,6 +491,11 @@ public class MiaomiaoClientSettingsViewController: UITableViewController, SubVie
     // swiftlint:disable:next cyclomatic_complexity function_body_length
     override public func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         switch Section(rawValue: indexPath.section)! {
+        case .bluetoothDeviceSelect:
+            let vc = BluetoothSelection.asHostedViewController()
+            show(vc, sender: nil)
+
+
         /*case .authentication:
             guard let service = cgmManager?.miaomiaoService else {
                 NSLog("dabear:: no miaomiaoservice?")

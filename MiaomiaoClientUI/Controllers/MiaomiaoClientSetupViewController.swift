@@ -80,11 +80,11 @@ class MiaomiaoClientSetupViewController: UINavigationController, CGMManagerSetup
     private func save() {
         if let cgmManager = cgmManager {
             setupDelegate?.cgmManagerSetupViewController(self, didSetUpCGMManager: cgmManager)
-            var newDevice = deviceSelect.rootView.getNewDeviceId()
+            /*var newDevice = deviceSelect.rootView.getNewDeviceId()
             if let newDevice = newDevice {
                 print("dabear: Setupcontroller will set new device to \(newDevice)")
                 UserDefaults.standard.preSelectedDevice = newDevice
-            }
+            }*/
 
         }
         completionDelegate?.completionNotifyingDidComplete(self)

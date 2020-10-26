@@ -9,14 +9,57 @@
 import SwiftUI
 import MiaomiaoClient
 import CoreBluetooth
+import Combine
 
-fileprivate let defaultBackground = Color(UIColor.systemGroupedBackground)
+fileprivate struct Defaults {
+    static let rowBackground = Color(UIColor.secondarySystemGroupedBackground)
+    static let selectedRowBackground = Color.orange.opacity(0.2)
+    static let background = Color(UIColor.systemGroupedBackground)
+}
+
+
+
+// CBPPeripheral's init() method is not available in swift. This is a workaround
+// This should be considered experimental and not future proof.
+// You should only use this for mock data
+/*fileprivate func createCBPeripheral(name: String?) -> CBPeripheral{
+
+
+    var aClass = NSClassFromString("CBPeripheral")!
+
+    var peripheral = aClass.alloc() as? CBPeripheral
+    print("peripheral is: \(peripheral)")
+
+    //peripheral.debugName = name
+
+    //some posts online indicate this is necessary. Not sure about that though
+    peripheral!.addObserver(peripheral!, forKeyPath: "delegate", options: .new, context: nil)
+    //peripheral.name = name
+
+
+    return peripheral!
+}
+
+//should only be used in swiftui debug area
+public extension PeripheralProtocol {
+    public var debugName : String? {
+        get {
+            return globalDebugDatas[self.asStringIdentifier]
+        }
+        set {
+            globalDebugDatas[self.asStringIdentifier] = newValue
+        }
+    }
+
+}*/
+
+
 
 
 fileprivate struct ListHeader: View {
     var body: some View {
         Text("Select the third party transmitter you want to connect to")
-            .listRowBackground(defaultBackground)
+            .listRowBackground(Defaults.background)
             .padding(.top)
         HStack {
             Image(systemName: "link.circle")
@@ -28,6 +71,8 @@ fileprivate struct ListHeader: View {
     }
 }
 
+
+
 fileprivate struct ListFooter: View {
 
     var devicesCount = 0
@@ -37,35 +82,49 @@ fileprivate struct ListFooter: View {
     }
 }
 
-fileprivate struct DeviceItem<T>: View where T:PeripheralProtocol & Hashable & Identifiable{
+fileprivate struct DeviceItem: View {
 
-    var device: T
+    var device: SomePeripheral
 
     @EnvironmentObject var selection: SelectionState
 
-    func getDeviceImage(_ device: PeripheralProtocol) -> Image{
-        if let image = LibreTransmitters.getSupportedPlugins(device)?.first?.smallImage {
-            return Image(uiImage: image)
+    func getDeviceImage(_ device: SomePeripheral) -> Image{
+
+        //only for artificially created CBPeripherals
+        /*if device.debugName?.isEmpty == false, let img = LibreTransmitters.all.randomElement()?.smallImage {
+            return Image(uiImage: img)
+        }*/
+
+        var image  : UIImage!
+        switch device {
+        case let .Left(realDevice):
+            image = LibreTransmitters.getSupportedPlugins(realDevice)?.first?.smallImage
+
+        case .Right(_):
+            image =  LibreTransmitters.all.randomElement()?.smallImage
         }
 
-        return Image(uiImage: LibreTransmitters.all[1].smallImage!)
-        return Image(systemName: "xmark")
+
+        return image == nil  ?  Image(systemName: "xmark") : Image(uiImage:image)
     }
 
-    func getRowBackground(device: T)-> Color {
+    func getRowBackground(device: SomePeripheral)-> Color {
 
-        if let selectedId = selection.selectedStringIdentifier, selectedId == device.asStringIdentifier{
-            return selectedRowBackground
+        let deviceId = device.asStringIdentifier
+
+
+        if let selectedId = selection.selectedStringIdentifier, selectedId == deviceId{
+            return Defaults.selectedRowBackground
         }
-        return  defaultRowBackground
+
+        return  Defaults.rowBackground
 
     }
 
-    private let defaultRowBackground = Color(UIColor.secondarySystemGroupedBackground)
-    private let selectedRowBackground = Color.orange.opacity(0.2)
 
 
-    init(device: T) {
+
+    init(device: SomePeripheral) {
         self.device = device
     }
 
@@ -87,6 +146,7 @@ fileprivate struct DeviceItem<T>: View where T:PeripheralProtocol & Hashable & I
         }
         .listRowBackground(getRowBackground(device: device))
         .onTapGesture(count: /*@START_MENU_TOKEN@*/1/*@END_MENU_TOKEN@*/) {
+            print("tapped")
             selection.selectedStringIdentifier = device.asStringIdentifier
         }
 
@@ -119,7 +179,7 @@ struct BluetoothSelection: View{
 
     static func asHostedViewController()-> UIHostingController<Self> {
         let env = SelectionState()
-        env.selectedStringIdentifier = UserDefaults.standard.preSelectedDevice
+        //env.selectedStringIdentifier = UserDefaults.standard.preSelectedDevice
 
         print("BluetoothSelection initiated with selectedIdentifer: \(env.selectedStringIdentifier)")
 
@@ -127,46 +187,98 @@ struct BluetoothSelection: View{
     }
 
 
-    //@State var devices = [CBPeripheral]()
+    @State var allDevices = [SomePeripheral]()
 
-    var devicesReceiver : ConcreteBluetoothSearchDelegate! = ConcreteBluetoothSearchDelegate()
 
-    init() {
-        self.searcher = BluetoothSearchManager(discoverDelegate: devicesReceiver)
+
+    var nullPubliser : Empty<CBPeripheral, Never>!
+    var debugMode = false
+
+    init(debugMode : Bool = false) {
+
+        self.debugMode = debugMode
+
+        if debugMode {
+            allDevices = Self.getMockData()
+            nullPubliser = Empty<CBPeripheral, Never>()
+
+        }
+        else {
+
+            self.searcher = BluetoothSearchManager(discoverDelegate: nil)
+        }
+
+
     }
 
 
-    var body: some View {
+    var list : some View {
         List {
             Section(){
                 ListHeader()
             }
             Section(){
-                ForEach(devicesReceiver.allDevices) { device in
+                ForEach(allDevices) { device in
                     DeviceItem(device: device)
 
                 }
             }
             Section{
-                ListFooter(devicesCount: devicesReceiver.allDevices.count)
+                ListFooter(devicesCount: allDevices.count)
             }
         }
         .onAppear {
             //devices = Self.getMockData()
-            
-            
+            if debugMode {
+                allDevices = Self.getMockData()
+
+            }
+
         }
     }
 
 
-    static func getMockData() -> [MockedPeripheral]{
-        var m2 = MockedPeripheral(identifier: 2)
+    var body: some View {
 
-        return [
-            m2,
-            MockedPeripheral(identifier: 1),
-            MockedPeripheral(identifier: 3),
-            MockedPeripheral(identifier: 4)
+        if debugMode {
+            list
+                .onReceive(nullPubliser) { (device) in
+                    print("nullpublisher received element!?")
+                    //allDevices.append(SomePeripheral.Left(device))
+                }
+
+        } else {
+
+            list
+                .onReceive(searcher.passThrough) { (newDevice) in
+                    print("received searcher passthrough")
+
+                    let alreadyAdded = allDevices.contains{ (existingDevice) -> Bool in
+                        existingDevice.asStringIdentifier == newDevice.asStringIdentifier
+                    }
+                    if !alreadyAdded {
+                        allDevices.append(SomePeripheral.Left(newDevice))
+                    }
+
+                }
+        }
+    }
+
+
+
+
+
+
+}
+
+extension BluetoothSelection {
+    static func getMockData() -> [SomePeripheral]{
+
+        [
+            SomePeripheral.Right(MockedPeripheral(name: "device1")),
+            SomePeripheral.Right(MockedPeripheral(name: "device2")),
+            SomePeripheral.Right(MockedPeripheral(name: "device3")),
+            SomePeripheral.Right(MockedPeripheral(name: "device4"))
 
         ]
     }
@@ -180,8 +292,8 @@ struct BluetoothSelection_Previews: PreviewProvider {
 
     static var previews: some View {
         var testData = SelectionState()
-        testData.selectedStringIdentifier = "3"
-        return BluetoothSelection().environmentObject(testData)
+        testData.selectedStringIdentifier = "device4"
+        return BluetoothSelection(debugMode: true).environmentObject(testData)
     }
 }
 
