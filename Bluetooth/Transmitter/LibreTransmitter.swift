@@ -28,7 +28,7 @@ public protocol LibreTransmitter {
 }
 
 extension LibreTransmitter {
-    func canSupportPeripheral(_ peripheral: PeripheralProtocol) -> Bool {
+    func canSupportPeripheral(_ peripheral: CBPeripheral) -> Bool {
         Self.canSupportPeripheral(peripheral)
     }
     public var staticType: LibreTransmitter.Type {
@@ -52,7 +52,7 @@ public enum LibreTransmitters {
         getSupportedPlugins(peripheral)?.isEmpty == false
     }
 
-    public static func getSupportedPlugins(_ peripheral: PeripheralProtocol) -> [LibreTransmitter.Type]? {
+    public static func getSupportedPlugins(_ peripheral: CBPeripheral) -> [LibreTransmitter.Type]? {
         all.enumerated().compactMap {
             $0.element.canSupportPeripheral(peripheral) ? $0.element : nil
         }

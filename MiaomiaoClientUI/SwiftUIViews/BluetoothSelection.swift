@@ -186,7 +186,8 @@ struct BluetoothSelection: View{
         return UIHostingController(rootView: self.init().environmentObject(env) as! BluetoothSelection)
     }
 
-
+    // Should contain all discovered and compatible devices
+    // This list is expected to contain 10 or 20 items at the most
     @State var allDevices = [SomePeripheral]()
 
 

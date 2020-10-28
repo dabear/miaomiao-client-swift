@@ -207,7 +207,7 @@ class MiaoMiaoTransmitter: LibreTransmitter {
     private var sensorData: SensorData?
     private var metadata: LibreTransmitterMetadata?
 
-    class func canSupportPeripheral(_ peripheral: PeripheralProtocol) -> Bool {
+    class func canSupportPeripheral(_ peripheral: CBPeripheral) -> Bool {
         peripheral.name?.lowercased().starts(with: "miaomiao") ?? false
     }
     required init(delegate: LibreTransmitterDelegate, advertisementData: [String: Any]?) {
