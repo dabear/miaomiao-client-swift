@@ -13,7 +13,7 @@ public protocol LibreTransmitter {
     static var shortTransmitterName: String { get }
     static var smallImage: UIImage? { get }
     static var manufacturerer: String { get }
-    static func canSupportPeripheral(_ peripheral: PeripheralProtocol) -> Bool
+    static func canSupportPeripheral(_ peripheral: CBPeripheral) -> Bool
 
     static var writeCharacteristic: UUIDContainer? { get set }
     static var notifyCharacteristic: UUIDContainer? { get set }
