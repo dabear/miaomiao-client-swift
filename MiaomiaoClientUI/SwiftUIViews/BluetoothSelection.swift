@@ -109,19 +109,10 @@ fileprivate struct DeviceItem: View {
     }
 
     func getRowBackground(device: SomePeripheral)-> Color {
-
-        let deviceId = device.asStringIdentifier
-
-
-        if let selectedId = selection.selectedStringIdentifier, selectedId == deviceId{
-            return Defaults.selectedRowBackground
-        }
-
-        return  Defaults.rowBackground
+        selection.selectedStringIdentifier == device.asStringIdentifier ?
+        Defaults.selectedRowBackground : Defaults.rowBackground
 
     }
-
-
 
 
     init(device: SomePeripheral) {
