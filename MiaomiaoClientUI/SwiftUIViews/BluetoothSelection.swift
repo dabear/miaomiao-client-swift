@@ -86,7 +86,7 @@ fileprivate struct DeviceItem: View {
 
     var device: SomePeripheral
 
-    @EnvironmentObject var selection: SelectionState
+    @ObservedObject var selection: SelectionState = .shared
 
     func getDeviceImage(_ device: SomePeripheral) -> Image{
 
@@ -136,8 +136,8 @@ fileprivate struct DeviceItem: View {
 
         }
         .listRowBackground(getRowBackground(device: device))
-        .onTapGesture(count: /*@START_MENU_TOKEN@*/1/*@END_MENU_TOKEN@*/) {
-            print("tapped")
+        .onTapGesture {
+            print("tapped \(device.asStringIdentifier)")
             selection.selectedStringIdentifier = device.asStringIdentifier
         }
 
@@ -146,16 +146,18 @@ fileprivate struct DeviceItem: View {
     }
 }
 
-
+// Decided to use shared instance instead of .environmentObject()
 class SelectionState: ObservableObject {
-    @Published var selectedStringIdentifier : String?
+    @Published var selectedStringIdentifier : String? = ""
+
+    static var shared = SelectionState()
 }
 
 
 struct BluetoothSelection: View{
 
 
-    @EnvironmentObject var selection: SelectionState
+    @ObservedObject var selection: SelectionState = .shared
 
 
 
@@ -168,14 +170,11 @@ struct BluetoothSelection: View{
 
 
 
-    static func asHostedViewController()-> UIHostingController<Self> {
-        let env = SelectionState()
-        //env.selectedStringIdentifier = UserDefaults.standard.preSelectedDevice
+    static func asHostedViewController() ->  UIHostingController<Self> {
+        return UIHostingController(rootView:  self.init())
 
-        print("BluetoothSelection initiated with selectedIdentifer: \(env.selectedStringIdentifier)")
-
-        return UIHostingController(rootView: self.init().environmentObject(env) as! BluetoothSelection)
     }
+
 
     // Should contain all discovered and compatible devices
     // This list is expected to contain 10 or 20 items at the most
@@ -190,7 +189,7 @@ struct BluetoothSelection: View{
 
         self.debugMode = debugMode
 
-        if debugMode {
+        if self.debugMode {
             allDevices = Self.getMockData()
             nullPubliser = Empty<CBPeripheral, Never>()
 
@@ -201,6 +200,10 @@ struct BluetoothSelection: View{
         }
 
 
+    }
+
+    public func stopScan() {
+        self.searcher?.disconnectManually()
     }
 
 
@@ -283,9 +286,9 @@ struct BluetoothSelection_Previews: PreviewProvider {
 
 
     static var previews: some View {
-        var testData = SelectionState()
+        var testData = SelectionState.shared
         testData.selectedStringIdentifier = "device4"
-        return BluetoothSelection(debugMode: true).environmentObject(testData)
+        return BluetoothSelection(debugMode: true)
     }
 }
 

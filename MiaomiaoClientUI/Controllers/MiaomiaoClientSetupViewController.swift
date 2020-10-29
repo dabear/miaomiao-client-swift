@@ -10,6 +10,7 @@ import LoopKitUI
 import MiaomiaoClient
 import UIKit
 import SwiftUI
+import Combine
 
 class MiaomiaoClientSetupViewController: UINavigationController, CGMManagerSetupViewController, CompletionNotifying {
     weak var completionDelegate: CompletionDelegate?
@@ -20,13 +21,16 @@ class MiaomiaoClientSetupViewController: UINavigationController, CGMManagerSetup
 
     lazy var cgmManager: MiaoMiaoClientManager? =  MiaoMiaoClientManager()
 
-    weak var deviceSelect : UIHostingController<BluetoothSelection>!
+
+    var deviceSelect : UIHostingController<BluetoothSelection>!
 
     init() {
         
         //let service = MiaomiaoService(keychainManager: KeychainManager())
         //let authVC = AuthenticationViewController(authentication: service)
         //ExtendingAuthController.addExtendedSection(source: authVC)
+
+        SelectionState.shared.selectedStringIdentifier = UserDefaults.standard.preSelectedDevice
 
         deviceSelect = BluetoothSelection.asHostedViewController()
 
@@ -69,22 +73,32 @@ class MiaomiaoClientSetupViewController: UINavigationController, CGMManagerSetup
         fatalError("init(coder:) has not been implemented")
     }
 
+    private func stopScan() {
+        let v = deviceSelect.rootView
+        v.stopScan()
+
+    }
+
     @objc
     private func cancel() {
         //setupDelegate?.cgmManagerSetupViewControllerDidCancel(self)
         completionDelegate?.completionNotifyingDidComplete(self)
         //ExtendingAuthController.destroyExtension()
+        stopScan()
     }
 
     @objc
     private func save() {
         if let cgmManager = cgmManager {
             setupDelegate?.cgmManagerSetupViewController(self, didSetUpCGMManager: cgmManager)
-            /*var newDevice = deviceSelect.rootView.getNewDeviceId()
+
+            let newDevice = deviceSelect.rootView.getNewDeviceId()
             if let newDevice = newDevice {
                 print("dabear: Setupcontroller will set new device to \(newDevice)")
                 UserDefaults.standard.preSelectedDevice = newDevice
-            }*/
+            }
+
+            stopScan()
 
         }
         completionDelegate?.completionNotifyingDidComplete(self)
