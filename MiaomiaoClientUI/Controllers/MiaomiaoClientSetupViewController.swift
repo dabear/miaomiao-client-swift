@@ -79,6 +79,6 @@ class MiaomiaoClientSetupViewController: UINavigationController, CGMManagerSetup
 
         }
         completionDelegate?.completionNotifyingDidComplete(self)
-        
+
     }
 }

@@ -21,7 +21,6 @@
 		270C266F226A5A6E005B27F3 /* GlucoseSchedules.swift in Sources */ = {isa = PBXBuildFile; fileRef = 270C266E226A5A6E005B27F3 /* GlucoseSchedules.swift */; };
 		270C2670226A5A6E005B27F3 /* GlucoseSchedules.swift in Sources */ = {isa = PBXBuildFile; fileRef = 270C266E226A5A6E005B27F3 /* GlucoseSchedules.swift */; };
 		27167A0323D3C6510033BFBE /* QueuedPropertyAccess.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27167A0223D3C6510033BFBE /* QueuedPropertyAccess.swift */; };
-		271EDF1F22EB103B00E1C8B3 /* ExtendingAuthController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 271EDF1E22EB103B00E1C8B3 /* ExtendingAuthController.swift */; };
 		271EDF2322EC6F0A00E1C8B3 /* AnnotatedSubtitleCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 271EDF2222EC6F0A00E1C8B3 /* AnnotatedSubtitleCell.swift */; };
 		271EDF2622EC755D00E1C8B3 /* UserDefaults+Bluetooth.swift in Sources */ = {isa = PBXBuildFile; fileRef = 271EDF2422EC739F00E1C8B3 /* UserDefaults+Bluetooth.swift */; };
 		271EDF2F22EFA29C00E1C8B3 /* bubble.png in Resources */ = {isa = PBXBuildFile; fileRef = 271EDF2E22EFA29C00E1C8B3 /* bubble.png */; };
@@ -165,7 +164,6 @@
 		270C266B226A24AB005B27F3 /* icons8-schedule-50.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icons8-schedule-50.png"; sourceTree = "<group>"; };
 		270C266E226A5A6E005B27F3 /* GlucoseSchedules.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlucoseSchedules.swift; sourceTree = "<group>"; };
 		27167A0223D3C6510033BFBE /* QueuedPropertyAccess.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QueuedPropertyAccess.swift; sourceTree = "<group>"; };
-		271EDF1E22EB103B00E1C8B3 /* ExtendingAuthController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtendingAuthController.swift; sourceTree = "<group>"; };
 		271EDF2022EB63B100E1C8B3 /* BluetoothSearch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BluetoothSearch.swift; sourceTree = "<group>"; };
 		271EDF2222EC6F0A00E1C8B3 /* AnnotatedSubtitleCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnnotatedSubtitleCell.swift; sourceTree = "<group>"; };
 		271EDF2422EC739F00E1C8B3 /* UserDefaults+Bluetooth.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserDefaults+Bluetooth.swift"; sourceTree = "<group>"; };
@@ -374,14 +372,6 @@
 			path = Graphics;
 			sourceTree = "<group>";
 		};
-		271EDF1D22EB100500E1C8B3 /* BluetoothSelector */ = {
-			isa = PBXGroup;
-			children = (
-				271EDF1E22EB103B00E1C8B3 /* ExtendingAuthController.swift */,
-			);
-			path = BluetoothSelector;
-			sourceTree = "<group>";
-		};
 		2724930B232F03E500AFE86A /* test-lint */ = {
 			isa = PBXGroup;
 			children = (
@@ -557,7 +547,6 @@
 		27E0967F22A6E1C300B3164D /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				271EDF1D22EB100500E1C8B3 /* BluetoothSelector */,
 				27E0969022B2A89D00B3164D /* CalibrationEditTableViewController.swift */,
 				274DF85122A5AEA400BFAFFE /* AlertControllers.swift */,
 				276A870B235F841D0055AFFA /* GlucoseSettingsTableViewController.swift */,
@@ -1118,7 +1107,6 @@
 				277DAD0E226B971A00422ADA /* UserDefaults+Alarmsettings.swift in Sources */,
 				27FE3F0724101F91003178B4 /* LimitedQueue.swift in Sources */,
 				4325E9D3210E6ADA00969CE5 /* IdentifiableClass.swift in Sources */,
-				271EDF1F22EB103B00E1C8B3 /* ExtendingAuthController.swift in Sources */,
 				2791064723B96B07004B362F /* UIApplication+metadata.swift in Sources */,
 				27E0968D22A9806200B3164D /* CGFLoat+Double.swift in Sources */,
 				27CBEB552261DF9D004F7BF5 /* AlarmTimeInputRangeCell.swift in Sources */,
