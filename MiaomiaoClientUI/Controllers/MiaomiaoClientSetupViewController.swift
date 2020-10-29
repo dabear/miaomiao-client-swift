@@ -25,10 +25,6 @@ class MiaomiaoClientSetupViewController: UINavigationController, CGMManagerSetup
     var deviceSelect : UIHostingController<BluetoothSelection>!
 
     init() {
-        
-        //let service = MiaomiaoService(keychainManager: KeychainManager())
-        //let authVC = AuthenticationViewController(authentication: service)
-        //ExtendingAuthController.addExtendedSection(source: authVC)
 
         SelectionState.shared.selectedStringIdentifier = UserDefaults.standard.preSelectedDevice
 
@@ -36,25 +32,7 @@ class MiaomiaoClientSetupViewController: UINavigationController, CGMManagerSetup
 
         super.init(rootViewController: deviceSelect)
 
-        /*
-        authVC.authenticationObserver = {  service in
-            //self?.cgmManager?.miaomiaoService = service
-            NSLog("miaomiaoservice was setup")
-            let keychain = KeychainManager()
-            do {
-                NSLog("dabear:: miaomiaoservice setAutoCalibrateWebAccessToken called")
-                try keychain.setAutoCalibrateWebAccessToken(accessToken: service.accessToken, url: service.url)
-            } catch {
-                NSLog("dabear:: miaomiaoservice could not permanently save setAutoCalibrateWebAccessToken")
-            }
 
-            return
-        }*/
-        /*
-        authVC.authenticationObserver = { [weak self] (service) in
-            self?.cgmManager.miaomiaoService = service
-        }
-        */
         deviceSelect.navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(cancel))
         deviceSelect.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .save, target: self, action: #selector(save))
     }
@@ -74,16 +52,16 @@ class MiaomiaoClientSetupViewController: UINavigationController, CGMManagerSetup
     }
 
     private func stopScan() {
-        let v = deviceSelect.rootView
-        v.stopScan()
+        var v = deviceSelect.rootView
+        v.stopScan(true)
+        deviceSelect = nil
 
     }
 
     @objc
     private func cancel() {
-        //setupDelegate?.cgmManagerSetupViewControllerDidCancel(self)
         completionDelegate?.completionNotifyingDidComplete(self)
-        //ExtendingAuthController.destroyExtension()
+
         stopScan()
     }
 
@@ -92,8 +70,7 @@ class MiaomiaoClientSetupViewController: UINavigationController, CGMManagerSetup
         if let cgmManager = cgmManager {
             setupDelegate?.cgmManagerSetupViewController(self, didSetUpCGMManager: cgmManager)
 
-            let newDevice = deviceSelect.rootView.getNewDeviceId()
-            if let newDevice = newDevice {
+            if let newDevice = deviceSelect.rootView.getNewDeviceId() {
                 print("dabear: Setupcontroller will set new device to \(newDevice)")
                 UserDefaults.standard.preSelectedDevice = newDevice
             }
@@ -102,6 +79,6 @@ class MiaomiaoClientSetupViewController: UINavigationController, CGMManagerSetup
 
         }
         completionDelegate?.completionNotifyingDidComplete(self)
-        //ExtendingAuthController.destroyExtension()
+        
     }
 }

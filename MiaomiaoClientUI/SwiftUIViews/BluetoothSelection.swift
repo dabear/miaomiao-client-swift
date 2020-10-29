@@ -202,8 +202,11 @@ struct BluetoothSelection: View{
 
     }
 
-    public func stopScan() {
+    public mutating func stopScan(_ removeSearcher: Bool = false) {
         self.searcher?.disconnectManually()
+        if removeSearcher {
+            self.searcher = nil
+        }
     }
 
 
