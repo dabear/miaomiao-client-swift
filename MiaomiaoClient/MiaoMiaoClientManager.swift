@@ -300,7 +300,7 @@ public final class MiaoMiaoClientManager: CGMManager, LibreTransmitterDelegate {
             NotificationHelper.sendSensorChangeNotificationIfNeeded()
         case .noSensor:
             NSLog("dabear:: no libresensor detected")
-            NotificationHelper.sendSensorNotDetectedNotificationIfNeeded(noSensor: true, devicename: transmitterName)
+            NotificationHelper.sendSensorNotDetectedNotificationIfNeeded(noSensor: true)
         case .frequencyChangedResponse:
             NSLog("dabear:: transmitter readout interval has changed!")
 
@@ -311,8 +311,6 @@ public final class MiaoMiaoClientManager: CGMManager, LibreTransmitterDelegate {
 
         return
     }
-
-    var transmitterName = "Unknown device"
 
     func tryPersistSensorData(with sensorData: SensorData) {
         guard UserDefaults.standard.shouldPersistSensorData else {
@@ -347,7 +345,7 @@ public final class MiaoMiaoClientManager: CGMManager, LibreTransmitterDelegate {
 
         NotificationHelper.sendSensorExpireAlertIfNeeded(sensorData: sensorData)
 
-        transmitterName = Device.name
+        
 
         guard sensorData.state == .ready || sensorData.state == .starting else {
             os_log("dabear:: got sensordata with valid crcs, but sensor is either expired or failed")

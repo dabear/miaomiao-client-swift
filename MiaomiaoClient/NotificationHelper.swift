@@ -251,20 +251,20 @@ enum NotificationHelper {
         }
     }
 
-    public static func sendSensorNotDetectedNotificationIfNeeded(noSensor: Bool, devicename: String) {
+    public static func sendSensorNotDetectedNotificationIfNeeded(noSensor: Bool) {
         guard UserDefaults.standard.mmAlertNoSensorDetected && noSensor else {
             NSLog("not sending noSensorDetected notification")
             return
         }
 
-        sendSensorNotDetectedNotification(devicename: devicename)
+        sendSensorNotDetectedNotification()
     }
 
-    private static func sendSensorNotDetectedNotification(devicename: String) {
+    private static func sendSensorNotDetectedNotification() {
         ensureCanSendNotification {
             let content = UNMutableNotificationContent()
             content.title = "No Sensor Detected"
-            content.body = "This might be an intermittent problem, but please check that your \(devicename) is tightly secured over your sensor"
+            content.body = "This might be an intermittent problem, but please check that your transmitter is tightly secured over your sensor"
 
             addRequest(identifier: .noSensorDetected, content: content)
         }
