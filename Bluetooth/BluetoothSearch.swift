@@ -53,7 +53,7 @@ final class BluetoothSearchManager: NSObject, CBCentralManagerDelegate, CBPeriph
 
     func scanForCompatibleDevices() {
         //        print(centralManager.debugDescription)
-        if centralManager.state == .poweredOn {
+        if centralManager.state == .poweredOn && !centralManager.isScanning{
             os_log("Before scan for MiaoMiao while central manager state %{public}@", log: Self.bt_log, type: .default, String(describing: centralManager.state.rawValue))
 
             centralManager.scanForPeripherals(withServices: nil, options: nil)

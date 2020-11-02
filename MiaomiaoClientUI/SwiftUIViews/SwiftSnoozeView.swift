@@ -96,6 +96,7 @@ struct SwiftSnoozeView: View {
     @State private var selectedInterval = 0
     @State private var snoozeDescription = "nothing to see here"
 
+
     var body: some View {
 
         VStack {
@@ -127,6 +128,7 @@ struct SwiftSnoozeView: View {
                 }
 
             }
+            
             .frame(minWidth: /*@START_MENU_TOKEN@*/0/*@END_MENU_TOKEN@*/, idealWidth: /*@START_MENU_TOKEN@*/100/*@END_MENU_TOKEN@*/, maxWidth: /*@START_MENU_TOKEN@*/.infinity/*@END_MENU_TOKEN@*/, minHeight: 150, maxHeight: 150, alignment: .center)
 
             VStack(alignment: .leading) {

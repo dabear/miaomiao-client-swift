@@ -368,14 +368,14 @@ enum NotificationHelper {
             return
         }
 
-        /*guard sensorData.minutesSinceStart >= 19_440 else {
-            NSLog("sensor start was less than 13,5 days in the past, not sending notification: \(sensorData.minutesSinceStart) minutes / \(sensorData.humanReadableSensorAge)")
-            return
-        }*/
-        guard Double(sensorData.minutesLeft) > TimeInterval(hours: 24) else {
+
+
+        guard TimeInterval(minutes: Double(sensorData.minutesLeft)) < TimeInterval(hours: 24) else {
             NSLog("Sensor time left was more than 24 hours, not sending notification: \(sensorData.minutesLeft) minutes / \(sensorData.humanReadableTimeLeft)")
             return
         }
+
+
 
         let now = Date()
         //only once per 6 hours

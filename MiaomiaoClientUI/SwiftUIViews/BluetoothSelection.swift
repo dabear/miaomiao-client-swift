@@ -90,10 +90,7 @@ fileprivate struct DeviceItem: View {
 
     func getDeviceImage(_ device: SomePeripheral) -> Image{
 
-        //only for artificially created CBPeripherals
-        /*if device.debugName?.isEmpty == false, let img = LibreTransmitters.all.randomElement()?.smallImage {
-            return Image(uiImage: img)
-        }*/
+
 
         var image  : UIImage!
         switch device {
@@ -230,6 +227,16 @@ struct BluetoothSelection: View{
             if debugMode {
                 allDevices = Self.getMockData()
 
+            } else {
+                print("dabear:: asking searcher to search!")
+                self.searcher?.scanForCompatibleDevices()
+            }
+
+        }
+        .onDisappear {
+            if !self.debugMode {
+                print("dabear:: asking searcher to stop searching!")
+                self.searcher?.disconnectManually()
             }
 
         }
