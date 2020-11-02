@@ -13,10 +13,6 @@ import os.log
 import UIKit
 
 import Combine
-protocol BluetoothSearchDelegate: class {
-    func didDiscoverCompatibleDevice(_ device: CBPeripheral, allCompatibleDevices: [CBPeripheral])
-}
-
 
 
 final class BluetoothSearchManager: NSObject, CBCentralManagerDelegate, CBPeripheralDelegate {
@@ -30,21 +26,19 @@ final class BluetoothSearchManager: NSObject, CBCentralManagerDelegate, CBPeriph
     private var discoveredDevices = [CBPeripheral]()
 
     public let passThrough = PassthroughSubject<CBPeripheral, Never>()
+    public let passThroughMetaData = PassthroughSubject<(CBPeripheral, [String: Any]), Never>()
 
-    public func addDiscoveredDevice(_ device: CBPeripheral) {
-        discoveredDevices.append(device)
-        discoveredDevices.removeDuplicates()
-        discoverDelegate?.didDiscoverCompatibleDevice(device, allCompatibleDevices: discoveredDevices)
+    public func addDiscoveredDevice(_ device: CBPeripheral, with metadata: [String: Any] ) {
+
         passThrough.send(device)
+        passThroughMetaData.send((device, metadata))
 
     }
 
-    // MARK: - Methods
-    weak var discoverDelegate: BluetoothSearchDelegate?
 
 
-    init(discoverDelegate: BluetoothSearchDelegate?) {
-        self.discoverDelegate = discoverDelegate
+    override init() {
+
         super.init()
         centralManager = CBCentralManager(delegate: self, queue: nil, options: nil)
         //        slipBuffer.delegate = self
@@ -95,13 +89,13 @@ final class BluetoothSearchManager: NSObject, CBCentralManagerDelegate, CBPeriph
 
         if LibreTransmitters.isSupported(peripheral) {
             print("dabear:: did recognize device: \(name): \(peripheral.identifier)")
-            self.addDiscoveredDevice(peripheral)
+            self.addDiscoveredDevice(peripheral, with: advertisementData)
         } else {
             if UserDefaults.standard.dangerModeActivated {
                 //allow listing any device when danger mode is active
 
                 print("dabear:: did add unknown device due to dangermode being active \(peripheral.name): \(peripheral.identifier)")
-                self.addDiscoveredDevice(peripheral)
+                self.addDiscoveredDevice(peripheral, with: advertisementData)
             } else {
                 print("dabear:: did not add unknown device: \(peripheral.name): \(peripheral.identifier)")
             }

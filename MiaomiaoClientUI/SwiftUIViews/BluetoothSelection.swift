@@ -85,6 +85,9 @@ fileprivate struct ListFooter: View {
 fileprivate struct DeviceItem: View {
 
     var device: SomePeripheral
+    var details1: String
+    var details2 : String?
+    var details3 : String?
 
     @ObservedObject var selection: SelectionState = .shared
 
@@ -102,7 +105,7 @@ fileprivate struct DeviceItem: View {
         }
 
 
-        return image == nil  ?  Image(systemName: "xmark") : Image(uiImage:image)
+        return image == nil  ?  Image(systemName: "exclamationmark.triangle") : Image(uiImage:image)
     }
 
     func getRowBackground(device: SomePeripheral)-> Color {
@@ -112,8 +115,23 @@ fileprivate struct DeviceItem: View {
     }
 
 
-    init(device: SomePeripheral) {
+    init(device: SomePeripheral, details: String) {
         self.device = device
+
+        details1 = device.name ?? "UnknownDevice"
+        let split = details.split(separator: "\n")
+
+
+
+        if split.count >= 2 {
+            details2 = String(split[0])
+            details3 = String(split[1])
+
+
+        } else {
+            details2 = details
+        }
+
     }
 
 
@@ -123,11 +141,15 @@ fileprivate struct DeviceItem: View {
             .frame(width: 100, height: 50, alignment: .leading)
 
             VStack(alignment: .leading) {
-                Text("\(device.name2)")
+                Text("\(details1)")
                     .font(.system(size: 20, weight: .medium, design: .default))
+                if let details2 = details2 {
+                    Text("\(details2)")
+                }
+                if let details3 = details3 {
+                    Text("\(details3)")
+                }
 
-                Text("details")
-                Text("details2")
 
             }
 
@@ -176,6 +198,7 @@ struct BluetoothSelection: View{
     // Should contain all discovered and compatible devices
     // This list is expected to contain 10 or 20 items at the most
     @State var allDevices = [SomePeripheral]()
+    @State var deviceDetails = [String: String]()
 
 
 
@@ -193,7 +216,7 @@ struct BluetoothSelection: View{
         }
         else {
 
-            self.searcher = BluetoothSearchManager(discoverDelegate: nil)
+            self.searcher = BluetoothSearchManager()
         }
 
 
@@ -214,7 +237,7 @@ struct BluetoothSelection: View{
             }
             Section(){
                 ForEach(allDevices) { device in
-                    DeviceItem(device: device)
+                    DeviceItem(device: device, details: deviceDetails[device.asStringIdentifier]!)
 
                 }
             }
@@ -255,14 +278,21 @@ struct BluetoothSelection: View{
         } else {
 
             list
-                .onReceive(searcher.passThrough) { (newDevice) in
+                .onReceive(searcher.passThroughMetaData) { (newDevice, advertisement) in
                     print("received searcher passthrough")
 
                     let alreadyAdded = allDevices.contains{ (existingDevice) -> Bool in
                         existingDevice.asStringIdentifier == newDevice.asStringIdentifier
                     }
                     if !alreadyAdded {
+                        if let parsedAdvertisement = LibreTransmitters.getSupportedPlugins(newDevice)?.first?.getDeviceDetailsFromAdvertisement(advertisementData: advertisement) {
+                            deviceDetails[newDevice.asStringIdentifier] = parsedAdvertisement
+
+                        } else {
+                            deviceDetails[newDevice.asStringIdentifier] = newDevice.asStringIdentifier
+                        }
                         allDevices.append(SomePeripheral.Left(newDevice))
+
                     }
 
                 }

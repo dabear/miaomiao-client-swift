@@ -9,7 +9,7 @@
 import CoreBluetooth
 import Foundation
 import UIKit
-public protocol LibreTransmitter {
+public protocol LibreTransmitter : class{
     static var shortTransmitterName: String { get }
     static var smallImage: UIImage? { get }
     static var manufacturerer: String { get }
@@ -25,6 +25,9 @@ public protocol LibreTransmitter {
     func updateValueForNotifyCharacteristics(_ value: Data, peripheral: CBPeripheral, writeCharacteristic: CBCharacteristic?)
 
     func reset()
+
+    static func getDeviceDetailsFromAdvertisement(advertisementData: [String: Any]?) -> String?
+
 }
 
 extension LibreTransmitter {
@@ -34,6 +37,8 @@ extension LibreTransmitter {
     public var staticType: LibreTransmitter.Type {
         Self.self
     }
+
+    
 }
 
 extension Array where Array.Element == LibreTransmitter.Type {

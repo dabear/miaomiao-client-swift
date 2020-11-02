@@ -117,7 +117,8 @@ struct SwiftSnoozeView: View {
                                 .padding()
                         }
             }
-            .frame(maxWidth: /*@START_MENU_TOKEN@*/.infinity/*@END_MENU_TOKEN@*/, minHeight: 100, maxHeight: 150, alignment: .top)
+            .frame( minHeight: 100, alignment: .top)
+
 
             VStack {
                 Picker(selection: $selectedInterval, label: Text("Strength")) {
@@ -126,15 +127,19 @@ struct SwiftSnoozeView: View {
 
                     }
                 }
+                
+                .scaledToFill()
 
             }
+            .frame(minHeight: 150, maxHeight: 500, alignment: .center)
+
             
-            .frame(minWidth: /*@START_MENU_TOKEN@*/0/*@END_MENU_TOKEN@*/, idealWidth: /*@START_MENU_TOKEN@*/100/*@END_MENU_TOKEN@*/, maxWidth: /*@START_MENU_TOKEN@*/.infinity/*@END_MENU_TOKEN@*/, minHeight: 150, maxHeight: 150, alignment: .center)
+
 
             VStack(alignment: .leading) {
                 Text(snoozeDescription)
             }
-            .frame(maxWidth: /*@START_MENU_TOKEN@*/.infinity/*@END_MENU_TOKEN@*/, minHeight: 100,  maxHeight: 150, alignment: .bottom)
+            .frame( minHeight: 100, alignment: .bottom)
 
         }
         .onAppear {

@@ -61,12 +61,23 @@ class BubbleTransmitter: MiaoMiaoTransmitter {
     private var firmware: String? = ""
     private var mac: String? = ""
 
-    func deviceFromAdvertisementData(advertisementData: [String: Any]? ) {
+    override class func getDeviceDetailsFromAdvertisement(advertisementData: [String: Any]?) -> String? {
+        let (amac,afirmware,ahardware) = Self.getDeviceDetailsFromAdvertisementInternal(advertisementData: advertisementData)
+
+        if let amac=amac,let ahardware=ahardware, let afirmware=afirmware {
+            return "\(amac)\n HW:\(ahardware), FW: \(afirmware)"
+        }
+
+        return nil
+
+    }
+
+    static private func getDeviceDetailsFromAdvertisementInternal(advertisementData: [String: Any]?) -> (String?, String?, String?) {
         print("dabear: deviceFromAdvertisementData is ")
         debugPrint(advertisementData)
 
         guard let data = advertisementData?["kCBAdvDataManufacturerData"] as? Data else {
-            return
+            return (nil,nil,nil)
         }
         var mac = ""
         for i in 0 ..< 6 {
@@ -76,30 +87,34 @@ class BubbleTransmitter: MiaoMiaoTransmitter {
             }
         }
 
-        self.mac = mac
 
         guard  data.count >= 12 else {
-            return
+            return (nil,nil,nil)
         }
 
         let fSub1 = Data(repeating: data[8], count: 1)
         let fSub2 = Data(repeating: data[9], count: 1)
-        self.firmware = Float("\(fSub1.hexEncodedString()).\(fSub2.hexEncodedString())")?.description
+        let firmware = Float("\(fSub1.hexEncodedString()).\(fSub2.hexEncodedString())")?.description
 
         let hSub1 = Data(repeating: data[10], count: 1)
         let hSub2 = Data(repeating: data[11], count: 1)
 
-        self.hardware = Float("\(hSub1.hexEncodedString()).\(hSub2.hexEncodedString())")?.description
+        let hardware = Float("\(hSub1.hexEncodedString()).\(hSub2.hexEncodedString())")?.description
+        return (mac,firmware,hardware)
 
-        print("got bubbledevice \(mac) with firmware \(firmware), and hardware \(hardware)")
     }
+
+
+
+
 
     required init(delegate: LibreTransmitterDelegate, advertisementData: [String: Any]?) {
         //advertisementData is unknown for the miaomiao
 
         super.init(delegate: delegate, advertisementData: advertisementData)
         //self.delegate = delegate
-        deviceFromAdvertisementData(advertisementData: advertisementData)
+        //deviceFromAdvertisementData(advertisementData: advertisementData)
+        (self.mac,self.firmware,self.hardware) = Self.getDeviceDetailsFromAdvertisementInternal(advertisementData: advertisementData)
     }
 
     override func requestData(writeCharacteristics: CBCharacteristic, peripheral: CBPeripheral) {

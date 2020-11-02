@@ -210,6 +210,13 @@ class MiaoMiaoTransmitter: LibreTransmitter {
     class func canSupportPeripheral(_ peripheral: CBPeripheral) -> Bool {
         peripheral.name?.lowercased().starts(with: "miaomiao") ?? false
     }
+
+    class func getDeviceDetailsFromAdvertisement(advertisementData: [String: Any]?) -> String? {
+
+        return nil
+    }
+
+
     required init(delegate: LibreTransmitterDelegate, advertisementData: [String: Any]?) {
         //advertisementData is unknown for the miaomiao
         self.delegate = delegate
