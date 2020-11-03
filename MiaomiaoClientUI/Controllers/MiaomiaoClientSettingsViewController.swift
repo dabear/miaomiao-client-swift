@@ -98,7 +98,7 @@ public class MiaomiaoClientSettingsViewController: UITableViewController, SubVie
 
     private enum Section: Int, CaseIterable {
         case snooze
-        case bluetoothDeviceSelect
+        //case bluetoothDeviceSelect
         case latestReading
         case sensorInfo
         case latestBridgeInfo
@@ -162,8 +162,8 @@ public class MiaomiaoClientSettingsViewController: UITableViewController, SubVie
 
     override public func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         switch Section(rawValue: section)! {
-        case .bluetoothDeviceSelect:
-                return 1
+        /*case .bluetoothDeviceSelect:
+                return 1*/
         case .latestReading:
             return LatestReadingRow.allCases.count
         case .sensorInfo:
@@ -220,13 +220,13 @@ public class MiaomiaoClientSettingsViewController: UITableViewController, SubVie
     // swiftlint:disable:next cyclomatic_complexity function_body_length
     override public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         switch Section(rawValue: indexPath.section)! {
-        case .bluetoothDeviceSelect:
+        /*case .bluetoothDeviceSelect:
             let cell = tableView.dequeueIdentifiableCell(cell: SettingsTableViewCell.self, for: indexPath)
 
             cell.textLabel?.text = LocalizedString("Bluetooth settings test", comment: "Bluetooth settings test")
             cell.accessoryType = .disclosureIndicator
 
-            return cell
+            return cell*/
         case .latestReading:
 
             let cell = tableView.dequeueIdentifiableCell(cell: SettingsTableViewCell.self, for: indexPath)
@@ -470,8 +470,8 @@ public class MiaomiaoClientSettingsViewController: UITableViewController, SubVie
 
     override public func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         switch Section(rawValue: section)! {
-        case .snooze, .bluetoothDeviceSelect:
-            return nil
+        /*case .snooze, .bluetoothDeviceSelect:
+            return nil*/
         case .sensorInfo:
             return LocalizedString("Sensor Info", comment: "Section title for latest sensor info")
         case .latestReading:
@@ -485,45 +485,20 @@ public class MiaomiaoClientSettingsViewController: UITableViewController, SubVie
 
         case .advanced:
             return LocalizedString("Advanced", comment: "Advanced Section")
+        case .snooze:
+            return nil
         }
     }
 
     // swiftlint:disable:next cyclomatic_complexity function_body_length
     override public func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         switch Section(rawValue: indexPath.section)! {
-        case .bluetoothDeviceSelect:
+        /*case .bluetoothDeviceSelect:
             let vc = BluetoothSelection.asHostedViewController()
             show(vc, sender: nil)
+        */
 
 
-        /*case .authentication:
-            guard let service = cgmManager?.miaomiaoService else {
-                NSLog("dabear:: no miaomiaoservice?")
-                self.tableView.reloadRows(at: [indexPath], with: .none)
-                break
-            }
-
-            let vc = AuthenticationViewController(authentication: service)
-            // To enable bluetooth selection after cgmanager is created, remove commented code
-            // if you do, you should probably include the currently connected device in the list of devices and
-            // select that device with .selectListItem(item: X) as well
-            //ExtendingAuthController.addExtendedSection(source: vc)
-            vc.authenticationObserver = { [weak self] service in
-                self?.cgmManager?.miaomiaoService = service
-
-                let keychain = KeychainManager()
-                do {
-                    NSLog("dabear:: miaomiaoservice alter: setAutoCalibrateWebAccessToken called")
-                    try keychain.setAutoCalibrateWebAccessToken(accessToken: service.accessToken, url: service.url)
-                } catch {
-                    NSLog("dabear:: miaomiaoservice alter:could not permanently save setAutoCalibrateWebAccessToken")
-                }
-
-                self?.tableView.reloadRows(at: [indexPath], with: .none)
-                //ExtendingAuthController.destroyExtension()
-            }
-
-            show(vc, sender: nil)*/
         case .latestReading:
             tableView.deselectRow(at: indexPath, animated: true)
         case .delete:
@@ -532,13 +507,6 @@ public class MiaomiaoClientSettingsViewController: UITableViewController, SubVie
                 if let cgmManager = self.cgmManager {
                     cgmManager.disconnect()
 
-                    /*let confirmVC = UIAlertController(cgmDeletionHandler: {
-                        self.cgmManager.notifyDelegateOfDeletion {
-                            DispatchQueue.main.async {
-                                self.complete()
-                            }
-                        }
-                    })*/
 
                     cgmManager.notifyDelegateOfDeletion {
                         DispatchQueue.main.async {
@@ -585,7 +553,7 @@ public class MiaomiaoClientSettingsViewController: UITableViewController, SubVie
 
                         return
                     }
-                    var params = data.calibrationData
+                    let params = data.calibrationData
 
                     do {
                         try self.cgmManager?.keychain.setLibreNativeCalibrationData(params)
@@ -597,26 +565,7 @@ public class MiaomiaoClientSettingsViewController: UITableViewController, SubVie
 
                     self.presentOKStatusOnMain("Calibration Success", title: "Calibration Status")
 
-                    /*
-                    calibrateSensor(accessToken: accessToken, site: url.absoluteString, sensordata: data) { [weak self] calibrationparams  in
-                        guard let params = calibrationparams else {
-                            NSLog("dabear:: could not calibrate sensor, check libreoopweb permissions and internet connection")
 
-                            self?.presentOKStatusOnMain(LibreError.noCalibrationData.errorDescription, title: "Error")
-
-                            return
-                        }
-
-                        do {
-                            try self?.cgmManager?.keychain.setLibreCalibrationData(params)
-                        } catch {
-                            NSLog("dabear:: could not save calibrationdata")
-                            self?.presentOKStatusOnMain(LibreError.invalidCalibrationData.errorDescription, title: "Error")
-                            return
-                        }
-
-                        self?.presentOKStatusOnMain("Calibration success!", title: "Success")
-                    }*/
                 }
             })
 
