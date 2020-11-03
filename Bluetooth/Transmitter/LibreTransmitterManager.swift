@@ -83,7 +83,6 @@ final class LibreTransmitterManager: NSObject, CBCentralManagerDelegate, CBPerip
     private var wantsToTerminate = false
     //private var lastConnectedIdentifier : String?
 
-    @LogNilAccess(logger: LibreTransmitterManager.bt_log, logmsg: "activePlugin was nil")
     var activePlugin: LibreTransmitter? = nil {
         didSet {
             print("dabear:: activePlugin changed from \(oldValue) to \(activePlugin)")

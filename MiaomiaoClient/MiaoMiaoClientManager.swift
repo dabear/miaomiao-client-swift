@@ -114,7 +114,7 @@ public final class MiaoMiaoClientManager: CGMManager, LibreTransmitterDelegate {
             }
 
             var trend: GlucoseTrend?
-            var oldValue = latestBackfill
+            let oldValue = latestBackfill
 
             defer {
                 NSLog("dabear:: sending glucose notification")
