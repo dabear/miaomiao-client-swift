@@ -159,6 +159,7 @@
 import CoreBluetooth
 import Foundation
 import UIKit
+import os.log
 public enum MiaoMiaoResponseState: UInt8 {
     case dataPacketReceived = 0x28
     case newSensor = 0x32
@@ -235,7 +236,7 @@ class MiaoMiaoTransmitter: LibreTransmitter {
     func updateValueForNotifyCharacteristics(_ value: Data, peripheral: CBPeripheral, writeCharacteristic: CBCharacteristic?) {
         rxBuffer.append(value)
 
-        //os_log("Appended value with length %{public}@, buffer length is: %{public}@", log: LibreTransmitterManager.bt_log, type: .default, String(describing: value.count), String(describing: rxBuffer.count))
+        os_log("miaomiao Appended value with length %{public}@, buffer length is: %{public}@", log: LibreTransmitterManager.bt_log, type: .default, String(describing: value.count), String(describing: rxBuffer.count))
 
         //os_log("rxBuffer.first is: %{public}@, value.first is: %{public}@", log: LibreTransmitterManager.bt_log, type: .default, String(describing: rxBuffer.first), String(describing: value.first))
 
@@ -254,7 +255,7 @@ class MiaoMiaoTransmitter: LibreTransmitter {
         switch miaoMiaoResponseState {
         case .dataPacketReceived: // 0x28: // data received, append to buffer and inform delegate if end reached
 
-            if rxBuffer.count >= 363 && rxBuffer.last == 0x29 {
+            if rxBuffer.count >= 363 {
                 //os_log("Buffer complete, inform delegate.", log: LibreTransmitterManager.bt_log, type: .default)
 
                 delegate?.libreTransmitterReceivedMessage(0x0000, txFlags: 0x28, payloadData: rxBuffer)
@@ -295,12 +296,21 @@ class MiaoMiaoTransmitter: LibreTransmitter {
             return
         }
 
+        var patchInfo : String?
+
+        if rxBuffer.count >= 369 {
+            patchInfo = Data(rxBuffer[363...368]).hexEncodedString().uppercased()
+        }
+
+
+       
+
         metadata = LibreTransmitterMetadata(
             hardware: String(describing: rxBuffer[16...17].hexEncodedString()),
             firmware: String(describing: rxBuffer[14...15].hexEncodedString()),
             battery: Int(rxBuffer[13]),
             name: Self.shortTransmitterName,
-            macAddress: nil, patchInfo: nil, uid: nil)
+            macAddress: nil, patchInfo: patchInfo, uid: nil)
 
         sensorData = SensorData(uuid: Data(rxBuffer.subdata(in: 5..<13)), bytes: [UInt8](rxBuffer.subdata(in: 18..<362)), date: Date())
 
