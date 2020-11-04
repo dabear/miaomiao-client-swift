@@ -126,13 +126,14 @@ public class MiaomiaoClientSettingsViewController: UITableViewController, SubVie
         case sensorSerialNumber
     }
 
-    private enum LatestBridgeInfoRow: Int, CaseIterable {
+    private enum TransmitterInfoRow: Int, CaseIterable {
         case battery
         case hardware
         case firmware
         case connectionState
-        case bridgeType
-        case bridgeIdentifer
+        case transmitterType
+        case transmitterIdentifier
+        case sensorType
     }
 
     private enum LatestCalibrationDataInfoRow: Int, CaseIterable {
@@ -171,7 +172,7 @@ public class MiaomiaoClientSettingsViewController: UITableViewController, SubVie
         case .delete:
             return 1
         case .latestBridgeInfo:
-            return LatestBridgeInfoRow.allCases.count
+            return TransmitterInfoRow.allCases.count
 
         case .latestCalibrationData:
             return LatestCalibrationDataInfoRow.allCases.count
@@ -272,7 +273,7 @@ public class MiaomiaoClientSettingsViewController: UITableViewController, SubVie
         case .latestBridgeInfo:
             let cell = tableView.dequeueIdentifiableCell(cell: SettingsTableViewCell.self, for: indexPath)
 
-            switch LatestBridgeInfoRow(rawValue: indexPath.row)! {
+            switch TransmitterInfoRow(rawValue: indexPath.row)! {
             case .battery:
                 cell.textLabel?.text = LocalizedString("Battery", comment: "Title describing transmitter battery level")
 
@@ -291,11 +292,11 @@ public class MiaomiaoClientSettingsViewController: UITableViewController, SubVie
                 cell.textLabel?.text = LocalizedString("Connection State", comment: "Title for the Transmitter Connection State")
 
                 cell.detailTextLabel?.text = cgmManager?.connectionState
-            case .bridgeType:
+            case .transmitterType:
                 cell.textLabel?.text = LocalizedString("Transmitter Type", comment: "Title for the Transmitter Type")
 
                 cell.detailTextLabel?.text = cgmManager?.getDeviceType()
-            case .bridgeIdentifer:
+            case .transmitterIdentifier:
                 // On ios the mac address of the peripheral is generally not available.
                 // However, some devices broadcast their mac address in
                 // the advertisement data.
@@ -306,6 +307,14 @@ public class MiaomiaoClientSettingsViewController: UITableViewController, SubVie
                     cell.textLabel?.text = LocalizedString("Identifer", comment: "Title for the Transmitter Identifier")
                     cell.detailTextLabel?.text = UserDefaults.standard.preSelectedDevice
                 }
+            case .sensorType:
+                // the sensorType depends on transmitter support for "patchinfo"
+                // Each transmitter must explicitly support this, meaning that
+                // patchinfo is not always guaranteed to be available
+
+                cell.textLabel?.text = LocalizedString("Sensor Type", comment: "Title for the Transmitters Connected Sensor Type")
+                cell.detailTextLabel?.text = cgmManager?.metaData?.sensorType()?.description ?? "Unknown"
+
             }
 
             return cell
@@ -314,14 +323,7 @@ public class MiaomiaoClientSettingsViewController: UITableViewController, SubVie
             var cell: UITableViewCell = tableView.dequeueIdentifiableCell(cell: SettingsTableViewCell.self, for: indexPath)
 
             let data = cgmManager?.calibrationData
-            /*
-             case slopeslope
-             case slopeoffset
-             case offsetslope
-             case offsetoffset
-             extraSlope
-             extraOffset
-             */
+
             switch LatestCalibrationDataInfoRow(rawValue: indexPath.row)! {
             case .i1:
                 cell.textLabel?.text = LocalizedString("i1", comment: "Title describing i1 slopeslope")
