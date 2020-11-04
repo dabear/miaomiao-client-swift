@@ -207,6 +207,8 @@ class MiaoMiaoTransmitter: LibreTransmitter {
     private var sensorData: SensorData?
     private var metadata: LibreTransmitterMetadata?
 
+    
+
     class func canSupportPeripheral(_ peripheral: CBPeripheral) -> Bool {
         peripheral.name?.lowercased().starts(with: "miaomiao") ?? false
     }
@@ -298,7 +300,7 @@ class MiaoMiaoTransmitter: LibreTransmitter {
             firmware: String(describing: rxBuffer[14...15].hexEncodedString()),
             battery: Int(rxBuffer[13]),
             name: Self.shortTransmitterName,
-            macAddress: nil)
+            macAddress: nil, patchInfo: nil, uid: nil)
 
         sensorData = SensorData(uuid: Data(rxBuffer.subdata(in: 5..<13)), bytes: [UInt8](rxBuffer.subdata(in: 18..<362)), date: Date())
 

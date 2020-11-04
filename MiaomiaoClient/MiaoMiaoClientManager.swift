@@ -25,9 +25,9 @@ public final class MiaoMiaoClientManager: CGMManager, LibreTransmitterDelegate {
     }
 
     public var batteryLevel: Double? {
-        NSLog("dabear:: MiaoMiaoClientManager was asked to return battery: \(proxy?.viaManagerQueue.metadata?.battery)")
+        NSLog("dabear:: MiaoMiaoClientManager was asked to return battery: \(proxy?.metadata?.battery)")
         //convert from 8% -> 0.8
-        if let battery = proxy?.viaManagerQueue.metadata?.battery {
+        if let battery = proxy?.metadata?.battery {
             return Double(battery) / 100
         }
 
@@ -67,7 +67,7 @@ public final class MiaoMiaoClientManager: CGMManager, LibreTransmitterDelegate {
 
     public var device: HKDevice? {
          //proxy?.OnQueue_device
-        proxy?.viaManagerQueue.device
+        proxy?.device
     }
 
     private func getPersistedSensorDataForDebug() -> String {
@@ -242,14 +242,7 @@ public final class MiaoMiaoClientManager: CGMManager, LibreTransmitterDelegate {
             NSLog("dabear:: calibrationdata was nil")
         }
 
-        /*
-        guard let (accessToken, url) = self.keychain.getAutoCalibrateWebCredentials() else {
-            NSLog("dabear:: could not calibrate, accesstoken or url was nil")
-            callback(.invalidAutoCalibrationCredentials, nil)
-            return
-        }*/
-
-        //NotificationHelper.sendCalibrationNotification(.starting)
+     
 
         calibrateSensor(sensordata: data) { [weak self] calibrationparams  in
 
@@ -327,12 +320,36 @@ public final class MiaoMiaoClientManager: CGMManager, LibreTransmitterDelegate {
     //will be called on utility queue
     public func libreTransmitterDidUpdate(with sensorData: SensorData, and Device: LibreTransmitterMetadata) {
         print("dabear:: got sensordata: \(sensorData), bytescount: \( sensorData.bytes.count), bytes: \(sensorData.bytes)")
+        var sensorData = sensorData
 
         NotificationHelper.sendLowBatteryNotificationIfNeeded(device: Device)
+
+
+
+        if !sensorData.isLikelyLibre1FRAM {
+
+            if let patchInfo = Device.patchInfo, let sensorType = LibreSensorType(patchInfo: patchInfo) {
+                let needsDecryption = [LibreSensorType.libre2, .libreUS].contains(sensorType)
+                if needsDecryption, let uid = Device.uid {
+                    sensorData.decrypt(patchInfo: patchInfo, uid: uid)
+                }
+
+            } else {
+                os_log("Sensor type was incorrect, and no decryption of sensor was possible")
+                return
+
+            }
+
+        }
+
+
+
+        tryPersistSensorData(with: sensorData)
+
+
         NotificationHelper.sendInvalidSensorNotificationIfNeeded(sensorData: sensorData)
         NotificationHelper.sendInvalidChecksumIfDeveloper(sensorData)
 
-        tryPersistSensorData(with: sensorData)
 
         guard sensorData.hasValidCRCs else {
             self.delegateQueue.async {
@@ -431,49 +448,45 @@ public final class MiaoMiaoClientManager: CGMManager, LibreTransmitterDelegate {
     }
 }
 
-/*
- These are formatted versions of properties existing in the bluetoothmanager proxy
- The bluetooth manager has all these properties living on a special utility queue,
- so we call them on the same queue, but return them on the main queue
- */
+
 extension MiaoMiaoClientManager {
     //cannot be called from managerQueue
     public var identifier: String {
         //proxy?.OnQueue_identifer?.uuidString ?? "n/a"
-        proxy?.viaManagerQueue.identifier?.uuidString ?? "n/a"
+        proxy?.identifier?.uuidString ?? "n/a"
     }
 
     public var metaData: LibreTransmitterMetadata? {
         //proxy?.OnQueue_metadata
-         proxy?.viaManagerQueue.metadata
+         proxy?.metadata
     }
 
     //cannot be called from managerQueue
     public var connectionState: String {
         //proxy?.connectionStateString ?? "n/a"
-        proxy?.viaManagerQueue.connectionStateString ?? "n/a"
+        proxy?.connectionStateString ?? "n/a"
     }
     //cannot be called from managerQueue
     public var sensorSerialNumber: String {
         //proxy?.OnQueue_sensorData?.serialNumber ?? "n/a"
-        proxy?.viaManagerQueue.sensorData?.serialNumber ?? "n/a"
+        proxy?.sensorData?.serialNumber ?? "n/a"
     }
 
     //cannot be called from managerQueue
     public var sensorAge: String {
         //proxy?.OnQueue_sensorData?.humanReadableSensorAge ?? "n/a"
-        proxy?.viaManagerQueue.sensorData?.humanReadableSensorAge ?? "n/a"
+        proxy?.sensorData?.humanReadableSensorAge ?? "n/a"
     }
 
     public var sensorTimeLeft: String {
         //proxy?.OnQueue_sensorData?.humanReadableSensorAge ?? "n/a"
-        proxy?.viaManagerQueue.sensorData?.humanReadableTimeLeft ?? "n/a"
+        proxy?.sensorData?.humanReadableTimeLeft ?? "n/a"
     }
 
     //cannot be called from managerQueue
     public var sensorFooterChecksums: String {
         //(proxy?.OnQueue_sensorData?.footerCrc.byteSwapped).map(String.init)
-        (proxy?.viaManagerQueue.sensorData?.footerCrc.byteSwapped).map(String.init)
+        (proxy?.sensorData?.footerCrc.byteSwapped).map(String.init)
 
             ?? "n/a"
     }
@@ -481,29 +494,29 @@ extension MiaoMiaoClientManager {
     //cannot be called from managerQueue
     public var sensorStateDescription: String {
         //proxy?.OnQueue_sensorData?.state.description ?? "n/a"
-        proxy?.viaManagerQueue.sensorData?.state.description ?? "n/a"
+        proxy?.sensorData?.state.description ?? "n/a"
     }
     //cannot be called from managerQueue
     public var firmwareVersion: String {
-        proxy?.viaManagerQueue.metadata?.firmware ?? "n/a"
+        proxy?.metadata?.firmware ?? "n/a"
     }
 
     //cannot be called from managerQueue
     public var hardwareVersion: String {
-        proxy?.viaManagerQueue.metadata?.hardware ?? "n/a"
+        proxy?.metadata?.hardware ?? "n/a"
     }
 
     //cannot be called from managerQueue
     public var batteryString: String {
-        proxy?.viaManagerQueue.metadata?.batteryString ?? "n/a"
+        proxy?.metadata?.batteryString ?? "n/a"
     }
 
     public var battery: Int? {
-        proxy?.viaManagerQueue.metadata?.battery
+        proxy?.metadata?.battery
     }
 
     public func getDeviceType() -> String {
-        proxy?.viaManagerQueue.shortTransmitterName ?? "Unknown"
+        proxy?.shortTransmitterName ?? "Unknown"
     }
     public func getSmallImage() -> UIImage? {
         proxy?.activePluginType?.smallImage ?? UIImage(named: "libresensor", in: Bundle.current, compatibleWith: nil)

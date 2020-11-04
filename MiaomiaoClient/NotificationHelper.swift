@@ -291,7 +291,7 @@ enum NotificationHelper {
     }
 
     public static func sendInvalidSensorNotificationIfNeeded(sensorData: SensorData) {
-        let isValid = sensorData.isLikelyLibre1 && (sensorData.state == .starting || sensorData.state == .ready)
+        let isValid = sensorData.isLikelyLibre1FRAM && (sensorData.state == .starting || sensorData.state == .ready)
 
         guard UserDefaults.standard.mmAlertInvalidSensorDetected && !isValid else {
             NSLog("not sending invalidSensorDetected notification")
@@ -306,7 +306,7 @@ enum NotificationHelper {
             let content = UNMutableNotificationContent()
             content.title = "Invalid Sensor Detected"
 
-            if !sensorData.isLikelyLibre1 {
+            if !sensorData.isLikelyLibre1FRAM {
                 content.body = "Detected sensor seems not to be a libre 1 sensor!"
             } else if !(sensorData.state == .starting || sensorData.state == .ready) {
                 content.body = "Detected sensor is invalid: \(sensorData.state.description)"

@@ -15,6 +15,12 @@ public enum BubbleResponseType: UInt8 {
     case bubbleInfo = 128 // = wakeUp + device info
     case noSensor = 191
     case serialNumber = 192
+    case patchInfo = 193 //0xC1
+     /// bubble firmware 2.6 support decrypt libre2 344 to libre1 344
+     /// if firmware >= 2.6, write [0x08, 0x01, 0x00, 0x00, 0x00, 0x2B]
+     /// bubble will decrypt the libre2 data and return it
+    //we don't really support decrypteddatapacket as we like to decrypt our selves!
+    //case decryptedDataPacket = 136 // 0x88
 }
 
 extension BubbleResponseType {
@@ -60,6 +66,9 @@ class BubbleTransmitter: MiaoMiaoTransmitter {
     private var hardware: String? = ""
     private var firmware: String? = ""
     private var mac: String? = ""
+
+    private var patchInfo: String?
+
 
     override class func getDeviceDetailsFromAdvertisement(advertisementData: [String: Any]?) -> String? {
         let (amac,afirmware,ahardware) = Self.getDeviceDetailsFromAdvertisementInternal(advertisementData: advertisementData)
@@ -137,14 +146,14 @@ class BubbleTransmitter: MiaoMiaoTransmitter {
             //let firmware = value[2].description + "." + value[3].description
            //let patchInfo = Data(Double(firmware)! < 1.35 ? value[3...8] : value[5...10])
            let battery = Int(value[4])
-           metadata = .init(hardware: hardware ?? "unknown", firmware: firmware ?? "unknown", battery: battery, name: Self.shortTransmitterName, macAddress: self.mac)
+            metadata = .init(hardware: hardware ?? "unknown", firmware: firmware ?? "unknown", battery: battery, name: Self.shortTransmitterName, macAddress: self.mac, patchInfo: patchInfo, uid: nil)
 
            print("dabear:: Got bubbledevice: \(metadata)")
            if let writeCharacteristic = writeCharacteristic {
                print("-----set: ", writeCharacteristic)
                peripheral.writeValue(Data([0x02, 0x00, 0x00, 0x00, 0x00, 0x2B]), for: writeCharacteristic, type: .withResponse)
            }
-        case .dataPacket:
+        case .dataPacket://, .decryptedDataPacket:
            rxBuffer.append(value.suffix(from: 4))
            print("dabear:: aggregated datapacket is now of length: \(rxBuffer.count)")
            if rxBuffer.count >= 352 {
@@ -157,6 +166,16 @@ class BubbleTransmitter: MiaoMiaoTransmitter {
            reset()
         case .serialNumber:
            rxBuffer.append(value.subdata(in: 2..<10))
+        case .patchInfo:
+            guard value.count >= 10 else {
+                print("not able to extract patchinfo")
+                return
+            }
+            patchInfo = value.subdata(in: 5 ..< 11).hexEncodedString().uppercased()
+
+
+
+
         }
     }
 

@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 52;
+	objectVersion = 46;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -20,8 +20,6 @@
 		270C266D226A2F8E005B27F3 /* HKUnit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4325E9CE210E6A0A00969CE5 /* HKUnit.swift */; };
 		270C266F226A5A6E005B27F3 /* GlucoseSchedules.swift in Sources */ = {isa = PBXBuildFile; fileRef = 270C266E226A5A6E005B27F3 /* GlucoseSchedules.swift */; };
 		270C2670226A5A6E005B27F3 /* GlucoseSchedules.swift in Sources */ = {isa = PBXBuildFile; fileRef = 270C266E226A5A6E005B27F3 /* GlucoseSchedules.swift */; };
-		27167A0323D3C6510033BFBE /* QueuedPropertyAccess.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27167A0223D3C6510033BFBE /* QueuedPropertyAccess.swift */; };
-		271EDF2322EC6F0A00E1C8B3 /* AnnotatedSubtitleCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 271EDF2222EC6F0A00E1C8B3 /* AnnotatedSubtitleCell.swift */; };
 		271EDF2622EC755D00E1C8B3 /* UserDefaults+Bluetooth.swift in Sources */ = {isa = PBXBuildFile; fileRef = 271EDF2422EC739F00E1C8B3 /* UserDefaults+Bluetooth.swift */; };
 		271EDF2F22EFA29C00E1C8B3 /* bubble.png in Resources */ = {isa = PBXBuildFile; fileRef = 271EDF2E22EFA29C00E1C8B3 /* bubble.png */; };
 		271EDF3322F0946400E1C8B3 /* BluetoothSearch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 271EDF2022EB63B100E1C8B3 /* BluetoothSearch.swift */; };
@@ -29,7 +27,6 @@
 		271EDF3522F22BEE00E1C8B3 /* bubble.png in Resources */ = {isa = PBXBuildFile; fileRef = 271EDF2E22EFA29C00E1C8B3 /* bubble.png */; };
 		271EDF3A22F23A0800E1C8B3 /* libresensor.png in Resources */ = {isa = PBXBuildFile; fileRef = 271EDF3922F23A0800E1C8B3 /* libresensor.png */; };
 		271EDF3B22F23A0800E1C8B3 /* libresensor.png in Resources */ = {isa = PBXBuildFile; fileRef = 271EDF3922F23A0800E1C8B3 /* libresensor.png */; };
-		2724930E232F03E500AFE86A /* test_lint.h in Headers */ = {isa = PBXBuildFile; fileRef = 2724930C232F03E500AFE86A /* test_lint.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		2729D677221F421C0030E1B8 /* LibreTransmitterMetadata.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2729D676221F421C0030E1B8 /* LibreTransmitterMetadata.swift */; };
 		2729D67B221F421F0030E1B8 /* LibreTransmitterManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2729D67A221F421F0030E1B8 /* LibreTransmitterManager.swift */; };
 		2729D687221F43150030E1B8 /* SensorData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2729D686221F43150030E1B8 /* SensorData.swift */; };
@@ -44,6 +41,7 @@
 		272FAF09228CA590002D8064 /* SegmentViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 272FAF07228CA590002D8064 /* SegmentViewCell.xib */; };
 		27408E582370D3C3002C71C8 /* ConcreteSensorDisplayable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27408E572370D3C3002C71C8 /* ConcreteSensorDisplayable.swift */; };
 		27408E592370D8C1002C71C8 /* TimeIntervalExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27E0968E22A9AD6F00B3164D /* TimeIntervalExtensions.swift */; };
+		274C03EB2552E9E7008AB4D8 /* PreLibre2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 274C03EA2552E9E7008AB4D8 /* PreLibre2.swift */; };
 		274DF85222A5AEA400BFAFFE /* AlertControllers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 274DF85122A5AEA400BFAFFE /* AlertControllers.swift */; };
 		275C3D99229AA88200E27439 /* MMSwitchTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 275C3D94229AA69C00E27439 /* MMSwitchTableViewCell.swift */; };
 		275C3D9A229AA88500E27439 /* MMSwitchTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 275C3D95229AA69C00E27439 /* MMSwitchTableViewCell.xib */; };
@@ -64,20 +62,11 @@
 		277DAD15226CACF700422ADA /* MessagePassing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 277DAD13226CACF300422ADA /* MessagePassing.swift */; };
 		2791064623B96B07004B362F /* UIApplication+metadata.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2791064523B96B07004B362F /* UIApplication+metadata.swift */; };
 		2791064723B96B07004B362F /* UIApplication+metadata.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2791064523B96B07004B362F /* UIApplication+metadata.swift */; };
-		2795404F2165502600D657E5 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2795404E2165502600D657E5 /* main.swift */; };
-		27A42F3E241D05C60002611C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27A42F3D241D05C60002611C /* AppDelegate.swift */; };
-		27A42F40241D05C60002611C /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27A42F3F241D05C60002611C /* SceneDelegate.swift */; };
-		27A42F42241D05C60002611C /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27A42F41241D05C60002611C /* ContentView.swift */; };
-		27A42F44241D05CC0002611C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 27A42F43241D05CC0002611C /* Assets.xcassets */; };
-		27A42F47241D05CC0002611C /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 27A42F46241D05CC0002611C /* Preview Assets.xcassets */; };
-		27A42F4A241D05CC0002611C /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 27A42F48241D05CC0002611C /* LaunchScreen.storyboard */; };
-		27A42F51241D9D2E0002611C /* SwiftUICharts in Frameworks */ = {isa = PBXBuildFile; productRef = 27A42F50241D9D2E0002611C /* SwiftUICharts */; };
 		27A85D8723C6512A00F7FFC9 /* LibreTransmitter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27A85D8623C6512A00F7FFC9 /* LibreTransmitter.swift */; };
 		27A85D8923C6516300F7FFC9 /* UUIDContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27A85D8823C6516300F7FFC9 /* UUIDContainer.swift */; };
 		27A85D8B23C651B300F7FFC9 /* MiaomiaoTransmitter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27A85D8A23C651B300F7FFC9 /* MiaomiaoTransmitter.swift */; };
 		27A85D8D23C6520300F7FFC9 /* BubbleTransmitter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27A85D8C23C6520300F7FFC9 /* BubbleTransmitter.swift */; };
 		27C335B82165667300CF0868 /* LibreGlucose.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43C418AE1CE0488900405B6A /* LibreGlucose.swift */; };
-		27C335B9216566C500CF0868 /* MiaomiaoClient.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 432B0E881CDFC3C50045347B /* MiaomiaoClient.framework */; };
 		27CBEB3C225FB3A7004F7BF5 /* NibLoadable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27CBEB3B225FB3A7004F7BF5 /* NibLoadable.swift */; };
 		27CBEB3F225FE5CB004F7BF5 /* AlarmSettingsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27CBEB3D225FE5CB004F7BF5 /* AlarmSettingsTableViewController.swift */; };
 		27CBEB552261DF9D004F7BF5 /* AlarmTimeInputRangeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27CBEB542261DF9C004F7BF5 /* AlarmTimeInputRangeCell.swift */; };
@@ -106,47 +95,15 @@
 		4325E9CF210E6A0A00969CE5 /* HKUnit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4325E9CE210E6A0A00969CE5 /* HKUnit.swift */; };
 		4325E9D3210E6ADA00969CE5 /* IdentifiableClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4325E9D2210E6ADA00969CE5 /* IdentifiableClass.swift */; };
 		4325E9D5210E6B4400969CE5 /* UIColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4325E9D4210E6B4300969CE5 /* UIColor.swift */; };
-		432B0E931CDFC3C50045347B /* MiaomiaoClient.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 432B0E881CDFC3C50045347B /* MiaomiaoClient.framework */; };
-		432B0E981CDFC3C50045347B /* MiaomiaoClientTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 432B0E971CDFC3C50045347B /* MiaomiaoClientTests.swift */; };
 		43A8EC90210E676500A81379 /* MiaomiaoClientSetupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43A8EC8D210E676500A81379 /* MiaomiaoClientSetupViewController.swift */; };
 		43A8EC91210E676500A81379 /* MiaomiaoClientManager+UI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43A8EC8E210E676500A81379 /* MiaomiaoClientManager+UI.swift */; };
 		43A8EC92210E676500A81379 /* MiaomiaoClientSettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43A8EC8F210E676500A81379 /* MiaomiaoClientSettingsViewController.swift */; };
 		43A8EC95210E67B000A81379 /* HealthKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 43A8EC94210E67B000A81379 /* HealthKit.framework */; };
-		43A8EC97210E680100A81379 /* ShareService+UI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43A8EC96210E680100A81379 /* ShareService+UI.swift */; };
 		43AB511B21330D1400B3D58D /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 43AB511921330D1400B3D58D /* Localizable.strings */; };
 		43AB5127213315D300B3D58D /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 43AB5125213315D300B3D58D /* Localizable.strings */; };
 		43AB51362133177800B3D58D /* LocalizedString.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43AB51352133177800B3D58D /* LocalizedString.swift */; };
 		43AB51372133177800B3D58D /* LocalizedString.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43AB51352133177800B3D58D /* LocalizedString.swift */; };
 /* End PBXBuildFile section */
-
-/* Begin PBXContainerItemProxy section */
-		277FE8E02165606D001ACE55 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 432B0E7F1CDFC3C50045347B /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 432B0E871CDFC3C50045347B;
-			remoteInfo = MiaomiaoClient;
-		};
-		432B0E941CDFC3C50045347B /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 432B0E7F1CDFC3C50045347B /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 432B0E871CDFC3C50045347B;
-			remoteInfo = MiaomiaoClient;
-		};
-/* End PBXContainerItemProxy section */
-
-/* Begin PBXCopyFilesBuildPhase section */
-		2795404A2165502600D657E5 /* CopyFiles */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = /usr/share/man/man1/;
-			dstSubfolderSpec = 0;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 1;
-		};
-/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		27014789227B53AB0013C9E3 /* miaomiao-small.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "miaomiao-small.png"; sourceTree = "<group>"; };
@@ -160,18 +117,12 @@
 		270C26682269E6B7005B27F3 /* schedule-icon48.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "schedule-icon48.jpg"; sourceTree = "<group>"; };
 		270C266B226A24AB005B27F3 /* icons8-schedule-50.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icons8-schedule-50.png"; sourceTree = "<group>"; };
 		270C266E226A5A6E005B27F3 /* GlucoseSchedules.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlucoseSchedules.swift; sourceTree = "<group>"; };
-		27167A0223D3C6510033BFBE /* QueuedPropertyAccess.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QueuedPropertyAccess.swift; sourceTree = "<group>"; };
 		271EDF2022EB63B100E1C8B3 /* BluetoothSearch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BluetoothSearch.swift; sourceTree = "<group>"; };
-		271EDF2222EC6F0A00E1C8B3 /* AnnotatedSubtitleCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnnotatedSubtitleCell.swift; sourceTree = "<group>"; };
 		271EDF2422EC739F00E1C8B3 /* UserDefaults+Bluetooth.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserDefaults+Bluetooth.swift"; sourceTree = "<group>"; };
 		271EDF2E22EFA29C00E1C8B3 /* bubble.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bubble.png; sourceTree = "<group>"; };
 		271EDF3922F23A0800E1C8B3 /* libresensor.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = libresensor.png; sourceTree = "<group>"; };
-		2724930A232F03E400AFE86A /* test_lint.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = test_lint.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		2724930C232F03E500AFE86A /* test_lint.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = test_lint.h; sourceTree = "<group>"; };
-		2724930D232F03E500AFE86A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		2729D676221F421C0030E1B8 /* LibreTransmitterMetadata.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibreTransmitterMetadata.swift; sourceTree = "<group>"; };
 		2729D67A221F421F0030E1B8 /* LibreTransmitterManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibreTransmitterManager.swift; sourceTree = "<group>"; };
-		2729D682221F42760030E1B8 /* BloodSugarController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BloodSugarController.swift; sourceTree = "<group>"; };
 		2729D686221F43150030E1B8 /* SensorData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SensorData.swift; sourceTree = "<group>"; };
 		2729D68B221F44660030E1B8 /* Measurement.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Measurement.swift; sourceTree = "<group>"; };
 		2729D68D221F44670030E1B8 /* CRC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CRC.swift; sourceTree = "<group>"; };
@@ -183,6 +134,7 @@
 		272FAF06228CA590002D8064 /* SegmentViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SegmentViewCell.swift; sourceTree = "<group>"; };
 		272FAF07228CA590002D8064 /* SegmentViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SegmentViewCell.xib; sourceTree = "<group>"; };
 		27408E572370D3C3002C71C8 /* ConcreteSensorDisplayable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConcreteSensorDisplayable.swift; sourceTree = "<group>"; };
+		274C03EA2552E9E7008AB4D8 /* PreLibre2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreLibre2.swift; sourceTree = "<group>"; };
 		274DF85122A5AEA400BFAFFE /* AlertControllers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertControllers.swift; sourceTree = "<group>"; };
 		275C3D94229AA69C00E27439 /* MMSwitchTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MMSwitchTableViewCell.swift; sourceTree = "<group>"; };
 		275C3D95229AA69C00E27439 /* MMSwitchTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MMSwitchTableViewCell.xib; sourceTree = "<group>"; };
@@ -199,26 +151,10 @@
 		277DAD13226CACF300422ADA /* MessagePassing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessagePassing.swift; sourceTree = "<group>"; };
 		2791063E23B960AF004B362F /* capture-build-details.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = "capture-build-details.sh"; sourceTree = "<group>"; };
 		2791064523B96B07004B362F /* UIApplication+metadata.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIApplication+metadata.swift"; sourceTree = "<group>"; };
-		2795404C2165502600D657E5 /* clitester */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = clitester; sourceTree = BUILT_PRODUCTS_DIR; };
-		2795404E2165502600D657E5 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
-		27A42F3B241D05C60002611C /* SwiftUITester.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SwiftUITester.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		27A42F3D241D05C60002611C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		27A42F3F241D05C60002611C /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		27A42F41241D05C60002611C /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
-		27A42F43241D05CC0002611C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		27A42F46241D05CC0002611C /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
-		27A42F49241D05CC0002611C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
-		27A42F4B241D05CC0002611C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		27A85D8623C6512A00F7FFC9 /* LibreTransmitter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibreTransmitter.swift; sourceTree = "<group>"; };
 		27A85D8823C6516300F7FFC9 /* UUIDContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UUIDContainer.swift; sourceTree = "<group>"; };
 		27A85D8A23C651B300F7FFC9 /* MiaomiaoTransmitter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MiaomiaoTransmitter.swift; sourceTree = "<group>"; };
 		27A85D8C23C6520300F7FFC9 /* BubbleTransmitter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BubbleTransmitter.swift; sourceTree = "<group>"; };
-		27C335E021667C7A00CF0868 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		27C335E221667C7B00CF0868 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
-		27C335E521667C7B00CF0868 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		27C335E721667C7C00CF0868 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		27C335EA21667C7C00CF0868 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
-		27C335EC21667C7C00CF0868 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		27CBEB3B225FB3A7004F7BF5 /* NibLoadable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NibLoadable.swift; sourceTree = "<group>"; };
 		27CBEB3D225FE5CB004F7BF5 /* AlarmSettingsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlarmSettingsTableViewController.swift; sourceTree = "<group>"; };
 		27CBEB542261DF9C004F7BF5 /* AlarmTimeInputRangeCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlarmTimeInputRangeCell.swift; sourceTree = "<group>"; };
@@ -244,16 +180,12 @@
 		4325E9D4210E6B4300969CE5 /* UIColor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIColor.swift; sourceTree = "<group>"; };
 		432B0E881CDFC3C50045347B /* MiaomiaoClient.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = MiaomiaoClient.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		432B0E8D1CDFC3C50045347B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		432B0E921CDFC3C50045347B /* MiaomiaoClientTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MiaomiaoClientTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		432B0E971CDFC3C50045347B /* MiaomiaoClientTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MiaomiaoClientTests.swift; sourceTree = "<group>"; };
-		432B0E991CDFC3C50045347B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		43A8EC82210E664300A81379 /* MiaomiaoClientUI.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = MiaomiaoClientUI.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		43A8EC85210E664300A81379 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		43A8EC8D210E676500A81379 /* MiaomiaoClientSetupViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MiaomiaoClientSetupViewController.swift; sourceTree = "<group>"; };
 		43A8EC8E210E676500A81379 /* MiaomiaoClientManager+UI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MiaomiaoClientManager+UI.swift"; sourceTree = "<group>"; };
 		43A8EC8F210E676500A81379 /* MiaomiaoClientSettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MiaomiaoClientSettingsViewController.swift; sourceTree = "<group>"; };
 		43A8EC94210E67B000A81379 /* HealthKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HealthKit.framework; path = System/Library/Frameworks/HealthKit.framework; sourceTree = SDKROOT; };
-		43A8EC96210E680100A81379 /* ShareService+UI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "ShareService+UI.swift"; sourceTree = "<group>"; };
 		43AB511A21330D1400B3D58D /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Base; path = Base.lproj/Localizable.strings; sourceTree = "<group>"; };
 		43AB511C21330D6800B3D58D /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/Localizable.strings; sourceTree = "<group>"; };
 		43AB511D21330D6B00B3D58D /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -279,43 +211,12 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		27249307232F03E400AFE86A /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		279540492165502600D657E5 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				27C335B9216566C500CF0868 /* MiaomiaoClient.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		27A42F38241D05C60002611C /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				27A42F51241D9D2E0002611C /* SwiftUICharts in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		432B0E841CDFC3C50045347B /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 				43A8EC95210E67B000A81379 /* HealthKit.framework in Frameworks */,
 				27F09EEC23FF2FBF00722EB4 /* LoopKit.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		432B0E8F1CDFC3C50045347B /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				432B0E931CDFC3C50045347B /* MiaomiaoClient.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -366,22 +267,13 @@
 			path = Graphics;
 			sourceTree = "<group>";
 		};
-		2724930B232F03E500AFE86A /* test-lint */ = {
-			isa = PBXGroup;
-			children = (
-				2724930C232F03E500AFE86A /* test_lint.h */,
-				2724930D232F03E500AFE86A /* Info.plist */,
-			);
-			path = "test-lint";
-			sourceTree = "<group>";
-		};
 		2729D671221F42070030E1B8 /* Bluetooth */ = {
 			isa = PBXGroup;
 			children = (
 				277CC0FC23BE937A00E83556 /* Transmitter */,
 				271EDF2022EB63B100E1C8B3 /* BluetoothSearch.swift */,
 				2729D676221F421C0030E1B8 /* LibreTransmitterMetadata.swift */,
-				27167A0223D3C6510033BFBE /* QueuedPropertyAccess.swift */,
+				272A0834253E067800600AC8 /* CBPeripheralExtensions.swift */,
 			);
 			path = Bluetooth;
 			sourceTree = "<group>";
@@ -407,6 +299,30 @@
 			path = SegmentView;
 			sourceTree = "<group>";
 		};
+		274C039A2552A79D008AB4D8 /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				270C266E226A5A6E005B27F3 /* GlucoseSchedules.swift */,
+				276A870D235F875D0055AFFA /* UserDefaults+GlucoseSettings.swift */,
+				277DAD0C226B970300422ADA /* UserDefaults+Alarmsettings.swift */,
+				271EDF2422EC739F00E1C8B3 /* UserDefaults+Bluetooth.swift */,
+				2791064523B96B07004B362F /* UIApplication+metadata.swift */,
+			);
+			path = Settings;
+			sourceTree = "<group>";
+		};
+		274C039B2552A7A9008AB4D8 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				27CFAB5422496C7A006DEFE3 /* DoubleExtensions.swift */,
+				27CFAB5D224AB265006DEFE3 /* CollectionExtensions.swift */,
+				27E0968E22A9AD6F00B3164D /* TimeIntervalExtensions.swift */,
+				272BF9C22338044600AD38AA /* DataExtensions.swift */,
+				27D0DA6A2231CBB7007BBB2C /* DateExtensions.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
 		274DF85322A6E12B00BFAFFE /* Cells */ = {
 			isa = PBXGroup;
 			children = (
@@ -415,8 +331,7 @@
 				272FAF05228CA53F002D8064 /* SegmentView */,
 				270C2658226911DB005B27F3 /* GlucoseAlarmInputCell */,
 				270C2657226911BB005B27F3 /* AlarmTimeInputRangeCell */,
-				2769B5BA2264EDFD006F1935 /* LFTimePickerController */,
-				271EDF2222EC6F0A00E1C8B3 /* AnnotatedSubtitleCell.swift */,
+				2769B5BA2264EDFD006F1935 /* CustomDatePicker */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -434,13 +349,13 @@
 			path = mmSwitchTableViewCell;
 			sourceTree = "<group>";
 		};
-		2769B5BA2264EDFD006F1935 /* LFTimePickerController */ = {
+		2769B5BA2264EDFD006F1935 /* CustomDatePicker */ = {
 			isa = PBXGroup;
 			children = (
 				27E0969722B94CAD00B3164D /* CustomDatePicker.swift */,
 				27E0969922B94D4400B3164D /* CustomDatePickerViewController.swift */,
 			);
-			path = LFTimePickerController;
+			path = CustomDatePicker;
 			sourceTree = "<group>";
 		};
 		2777F4E925385C6600E5944F /* SwiftUIViews */ = {
@@ -472,50 +387,6 @@
 			path = Scripts;
 			sourceTree = "<group>";
 		};
-		2795404D2165502600D657E5 /* clitester */ = {
-			isa = PBXGroup;
-			children = (
-				2795404E2165502600D657E5 /* main.swift */,
-			);
-			path = clitester;
-			sourceTree = "<group>";
-		};
-		27A42F3C241D05C60002611C /* SwiftUITester */ = {
-			isa = PBXGroup;
-			children = (
-				27A42F3D241D05C60002611C /* AppDelegate.swift */,
-				27A42F3F241D05C60002611C /* SceneDelegate.swift */,
-				27A42F41241D05C60002611C /* ContentView.swift */,
-				27A42F43241D05CC0002611C /* Assets.xcassets */,
-				27A42F48241D05CC0002611C /* LaunchScreen.storyboard */,
-				27A42F4B241D05CC0002611C /* Info.plist */,
-				27A42F45241D05CC0002611C /* Preview Content */,
-			);
-			path = SwiftUITester;
-			sourceTree = "<group>";
-		};
-		27A42F45241D05CC0002611C /* Preview Content */ = {
-			isa = PBXGroup;
-			children = (
-				27A42F46241D05CC0002611C /* Preview Assets.xcassets */,
-			);
-			path = "Preview Content";
-			sourceTree = "<group>";
-		};
-		27C335DF21667C7A00CF0868 /* singleviewtesterapp2 */ = {
-			isa = PBXGroup;
-			children = (
-				2729D682221F42760030E1B8 /* BloodSugarController.swift */,
-				27C335E021667C7A00CF0868 /* AppDelegate.swift */,
-				27C335E221667C7B00CF0868 /* ViewController.swift */,
-				27C335E421667C7B00CF0868 /* Main.storyboard */,
-				27C335E721667C7C00CF0868 /* Assets.xcassets */,
-				27C335E921667C7C00CF0868 /* LaunchScreen.storyboard */,
-				27C335EC21667C7C00CF0868 /* Info.plist */,
-			);
-			path = singleviewtesterapp2;
-			sourceTree = "<group>";
-		};
 		27D043FA2330091600623B49 /* GlucoseAlgorithm */ = {
 			isa = PBXGroup;
 			children = (
@@ -533,6 +404,7 @@
 				2729D68E221F44670030E1B8 /* SensorSerialNumber.swift */,
 				2729D68D221F44670030E1B8 /* CRC.swift */,
 				2729D68B221F44660030E1B8 /* Measurement.swift */,
+				274C03EA2552E9E7008AB4D8 /* PreLibre2.swift */,
 			);
 			path = SensorContents;
 			sourceTree = "<group>";
@@ -559,12 +431,7 @@
 				2729D671221F42070030E1B8 /* Bluetooth */,
 				432B0E8A1CDFC3C50045347B /* MiaomiaoClient */,
 				43AB51342133176B00B3D58D /* Common */,
-				432B0E961CDFC3C50045347B /* MiaomiaoClientTests */,
 				43A8EC83210E664300A81379 /* MiaomiaoClientUI */,
-				2795404D2165502600D657E5 /* clitester */,
-				27C335DF21667C7A00CF0868 /* singleviewtesterapp2 */,
-				2724930B232F03E500AFE86A /* test-lint */,
-				27A42F3C241D05C60002611C /* SwiftUITester */,
 				432B0E891CDFC3C50045347B /* Products */,
 				43A8EC7A210E661300A81379 /* Frameworks */,
 			);
@@ -574,11 +441,7 @@
 			isa = PBXGroup;
 			children = (
 				432B0E881CDFC3C50045347B /* MiaomiaoClient.framework */,
-				432B0E921CDFC3C50045347B /* MiaomiaoClientTests.xctest */,
 				43A8EC82210E664300A81379 /* MiaomiaoClientUI.framework */,
-				2795404C2165502600D657E5 /* clitester */,
-				2724930A232F03E400AFE86A /* test_lint.framework */,
-				27A42F3B241D05C60002611C /* SwiftUITester.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -594,15 +457,6 @@
 				27408E572370D3C3002C71C8 /* ConcreteSensorDisplayable.swift */,
 			);
 			path = MiaomiaoClient;
-			sourceTree = "<group>";
-		};
-		432B0E961CDFC3C50045347B /* MiaomiaoClientTests */ = {
-			isa = PBXGroup;
-			children = (
-				432B0E971CDFC3C50045347B /* MiaomiaoClientTests.swift */,
-				432B0E991CDFC3C50045347B /* Info.plist */,
-			);
-			path = MiaomiaoClientTests;
 			sourceTree = "<group>";
 		};
 		43A8EC7A210E661300A81379 /* Frameworks */ = {
@@ -625,7 +479,6 @@
 				43AB511921330D1400B3D58D /* Localizable.strings */,
 				4325E9D2210E6ADA00969CE5 /* IdentifiableClass.swift */,
 				43A8EC8E210E676500A81379 /* MiaomiaoClientManager+UI.swift */,
-				43A8EC96210E680100A81379 /* ShareService+UI.swift */,
 				4325E9D4210E6B4300969CE5 /* UIColor.swift */,
 				43A8EC85210E664300A81379 /* Info.plist */,
 				27E0968C22A9806200B3164D /* CGFLoat+Double.swift */,
@@ -637,20 +490,11 @@
 		43AB51342133176B00B3D58D /* Common */ = {
 			isa = PBXGroup;
 			children = (
+				274C039B2552A7A9008AB4D8 /* Extensions */,
+				274C039A2552A79D008AB4D8 /* Settings */,
 				4325E9CE210E6A0A00969CE5 /* HKUnit.swift */,
-				27CFAB5422496C7A006DEFE3 /* DoubleExtensions.swift */,
 				43AB51352133177800B3D58D /* LocalizedString.swift */,
-				27D0DA6A2231CBB7007BBB2C /* DateExtensions.swift */,
-				27CFAB5D224AB265006DEFE3 /* CollectionExtensions.swift */,
-				270C266E226A5A6E005B27F3 /* GlucoseSchedules.swift */,
-				276A870D235F875D0055AFFA /* UserDefaults+GlucoseSettings.swift */,
-				277DAD0C226B970300422ADA /* UserDefaults+Alarmsettings.swift */,
 				277DAD13226CACF300422ADA /* MessagePassing.swift */,
-				27E0968E22A9AD6F00B3164D /* TimeIntervalExtensions.swift */,
-				271EDF2422EC739F00E1C8B3 /* UserDefaults+Bluetooth.swift */,
-				272BF9C22338044600AD38AA /* DataExtensions.swift */,
-				2791064523B96B07004B362F /* UIApplication+metadata.swift */,
-				272A0834253E067800600AC8 /* CBPeripheralExtensions.swift */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -658,14 +502,6 @@
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
-		27249305232F03E400AFE86A /* Headers */ = {
-			isa = PBXHeadersBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				2724930E232F03E500AFE86A /* test_lint.h in Headers */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		432B0E851CDFC3C50045347B /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
@@ -683,63 +519,6 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
-		27249309232F03E400AFE86A /* test-lint */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 27249313232F03E500AFE86A /* Build configuration list for PBXNativeTarget "test-lint" */;
-			buildPhases = (
-				27249305232F03E400AFE86A /* Headers */,
-				27249306232F03E400AFE86A /* Sources */,
-				27249307232F03E400AFE86A /* Frameworks */,
-				27249308232F03E400AFE86A /* Resources */,
-				27249316232F040800AFE86A /* ShellScript */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			name = "test-lint";
-			productName = "test-lint";
-			productReference = 2724930A232F03E400AFE86A /* test_lint.framework */;
-			productType = "com.apple.product-type.framework";
-		};
-		2795404B2165502600D657E5 /* clitester */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 279540502165502600D657E5 /* Build configuration list for PBXNativeTarget "clitester" */;
-			buildPhases = (
-				279540482165502600D657E5 /* Sources */,
-				279540492165502600D657E5 /* Frameworks */,
-				2795404A2165502600D657E5 /* CopyFiles */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				277FE8E12165606D001ACE55 /* PBXTargetDependency */,
-			);
-			name = clitester;
-			productName = clitester;
-			productReference = 2795404C2165502600D657E5 /* clitester */;
-			productType = "com.apple.product-type.tool";
-		};
-		27A42F3A241D05C60002611C /* SwiftUITester */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 27A42F4E241D05CC0002611C /* Build configuration list for PBXNativeTarget "SwiftUITester" */;
-			buildPhases = (
-				27A42F37241D05C60002611C /* Sources */,
-				27A42F38241D05C60002611C /* Frameworks */,
-				27A42F39241D05C60002611C /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			name = SwiftUITester;
-			packageProductDependencies = (
-				27A42F50241D9D2E0002611C /* SwiftUICharts */,
-			);
-			productName = SwiftUITester;
-			productReference = 27A42F3B241D05C60002611C /* SwiftUITester.app */;
-			productType = "com.apple.product-type.application";
-		};
 		432B0E871CDFC3C50045347B /* MiaomiaoClient */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 432B0E9C1CDFC3C50045347B /* Build configuration list for PBXNativeTarget "MiaomiaoClient" */;
@@ -758,24 +537,6 @@
 			productName = MiaomiaoClient;
 			productReference = 432B0E881CDFC3C50045347B /* MiaomiaoClient.framework */;
 			productType = "com.apple.product-type.framework";
-		};
-		432B0E911CDFC3C50045347B /* MiaomiaoClientTests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 432B0E9F1CDFC3C50045347B /* Build configuration list for PBXNativeTarget "MiaomiaoClientTests" */;
-			buildPhases = (
-				432B0E8E1CDFC3C50045347B /* Sources */,
-				432B0E8F1CDFC3C50045347B /* Frameworks */,
-				432B0E901CDFC3C50045347B /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				432B0E951CDFC3C50045347B /* PBXTargetDependency */,
-			);
-			name = MiaomiaoClientTests;
-			productName = MiaomiaoClientTests;
-			productReference = 432B0E921CDFC3C50045347B /* MiaomiaoClientTests.xctest */;
-			productType = "com.apple.product-type.bundle.unit-test";
 		};
 		43A8EC81210E664300A81379 /* MiaomiaoClientUI */ = {
 			isa = PBXNativeTarget;
@@ -806,25 +567,7 @@
 				LastUpgradeCheck = 1130;
 				ORGANIZATIONNAME = "Bjørn Inge Vikhammermo Berg";
 				TargetAttributes = {
-					27249309232F03E400AFE86A = {
-						CreatedOnToolsVersion = 10.2.1;
-						DevelopmentTeam = L28K36YETG;
-						ProvisioningStyle = Automatic;
-					};
-					2795404B2165502600D657E5 = {
-						CreatedOnToolsVersion = 9.4.1;
-						DevelopmentTeam = L28K36YETG;
-						ProvisioningStyle = Automatic;
-					};
-					27A42F3A241D05C60002611C = {
-						CreatedOnToolsVersion = 11.3;
-					};
 					432B0E871CDFC3C50045347B = {
-						CreatedOnToolsVersion = 7.3.1;
-						DevelopmentTeam = L28K36YETG;
-						LastSwiftMigration = 1120;
-					};
-					432B0E911CDFC3C50045347B = {
 						CreatedOnToolsVersion = 7.3.1;
 						DevelopmentTeam = L28K36YETG;
 						LastSwiftMigration = 1120;
@@ -855,40 +598,18 @@
 			);
 			mainGroup = 432B0E7E1CDFC3C50045347B;
 			packageReferences = (
-				27A42F4F241D9D2E0002611C /* XCRemoteSwiftPackageReference "ChartView" */,
 			);
 			productRefGroup = 432B0E891CDFC3C50045347B /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
 				432B0E871CDFC3C50045347B /* MiaomiaoClient */,
-				432B0E911CDFC3C50045347B /* MiaomiaoClientTests */,
 				43A8EC81210E664300A81379 /* MiaomiaoClientUI */,
-				2795404B2165502600D657E5 /* clitester */,
-				27249309232F03E400AFE86A /* test-lint */,
-				27A42F3A241D05C60002611C /* SwiftUITester */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		27249308232F03E400AFE86A /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		27A42F39241D05C60002611C /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				27A42F4A241D05CC0002611C /* LaunchScreen.storyboard in Resources */,
-				27A42F47241D05CC0002611C /* Preview Assets.xcassets in Resources */,
-				27A42F44241D05CC0002611C /* Assets.xcassets in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		432B0E861CDFC3C50045347B /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -897,13 +618,6 @@
 				2701478B227B584B0013C9E3 /* miaomiao-small.png in Resources */,
 				271EDF3A22F23A0800E1C8B3 /* libresensor.png in Resources */,
 				271EDF3522F22BEE00E1C8B3 /* bubble.png in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		432B0E901CDFC3C50045347B /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -932,23 +646,6 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		27249316232F040800AFE86A /* ShellScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-			);
-			outputFileListPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "if which swiftlint >/dev/null; then\necho \"pwd is\"\npwd\nswiftlint\nelse\necho \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n";
-		};
 		2791063C23B95EA7004B362F /* Capture build details */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -988,31 +685,6 @@
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		27249306232F03E400AFE86A /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		279540482165502600D657E5 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				2795404F2165502600D657E5 /* main.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		27A42F37241D05C60002611C /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				27A42F3E241D05C60002611C /* AppDelegate.swift in Sources */,
-				27A42F40241D05C60002611C /* SceneDelegate.swift in Sources */,
-				27A42F42241D05C60002611C /* ContentView.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		432B0E831CDFC3C50045347B /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -1030,11 +702,11 @@
 				27FE3F06240F03A5003178B4 /* LimitedQueue.swift in Sources */,
 				2791064623B96B07004B362F /* UIApplication+metadata.swift in Sources */,
 				277DAD0D226B970300422ADA /* UserDefaults+Alarmsettings.swift in Sources */,
+				274C03EB2552E9E7008AB4D8 /* PreLibre2.swift in Sources */,
 				2777F4DA253613C900E5944F /* GlucoseFromRaw.swift in Sources */,
 				27E3C393222EE2EC0036AAC7 /* Calibration.swift in Sources */,
 				27C335B82165667300CF0868 /* LibreGlucose.swift in Sources */,
 				2729D69C221F44670030E1B8 /* SensorSerialNumber.swift in Sources */,
-				27167A0323D3C6510033BFBE /* QueuedPropertyAccess.swift in Sources */,
 				27408E592370D8C1002C71C8 /* TimeIntervalExtensions.swift in Sources */,
 				27CFAB5622496CBB006DEFE3 /* DoubleExtensions.swift in Sources */,
 				272A0835253E067800600AC8 /* CBPeripheralExtensions.swift in Sources */,
@@ -1055,14 +727,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		432B0E8E1CDFC3C50045347B /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				432B0E981CDFC3C50045347B /* MiaomiaoClientTests.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		43A8EC7D210E664300A81379 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -1075,7 +739,6 @@
 				27E0969122B2A89D00B3164D /* CalibrationEditTableViewController.swift in Sources */,
 				271EDF3322F0946400E1C8B3 /* BluetoothSearch.swift in Sources */,
 				27E0969B22B94D4400B3164D /* CustomDatePickerViewController.swift in Sources */,
-				43A8EC97210E680100A81379 /* ShareService+UI.swift in Sources */,
 				275C3D99229AA88200E27439 /* MMSwitchTableViewCell.swift in Sources */,
 				27E0969822B94CAD00B3164D /* CustomDatePicker.swift in Sources */,
 				271EDF3422F095C000E1C8B3 /* UserDefaults+Bluetooth.swift in Sources */,
@@ -1102,7 +765,6 @@
 				274DF85222A5AEA400BFAFFE /* AlertControllers.swift in Sources */,
 				277DAD12226C9FA800422ADA /* DateExtensions.swift in Sources */,
 				270C2670226A5A6E005B27F3 /* GlucoseSchedules.swift in Sources */,
-				271EDF2322EC6F0A00E1C8B3 /* AnnotatedSubtitleCell.swift in Sources */,
 				43A8EC91210E676500A81379 /* MiaomiaoClientManager+UI.swift in Sources */,
 				270C266D226A2F8E005B27F3 /* HKUnit.swift in Sources */,
 				43A8EC90210E676500A81379 /* MiaomiaoClientSetupViewController.swift in Sources */,
@@ -1111,44 +773,7 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
-/* Begin PBXTargetDependency section */
-		277FE8E12165606D001ACE55 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 432B0E871CDFC3C50045347B /* MiaomiaoClient */;
-			targetProxy = 277FE8E02165606D001ACE55 /* PBXContainerItemProxy */;
-		};
-		432B0E951CDFC3C50045347B /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 432B0E871CDFC3C50045347B /* MiaomiaoClient */;
-			targetProxy = 432B0E941CDFC3C50045347B /* PBXContainerItemProxy */;
-		};
-/* End PBXTargetDependency section */
-
 /* Begin PBXVariantGroup section */
-		27A42F48241D05CC0002611C /* LaunchScreen.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				27A42F49241D05CC0002611C /* Base */,
-			);
-			name = LaunchScreen.storyboard;
-			sourceTree = "<group>";
-		};
-		27C335E421667C7B00CF0868 /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				27C335E521667C7B00CF0868 /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
-		27C335E921667C7C00CF0868 /* LaunchScreen.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				27C335EA21667C7C00CF0868 /* Base */,
-			);
-			name = LaunchScreen.storyboard;
-			sourceTree = "<group>";
-		};
 		43AB511921330D1400B3D58D /* Localizable.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -1186,175 +811,6 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
-		27249314232F03E500AFE86A /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
-				CLANG_ENABLE_OBJC_WEAK = YES;
-				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
-				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
-				CODE_SIGN_IDENTITY = "";
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEFINES_MODULE = YES;
-				DEVELOPMENT_TEAM = L28K36YETG;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				GCC_C_LANGUAGE_STANDARD = gnu11;
-				INFOPLIST_FILE = "test-lint/Info.plist";
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 12.2;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
-				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
-				MTL_FAST_MATH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = "no.bjorninge.SwiftLibreOOPWeb2.test-lint";
-				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
-				SKIP_INSTALL = YES;
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-			};
-			name = Debug;
-		};
-		27249315232F03E500AFE86A /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
-				CLANG_ENABLE_OBJC_WEAK = YES;
-				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
-				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
-				CODE_SIGN_IDENTITY = "";
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEFINES_MODULE = YES;
-				DEVELOPMENT_TEAM = L28K36YETG;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				GCC_C_LANGUAGE_STANDARD = gnu11;
-				INFOPLIST_FILE = "test-lint/Info.plist";
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 12.2;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
-				MTL_FAST_MATH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = "no.bjorninge.SwiftLibreOOPWeb2.test-lint";
-				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
-				SKIP_INSTALL = YES;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-			};
-			name = Release;
-		};
-		279540512165502600D657E5 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
-				CLANG_ENABLE_OBJC_WEAK = YES;
-				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
-				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
-				CODE_SIGN_IDENTITY = "Mac Developer";
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = L28K36YETG;
-				ENABLE_HARDENED_RUNTIME = YES;
-				GCC_C_LANGUAGE_STANDARD = gnu11;
-				MACOSX_DEPLOYMENT_TARGET = 10.13;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = macosx;
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
-				SWIFT_VERSION = 4.0;
-			};
-			name = Debug;
-		};
-		279540522165502600D657E5 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
-				CLANG_ENABLE_OBJC_WEAK = YES;
-				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
-				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
-				CODE_SIGN_IDENTITY = "Mac Developer";
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = L28K36YETG;
-				ENABLE_HARDENED_RUNTIME = YES;
-				GCC_C_LANGUAGE_STANDARD = gnu11;
-				MACOSX_DEPLOYMENT_TARGET = 10.13;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = macosx;
-				SWIFT_VERSION = 4.0;
-			};
-			name = Release;
-		};
-		27A42F4C241D05CC0002611C /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
-				CLANG_ENABLE_OBJC_WEAK = YES;
-				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
-				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_ASSET_PATHS = "\"SwiftUITester/Preview Content\"";
-				DEVELOPMENT_TEAM = L28K36YETG;
-				ENABLE_PREVIEWS = YES;
-				GCC_C_LANGUAGE_STANDARD = gnu11;
-				INFOPLIST_FILE = SwiftUITester/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.2;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-				);
-				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
-				MTL_FAST_MATH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = no.bjorninge.SwiftUITester;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-			};
-			name = Debug;
-		};
-		27A42F4D241D05CC0002611C /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
-				CLANG_ENABLE_OBJC_WEAK = YES;
-				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
-				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_ASSET_PATHS = "\"SwiftUITester/Preview Content\"";
-				DEVELOPMENT_TEAM = L28K36YETG;
-				ENABLE_PREVIEWS = YES;
-				GCC_C_LANGUAGE_STANDARD = gnu11;
-				INFOPLIST_FILE = SwiftUITester/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.2;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-				);
-				MTL_FAST_MATH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = no.bjorninge.SwiftUITester;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-			};
-			name = Release;
-		};
 		432B0E9A1CDFC3C50045347B /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -1480,8 +936,7 @@
 				);
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
-				SWIFT_COMPILATION_MODE = wholemodule;
-				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
 				VERSIONING_SYSTEM = "apple-generic";
@@ -1509,11 +964,7 @@
 				);
 				INFOPLIST_FILE = MiaomiaoClient/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.mddub.MiaomiaoClient;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -1544,49 +995,13 @@
 				GCC_OPTIMIZATION_LEVEL = 0;
 				INFOPLIST_FILE = MiaomiaoClient/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.mddub.MiaomiaoClient;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				SUPPORTED_PLATFORMS = "iphonesimulator iphoneos";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2,4";
-			};
-			name = Release;
-		};
-		432B0EA01CDFC3C50045347B /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				DEVELOPMENT_TEAM = L28K36YETG;
-				INFOPLIST_FILE = MiaomiaoClientTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.mddub.MiaomiaoClientTests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 5.0;
-			};
-			name = Debug;
-		};
-		432B0EA11CDFC3C50045347B /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				DEVELOPMENT_TEAM = L28K36YETG;
-				INFOPLIST_FILE = MiaomiaoClientTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.mddub.MiaomiaoClientTests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 5.0;
 			};
 			name = Release;
 		};
@@ -1616,11 +1031,7 @@
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				INFOPLIST_FILE = MiaomiaoClientUI/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.loopkit.MiaomiaoClientUI;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
@@ -1657,11 +1068,7 @@
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				INFOPLIST_FILE = MiaomiaoClientUI/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.loopkit.MiaomiaoClientUI;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
@@ -1673,33 +1080,6 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		27249313232F03E500AFE86A /* Build configuration list for PBXNativeTarget "test-lint" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				27249314232F03E500AFE86A /* Debug */,
-				27249315232F03E500AFE86A /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		279540502165502600D657E5 /* Build configuration list for PBXNativeTarget "clitester" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				279540512165502600D657E5 /* Debug */,
-				279540522165502600D657E5 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		27A42F4E241D05CC0002611C /* Build configuration list for PBXNativeTarget "SwiftUITester" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				27A42F4C241D05CC0002611C /* Debug */,
-				27A42F4D241D05CC0002611C /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
 		432B0E821CDFC3C50045347B /* Build configuration list for PBXProject "MiaomiaoClient" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
@@ -1718,15 +1098,6 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		432B0E9F1CDFC3C50045347B /* Build configuration list for PBXNativeTarget "MiaomiaoClientTests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				432B0EA01CDFC3C50045347B /* Debug */,
-				432B0EA11CDFC3C50045347B /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
 		43A8EC87210E664300A81379 /* Build configuration list for PBXNativeTarget "MiaomiaoClientUI" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
@@ -1737,25 +1108,6 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
-
-/* Begin XCRemoteSwiftPackageReference section */
-		27A42F4F241D9D2E0002611C /* XCRemoteSwiftPackageReference "ChartView" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/AppPear/ChartView";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 1.4.9;
-			};
-		};
-/* End XCRemoteSwiftPackageReference section */
-
-/* Begin XCSwiftPackageProductDependency section */
-		27A42F50241D9D2E0002611C /* SwiftUICharts */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 27A42F4F241D9D2E0002611C /* XCRemoteSwiftPackageReference "ChartView" */;
-			productName = SwiftUICharts;
-		};
-/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 432B0E7F1CDFC3C50045347B /* Project object */;
 }

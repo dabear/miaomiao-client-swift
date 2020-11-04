@@ -26,7 +26,11 @@ public protocol LibreTransmitter : class{
 
     func reset()
 
+
+    
     static func getDeviceDetailsFromAdvertisement(advertisementData: [String: Any]?) -> String?
+
+
 
 }
 

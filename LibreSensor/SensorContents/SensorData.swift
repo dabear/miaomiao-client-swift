@@ -14,6 +14,12 @@ public struct SensorData: Codable {
     /// Parameters for the temperature compensation algorithm
     //let temperatureAlgorithmParameterSet: TemperatureAlgorithmParameters?
 
+    private let headerRange = 0..<24   //  24 bytes, i.e.  3 blocks a 8 bytes
+    private let bodyRange = 24..<320  // 296 bytes, i.e. 37 blocks a 8 bytes
+    private let footerRange = 320..<344  //  24 bytes, i.e.  3 blocks a 8 bytes
+
+
+
     /// The uid of the sensor
     let uuid: Data
     /// The serial number of the sensor
@@ -21,23 +27,37 @@ public struct SensorData: Codable {
     /// Number of bytes of sensor data to be used (read only), i.e. 344 bytes (24 for header, 296 for body and 24 for footer)
     private let numberOfBytes = 344 // Header and body and footer of Freestyle Libre data (i.e. 40 blocks of 8 bytes)
     /// Array of 344 bytes as read via nfc
-    let bytes: [UInt8]
+    var bytes: [UInt8]
     /// Subarray of 24 header bytes
-    let header: [UInt8]
+    var header: [UInt8] {
+        Array(bytes[headerRange])
+    }
     /// Subarray of 296 body bytes
-    let body: [UInt8]
+    var body: [UInt8] {
+        Array(bytes[bodyRange])
+    }
     /// Subarray of 24 footer bytes
-    let footer: [UInt8]
+    var footer: [UInt8] {
+        Array(bytes[footerRange])
+    }
     /// Date when data was read from sensor
     let date: Date
     /// Minutes (approx) since start of sensor
-    let minutesSinceStart: Int
+    var minutesSinceStart: Int {
+        Int(body[293]) << 8 + Int(body[292])
+    }
     /// Maximum time in Minutes he sensor can be worn before it expires
-    let maxMinutesWearTime: Int
+    var maxMinutesWearTime: Int {
+        Int(footer[7]) << 8 + Int(footer[6])
+    }
     /// Index on the next block of trend data that the sensor will measure and store
-    let nextTrendBlock: Int
+    var nextTrendBlock: Int {
+        Int(body[2])
+    }
     /// Index on the next block of history data that the sensor will create from trend data and store
-    let nextHistoryBlock: Int
+    var nextHistoryBlock: Int {
+        Int(body[3])
+    }
     /// true if all crc's are valid
     var hasValidCRCs: Bool {
         hasValidHeaderCRC && hasValidBodyCRC && hasValidFooterCRC
@@ -69,7 +89,8 @@ public struct SensorData: Codable {
         SensorState(stateByte: header[4])
     }
 
-    var isLikelyLibre1: Bool {
+    //all libre1 and 2 sensors will pass this, once decrypted
+    var isLikelyLibre1FRAM: Bool {
         if bytes.count > 23 {
             let subset = bytes[9...23]
             return !subset.contains(where: { $0 > 0 })
@@ -82,6 +103,19 @@ public struct SensorData: Codable {
         let b0 = UInt16(self.footer[1])
         let b1 = UInt16(self.footer[0])
         return (b0 << 8) | UInt16(b1)
+    }
+
+    mutating func decrypt(patchInfo: String, uid: [UInt8]) {
+
+        guard let info = patchInfo.hexadecimal()  else {
+            NSLog("Could not decrypt sensor")
+            return
+        }
+
+        var decrypted2 = PreLibre2.decryptFRAM(sensorId: uid, sensorInfo: [UInt8](info), FRAMData: self.bytes)
+
+        self.bytes = decrypted2
+
     }
 
     //how to use this in a sensible way is still unknown
@@ -162,18 +196,7 @@ public struct SensorData: Codable {
         // it was produced within the last minute
         self.date = date.rounded(on: 1, .minute)
 
-        let headerRange = 0..<24   //  24 bytes, i.e.  3 blocks a 8 bytes
-        let bodyRange = 24..<320  // 296 bytes, i.e. 37 blocks a 8 bytes
-        let footerRange = 320..<344  //  24 bytes, i.e.  3 blocks a 8 bytes
 
-        self.header = Array(bytes[headerRange])
-        self.body = Array(bytes[bodyRange])
-        self.footer = Array(bytes[footerRange])
-
-        self.nextTrendBlock = Int(body[2])
-        self.nextHistoryBlock = Int(body[3])
-        self.minutesSinceStart = Int(body[293]) << 8 + Int(body[292])
-        self.maxMinutesWearTime = Int(footer[7]) << 8 + Int(footer[6])
 
         self.uuid = uuid
 

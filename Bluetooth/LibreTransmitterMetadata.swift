@@ -22,16 +22,100 @@ public struct LibreTransmitterMetadata: CustomStringConvertible {
 
     public let name: String
 
-    init(hardware: String, firmware: String, battery: Int, name: String, macAddress: String?) {
+    public let patchInfo: String?
+    public let uid: [UInt8]?
+
+    init(hardware: String, firmware: String, battery: Int, name: String, macAddress: String?, patchInfo: String?, uid: [UInt8]?) {
         self.hardware = hardware
         self.firmware = firmware
         self.battery = battery
         self.batteryString = "\(battery) %"
         self.macAddress = macAddress
         self.name = name
+        self.patchInfo = patchInfo
+        self.uid = uid
     }
 
     public var description: String {
          "Hardware: \(hardware), firmware: \(firmware), battery: \(batteryString), macAddress: \(macAddress)"
+    }
+
+    public func sensorType() -> LibreSensorType? {
+        guard let patchInfo = patchInfo else {return .libre1}
+        return LibreSensorType(patchInfo: patchInfo)
+
+    }
+}
+
+extension String {
+    //https://stackoverflow.com/questions/39677330/how-does-string-substring-work-in-swift
+    //usage
+    //let s = "hello"
+    //s[0..<3] // "hel"
+    //s[3..<s.count] // "lo"
+    subscript(_ range: CountableRange<Int>) -> String {
+        let idx1 = index(startIndex, offsetBy: max(0, range.lowerBound))
+        let idx2 = index(startIndex, offsetBy: min(self.count, range.upperBound))
+        return String(self[idx1..<idx2])
+    }
+
+    func hexadecimal() -> Data? {
+        var data = Data(capacity: count / 2)
+
+        let regex = try! NSRegularExpression(pattern: "[0-9a-f]{1,2}", options: .caseInsensitive)
+        regex.enumerateMatches(in: self, range: NSRange(startIndex..., in: self)) { match, _, _ in
+            let byteString = (self as NSString).substring(with: match!.range)
+            let num = UInt8(byteString, radix: 16)!
+            data.append(num)
+        }
+
+        guard data.count > 0 else { return nil }
+
+        return data
+
+    }
+}
+
+public enum LibreSensorType: String, CustomStringConvertible {
+
+    case libre1    = "DF"
+    case libre1A2 =  "A2"
+    case libre2    = "9D"
+    case libreUS   = "E5"
+    case libreProH = "70"
+
+    public var description: String {
+
+        switch self {
+        case .libre1:
+            return "Libre 1"
+        case .libre1A2:
+            return "Libre 1 A2"
+        case .libre2:
+            return "Libre 2"
+        case .libreUS:
+            return "Libre US"
+        case .libreProH:
+            return "Libre PRO H"
+
+        }
+
+    }
+}
+
+public extension LibreSensorType {
+    init?(patchInfo: String) {
+        guard patchInfo.count > 1 else {return nil}
+
+        let start = patchInfo[0..<2]
+
+        let choices : [String: LibreSensorType] = ["DF": .libre1, "A2": .libre1A2, "9D": .libre2, "E5": .libreUS, "70":  .libreProH]
+
+        if let res =  choices[start] {
+            self = res
+            return
+        }
+
+        return nil
     }
 }

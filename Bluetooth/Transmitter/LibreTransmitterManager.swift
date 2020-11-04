@@ -108,8 +108,10 @@ final class LibreTransmitterManager: NSObject, CBCentralManagerDelegate, CBPerip
     var sensorData: SensorData?
 
     public var identifier: UUID? {
-        return peripheral?.identifier
+        peripheral?.identifier
     }
+
+   
 
     private let managerQueue = DispatchQueue(label: "no.bjorninge.bluetoothManagerQueue", qos: .utility)
     private let delegateQueue = DispatchQueue(label: "no.bjorninge.delegateQueue", qos: .utility)
@@ -142,7 +144,7 @@ final class LibreTransmitterManager: NSObject, CBCentralManagerDelegate, CBPerip
         }
     }
     public var connectionStateString: String {
-        dispatchPrecondition(condition: .onQueue(managerQueue))
+        //dispatchPrecondition(condition: .onQueue(managerQueue))
         return self.state.rawValue
     }
 
@@ -154,7 +156,7 @@ final class LibreTransmitterManager: NSObject, CBCentralManagerDelegate, CBPerip
         }
     }
 
-    lazy var viaManagerQueue = QueuedPropertyAccess(self, dispatchQueue: managerQueue)
+    //lazy var viaManagerQueue = QueuedPropertyAccess(self, dispatchQueue: managerQueue)
 
     // MARK: - Methods
 
@@ -364,6 +366,9 @@ final class LibreTransmitterManager: NSObject, CBCentralManagerDelegate, CBPerip
         guard let peripheral = restorablePeripheral else {
             return
         }
+
+
+
 
         self.peripheral = peripheral
         peripheral.delegate = self
