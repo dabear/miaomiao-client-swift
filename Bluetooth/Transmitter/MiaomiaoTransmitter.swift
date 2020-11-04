@@ -310,7 +310,9 @@ class MiaoMiaoTransmitter: LibreTransmitter {
             firmware: String(describing: rxBuffer[14...15].hexEncodedString()),
             battery: Int(rxBuffer[13]),
             name: Self.shortTransmitterName,
-            macAddress: nil, patchInfo: patchInfo, uid: nil)
+            macAddress: nil,
+            patchInfo: patchInfo,
+            uid: [UInt8](rxBuffer[5..<13]) )
 
         sensorData = SensorData(uuid: Data(rxBuffer.subdata(in: 5..<13)), bytes: [UInt8](rxBuffer.subdata(in: 18..<362)), date: Date())
 
