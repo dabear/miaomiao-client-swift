@@ -303,7 +303,7 @@ class MiaoMiaoTransmitter: LibreTransmitter {
         }
 
 
-       
+
 
         metadata = LibreTransmitterMetadata(
             hardware: String(describing: rxBuffer[16...17].hexEncodedString()),

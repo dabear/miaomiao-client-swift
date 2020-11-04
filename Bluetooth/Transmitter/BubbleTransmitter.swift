@@ -68,6 +68,7 @@ class BubbleTransmitter: MiaoMiaoTransmitter {
     private var mac: String? = ""
 
     private var patchInfo: String?
+    private var uid: [UInt8]?
 
 
     override class func getDeviceDetailsFromAdvertisement(advertisementData: [String: Any]?) -> String? {
@@ -146,7 +147,7 @@ class BubbleTransmitter: MiaoMiaoTransmitter {
             //let firmware = value[2].description + "." + value[3].description
            //let patchInfo = Data(Double(firmware)! < 1.35 ? value[3...8] : value[5...10])
            let battery = Int(value[4])
-            metadata = .init(hardware: hardware ?? "unknown", firmware: firmware ?? "unknown", battery: battery, name: Self.shortTransmitterName, macAddress: self.mac, patchInfo: patchInfo, uid: nil)
+            metadata = .init(hardware: hardware ?? "unknown", firmware: firmware ?? "unknown", battery: battery, name: Self.shortTransmitterName, macAddress: self.mac, patchInfo: patchInfo, uid: self.uid)
 
            print("dabear:: Got bubbledevice: \(metadata)")
            if let writeCharacteristic = writeCharacteristic {
@@ -163,9 +164,15 @@ class BubbleTransmitter: MiaoMiaoTransmitter {
         case .noSensor:
             delegate?.libreTransmitterReceivedMessage(0x0000, txFlags: 0x34, payloadData: rxBuffer)
 
-           reset()
+            reset()
         case .serialNumber:
-           rxBuffer.append(value.subdata(in: 2..<10))
+            guard value.count >= 10 else { return }
+            reset()
+            self.uid = [UInt8](value.subdata(in: 2..<10))
+
+            //for historical reasons
+            rxBuffer.append(value.subdata(in: 2..<10))
+
         case .patchInfo:
             guard value.count >= 10 else {
                 print("not able to extract patchinfo")
@@ -189,6 +196,8 @@ class BubbleTransmitter: MiaoMiaoTransmitter {
         guard rxBuffer.count >= 352 else {
             return
         }
+
+
 
         let data = rxBuffer.subdata(in: 8..<352)
         print("dabear:: bubbleHandleCompleteMessage raw data: \([UInt8](rxBuffer))")
