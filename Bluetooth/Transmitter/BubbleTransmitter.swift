@@ -70,6 +70,8 @@ class BubbleTransmitter: MiaoMiaoTransmitter {
     private var patchInfo: String?
     private var uid: [UInt8]?
 
+    private var battery: Int?
+
 
     override class func getDeviceDetailsFromAdvertisement(advertisementData: [String: Any]?) -> String? {
         let (amac,afirmware,ahardware) = Self.getDeviceDetailsFromAdvertisementInternal(advertisementData: advertisementData)
@@ -146,8 +148,8 @@ class BubbleTransmitter: MiaoMiaoTransmitter {
             //let hardware = value[value.count-2].description + "." + value[value.count-1].description
             //let firmware = value[2].description + "." + value[3].description
            //let patchInfo = Data(Double(firmware)! < 1.35 ? value[3...8] : value[5...10])
-           let battery = Int(value[4])
-            metadata = .init(hardware: hardware ?? "unknown", firmware: firmware ?? "unknown", battery: battery, name: Self.shortTransmitterName, macAddress: self.mac, patchInfo: patchInfo, uid: self.uid)
+            battery = Int(value[4])
+
 
            print("dabear:: Got bubbledevice: \(metadata)")
            if let writeCharacteristic = writeCharacteristic {
@@ -197,6 +199,7 @@ class BubbleTransmitter: MiaoMiaoTransmitter {
             return
         }
 
+        metadata = .init(hardware: hardware ?? "unknown", firmware: firmware ?? "unknown", battery: battery ?? 100, name: Self.shortTransmitterName, macAddress: self.mac, patchInfo: patchInfo, uid: self.uid)
 
 
         let data = rxBuffer.subdata(in: 8..<352)

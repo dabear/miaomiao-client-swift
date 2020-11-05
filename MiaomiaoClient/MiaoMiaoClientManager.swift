@@ -336,12 +336,14 @@ public final class MiaoMiaoClientManager: CGMManager, LibreTransmitterDelegate {
 
             } else {
                 os_log("Sensor type was incorrect, and no decryption of sensor was possible")
+                self.cgmManagerDelegate?.cgmManager(self, didUpdateWith: .error(LibreError.encryptedSensor))
                 return
 
             }
 
         }
 
+        print("Transmitter connected to libresensor of type \(Device.sensorType()). Details:  \(Device.description)")
 
 
         tryPersistSensorData(with: sensorData)
