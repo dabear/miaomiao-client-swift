@@ -111,8 +111,6 @@ final class LibreTransmitterManager: NSObject, CBCentralManagerDelegate, CBPerip
         peripheral?.identifier
     }
 
-   
-
     private let managerQueue = DispatchQueue(label: "no.bjorninge.bluetoothManagerQueue", qos: .utility)
     private let delegateQueue = DispatchQueue(label: "no.bjorninge.delegateQueue", qos: .utility)
 
@@ -366,9 +364,6 @@ final class LibreTransmitterManager: NSObject, CBCentralManagerDelegate, CBPerip
         guard let peripheral = restorablePeripheral else {
             return
         }
-
-
-
 
         self.peripheral = peripheral
         peripheral.delegate = self

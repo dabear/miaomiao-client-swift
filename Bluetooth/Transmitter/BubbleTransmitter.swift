@@ -72,24 +72,22 @@ class BubbleTransmitter: MiaoMiaoTransmitter {
 
     private var battery: Int?
 
-
     override class func getDeviceDetailsFromAdvertisement(advertisementData: [String: Any]?) -> String? {
-        let (amac,afirmware,ahardware) = Self.getDeviceDetailsFromAdvertisementInternal(advertisementData: advertisementData)
+        let (amac, afirmware, ahardware) = Self.getDeviceDetailsFromAdvertisementInternal(advertisementData: advertisementData)
 
-        if let amac=amac,let ahardware=ahardware, let afirmware=afirmware {
+        if let amac = amac, let ahardware = ahardware, let afirmware = afirmware {
             return "\(amac)\n HW:\(ahardware), FW: \(afirmware)"
         }
 
         return nil
-
     }
 
-    static private func getDeviceDetailsFromAdvertisementInternal(advertisementData: [String: Any]?) -> (String?, String?, String?) {
+    private static func getDeviceDetailsFromAdvertisementInternal(advertisementData: [String: Any]?) -> (String?, String?, String?) {
         print("dabear: deviceFromAdvertisementData is ")
         debugPrint(advertisementData)
 
         guard let data = advertisementData?["kCBAdvDataManufacturerData"] as? Data else {
-            return (nil,nil,nil)
+            return (nil, nil, nil)
         }
         var mac = ""
         for i in 0 ..< 6 {
@@ -99,9 +97,8 @@ class BubbleTransmitter: MiaoMiaoTransmitter {
             }
         }
 
-
         guard  data.count >= 12 else {
-            return (nil,nil,nil)
+            return (nil, nil, nil)
         }
 
         let fSub1 = Data(repeating: data[8], count: 1)
@@ -112,13 +109,8 @@ class BubbleTransmitter: MiaoMiaoTransmitter {
         let hSub2 = Data(repeating: data[11], count: 1)
 
         let hardware = Float("\(hSub1.hexEncodedString()).\(hSub2.hexEncodedString())")?.description
-        return (mac,firmware,hardware)
-
+        return (mac, firmware, hardware)
     }
-
-
-
-
 
     required init(delegate: LibreTransmitterDelegate, advertisementData: [String: Any]?) {
         //advertisementData is unknown for the miaomiao
@@ -126,7 +118,7 @@ class BubbleTransmitter: MiaoMiaoTransmitter {
         super.init(delegate: delegate, advertisementData: advertisementData)
         //self.delegate = delegate
         //deviceFromAdvertisementData(advertisementData: advertisementData)
-        (self.mac,self.firmware,self.hardware) = Self.getDeviceDetailsFromAdvertisementInternal(advertisementData: advertisementData)
+        (self.mac, self.firmware, self.hardware) = Self.getDeviceDetailsFromAdvertisementInternal(advertisementData: advertisementData)
     }
 
     override func requestData(writeCharacteristics: CBCharacteristic, peripheral: CBPeripheral) {
@@ -149,7 +141,6 @@ class BubbleTransmitter: MiaoMiaoTransmitter {
             //let firmware = value[2].description + "." + value[3].description
            //let patchInfo = Data(Double(firmware)! < 1.35 ? value[3...8] : value[5...10])
             battery = Int(value[4])
-
 
            print("dabear:: Got bubbledevice: \(metadata)")
            if let writeCharacteristic = writeCharacteristic {
@@ -181,10 +172,6 @@ class BubbleTransmitter: MiaoMiaoTransmitter {
                 return
             }
             patchInfo = value.subdata(in: 5 ..< 11).hexEncodedString().uppercased()
-
-
-
-
         }
     }
 
@@ -200,7 +187,6 @@ class BubbleTransmitter: MiaoMiaoTransmitter {
         }
 
         metadata = .init(hardware: hardware ?? "unknown", firmware: firmware ?? "unknown", battery: battery ?? 100, name: Self.shortTransmitterName, macAddress: self.mac, patchInfo: patchInfo, uid: self.uid)
-
 
         let data = rxBuffer.subdata(in: 8..<352)
         print("dabear:: bubbleHandleCompleteMessage raw data: \([UInt8](rxBuffer))")

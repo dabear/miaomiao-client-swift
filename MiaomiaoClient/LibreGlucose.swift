@@ -159,8 +159,6 @@ extension LibreGlucose {
         var arr = [LibreGlucose]()
 
         for historical in measurements {
-
-
             let glucose = LibreGlucose(
                 //unsmoothedGlucose: historical.temperatureAlgorithmGlucose,
                 //glucoseDouble: historical.temperatureAlgorithmGlucose,
@@ -171,7 +169,6 @@ extension LibreGlucose {
             if glucose.glucoseDouble > 0 {
                 arr.append(glucose)
             }
-
         }
 
         return arr
@@ -182,8 +179,6 @@ extension LibreGlucose {
 
         var shouldSmoothGlucose = true
         for trend in measurements {
-
-
             // trend arrows on each libreglucose value is not needed
             // instead we calculate it once when latestbackfill is set, which in turn sets
             // the sensordisplayable property
@@ -197,7 +192,6 @@ extension LibreGlucose {
             if glucose.unsmoothedGlucose > 0 {
                 arr.append(glucose)
             }
-
         }
         //NSLog("dabear:: glucose samples before smoothing: \(String(describing: origarr))")
 

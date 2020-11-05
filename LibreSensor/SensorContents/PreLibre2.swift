@@ -1,7 +1,6 @@
 import Foundation
 
 enum Libre2 {
-
     /// Decrypts 43 blocks of Libre 2 FRAM
     /// - Parameters:
     ///   - type: Suppurted sensor type (.libre2, .libreUS14day)
@@ -11,7 +10,7 @@ enum Libre2 {
     /// - Returns: Decrypted FRAM data
     static func decryptFRAM(type: SensorType, id: [UInt8], info: [UInt8], data: [UInt8]) throws -> [UInt8] {
         guard type == .libre2 || type == .libreUS14day else {
-            struct DecryptFRAMError: Error{
+            struct DecryptFRAMError: Error {
                 let errorDescription = "Unsupported sensor type"
             }
             throw DecryptFRAMError()
@@ -126,7 +125,7 @@ private extension Libre2 {
         let f3 = r2 ^ r6
         let f4 = r3 ^ r7
 
-        return [f4, f3, f2, f1];
+        return [f4, f3, f2, f1]
     }
 
     static func prepareVariables(id: [UInt8], x: UInt16, y: UInt16) -> [UInt16] {

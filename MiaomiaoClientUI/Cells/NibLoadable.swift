@@ -27,4 +27,3 @@ extension SegmentViewCell: NibLoadable {}
 extension MMSwitchTableViewCell: NibLoadable {}
 extension MMTextFieldViewCell: NibLoadable {}
 extension MMTextFieldViewCell2: NibLoadable {}
-

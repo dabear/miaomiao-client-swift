@@ -158,8 +158,8 @@
 
 import CoreBluetooth
 import Foundation
-import UIKit
 import os.log
+import UIKit
 public enum MiaoMiaoResponseState: UInt8 {
     case dataPacketReceived = 0x28
     case newSensor = 0x32
@@ -208,17 +208,13 @@ class MiaoMiaoTransmitter: LibreTransmitter {
     private var sensorData: SensorData?
     private var metadata: LibreTransmitterMetadata?
 
-    
-
     class func canSupportPeripheral(_ peripheral: CBPeripheral) -> Bool {
         peripheral.name?.lowercased().starts(with: "miaomiao") ?? false
     }
 
     class func getDeviceDetailsFromAdvertisement(advertisementData: [String: Any]?) -> String? {
-
         return nil
     }
-
 
     required init(delegate: LibreTransmitterDelegate, advertisementData: [String: Any]?) {
         //advertisementData is unknown for the miaomiao
@@ -296,14 +292,11 @@ class MiaoMiaoTransmitter: LibreTransmitter {
             return
         }
 
-        var patchInfo : String?
+        var patchInfo: String?
 
         if rxBuffer.count >= 369 {
             patchInfo = Data(rxBuffer[363...368]).hexEncodedString().uppercased()
         }
-
-
-
 
         metadata = LibreTransmitterMetadata(
             hardware: String(describing: rxBuffer[16...17].hexEncodedString()),

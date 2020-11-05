@@ -42,9 +42,8 @@ public struct LibreTransmitterMetadata: CustomStringConvertible {
     }
 
     public func sensorType() -> SensorType? {
-        guard let patchInfo = patchInfo else {return nil}
+        guard let patchInfo = patchInfo else { return nil }
         return SensorType(patchInfo: patchInfo)
-
     }
 }
 
@@ -73,12 +72,10 @@ extension String {
         guard data.count > 0 else { return nil }
 
         return data
-
     }
 }
 
 public enum SensorType: String, CustomStringConvertible {
-
     case libre1    = "DF"
     case libre1A2 =  "A2"
     case libre2    = "9D"
@@ -86,7 +83,6 @@ public enum SensorType: String, CustomStringConvertible {
     case libreProH = "70"
 
     public var description: String {
-
         switch self {
         case .libre1:
             return "Libre 1"
@@ -98,21 +94,19 @@ public enum SensorType: String, CustomStringConvertible {
             return "Libre US"
         case .libreProH:
             return "Libre PRO H"
-
         }
-
     }
 }
 
 public extension SensorType {
     init?(patchInfo: String) {
-        guard patchInfo.count > 1 else {return nil}
+        guard patchInfo.count > 1 else { return nil }
 
         let start = patchInfo[0..<2]
 
-        let choices : [String: SensorType] = ["DF": .libre1, "A2": .libre1A2, "9D": .libre2, "E5": .libreUS14day, "70":  .libreProH]
+        let choices: [String: SensorType] = ["DF": .libre1, "A2": .libre1A2, "9D": .libre2, "E5": .libreUS14day, "70": .libreProH]
 
-        if let res =  choices[start] {
+        if let res = choices[start] {
             self = res
             return
         }

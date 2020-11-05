@@ -204,14 +204,13 @@ public final class MiaoMiaoClientManager: CGMManager, LibreTransmitterDelegate {
     private func readingToGlucose(_ data: SensorData, calibration: SensorData.CalibrationInfo) -> [LibreGlucose] {
         let last16 = data.trendMeasurements()
 
-
         var entries = LibreGlucose.fromTrendMeasurements(last16, nativeCalibrationData: calibration, returnAll: UserDefaults.standard.mmBackfillFromTrend)
 
         let text = entries.map { $0.description }.joined(separator: ",")
         NSLog("dabear:: trend entries count: \(entries.count): \n \(text)" )
         if UserDefaults.standard.mmBackfillFromHistory {
             let history = data.historyMeasurements()
-            entries += LibreGlucose.fromHistoryMeasurements(history, nativeCalibrationData:calibration)
+            entries += LibreGlucose.fromHistoryMeasurements(history, nativeCalibrationData: calibration)
         }
 
         return entries
@@ -242,11 +241,7 @@ public final class MiaoMiaoClientManager: CGMManager, LibreTransmitterDelegate {
             NSLog("dabear:: calibrationdata was nil")
         }
 
-     
-
         calibrateSensor(sensordata: data) { [weak self] calibrationparams  in
-
-
             do {
                 try self?.keychain.setLibreNativeCalibrationData(calibrationparams)
             } catch {
@@ -324,34 +319,25 @@ public final class MiaoMiaoClientManager: CGMManager, LibreTransmitterDelegate {
 
         NotificationHelper.sendLowBatteryNotificationIfNeeded(device: Device)
 
-
-
         if !sensorData.isLikelyLibre1FRAM {
-
             if let patchInfo = Device.patchInfo, let sensorType = SensorType(patchInfo: patchInfo) {
                 let needsDecryption = [SensorType.libre2, .libreUS14day].contains(sensorType)
                 if needsDecryption, let uid = Device.uid {
                     sensorData.decrypt(patchInfo: patchInfo, uid: uid)
                 }
-
             } else {
                 os_log("Sensor type was incorrect, and no decryption of sensor was possible")
                 self.cgmManagerDelegate?.cgmManager(self, didUpdateWith: .error(LibreError.encryptedSensor))
                 return
-
             }
-
         }
 
         print("Transmitter connected to libresensor of type \(Device.sensorType()). Details:  \(Device.description)")
 
-
         tryPersistSensorData(with: sensorData)
-
 
         NotificationHelper.sendInvalidSensorNotificationIfNeeded(sensorData: sensorData)
         NotificationHelper.sendInvalidChecksumIfDeveloper(sensorData)
-
 
         guard sensorData.hasValidCRCs else {
             self.delegateQueue.async {
@@ -363,8 +349,6 @@ public final class MiaoMiaoClientManager: CGMManager, LibreTransmitterDelegate {
         }
 
         NotificationHelper.sendSensorExpireAlertIfNeeded(sensorData: sensorData)
-
-        
 
         guard sensorData.state == .ready || sensorData.state == .starting else {
             os_log("dabear:: got sensordata with valid crcs, but sensor is either expired or failed")
@@ -449,7 +433,6 @@ public final class MiaoMiaoClientManager: CGMManager, LibreTransmitterDelegate {
         }
     }
 }
-
 
 extension MiaoMiaoClientManager {
     //cannot be called from managerQueue

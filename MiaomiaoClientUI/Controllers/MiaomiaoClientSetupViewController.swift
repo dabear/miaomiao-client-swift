@@ -5,12 +5,12 @@
 //  Copyright © 2018 LoopKit Authors. All rights reserved.
 //
 
+import Combine
 import LoopKit
 import LoopKitUI
 import MiaomiaoClient
-import UIKit
 import SwiftUI
-import Combine
+import UIKit
 
 class MiaomiaoClientSetupViewController: UINavigationController, CGMManagerSetupViewController, CompletionNotifying {
     weak var completionDelegate: CompletionDelegate?
@@ -21,17 +21,14 @@ class MiaomiaoClientSetupViewController: UINavigationController, CGMManagerSetup
 
     lazy var cgmManager: MiaoMiaoClientManager? =  MiaoMiaoClientManager()
 
-
-    var deviceSelect : UIHostingController<BluetoothSelection>!
+    var deviceSelect: UIHostingController<BluetoothSelection>!
 
     init() {
-
         SelectionState.shared.selectedStringIdentifier = UserDefaults.standard.preSelectedDevice
 
         deviceSelect = BluetoothSelection.asHostedViewController()
 
         super.init(rootViewController: deviceSelect)
-
 
         deviceSelect.navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(cancel))
         deviceSelect.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .save, target: self, action: #selector(save))
@@ -55,7 +52,6 @@ class MiaomiaoClientSetupViewController: UINavigationController, CGMManagerSetup
         var v = deviceSelect.rootView
         v.stopScan(true)
         deviceSelect = nil
-
     }
 
     @objc
@@ -76,9 +72,7 @@ class MiaomiaoClientSetupViewController: UINavigationController, CGMManagerSetup
             }
 
             stopScan()
-
         }
         completionDelegate?.completionNotifyingDidComplete(self)
-
     }
 }

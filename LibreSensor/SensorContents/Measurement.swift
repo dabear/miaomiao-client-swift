@@ -13,24 +13,19 @@ protocol MeasurementProtocol {
     /// The raw temperature as read from the sensor
     var rawTemperature: Int { get }
 
-
     var rawTemperatureAdjustment: Int { get }
-
 }
 
-struct SimplifiedMeasurement : MeasurementProtocol {
+struct SimplifiedMeasurement: MeasurementProtocol {
     var rawGlucose: Int
 
     var rawTemperature: Int
 
     var rawTemperatureAdjustment: Int = 0
-
-
 }
 
-
 /// Structure for one glucose measurement including value, date and raw data bytes
-struct Measurement : MeasurementProtocol{
+struct Measurement: MeasurementProtocol {
     /// The date for this measurement
     let date: Date
     /// The minute counter for this measurement
@@ -44,10 +39,7 @@ struct Measurement : MeasurementProtocol{
     /// The raw temperature as read from the sensor
     let rawTemperature: Int
 
-
     let rawTemperatureAdjustment: Int
-
-
 
     ///
     /// - parameter bytes:  raw data bytes as read from the sensor
@@ -62,13 +54,12 @@ struct Measurement : MeasurementProtocol{
         //self.rawGlucose = (Int(bytes[1] & 0x1F) << 8) + Int(bytes[0]) // switched to 13 bit mask on 2018-03-15
         self.rawGlucose = SensorData.readBits(bytes, 0, 0, 0xe)
 
-
         //self.rawTemperature = (Int(bytes[4] & 0x3F) << 8) + Int(bytes[3]) // 14 bit-mask for raw temperature
         //raw temperature in libre FRAM is always stored in multiples of four
         self.rawTemperature = SensorData.readBits(bytes, 0, 0x1a, 0xc) << 2
 
         let temperatureAdjustment = (SensorData.readBits(bytes, 0, 0x26, 0x9) << 2)
-        let negativeAdjustment = SensorData.readBits(bytes, 0, 0x2f, 0x1) != 0;
+        let negativeAdjustment = SensorData.readBits(bytes, 0, 0x2f, 0x1) != 0
         self.rawTemperatureAdjustment = negativeAdjustment ? -temperatureAdjustment : temperatureAdjustment
 
         self.date = date
@@ -78,15 +69,10 @@ struct Measurement : MeasurementProtocol{
 //        self.oopOffset = slope_offset * Double(rawTemperature) + offset_offset
 //        self.oopGlucose = oopSlope * Double(rawGlucose) + oopOffset
 
-    
-
-
-
     }
 
     var description: String {
         var aString = String(" date:  \(date), rawGlucose: \(rawGlucose), rawTemperature: \(rawTemperature), bytes: \(bytes) \n")
-
 
         return aString
     }

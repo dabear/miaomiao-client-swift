@@ -37,10 +37,7 @@ public func calibrateSensor(sensordata: SensorData, callback: @escaping (SensorD
     NSLog("calibrating sensor locally")
     let params = sensordata.calibrationData
     callback(params)
-
 }
-
-
 
 private func serializeNativeAlgorithmParameters(_ params: SensorData.CalibrationInfo) -> String {
     let encoder = JSONEncoder()

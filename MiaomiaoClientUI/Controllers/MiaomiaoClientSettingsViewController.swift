@@ -314,7 +314,6 @@ public class MiaomiaoClientSettingsViewController: UITableViewController, SubVie
 
                 cell.textLabel?.text = LocalizedString("Sensor Type", comment: "Title for the Transmitters Connected Sensor Type")
                 cell.detailTextLabel?.text = cgmManager?.metaData?.sensorType()?.description ?? "Unknown"
-
             }
 
             return cell
@@ -500,7 +499,6 @@ public class MiaomiaoClientSettingsViewController: UITableViewController, SubVie
             show(vc, sender: nil)
         */
 
-
         case .latestReading:
             tableView.deselectRow(at: indexPath, animated: true)
         case .delete:
@@ -508,7 +506,6 @@ public class MiaomiaoClientSettingsViewController: UITableViewController, SubVie
                 NSLog("dabear:: confirmed: cgmmanagerwantsdeletion")
                 if let cgmManager = self.cgmManager {
                     cgmManager.disconnect()
-
 
                     cgmManager.notifyDelegateOfDeletion {
                         DispatchQueue.main.async {
@@ -566,8 +563,6 @@ public class MiaomiaoClientSettingsViewController: UITableViewController, SubVie
                     }
 
                     self.presentOKStatusOnMain("Calibration Success", title: "Calibration Status")
-
-
                 }
             })
 

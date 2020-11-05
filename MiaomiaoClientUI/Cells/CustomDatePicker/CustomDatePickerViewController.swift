@@ -44,8 +44,6 @@ class CustomDatePickerViewController: UIViewController {
 
     private lazy var labeldesc = UILabel()
 
-
-
     override func viewDidLoad() {
         super.viewDidLoad()
 

@@ -19,7 +19,6 @@ extension HKUnit {
     }()
 
     var localizedShortUnitString: String {
-        
         if self == HKUnit.millimolesPerLiter {
             return NSLocalizedString("mmol/L", comment: "The short unit display string for millimoles of glucose per liter")
         } else if self == .milligramsPerDeciliter {

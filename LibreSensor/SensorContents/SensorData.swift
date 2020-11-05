@@ -18,8 +18,6 @@ public struct SensorData: Codable {
     private let bodyRange = 24..<320  // 296 bytes, i.e. 37 blocks a 8 bytes
     private let footerRange = 320..<344  //  24 bytes, i.e.  3 blocks a 8 bytes
 
-
-
     /// The uid of the sensor
     let uuid: Data
     /// The serial number of the sensor
@@ -78,7 +76,7 @@ public struct SensorData: Codable {
     var footerCrc: UInt16 {
         Crc.crc16(Array(footer.dropFirst(2)), seed: 0xffff)
     }
-    
+
     // the amount of minutes left before this sensor expires
     var minutesLeft: Int {
        maxMinutesWearTime - minutesSinceStart
@@ -99,14 +97,12 @@ public struct SensorData: Codable {
     }
 
     var reverseFooterCRC: UInt16? {
-
         let b0 = UInt16(self.footer[1])
         let b1 = UInt16(self.footer[0])
         return (b0 << 8) | UInt16(b1)
     }
 
     mutating func decrypt(patchInfo: String, uid: [UInt8]) {
-
         guard let info = patchInfo.hexadecimal(), let sensorType = SensorType(patchInfo: patchInfo)  else {
             NSLog("Could not decrypt sensor")
             return
@@ -120,11 +116,10 @@ public struct SensorData: Codable {
             print("Unable to decrypt sensor of type \(sensorType)")
             return
         }
-
     }
 
     //how to use this in a sensible way is still unknown
-    public struct CalibrationInfo : Codable, CustomStringConvertible {
+    public struct CalibrationInfo: Codable, CustomStringConvertible {
         public init(i1: Int, i2: Int, i3: Double, i4: Double, i5: Double, i6: Double, isValidForFooterWithReverseCRCs: Int) {
             self.i1 = i1
             self.i2 = i2
@@ -147,13 +142,11 @@ public struct SensorData: Codable {
       public var description: String {
             "CalibrationInfo(i1: \(i1), i2: \(i2), i3: \(i3), i4: \(i4), isValidForFooterWithReverseCRCs: \(isValidForFooterWithReverseCRCs), i5: \(i5)), i6: \(i6))"
       }
-
     }
-
 
     //static func readBits(_ buffer: [UInt8], _ byteOffset: Int, _ bitOffset: Int, _ bitCount: Int) -> Int {
 
-    public var calibrationData : CalibrationInfo {
+    public var calibrationData: CalibrationInfo {
         let data = self.bytes
         let i1 = Self.readBits(data, 2, 0, 3)
         let i2 = Self.readBits(data, 2, 3, 0xa)
@@ -162,9 +155,8 @@ public struct SensorData: Codable {
         let negativei3 = Self.readBits(data, 0x150, 0x21, 1) != 0
         let i5 = Double(Self.readBits(data, 0x150, 0x28, 0xc) << 2)
         let i6 = Double(Self.readBits(data, 0x150, 0x34, 0xc) << 2)
-        
-        return CalibrationInfo(i1: i1, i2: i2, i3: negativei3 ? -i3 : i3 , i4: i4, i5: i5, i6: i6, isValidForFooterWithReverseCRCs: Int(self.footerCrc.byteSwapped))
 
+        return CalibrationInfo(i1: i1, i2: i2, i3: negativei3 ? -i3 : i3, i4: i4, i5: i5, i6: i6, isValidForFooterWithReverseCRCs: Int(self.footerCrc.byteSwapped))
     }
 
     fileprivate let aday = 86_400.0 //in seconds
@@ -172,7 +164,6 @@ public struct SensorData: Codable {
     var humanReadableSensorAge: String {
         let days = TimeInterval(minutesSinceStart * 60) / aday
         return String(format: "%.2f", days) + " day(s)"
-
     }
 
     var humanReadableTimeLeft: String {
@@ -180,12 +171,10 @@ public struct SensorData: Codable {
         return String(format: "%.2f", days) + " day(s)"
     }
 
-
-
-    var toJson : String {
-        "[" + self.bytes.map{ String(format: "0x%02x", $0) }.joined(separator: ", ") + "]"
+    var toJson: String {
+        "[" + self.bytes.map { String(format: "0x%02x", $0) }.joined(separator: ", ") + "]"
     }
-    var toEcmaStatement : String {
+    var toEcmaStatement: String {
         "var someFRAM=" + self.toJson + ";"
     }
 
@@ -201,12 +190,9 @@ public struct SensorData: Codable {
         // it was produced within the last minute
         self.date = date.rounded(on: 1, .minute)
 
-
-
         self.uuid = uuid
 
         self.serialNumber = SensorSerialNumber(withUID: uuid)?.serialNumber ?? "-"
-
 
         guard 0 <= nextTrendBlock && nextTrendBlock < 16 && 0 <= nextHistoryBlock && nextHistoryBlock < 32 else {
             return nil
@@ -352,17 +338,15 @@ public struct SensorData: Codable {
         return res
     }
 
-    static func writeBits(_ buffer: [UInt8], _ byteOffset: Int, _ bitOffset: Int, _ bitCount: Int, _ value: Int) -> [UInt8]{
-
+    static func writeBits(_ buffer: [UInt8], _ byteOffset: Int, _ bitOffset: Int, _ bitCount: Int, _ value: Int) -> [UInt8] {
         var res = buffer; // Make a copy
         for i in stride(from: 0, to: bitCount, by: 1) {
-            let totalBitOffset = byteOffset * 8 + bitOffset + i;
+            let totalBitOffset = byteOffset * 8 + bitOffset + i
             let byte = Int(floor(Double(totalBitOffset) / 8))
-            let bit = totalBitOffset % 8;
-            let bitValue = (value >> i) & 0x1;
-            res[byte] = (res[byte] & ~(1 << bit) | (UInt8(bitValue) << bit));
+            let bit = totalBitOffset % 8
+            let bitValue = (value >> i) & 0x1
+            res[byte] = (res[byte] & ~(1 << bit) | (UInt8(bitValue) << bit))
         }
-        return res;
+        return res
     }
-
 }

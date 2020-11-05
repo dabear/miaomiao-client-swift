@@ -14,7 +14,6 @@ import UIKit
 
 import Combine
 
-
 final class BluetoothSearchManager: NSObject, CBCentralManagerDelegate, CBPeripheralDelegate {
     static let bt_log = OSLog(subsystem: "com.LibreMonitor", category: "BluetoothSearchManager")
 
@@ -29,16 +28,11 @@ final class BluetoothSearchManager: NSObject, CBCentralManagerDelegate, CBPeriph
     public let passThroughMetaData = PassthroughSubject<(CBPeripheral, [String: Any]), Never>()
 
     public func addDiscoveredDevice(_ device: CBPeripheral, with metadata: [String: Any] ) {
-
         passThrough.send(device)
         passThroughMetaData.send((device, metadata))
-
     }
 
-
-
     override init() {
-
         super.init()
         centralManager = CBCentralManager(delegate: self, queue: nil, options: nil)
         //        slipBuffer.delegate = self
@@ -47,7 +41,7 @@ final class BluetoothSearchManager: NSObject, CBCentralManagerDelegate, CBPeriph
 
     func scanForCompatibleDevices() {
         //        print(centralManager.debugDescription)
-        if centralManager.state == .poweredOn && !centralManager.isScanning{
+        if centralManager.state == .poweredOn && !centralManager.isScanning {
             os_log("Before scan for MiaoMiao while central manager state %{public}@", log: Self.bt_log, type: .default, String(describing: centralManager.state.rawValue))
 
             centralManager.scanForPeripherals(withServices: nil, options: nil)

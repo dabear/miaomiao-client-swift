@@ -6,34 +6,29 @@
 //  Copyright © 2020 Bjørn Inge Vikhammermo Berg. All rights reserved.
 //
 
-import Foundation
 import CoreBluetooth
+import Foundation
 
-public protocol PeripheralProtocol{
-    var name : String? {get}
-    var name2: String {get}
+public protocol PeripheralProtocol {
+    var name: String? { get }
+    var name2: String { get }
 
-    var asStringIdentifier : String { get }
+    var asStringIdentifier: String { get }
 }
 
-
-public enum Either<A, B>{
+public enum Either<A, B> {
   case Left(A)
   case Right(B)
 }
 
 public typealias SomePeripheral = Either<CBPeripheral, MockedPeripheral>
 
-
-
-
-extension SomePeripheral: PeripheralProtocol, Identifiable, Hashable, Equatable{
+extension SomePeripheral: PeripheralProtocol, Identifiable, Hashable, Equatable {
     public static func == (lhs: Either<A, B>, rhs: Either<A, B>) -> Bool {
         lhs.asStringIdentifier == rhs.asStringIdentifier
     }
 
-
-    public var id : String {
+    public var id: String {
         actualPeripheral.asStringIdentifier
     }
 
@@ -41,7 +36,7 @@ extension SomePeripheral: PeripheralProtocol, Identifiable, Hashable, Equatable{
         hasher.combine(actualPeripheral.asStringIdentifier)
     }
 
-    private var actualPeripheral : PeripheralProtocol {
+    private var actualPeripheral: PeripheralProtocol {
         switch self {
         case let .Left(real):
             return real
@@ -60,24 +55,19 @@ extension SomePeripheral: PeripheralProtocol, Identifiable, Hashable, Equatable{
     public var asStringIdentifier: String {
         actualPeripheral.asStringIdentifier
     }
-
-
 }
 
-
-extension CBPeripheral : PeripheralProtocol, Identifiable {
-
-    public var name2 : String {
+extension CBPeripheral: PeripheralProtocol, Identifiable {
+    public var name2: String {
         self.name ?? ""
     }
 
-
-    public var asStringIdentifier : String {
+    public var asStringIdentifier: String {
         return self.identifier.uuidString
     }
 }
 
-public class MockedPeripheral : PeripheralProtocol, Identifiable {
+public class MockedPeripheral: PeripheralProtocol, Identifiable {
     public var name: String?
 
     public var name2: String {
@@ -92,6 +82,3 @@ public class MockedPeripheral : PeripheralProtocol, Identifiable {
         self.name = name
     }
 }
-
-
-

@@ -30,8 +30,6 @@ public class CalibrationEditTableViewController: UITableViewController, mmTextFi
         super.init(style: .grouped)
 
         newParams = cgmManager?.keychain.getLibreNativeCalibrationData()
-
-    
     }
 
     @available(*, unavailable)
@@ -96,7 +94,7 @@ public class CalibrationEditTableViewController: UITableViewController, mmTextFi
     */
 
     func mmTextFieldViewCellDidUpdateValue(_ cell: MMTextFieldViewCell2, value: String?) {
-        if let value = value, let numVal = Double(value), let intVal=Int(value) {
+        if let value = value, let numVal = Double(value), let intVal = Int(value) {
             switch CalibrationDataInfoRow(rawValue: cell.tag)! {
             case .isValidForFooterWithCRCs:
                 //this should not happen as crc can not change

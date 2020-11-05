@@ -18,7 +18,5 @@ extension IdentifiableClass {
         //NSStringFromClass(self).components(separatedBy: ".").last!
         String(describing: Self.self)
     }
-
-
 }
 extension UITableViewCell: IdentifiableClass { }

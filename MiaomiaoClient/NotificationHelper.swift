@@ -368,14 +368,10 @@ enum NotificationHelper {
             return
         }
 
-
-
         guard TimeInterval(minutes: Double(sensorData.minutesLeft)) < TimeInterval(hours: 24) else {
             NSLog("Sensor time left was more than 24 hours, not sending notification: \(sensorData.minutesLeft) minutes / \(sensorData.humanReadableTimeLeft)")
             return
         }
-
-
 
         let now = Date()
         //only once per 6 hours

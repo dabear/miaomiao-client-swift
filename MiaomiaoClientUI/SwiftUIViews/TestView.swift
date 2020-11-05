@@ -6,11 +6,10 @@
 //  Copyright © 2020 Bjørn Inge Vikhammermo Berg. All rights reserved.
 //
 
-import SwiftUI
 import MiaomiaoClient
+import SwiftUI
 
 struct SwiftSnoozeView: View {
-
     static func asHostedViewController(manager: MiaoMiaoClientManager?)-> UIHostingController<Self> {
         UIHostingController(rootView: self.init(manager: manager))
     }
@@ -19,14 +18,9 @@ struct SwiftSnoozeView: View {
 
     var formatter = DateComponentsFormatter()
 
-
-
-
-
-    func formatInterval(_ interval: TimeInterval) -> String{
+    func formatInterval(_ interval: TimeInterval) -> String {
         formatter.string(from: interval)!
     }
-
 
     init(manager: MiaoMiaoClientManager?) {
         self.pickerTimes = pickerTimesArray()
@@ -36,8 +30,6 @@ struct SwiftSnoozeView: View {
     }
 
     private weak var manager: MiaoMiaoClientManager?
-
-
 
     func pickerTimesArray() -> [TimeInterval] {
         var arr  = [TimeInterval]()
@@ -65,7 +57,7 @@ struct SwiftSnoozeView: View {
         return arr
     }
 
-    func getSnoozeDescription()-> String {
+    func getSnoozeDescription() -> String {
         var snoozeDescription  = ""
         var celltext = ""
 
@@ -91,47 +83,38 @@ struct SwiftSnoozeView: View {
         return [celltext, snoozeDescription].joined(separator: ", ")
     }
 
-
     @State private var selectedInterval = 0
 
     var body: some View {
-
         VStack {
             VStack(alignment: .leading) {
-
-                Button(action:
-                        {
+                Button(action: {
                             print("snooze from testview clicked")
                             let interval = pickerTimes[selectedInterval]
                             let snoozeFor = formatter.string(from: interval)!
                             let untilDate = Date() + interval
                             UserDefaults.standard.snoozedUntil = untilDate < Date() ? nil : untilDate
                             print("will snooze for \(snoozeFor) until \(untilDate.description(with: .current))")
-
                         }) {
                             Text("Click to Snooze Alerts")
-                        }
+                }
             }
-            .frame(minWidth: /*@START_MENU_TOKEN@*/0/*@END_MENU_TOKEN@*/, idealWidth: /*@START_MENU_TOKEN@*/100/*@END_MENU_TOKEN@*/, maxWidth: /*@START_MENU_TOKEN@*/.infinity/*@END_MENU_TOKEN@*/, minHeight: 100, idealHeight: 200, maxHeight: 200, alignment: .top)
+            .frame(minWidth: 0/*@END_MENU_TOKEN@*/, idealWidth: 100/*@END_MENU_TOKEN@*/, maxWidth: .infinity/*@END_MENU_TOKEN@*/, minHeight: 100, idealHeight: 200, maxHeight: 200, alignment: .top)
 
             VStack {
                 Picker(selection: $selectedInterval, label: Text("Strength")) {
                     ForEach(0 ..< pickerTimes.count) {
                         Text(formatInterval(self.pickerTimes[$0]))
-
                     }
                 }
             }
-            .frame(minWidth: /*@START_MENU_TOKEN@*/0/*@END_MENU_TOKEN@*/, idealWidth: /*@START_MENU_TOKEN@*/100/*@END_MENU_TOKEN@*/, maxWidth: /*@START_MENU_TOKEN@*/.infinity/*@END_MENU_TOKEN@*/, minHeight: 100, idealHeight: 300, maxHeight: .infinity, alignment: .center)
+            .frame(minWidth: 0/*@END_MENU_TOKEN@*/, idealWidth: 100/*@END_MENU_TOKEN@*/, maxWidth: .infinity/*@END_MENU_TOKEN@*/, minHeight: 100, idealHeight: 300, maxHeight: .infinity, alignment: .center)
 
             VStack(alignment: .leading) {
                 Text(getSnoozeDescription())
             }
-            .frame(minWidth: /*@START_MENU_TOKEN@*/0/*@END_MENU_TOKEN@*/, idealWidth: /*@START_MENU_TOKEN@*/100/*@END_MENU_TOKEN@*/, maxWidth: /*@START_MENU_TOKEN@*/.infinity/*@END_MENU_TOKEN@*/, minHeight: 100, idealHeight: 200, maxHeight: 200, alignment: .bottom)
-
+            .frame(minWidth: 0/*@END_MENU_TOKEN@*/, idealWidth: 100/*@END_MENU_TOKEN@*/, maxWidth: .infinity/*@END_MENU_TOKEN@*/, minHeight: 100, idealHeight: 200, maxHeight: 200, alignment: .bottom)
         }
-
-
     }
 }
 
