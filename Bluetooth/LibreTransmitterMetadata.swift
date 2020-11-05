@@ -40,9 +40,9 @@ public struct LibreTransmitterMetadata: CustomStringConvertible {
          "Hardware: \(hardware), firmware: \(firmware), battery: \(batteryString), macAddress: \(macAddress)"
     }
 
-    public func sensorType() -> LibreSensorType? {
+    public func sensorType() -> SensorType? {
         guard let patchInfo = patchInfo else {return nil}
-        return LibreSensorType(patchInfo: patchInfo)
+        return SensorType(patchInfo: patchInfo)
 
     }
 }
@@ -76,12 +76,12 @@ extension String {
     }
 }
 
-public enum LibreSensorType: String, CustomStringConvertible {
+public enum SensorType: String, CustomStringConvertible {
 
     case libre1    = "DF"
     case libre1A2 =  "A2"
     case libre2    = "9D"
-    case libreUS   = "E5"
+    case libreUS14day   = "E5"
     case libreProH = "70"
 
     public var description: String {
@@ -93,7 +93,7 @@ public enum LibreSensorType: String, CustomStringConvertible {
             return "Libre 1 A2"
         case .libre2:
             return "Libre 2"
-        case .libreUS:
+        case .libreUS14day:
             return "Libre US"
         case .libreProH:
             return "Libre PRO H"
@@ -103,13 +103,13 @@ public enum LibreSensorType: String, CustomStringConvertible {
     }
 }
 
-public extension LibreSensorType {
+public extension SensorType {
     init?(patchInfo: String) {
         guard patchInfo.count > 1 else {return nil}
 
         let start = patchInfo[0..<2]
 
-        let choices : [String: LibreSensorType] = ["DF": .libre1, "A2": .libre1A2, "9D": .libre2, "E5": .libreUS, "70":  .libreProH]
+        let choices : [String: SensorType] = ["DF": .libre1, "A2": .libre1A2, "9D": .libre2, "E5": .libreUS14day, "70":  .libreProH]
 
         if let res =  choices[start] {
             self = res

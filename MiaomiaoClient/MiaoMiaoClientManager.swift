@@ -328,8 +328,8 @@ public final class MiaoMiaoClientManager: CGMManager, LibreTransmitterDelegate {
 
         if !sensorData.isLikelyLibre1FRAM {
 
-            if let patchInfo = Device.patchInfo, let sensorType = LibreSensorType(patchInfo: patchInfo) {
-                let needsDecryption = [LibreSensorType.libre2, .libreUS].contains(sensorType)
+            if let patchInfo = Device.patchInfo, let sensorType = SensorType(patchInfo: patchInfo) {
+                let needsDecryption = [SensorType.libre2, .libreUS14day].contains(sensorType)
                 if needsDecryption, let uid = Device.uid {
                     sensorData.decrypt(patchInfo: patchInfo, uid: uid)
                 }

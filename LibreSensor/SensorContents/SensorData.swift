@@ -107,14 +107,19 @@ public struct SensorData: Codable {
 
     mutating func decrypt(patchInfo: String, uid: [UInt8]) {
 
-        guard let info = patchInfo.hexadecimal()  else {
+        guard let info = patchInfo.hexadecimal(), let sensorType = SensorType(patchInfo: patchInfo)  else {
             NSLog("Could not decrypt sensor")
             return
         }
 
-        var decrypted2 = PreLibre2.decryptFRAM(sensorId: uid, sensorInfo: [UInt8](info), FRAMData: self.bytes)
+        //var decrypted2 = Libre2.decryptFRAM(sensorId: uid, sensorInfo: [UInt8](info), FRAMData: self.bytes)
 
-        self.bytes = decrypted2
+        do {
+            self.bytes = try Libre2.decryptFRAM(type: sensorType, id: uid, info: [UInt8](info), data: self.bytes)
+        } catch {
+            print("Unable to decrypt sensor of type \(sensorType)")
+            return
+        }
 
     }
 
