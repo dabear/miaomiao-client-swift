@@ -17,6 +17,20 @@ import HealthKit
 import os.log
 
 public final class MiaoMiaoClientManager: CGMManager, LibreTransmitterDelegate {
+    public var glucoseDisplay: GlucoseDisplayable?
+
+    public func acknowledgeAlert(alertIdentifier: Alert.AlertIdentifier) {
+
+    }
+
+    public func getSoundBaseURL() -> URL? {
+        nil
+    }
+
+    public func getSounds() -> [Alert.Sound] {
+        []
+    }
+
     public func libreManagerDidRestoreState(found peripherals: [CBPeripheral], connected to: CBPeripheral?) {
         let devicename = to?.name  ?? "no device"
         let id = to?.identifier.uuidString ?? "null"
@@ -58,10 +72,7 @@ public final class MiaoMiaoClientManager: CGMManager, LibreTransmitterDelegate {
 
     public let delegate = WeakSynchronizedDelegate<CGMManagerDelegate>()
 
-    public var sensorState: SensorDisplayable? /*{
-        
-        return latestBackfill
-    }*/
+
 
     public var managedDataInterval: TimeInterval?
 
@@ -140,10 +151,10 @@ public final class MiaoMiaoClientManager: CGMManager, LibreTransmitterDelegate {
                     batteries = [(name: metaData.name, percentage: battery)]
                 }
 
-                self.sensorState = ConcreteSensorDisplayable(isStateValid: newValue.isStateValid, trendType: trend, isLocal: true, batteries: batteries)
+                self.glucoseDisplay = ConcreteGlucoseDisplayable(isStateValid: newValue.isStateValid, trendType: trend, isLocal: true, batteries: batteries)
             } else {
                 //could consider setting this to ConcreteSensorDisplayable with trendtype GlucoseTrend.flat, but that would be kinda lying
-                self.sensorState = nil
+                self.glucoseDisplay = nil
             }
         }
     }
@@ -405,6 +416,7 @@ public final class MiaoMiaoClientManager: CGMManager, LibreTransmitterDelegate {
                 NewGlucoseSample(date: $0.startDate,
                                  quantity: $0.quantity,
                                  isDisplayOnly: false,
+                                 wasUserEntered: false,
                                  syncIdentifier: $0.syncId,
                                  device: device)
                 }

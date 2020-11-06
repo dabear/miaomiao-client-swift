@@ -10,7 +10,9 @@ import Foundation
 import HealthKit
 import LoopKit
 
-public struct ConcreteSensorDisplayable: SensorDisplayable {
+public struct ConcreteGlucoseDisplayable: GlucoseDisplayable {
+    public var glucoseRangeCategory: GlucoseRangeCategory?
+
     public var isStateValid: Bool
 
     public var trendType: GlucoseTrend?
