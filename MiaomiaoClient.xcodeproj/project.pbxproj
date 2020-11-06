@@ -6,6 +6,20 @@
 	objectVersion = 46;
 	objects = {
 
+/* Begin PBXAggregateTarget section */
+		274C042325544B66008AB4D8 /* Aggr2 */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = 274C042425544B66008AB4D8 /* Build configuration list for PBXAggregateTarget "Aggr2" */;
+			buildPhases = (
+				274C042A25544B6E008AB4D8 /* ShellScript */,
+			);
+			dependencies = (
+			);
+			name = Aggr2;
+			productName = Aggr2;
+		};
+/* End PBXAggregateTarget section */
+
 /* Begin PBXBuildFile section */
 		2701478A227B53AB0013C9E3 /* miaomiao-small.png in Resources */ = {isa = PBXBuildFile; fileRef = 27014789227B53AB0013C9E3 /* miaomiao-small.png */; };
 		2701478B227B584B0013C9E3 /* miaomiao-small.png in Resources */ = {isa = PBXBuildFile; fileRef = 27014789227B53AB0013C9E3 /* miaomiao-small.png */; };
@@ -547,6 +561,7 @@
 				43A8EC7F210E664300A81379 /* Headers */,
 				43A8EC80210E664300A81379 /* Resources */,
 				2791064423B96A45004B362F /* Capture Build Details */,
+				274C041025544A3D008AB4D8 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -567,6 +582,11 @@
 				LastUpgradeCheck = 1130;
 				ORGANIZATIONNAME = "Bjørn Inge Vikhammermo Berg";
 				TargetAttributes = {
+					274C042325544B66008AB4D8 = {
+						CreatedOnToolsVersion = 12.1;
+						DevelopmentTeam = L28K36YETG;
+						ProvisioningStyle = Automatic;
+					};
 					432B0E871CDFC3C50045347B = {
 						CreatedOnToolsVersion = 7.3.1;
 						DevelopmentTeam = L28K36YETG;
@@ -605,6 +625,7 @@
 			targets = (
 				432B0E871CDFC3C50045347B /* MiaomiaoClient */,
 				43A8EC81210E664300A81379 /* MiaomiaoClientUI */,
+				274C042325544B66008AB4D8 /* Aggr2 */,
 			);
 		};
 /* End PBXProject section */
@@ -646,6 +667,41 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		274C041025544A3D008AB4D8 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "
+";
+		};
+		274C042A25544B6E008AB4D8 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\nperiphery scan --workspace \"/Users/bjorninge/Code/LoopWorkspace/Loop.xcworkspace\" --schemes \"Shared (MiaomiaoClient project)\" --targets MiaomiaoClient,MiaomiaoClientUI --format xcode\n";
+		};
 		2791063C23B95EA7004B362F /* Capture build details */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -811,6 +867,24 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		274C042525544B66008AB4D8 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = L28K36YETG;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		274C042625544B66008AB4D8 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = L28K36YETG;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
 		432B0E9A1CDFC3C50045347B /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -877,6 +951,11 @@
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
+				WARNING_CFLAGS = (
+					"-Wall",
+					"-Wextra",
+					"-Weverything",
+				);
 				WATCHOS_DEPLOYMENT_TARGET = 4.0;
 			};
 			name = Debug;
@@ -941,6 +1020,11 @@
 				VALIDATE_PRODUCT = YES;
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
+				WARNING_CFLAGS = (
+					"-Wall",
+					"-Wextra",
+					"-Weverything",
+				);
 				WATCHOS_DEPLOYMENT_TARGET = 4.0;
 			};
 			name = Release;
@@ -1080,6 +1164,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		274C042425544B66008AB4D8 /* Build configuration list for PBXAggregateTarget "Aggr2" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				274C042525544B66008AB4D8 /* Debug */,
+				274C042625544B66008AB4D8 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		432B0E821CDFC3C50045347B /* Build configuration list for PBXProject "MiaomiaoClient" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
