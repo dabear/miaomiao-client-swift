@@ -20,11 +20,7 @@
 	<string>????</string>
 	<key>CFBundleVersion</key>
 	<string>$(CURRENT_PROJECT_VERSION)</string>
-	<key>com.loopkit.Loop.CGMManagerIdentifier</key>
-	<string>MiaoMiaoClient</string>
 	<key>NSPrincipalClass</key>
 	<string></string>
-	<key>com.loopkit.Loop.CGMManagerDisplayName</key>
-	<string>Libre 3rd Party</string>
 </dict>
 </plist>
