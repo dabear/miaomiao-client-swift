@@ -1,1 +1,1 @@
-For technical reasons, this repository has been abandoned and replaced with https://github.com/dabear/LibreTransmitter
+For technical reasons, this repository has been abandoned and replaced with https://github.com/dabear/LibreTransmitter . The history of this repo will be kept in github, but decided to start anew with LibreTransmitter
